@@ -1,0 +1,11 @@
+/* Community page styles */
+.page.community {
+  min-height: 60vh;
+}
+.page.community .page-title {
+  font-size: clamp(24px, 3vw, 36px);
+  margin: 24px 0 8px;
+}
+.page.community .page-desc {
+  color: #666;
+}

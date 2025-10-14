@@ -1,0 +1,159 @@
+<!-- Phần cần chỉnh: link CSS/JS tách riêng -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawfect Care — Sign In / Sign Up</title>
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/login.css" />
+</head>
+<body data-page="login-signup">
+  <main class="auth">
+    <!-- LEFT: Hero panel -->
+    <section class="auth-hero">
+      <!-- Ghi chú (VN): Khối trái theo Figma: tiêu đề lớn, rating badge, user count, đoạn mô tả, CTA -->
+      <div class="auth-hero-inner">
+        <h1 class="auth-hero-title">Gorem ipsum</h1>
+        <div class="auth-hero-badges">
+          <span class="badge rating">
+            <img class="icon" src="../assets/icons/Login/star_icon.svg" alt="Rating" />
+            <strong>4.9/5</strong>
+          </span>
+          <span class="badge users">
+            <img class="icon" src="../assets/icons/Login/Group useramount_icon.svg" alt="Users" />
+            <strong>50k+ Users</strong>
+          </span>
+        </div>
+        <p class="auth-hero-desc">Worem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <a class="btn cta" href="../index.html">Unlock the full experience →</a>
+      </div>
+      <img class="auth-hero-image" src="../assets/images/LoginSignup/LoginAnimationDogCat.png" alt="Pets" />
+    </section>
+
+    <!-- RIGHT: Auth panel -->
+    <section class="auth-panel">
+      <div class="auth-panel-inner">
+        <h2 class="auth-title">Join Us Today!</h2>
+        <p class="auth-subtitle">Create an account to get started</p>
+
+        <!-- Segmented control -->
+        <div class="segmented" role="tablist" aria-label="Auth tabs">
+          <button class="segmented-item" data-tab="signin" aria-selected="true">Sign In</button>
+          <button class="segmented-item" data-tab="signup">Sign Up</button>
+        </div>
+
+        <!-- Sign In form -->
+        <form id="form-signin" class="auth-form" novalidate>
+          <!-- Ghi chú (VN): Focus outline sáng; có validation inline -->
+          <label class="input">
+            <span class="input-label">Phone Number</span>
+            <span class="input-box">
+              <span class="icon"><img src="../assets/icons/Login/icon_phone.svg" alt="" /></span>
+              <input id="si-phone" type="tel" inputmode="tel" placeholder="+(84) 123-4567" autocomplete="tel" />
+            </span>
+            <small class="error" id="si-phone-error"></small>
+          </label>
+
+          <label class="input">
+            <span class="input-label">Password</span>
+            <span class="input-box">
+              <span class="icon"><img src="../assets/icons/Login/icon_password.svg" alt="" /></span>
+              <input id="si-pass" type="password" placeholder="••••••••" autocomplete="current-password" />
+            </span>
+            <small class="error" id="si-pass-error"></small>
+          </label>
+
+          <label class="checkbox">
+            <input id="si-remember" type="checkbox" />
+            <span>Remember me</span>
+          </label>
+
+          <button class="btn primary full" id="si-submit" type="submit" disabled>Sign In</button>
+
+          <div class="auth-divider"><span>Or continue with</span></div>
+          <div class="socials">
+            <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_google.svg" alt="" /> Google</button>
+            <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_facebook.svg" alt="" /> Facebook</button>
+            <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_apple.svg" alt="" /> Apple</button>
+          </div>
+
+          <p class="terms-note">
+            By continuing, you agree to our <a href="#" class="link">Terms of Service</a>.
+          </p>
+        </form>
+
+        <!-- Sign Up form -->
+        <form id="form-signup" class="auth-form" style="display:none" novalidate>
+          <div class="row">
+            <label class="input">
+              <span class="input-label">Last Name</span>
+              <span class="input-box"><input id="su-last" type="text" placeholder="Last Name" /></span>
+              <small class="error" id="su-last-error"></small>
+            </label>
+            <label class="input">
+              <span class="input-label">First Name</span>
+              <span class="input-box"><input id="su-first" type="text" placeholder="First Name" /></span>
+              <small class="error" id="su-first-error"></small>
+            </label>
+          </div>
+
+          <label class="input">
+            <span class="input-label">Email</span>
+            <span class="input-box">
+              <span class="icon"><img src="../assets/icons/phone.svg" alt="" /></span>
+              <input id="su-email" type="email" placeholder="pawfect.care@example.com" autocomplete="email" />
+            </span>
+            <small class="error" id="su-email-error"></small>
+          </label>
+
+          <label class="input">
+            <span class="input-label">Phone Number</span>
+            <span class="input-box">
+              <span class="icon"><img src="../assets/icons/Login/icon_phone.svg" alt="" /></span>
+              <input id="su-phone" type="tel" inputmode="tel" placeholder="+(84) 123-4567" autocomplete="tel" />
+            </span>
+            <small class="error" id="su-phone-error"></small>
+          </label>
+
+          <label class="input">
+            <span class="input-label">Password</span>
+            <span class="input-box">
+              <span class="icon"><img src="../assets/icons/Login/icon_password.svg" alt="" /></span>
+              <input id="su-pass" type="password" placeholder="At least 8 characters" autocomplete="new-password" />
+            </span>
+            <small class="error" id="su-pass-error"></small>
+          </label>
+
+          <label class="input">
+            <span class="input-label">Confirmed Password</span>
+            <span class="input-box">
+              <span class="icon"><img src="../assets/icons/Login/icon_password.svg" alt="" /></span>
+              <input id="su-confirm" type="password" placeholder="Re-enter your password" autocomplete="new-password" />
+            </span>
+            <small class="error" id="su-confirm-error"></small>
+          </label>
+
+          <label class="checkbox">
+            <input id="su-agree" type="checkbox" />
+            <span>I agree to the <a href="#" class="link">Terms of Service</a> & <a href="#" class="link">Privacy Policy</a></span>
+          </label>
+
+          <button class="btn primary full" id="su-submit" type="submit" disabled>Sign Up</button>
+
+          <div class="auth-divider"><span>Or continue with</span></div>
+          <div class="socials">
+            <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_google.svg" alt="" /> Google</button>
+            <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_facebook.svg" alt="" /> Facebook</button>
+            <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_apple.svg" alt="" /> Apple</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Cuối body: thay main.js bằng utils + auth.js -->
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</body>
+</html>

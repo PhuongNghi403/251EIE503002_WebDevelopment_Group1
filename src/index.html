@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawfect Care — Home</title>
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/header.css" />
+  <link rel="stylesheet" href="assets/css/home.css" />
+  <link rel="stylesheet" href="assets/css/footer.css" />
+  <!-- Import Fraunces cho tiêu đề dịch vụ -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+</head>
+<body data-page="home">
+  <!-- header.brand -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- Header brand -->
+      <a class="brand" href="#">
+        <!-- đổi span emoji → svg logo -->
+        <img class="brand-mark-img" src="assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+        <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+      </a>
+      <nav class="nav">
+        <a class="nav-link" href="#">Home</a>
+        <a class="nav-link" href="pages/services.html">Services</a>
+        <a class="nav-link" href="pages/shop.html">Shop</a>
+        <a class="nav-link" href="pages/community.html">Community</a>
+        <a class="nav-link" href="pages/profile.html">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <!-- đổi emoji → svg icons -->
+        <button class="icon-btn" aria-label="Wishlist">
+          <img src="assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+        </button>
+        <a class="icon-btn" href="pages/cart.html" aria-label="Cart">
+          <img src="assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="pages/login-signup.html" aria-label="Account">
+          <img src="assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="home">
+    <section class="home-hero container">
+      <div class="hero-left">
+        <h1 class="hero-title bagel-fat-one-regular">Your Pet’s Best Friend is Here!</h1>
+        <p class="hero-desc">Professional care services with love and attention your furry friend deserves.</p>
+        <div class="hero-ctas">
+          <a href="#" class="btn primary">About Us</a>
+          <a href="#" class="btn ghost">Discover More</a>
+        </div>
+        <!-- Bỏ pill text badges, thay bằng sticker cạnh ảnh -->
+        <!-- Avatars: dùng ảnh thật -->
+        <!-- hero-left avatars -->
+        <div class="hero-avatars">
+          <img class="avatar-img" src="assets/images/HomestayDetail/GreenDog.png" alt="Dog" />
+          <img class="avatar-img" src="assets/images/HomestayDetail/BlueCat.png" alt="Cat" />
+          <img class="avatar-img" src="assets/images/HomestayDetail/PinkRabbit.png" alt="Rabbit" />
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-photo-wrap">
+          <img class="hero-photo-img" src="assets/images/HomestayDetail/WomanHoldCat.png" alt="Woman holding cat" />
+          <img class="hero-sticker" src="assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" aria-hidden="true" />
+          <img
+            class="hero-badge badge-parents"
+            src="assets/icons/HomestayDetail/50,000+ Pet Parents.svg"
+            alt="50,000+ Pet Parents"
+          />
+          <img
+            class="hero-badge badge-rating"
+            src="assets/icons/HomestayDetail/4.9:5 Rating.svg"
+            alt="4.9/5 Rating"
+          />
+          </div>
+          <!-- Thẻ rating: thay ảnh bằng markup -->
+          <div class="element-rating">
+              <div class="heading">
+                  <img
+                      class="starbrown-icon"
+                      src="assets/icons/Login/star_icon.svg"
+                      alt="Star"
+                  />
+                  <div class="text-wrapper">4.9/5</div>
+              </div>
+              <div class="div">Rating</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-welcome container">
+      <div class="welcome-heading">
+        <h2 class="section-title bagel-fat-one-regular">Welcome to Pawfect <span class="accent">Care</span></h2>
+        <div class="welcome-decor">
+          <span class="line" style="background: var(--meomeoblue)"></span>
+          <span class="dot pink"></span>
+          <span class="dot mint"></span>
+          <span class="dot blue"></span>
+          <span class="line" style="background: var(--meomeomint)"></span>
+        </div>
+      </div>
+
+      <div class="features">
+        <article class="feature-card">
+          <div class="feature-icon"><img src="assets/icons/HomestayDetail/BathtubBrownLogo.svg" alt="Bath" /></div>
+          <h3 class="feature-title">Pet wellness &amp; grooming</h3>
+          <p class="feature-desc">Professional grooming services to keep your pets healthy and beautiful</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon"><img src="assets/icons/HomestayDetail/BathtubLogo.svg" alt="Bath" /></div>
+          <h3 class="feature-title">Pet wellness &amp; grooming</h3>
+          <p class="feature-desc">Professional grooming services to keep your pets healthy and beautiful</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon"><img src="assets/icons/HomestayDetail/BathtubBrownLogo.svg" alt="Bath" /></div>
+          <h3 class="feature-title">Pet wellness &amp; grooming</h3>
+          <p class="feature-desc">Professional grooming services to keep your pets healthy and beautiful</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-story container">
+      <div class="story-left">
+        <h2 class="section-title">Our Story</h2>
+        <div class="story-block">
+          <h3>About us</h3>
+          <p>Founded in 2025, Pawfect Care was born from one simple belief: Pets are family.</p>
+        </div>
+        <div class="story-block">
+          <h3>Caring and consulting</h3>
+          <p>Each pet is unique. Our services are designed not only to pamper, but also to protect and support.</p>
+        </div>
+        <div class="service-cards">
+          <article class="service-card homestay">
+            <div class="service-tag">Homestay</div>
+            <h4>Cozy stays with daily updates…</h4>
+            <a class="btn small dark" href="pages/homestay-detail.html">Read more</a>
+          </article>
+          <article class="service-card spa">
+            <div class="service-tag">Spa</div>
+            <h4>Pampering treatments from grooming…</h4>
+            <a class="btn small dark" href="pages/services.html">Read more</a>
+          </article>
+        </div>
+      </div>
+      <div class="story-right">
+        <div class="story-visual"></div>
+      </div>
+    </section>
+
+    <section class="home-deals container">
+      <div class="deals-header">
+        <span class="badge light">Limited Time Offer</span>
+        <h2 class="section-title">Hot Deals</h2>
+        <p class="section-desc">Premium quality food and accessories for your beloved companions.</p>
+        <div class="deals-ctas">
+          <a href="#" class="btn primary">Shop Now</a>
+          <a href="#" class="btn ghost">Learn More</a>
+        </div>
+      </div>
+
+      <div class="deals-grid">
+        <article class="deal-card xl">
+          <div class="deal-visual"></div>
+          <div class="deal-info">
+            <span class="badge dark">20% OFF</span>
+            <h3>Top Picks — Food & Treats</h3>
+          </div>
+        </article>
+
+        <article class="deal-card">
+          <span class="badge dark">25% OFF</span>
+          <h4>First Time Grooming</h4>
+          <p>Get 25% off your first grooming session!</p>
+          <a href="#" class="btn small dark">Book now</a>
+        </article>
+
+        <article class="deal-card">
+          <span class="badge dark">30% OFF</span>
+          <h4>Paw Spa Treat</h4>
+          <p>Bath & fragrance finish, one-day special.</p>
+          <a href="#" class="btn small dark">Flash sale</a>
+        </article>
+
+        <article class="deal-card">
+          <span class="badge dark">50% OFF</span>
+          <h4>Shiny Coat</h4>
+          <p>Full bath & nail trim with free bow tie.</p>
+          <a href="#" class="btn small dark">Flash sale</a>
+        </article>
+
+        <article class="deal-card wide">
+          <div class="deal-top">
+            <span class="badge dark">3 Days, Pay 2</span>
+            <span class="badge outline">Homestay</span>
+            <span class="star">★</span>
+          </div>
+          <h4>Weekend Retreat</h4>
+          <p>Stay 3 days, pay for 2 — full care included!</p>
+          <div class="deal-bottom">
+            <span class="price"><span class="now">$89</span> <span class="was">$200</span></span>
+            <a href="pages/homestay-detail.html" class="btn small dark">View details</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-testimonials container">
+      <div class="testi-wrapper">
+        <h2 class="section-title">What Pet Parents Say</h2>
+        <div class="testi-grid">
+          <article class="testi-card">
+            <div class="testi-stars">
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+            </div>
+            <p>“Pawfect Care has been amazing! My Golden Retriever absolutely loves going there. The staff is so caring and professional.”</p>
+            <div class="testi-author">
+              <span class="avatar" aria-hidden="true"></span>
+              <div>
+                <strong>Sarah Mitchell</strong>
+                <small>Dog Owner</small>
+              </div>
+            </div>
+          </article>
+          <article class="testi-card">
+            <div class="testi-stars">
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+            </div>
+            <p>“Best pet grooming service in town! They treated my Persian cat with such gentle care. Highly recommend!”</p>
+            <div class="testi-author">
+              <span class="avatar" aria-hidden="true"></span>
+              <div>
+                <strong>Michael Chen</strong>
+                <small>Cat Owner</small>
+              </div>
+            </div>
+          </article>
+          <article class="testi-card">
+            <div class="testi-stars">
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+              <img src="assets/icons/Login/star_icon.svg" alt="" />
+            </div>
+            <p>“The boarding service gave me peace of mind during my vacation. Daily photo updates and excellent care for my Beagle!”</p>
+            <div class="testi-author">
+              <span class="avatar" aria-hidden="true"></span>
+              <div>
+                <strong>Emma Davis</strong>
+                <small>Pet Parent</small>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="site-cta">
+    <div class="container cta-inner">
+      <div class="cta-icons" aria-hidden="true">
+        <img src="assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+        <img src="assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+        <img src="assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+      </div>
+      <h2 class="cta-title">Ready to Give Your Pet the Best Care?</h2>
+      <p class="cta-desc">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+      <div class="cta-actions">
+        <a href="pages/services.html" class="btn primary">Book Now</a>
+        <a href="pages/community.html" class="btn ghost">Contact Us</a>
+      </div>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <!-- logo chính + logo paw footer theo thiết kế -->
+          <img class="brand-mark-img" src="assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+          <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+          <img class="brand-foot-img" src="assets/icons/Footer/logopawfooter.svg" alt="Paw" />
+        </div>
+        <p>Your trusted partner in pet care since 2020.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="pages/homestay-detail.html">Pet Boarding</a></li>
+          <li><a href="pages/services.html">Dog Grooming</a></li>
+          <li><a href="pages/services.html">Cat Grooming</a></li>
+          <li><a href="pages/services.html">Pet Training</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Follow Us</h4>
+        <div class="socials">
+          <a href="#" aria-label="Facebook"><img src="assets/icons/Footer/LogoSocialMediaFooter/facebook.svg" alt="Facebook" /></a>
+          <a href="#" aria-label="Instagram"><img src="assets/icons/Footer/LogoSocialMediaFooter/instagram.svg" alt="Instagram" /></a>
+          <a href="#" aria-label="Twitter"><img src="assets/icons/Footer/LogoSocialMediaFooter/twitter-x.svg" alt="Twitter/X" /></a>
+          <a href="#" aria-label="YouTube"><img src="assets/icons/Footer/LogoSocialMediaFooter/youtube.svg" alt="YouTube" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        © 2025 Pawfect Care. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/home.js"></script>
+</body>
+</html>
