@@ -15,3 +15,4 @@ Cấu trúc mới
 - assets/js/utils.js : helper DOM + validator + localStorage dùng chung.
 - assets/js/home.js : logic nhẹ cho Home (đánh dấu nav active).
 - assets/js/auth.js : tách logic đăng nhập/đăng ký từ file JS cũ.# 251EIE503002_WebDevelopment_Group1
+# 251EIE503002_WebDevelopment_Group1
