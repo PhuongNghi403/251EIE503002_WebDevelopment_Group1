@@ -1,0 +1,19 @@
+/* HOT DEALS */
+.home-deals { display: grid; gap: 18px; }
+.deals-header { text-align: left; }
+.badge { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 8px 12px; box-shadow: var(--shadow); }
+.badge.light { background: #fff; border: 1px solid var(--border); color: var(--text-2); }
+.badge.dark { background: var(--brand-brown); color: #fff; }
+.badge.outline { background: #fff; border: 1px solid var(--border); color: var(--brand-brown); }
+.deals-grid { display: grid; grid-template-columns: 1.1fr 1fr 1fr; grid-auto-rows: 1fr; gap: 16px; }
+.deal-card { background: #fff; border-radius: 20px; padding: 16px; box-shadow: var(--shadow); display: grid; gap: 8px; }
+.deal-card.xl { grid-column: 1 / span 1; grid-row: 1 / span 2; display: grid; padding: 0; overflow: hidden; }
+.deal-visual { background: linear-gradient(120deg, #ffe8ee, #e6fff0); height: 100%; }
+.deal-info { padding: 16px; }
+.deal-card.wide { grid-column: 2 / span 2; }
+.deal-top { display: flex; align-items: center; gap: 8px; }
+.deal-bottom { display: flex; justify-content: space-between; align-items: center; }
+.deal-bottom .price { display: flex; gap: 8px; align-items: baseline; }
+.deal-bottom .now { color: #d43b1f; font-weight: 800; }
+.deal-bottom .was { color: var(--text-3); text-decoration: line-through; }
+.star { margin-left: auto; }

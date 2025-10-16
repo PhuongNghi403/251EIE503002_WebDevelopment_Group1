@@ -4,105 +4,84 @@
   color: #fff;
   padding: clamp(24px, 5vw, 64px) 0;
 }
-.site-cta .cta-inner {
-  text-align: center;
+.site-cta .cta-inner { text-align: center; }
+/* Site CTA */
+.site-cta .cta-icons { opacity: 0.9; font-size: clamp(18px, 3vw, 24px); margin-bottom: 12px; }
+.site-cta .cta-icons .cta-pattern {
+  display: block;
+  margin: 0 auto 12px;
+  width: clamp(360px, 48vw, 680px); /* tăng 100% so với trước */
+  height: auto;
 }
-.site-cta .cta-icons {
-  opacity: 0.9;
-  font-size: clamp(18px, 3vw, 24px);
-  margin-bottom: 12px;
-}
-.site-cta .cta-title {
-  font-size: clamp(22px, 3.6vw, 32px);
-  font-weight: 800;
-  margin-bottom: 8px;
-}
+/* Rule chung giữ nguyên cho các ảnh khác trong CTA (nếu có) */
 .site-cta .cta-desc {
   color: #e8d8cf;
   margin-bottom: 16px;
+  font-family: "Fraunces", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "SOFT" 0, "WONK" 0;
 }
-.site-cta .cta-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
+.site-cta .cta-title { font-size: clamp(22px, 3.6vw, 32px); font-weight: 800; margin-bottom: 8px; }
+/* Fraunces cho mô tả CTA */
+.site-cta .cta-desc {
+  color: #e8d8cf;
+  margin-bottom: 16px;
+  font-family: "Fraunces", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "SOFT" 0, "WONK" 0;
 }
-.site-cta .btn.primary {
-  background: #6f95ff;
-  color: #fff;
-}
-.site-cta .btn.ghost {
-  background: #fff;
-  color: #4b2e22;
-  border: 1px solid rgba(255,255,255,0.6);
+.site-cta .cta-actions { display: flex; gap: 12px; justify-content: center; }
+.site-cta .btn.primary { background: #6f95ff; color: #fff; }
+.site-cta .btn.ghost { background: #fff; color: #4b2e22; border: 1px solid rgba(255,255,255,0.6); }
+
+/* Fraunces utility class cho văn bản phụ */
+.fraunces-body {
+  font-family: "Fraunces", serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  font-variation-settings: "SOFT" 0, "WONK" 0;
 }
 
 /* Site Footer */
-.site-footer {
-  background: #4b2e22;
-  color: #fff;
-  padding-top: clamp(24px, 5vw, 48px);
-}
-.site-footer .footer-columns {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: clamp(16px, 3vw, 32px);
-  padding-bottom: clamp(16px, 3vw, 32px);
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-.site-footer .footer-brand {
-  display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 8px;
-}
-.site-footer .footer-brand .brand-foot-img {
-  width: 24px; height: 24px; display: inline-block; opacity: 0.95;
-}
-.site-footer .socials a { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15); text-decoration: none; }
-.site-footer .socials a img { width: 18px; height: 18px; display: inline-block; }
+.site-footer { background: #4b2e22; color: #fff; padding-top: clamp(24px, 5vw, 48px); }
+.site-footer .footer-columns { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: clamp(16px, 3vw, 32px); padding-bottom: clamp(16px, 3vw, 32px); border-bottom: 1px solid rgba(255,255,255,0.2); }
+.site-footer .footer-brand { display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 8px; }
+.site-footer .footer-brand .brand-foot-img { width: 24px; height: 24px; display: inline-block; opacity: 0.95; }
+
+/* Tiêu đề cột: dùng Fraunces */
 .site-footer .footer-title {
-  font-weight: 700;
+  font-weight: 1000;
   margin-bottom: 8px;
-}
-.site-footer .footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.site-footer .footer-links a {
-  color: #e8d8cf;
-  text-decoration: none;
-}
-.site-footer .footer-links a:hover {
-  text-decoration: underline;
-}
-.site-footer .socials {
-  display: flex;
-  gap: 10px;
-}
-.site-footer .socials a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-  text-decoration: none;
-  font-size: 18px;
-}
-.site-footer .footer-bottom {
-  padding: clamp(12px, 2vw, 16px) 0;
-  color: #e8d8cf;
-  text-align: center;
+  font-family: "Fraunces", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings: "SOFT" 0, "WONK" 0;
 }
 
+/* Văn bản phụ trong footer: dùng Lexend Deca */
+.site-footer p,
+.site-footer .footer-links a,
+.site-footer .footer-bottom {
+  font-family: "Lexend Deca", sans-serif; 
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.site-footer .footer-links { list-style: none; padding: 0; margin: 0; }
+.site-footer .footer-links a { color: #e8d8cf; text-decoration: none; }
+.site-footer .footer-links a:hover { text-decoration: underline; }
+
+/* Khu Follow Us: hiển thị ảnh tổng */
+.site-footer .socials { display: grid; place-items: start; }
+.site-footer .socials img { width: clamp(160px, 20vw, 240px); height: auto; display: block; }
+
 /* Responsive */
-@media (max-width: 992px) {
-  .site-footer .footer-columns {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media (max-width: 640px) {
-  .site-footer .footer-columns {
-    grid-template-columns: 1fr;
-  }
-}
+@media (max-width: 992px) { .site-footer .footer-columns { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .site-footer .footer-columns { grid-template-columns: 1fr; } }
