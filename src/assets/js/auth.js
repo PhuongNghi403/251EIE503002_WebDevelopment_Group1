@@ -56,11 +56,12 @@
       e.preventDefault();
       if (!validateSignIn()) return;
       siSubmit.classList.add("loading");
-      setTimeout(() => {
+      setTimeout(async () => {
         const users = getUsers();
         const found = users.find(u => (u.phone === siPhone.value) && u.password === siPass.value);
         siSubmit.classList.remove("loading");
         if (!found) { showError("si-pass-error", "Incorrect phone or password."); return; }
+        logUserActivity(found.email, { type: "signin", detail: "User signed in" });
         setSession(found);
         window.location.href = "../index.html";
       }, 600);
@@ -71,7 +72,7 @@
       e.preventDefault();
       if (!validateSignUp()) return;
       suSubmit.classList.add("loading");
-      setTimeout(() => {
+      setTimeout(async () => {
         const users = getUsers();
         if (users.some(u => u.email === suEmail.value)) {
           suSubmit.classList.remove("loading");
@@ -83,10 +84,12 @@
           lastName: suLast.value.trim(),
           email: suEmail.value.trim(),
           phone: suPhone.value.trim(),
-          password: suPass.value
+          password: suPass.value,
+          activities: []
         };
         users.push(newUser);
         setUsers(users);
+        logUserActivity(newUser.email, { type: "signup", detail: "User created via form" });
         setSession(newUser);
         suSubmit.classList.remove("loading");
         window.location.href = "../index.html";

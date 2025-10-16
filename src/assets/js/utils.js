@@ -13,4 +13,19 @@
   window.getUsers = () => JSON.parse(localStorage.getItem("pc_users") || "[]");
   window.setUsers = (list) => localStorage.setItem("pc_users", JSON.stringify(list));
   window.setSession = (user) => localStorage.setItem("pc_user", JSON.stringify(user));
+
+  // Activity logging
+  window.logUserActivity = (email, activity) => {
+    const users = window.getUsers();
+    const idx = users.findIndex(u => u.email === email);
+    if (idx === -1) return;
+    users[idx].activities = Array.isArray(users[idx].activities) ? users[idx].activities : [];
+    users[idx].activities.push({
+      type: activity.type || "event",
+      timestamp: new Date().toISOString(),
+      detail: activity.detail || ""
+    });
+    window.setUsers(users);
+  };
+  
 })();
