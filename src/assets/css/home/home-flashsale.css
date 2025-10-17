@@ -1,0 +1,154 @@
+/* HOT DEALS — Flash Sale Grid */
+.home-deals .deals-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 16px;
+}
+
+/* HOT DEALS — Flash Sale (nền trắng, 4 card theo ảnh) */
+.home-flashsale { display: grid; gap: clamp(16px, 2.2vw, 24px); }
+
+/* Grid: 3 → 2 → 1 cột */
+.home-flashsale .deals-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2.2vw, 24px);
+}
+
+/* Base card */
+.home-flashsale .deal-card {
+  border-radius: 22px;
+  padding: clamp(16px, 2.2vw, 24px);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 10px;
+}
+
+/* Màu nền từng card */
+.home-flashsale .deal-card.blue  { background: var(--blue-100); }  /* pastel blue */
+.home-flashsale .deal-card.mint  { background: var(--mint); }
+.home-flashsale .deal-card.pink  { background: var(--pink); }
+.home-flashsale .deal-card.beige { background: var(--beige); }
+
+/* Badge + title + desc */
+.home-flashsale .badge-row { display: inline-flex; align-items: center; gap: 8px; }
+.home-flashsale .deal-title { margin: 2px 0; color: var(--brand-brown); font-weight: 800; } /* giảm còn 50% so với 4px */
+.home-flashsale .deal-desc  { color: var(--text-2); margin-top: 8px; } /* p mặc định ~16px, set còn 8px */
+
+/* Media trong card nhỏ */
+.home-flashsale .card-media {
+  border-radius: 16px;
+  overflow: hidden;
+  height: clamp(140px, 18vw, 200px);
+}
+.home-flashsale .card-media img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+/* CTA button trong card nhỏ */
+.home-flashsale .btn.full { width: 100%; }
+
+/* Card rộng full width */
+.home-flashsale .deal-card.wide { grid-column: 1 / -1; }
+.home-flashsale .deal-top { display: flex; align-items: center; gap: 8px; }
+.home-flashsale .star {
+  margin-left: auto;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.home-flashsale .wide-body {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  align-items: center;
+  gap: clamp(12px, 2vw, 24px);
+}
+.home-flashsale .wide-media {
+  border-radius: 16px;
+  overflow: hidden;
+}
+.home-flashsale .wide-media img {
+  width: 100%;
+  height: clamp(180px, 24vw, 240px);
+  object-fit: cover;
+}
+.home-flashsale .wide-info .deal-title { margin: 0 0 4px; } 
+.home-flashsale .wide-info .deal-desc  { margin: 0 0 5px; }  
+.home-flashsale .deal-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.home-flashsale .deal-bottom .price {
+  display: flex; gap: 8px; align-items: baseline;
+}
+.home-flashsale .deal-bottom .now { color: #d43b1f; font-weight: 800; }
+.home-flashsale .deal-bottom .was { color: var(--text-3); text-decoration: line-through; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .home-flashsale .deals-grid { grid-template-columns: 1fr 1fr; }
+  .home-flashsale .wide-body { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .home-flashsale .deals-grid { grid-template-columns: 1fr; }
+  .home-flashsale .card-media { height: clamp(140px, 40vw, 220px); }
+}
+
+/* Badge override riêng cho wide card trong Flash Sale */
+.home-flashsale .deal-top .badge.dark {
+  background: #fff;                 /* nền trắng */
+  color: var(--brand-brown-2);      /* nâu đậm */
+  border: 1px solid var(--border);  /* nhẹ để nổi */
+}
+
+.home-flashsale .deal-top .badge.outline {
+  background: #BFD6F6;              /* nền pastel blue */
+  color: var(--brand-brown-2);      /* nâu đậm */
+  border: none;                     /* bỏ viền để sạch */
+}
+
+/* Flash Sale — tăng 80% kích thước chữ cho title và NOW price */
+
+/* Tiêu đề các card: First Time Grooming, Paw Spa Treat, Shiny Coat, Weekend Retreat */
+.home-flashsale .deal-title {
+  font-size: 1.8em;
+}
+
+/* Tiêu đề trong card rộng (Weekend Retreat), nếu có rule riêng */
+.home-flashsale .wide-info .deal-title {
+  font-size: 1.8em;
+}
+
+/* Giá khuyến mãi “ONLY $89” */
+.home-flashsale .price .now {
+  font-size: 1.8em;
+}
+
+
+/* Đặt sao ở góc phải trên của wide-info */
+.home-flashsale .deal-card.wide .wide-info {
+  position: relative;
+  /* giữ layout hiện tại */
+}
+.home-flashsale .deal-card.wide .wide-info .star {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #f0c43c;
+  font-size: 20px;
+}
+/* Badge override đã yêu cầu */
+.home-flashsale .deal-card.wide .wide-info .badge.dark {
+  background: #ffffff;
+  color: var(--brand-brown-2);
+  border: 1px solid var(--border);
+}
+.home-flashsale .deal-card.wide .wide-info .badge.outline {
+  background: #BFD6F6;
+  color: var(--brand-brown-2);
+  border: none;
+}
+

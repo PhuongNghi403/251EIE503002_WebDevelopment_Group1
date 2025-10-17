@@ -1,5 +1,5 @@
 /* Layout wrapper */
-.home { display: grid; gap: clamp(32px, 6vw, 72px); padding-bottom: 64px;  background-color: #FFF5E9; }
+.home { display: grid; gap: clamp(32px, 6vw, 72px); padding-bottom: 64px;   background: #ffffff; }
 
 /* HERO — scale theo viewport width, baseline 1329px */
 .section,
@@ -85,23 +85,34 @@
 }
 
 /* WELCOME — bám sát layout style.css bạn gửi */
-.home-welcome { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 0 16px 64px; }
-.welcome-heading { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+.home-welcome { display: flex; flex-direction: column; align-items: center;}
+.welcome-heading { display: flex; flex-direction: column; align-items: center; width: 100%; }
 .section-title { color: var(--brand-brown); text-align: center; }
 .section-title .accent { color: var(--meomeoblue); }
 
 /* Dải line + dot pastel */
-.welcome-decor { display: flex; align-items: center; gap: 16px; height: 22px; justify-content: center; padding: 16px 0 2px; width: 100%; }
+.welcome-decor { display: flex; align-items: center; gap: 16px; height: 22px; justify-content: center; width: 100%; }
 .welcome-decor .line { width: 64px; height: 4px; border-radius: 26843500px; background: var(--meomeoblue); }
 .welcome-decor .dot { width: 8px; height: 8px; border-radius: 26843500px; }
 .welcome-decor .dot.pink { background: var(--meomeobb-pink); }
 .welcome-decor .dot.mint { background: var(--meomeomint); }
 .welcome-decor .dot.blue { background: var(--meomeoblue); }
 
-/* Khối thẻ dịch vụ: inline-flex + đường chia dọc */
-.features { display: inline-flex; gap: 14px; }
-.feature-card { display: flex; align-items: center; gap: 24px; height: 232px; padding: 24px 16px; width: 410px; }
-.feature-card:not(:last-child) { border-right: 1px solid #4d2b12; }
+/* Khối thẻ dịch vụ: Chỉnh sửa để căn giữa */
+.features {
+  display: flex;
+  justify-content: center; /* Đây là "câu thần chú" để dồn các cột vào giữa */
+  align-items: center;     /* Căn các thẻ thẳng hàng theo chiều dọc cho đẹp */
+  width: 100%;             /* Bắt buộc: Cho vùng chứa rộng hết trang để có chỗ căn giữa */
+  gap: 14px;
+}
+.feature-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 232px;
+  padding: 24px 16px; 
+  width: 380px;}.feature-card:not(:last-child) {border-right: 1px solid #4d2b12;}
 
 /* Icon vòng tròn */
 .feature-icon {

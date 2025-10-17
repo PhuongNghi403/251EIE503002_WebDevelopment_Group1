@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="assets/css/home/home-hero.css" />
   <link rel="stylesheet" href="assets/css/home/home-story.css" />
   <link rel="stylesheet" href="assets/css/home/home-deals.css" />
+  <link rel="stylesheet" href="assets/css/home/home-flashsale.css" />
   <link rel="stylesheet" href="assets/css/home/home-testimonials.css" />
   <!-- Import Fraunces cho tiêu đề dịch vụ -->
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
@@ -69,7 +70,7 @@
           <img class="hero-paw" src="assets/images/HomestayDetail/paw.png" alt="Paw" aria-hidden="true" />
           <img
             class="hero-badge badge-parents"
-            src="assets/icons/HomestayDetail/50000 Pet Parents.svg"
+            src="assets/icons/HomestayDetail/50000PetParents.svg"
             alt="50,000+ Pet Parents"
           />
           <img
@@ -77,19 +78,6 @@
             src="assets/icons/HomestayDetail/495Rating.svg"
             alt="4.9/5 Rating"
           />
-          </div>
-          <!-- Thẻ rating: thay ảnh bằng markup -->
-          <div class="element-rating">
-              <div class="heading">
-                  <img
-                      class="starbrown-icon"
-                      src="assets/icons/Login/star_icon.svg"
-                      alt="Star"
-                  />
-                  <div class="text-wrapper">4.9/5</div>
-              </div>
-              <div class="div">Rating</div>
-          </div>
         </div>
       </div>
     </section>
@@ -109,18 +97,18 @@
       <div class="features">
         <article class="feature-card">
           <div class="feature-icon"><img src="assets/icons/HomestayDetail/BathtubLogo.svg" alt="Bath" /></div>
-          <h3 class="feature-title">Pet wellness &amp; grooming</h3>
-          <p class="feature-desc">Professional grooming services to keep your pets healthy and beautiful</p>
+          <h3 class="feature-title">Pet wellness<br>& grooming</h3>
+          <p class="feature-desc" style="text-align: left;">Professional<br>grooming<br>services to<br>keep your<br>pets healthy<br>and beautiful</p>
         </article>
         <article class="feature-card">
           <div class="feature-icon"><img src="assets/icons/HomestayDetail/BathtubBrownLogo.svg" alt="Bath" /></div>
-          <h3 class="feature-title">Pet wellness &amp; grooming</h3>
-          <p class="feature-desc">Professional grooming services to keep your pets healthy and beautiful</p>
+          <h3 class="feature-title">Pet wellness<br>& grooming</h3>
+          <p class="feature-desc" style="text-align: left;">Professional<br>grooming<br>services to<br>keep your<br>pets healthy<br>and beautiful</p>
         </article>
         <article class="feature-card">
           <div class="feature-icon"><img src="assets/icons/HomestayDetail/BathtubLogo.svg" alt="Bath" /></div>
-          <h3 class="feature-title">Pet wellness &amp; grooming</h3>
-          <p class="feature-desc">Professional grooming services to keep your pets healthy and beautiful</p>
+          <h3 class="feature-title">Pet wellness<br>& grooming</h3>
+          <p class="feature-desc" style="text-align: left;">Professional<br>grooming<br>services to<br>keep your<br>pets healthy<br>and beautiful</p>
         </article>
       </div>
     </section>
@@ -137,7 +125,7 @@
           <span class="dot mint"></span>
           <span class="dot blue"></span>
         </div>
-        <div class="story-block">
+        <div class="story-block" style="text-align: justify;">
           <h3>About us</h3>
           <p>Founded in 2025, Pawfect Care was born from one simple belief: Pets are family.</p>
           <p>We wanted to create a safe, playful, and loving space where every tail wag and every soft purr is cared for. From cozy homestays to fun spa days and thoughtful pet products, our mission is to make every pet’s day pawsome!</p>
@@ -148,20 +136,18 @@
         </div>
 
         <div class="service-cards">
-          <article class="service-card homestay">
+          <div class="service-card homestay">
             <div class="service-tag">Homestay</div>
-            <h4>Cozy stays with daily updates…</h4>
+            <h4>Cozy stays with love and daily updates…</h4>
             <a class="btn small dark" href="pages/homestay-detail.html">Read more</a>
-            <!-- Ảnh overlay bên phải ô xanh lá -->
             <img class="service-image cat" src="assets/images/HomestayDetail/StandingCatHome.png" alt="Cat standing" />
-          </article>
-          <article class="service-card spa">
+          </div>
+          <div class="service-card spa">
             <div class="service-tag">Spa</div>
             <h4>Pampering treatments from grooming…</h4>
             <a class="btn small dark" href="pages/services.html">Read more</a>
-            <!-- Ảnh overlay bên phải ô hồng -->
             <img class="service-image dog" src="assets/images/HomestayDetail/StandingWhiteDog.svg" alt="White dog standing" />
-          </article>
+          </div>
         </div>
       </div>
       <div class="story-right">
@@ -170,57 +156,90 @@
     </section>
 
     <section class="home-deals container">
-      <div class="deals-header">
-        <span class="badge light">Limited Time Offer</span>
-        <h2 class="section-title bagel-fat-one-regular">Hot Deals</h2>
-        <p class="section-desc">Premium quality food and accessories for your beloved companions.</p>
-        <div class="deals-ctas">
-          <a href="#" class="btn primary">Shop Now</a>
-          <a href="#" class="btn ghost">Learn More</a>
+      <div class="deals-wrapper">
+        <div class="deals-header-wrap">
+          <img class="deals-side-img left" src="assets/images/HomestayDetail/Food1.png" alt="Food 1" />
+          <div class="deals-header" style="text-align: center;">
+            <span class="badge light" style="color: #4D2B12;">✦ Limited Time Offer</span>
+            <h2 class="section-title bagel-fat-one-regular">Hot Deals</h2>
+            <div class="welcome-decor">
+              <span class="dot pink"></span>
+              <span class="line"></span>
+            </div>
+            <span class="dot pink"></span>
+            <span class="line" style="background: var(--mint)"></span>
+            <p class="section-desc">Buy products for free pet checkup. <br/>Premium quality food and accessories for your beloved companions.</p>
+            <div class="deals-ctas">
+              <a href="#" class="btn primary">Shop Now</a>
+              <a href="#" class="btn ghost">Learn More</a>
+            </div>
+          </div>
+          <img class="deals-side-img right" src="assets/images/HomestayDetail/Food2.png" alt="Food 2" />
         </div>
       </div>
-
+    </section>
+    
+    <section class="home-flashsale container">
       <div class="deals-grid">
-        <article class="deal-card xl">
-          <div class="deal-visual"></div>
-          <div class="deal-info">
-            <span class="badge dark">20% OFF</span>
-            <h3>Top Picks — Food & Treats</h3>
+        <!-- Card 1 — Blue -->
+        <article class="deal-card blue">
+          <div class="badge-row">
+            <span class="badge outline bagel-fat-one-regular">25% OFF</span>
+            <span class="badge dark">Spa</span>
           </div>
-        </article>
-
-        <article class="deal-card">
-          <span class="badge dark">25% OFF</span>
-          <h4>First Time Grooming</h4>
-          <p>Get 25% off your first grooming session!</p>
-          <a href="#" class="btn small dark">Book now</a>
-        </article>
-
-        <article class="deal-card">
-          <span class="badge dark">30% OFF</span>
-          <h4>Paw Spa Treat</h4>
-          <p>Bath & fragrance finish, one-day special.</p>
-          <a href="#" class="btn small dark">Flash sale</a>
-        </article>
-
-        <article class="deal-card">
-          <span class="badge dark">50% OFF</span>
-          <h4>Shiny Coat</h4>
-          <p>Full bath & nail trim with free bow tie.</p>
-          <a href="#" class="btn small dark">Flash sale</a>
-        </article>
-
-        <article class="deal-card wide">
-          <div class="deal-top">
-            <span class="badge dark">3 Days, Pay 2</span>
-            <span class="badge outline">Homestay</span>
-            <span class="star">★</span>
+          <h4 class="deal-title bagel-fat-one-regular">First Time Grooming</h4>
+          <p class="deal-desc" style="color: #7b470b;">Get 25% off your first grooming session!</p>
+          <div class="card-media">
+            <img src="assets/images/HomestayDetail/ShowerDog.png" alt="Grooming" />
           </div>
-          <h4>Weekend Retreat</h4>
-          <p>Stay 3 days, pay for 2 — full care included!</p>
-          <div class="deal-bottom">
-            <span class="price"><span class="now">$89</span> <span class="was">$200</span></span>
-            <a href="pages/homestay-detail.html" class="btn small dark">View details</a>
+          <a href="#" class="btn dark full" style="color: #FFF5E9;">BOOK NOW →</a>
+        </article>
+    
+        <!-- Card 2 — Mint -->
+        <article class="deal-card mint">
+          <div class="badge-row">
+            <span class="badge outline bagel-fat-one-regular">30% OFF</span>
+            <span class="badge dark">Spa</span>
+          </div>
+          <h4 class="deal-title bagel-fat-one-regular">Paw Spa Treat</h4>
+          <p class="deal-desc" style="color: #7b470b;">Bath & fragrance finish, one-day special.</p>
+          <div class="card-media">
+            <img src="assets/images/HomestayDetail/CutNailCat.png" alt="Spa Treat" />
+          </div>
+          <a href="#" class="btn small dark" style="color: #FFF5E9;">FLASH SALE →</a>
+        </article>
+    
+        <!-- Card 3 — Pink -->
+        <article class="deal-card pink">
+          <div class="badge-row">
+            <span class="badge outline bagel-fat-one-regular">50% OFF</span>
+            <span class="badge dark">Spa</span>
+          </div>
+          <h4 class="deal-title bagel-fat-one-regular">Shiny Coat</h4>
+          <p class="deal-desc" style="color: #7b470b;">Full bath & nail trim with free bow tie.</p>
+          <div class="card-media">
+            <img src="assets/images/HomestayDetail/CuttingFur.png" alt="Shiny Coat" />
+          </div>
+          <a href="#" class="btn small dark" style="color: #FFF5E9;">FLASH SALE →</a>
+        </article>
+    
+        <!-- Flash Sale — Wide Card (Homestay) -->
+        <article class="deal-card wide beige">
+          <div class="wide-body">
+            <div class="wide-media">
+              <img src="assets/images/HomestayDetail/PetCage.png" alt="Weekend Retreat" />
+            </div>
+            <div class="wide-info">
+              <span class="star">★</span>
+              <span class="badge dark bagel-fat-one-regular">3 DAYS, PAY 2</span>
+              <span class="badge outline">Homestay</span>
+              <h4 class="deal-title bagel-fat-one-regular">Weekend Retreat</h4>
+              <p class="deal-desc" style="color: #7b470b;">Stay 3 days, pay for 2 — full care included!</p>
+              <div class="deal-bottom">
+                <span class="price"><span class="now">ONLY $89</span> <span class="was">$200</span></span>
+                <a href="pages/homestay-detail.html" class="btn small dark " style="color: #FFF5E9;">VIEW DETAILS →</a>
+              </div>
+            </div>
           </div>
         </article>
       </div>

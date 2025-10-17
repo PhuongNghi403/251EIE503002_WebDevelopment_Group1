@@ -1,5 +1,5 @@
 /* OUR STORY layout và decor */
-.home-story { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(16px, 4vw, 32px); align-items: start; }
+.home-story { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(16px, 4vw, 32px); align-items: start;}
 .home-story .story-title-wrap {
   position: relative;
   display: inline-block;
@@ -32,7 +32,7 @@
   border-radius: 18px;
   padding: 16px;
   box-shadow: var(--shadow);
-  background: #fff;
+  background: #ffffff;
   display: grid;
   gap: 8px;
   overflow: hidden;
