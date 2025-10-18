@@ -57,10 +57,14 @@
             <div class="shadow"></div>
           </figure>
 
+          <div class="pet-accessory">
+            <img src="../assets/images/Shop/PetAccessory.svg" alt="Pet Accessories" />
+          </div>
+
           <div class="hero-note">
-            <h3>Corem ipsum</h3>
-            <p>Porem ipsum dolor sit amet consectetur</p>
-            <p>Porem ipsum dolor sit amet consectetur</p>
+            <h3>November Special</h3>
+            <h2>PAWFECT11</h2>
+            <p>Get 11% off Drools Puppy Nutrition this month! Use code PAWFECT11 at checkout.</p>
           </div>
         </div>
       </div>
@@ -74,38 +78,38 @@
     <section class="popular">
       <div class="container">
         <div class="popular-title">
-          <button class="nav-btn" aria-label="Previous">
+          <button class="nav-btn" id="prevBtn" aria-label="Previous">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           </button>
-          <h2>DROOLS - PUPPY NUTRITIOUS WET FOOD</h2>
-          <button class="nav-btn" aria-label="Next">
+          <h2 id="productTitle">DROOLS - PUPPY NUTRIOUS WET FOOD</h2>
+          <button class="nav-btn" id="nextBtn" aria-label="Next">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           </button>
         </div>
 
         <div class="product-row">
           <article class="card" data-product="fillet-o-lakes-kit-cat" data-price="15.99">
-            <img src="../assets/images/HomestayDetail/Food2.png" alt="FILLET 'O' LAKES - KIT CAT" />
+            <img src="../assets/images/Shop/FilletOLakes.svg" alt="FILLET 'O' LAKES - KIT CAT" />
             <h3>FILLET 'O' LAKES - KIT CAT</h3>
             <div class="product-price">$15.99</div>
           </article>
           <article class="card" data-product="encore-cat-food" data-price="12.50">
-            <img src="../assets/images/HomestayDetail/GreenDog.png" alt="ENCORE - CAT FOOD" />
+            <img src="../assets/images/Shop/EncoreCatFood.svg" alt="ENCORE - CAT FOOD" />
             <h3>ENCORE - CAT FOOD</h3>
             <div class="product-price">$12.50</div>
           </article>
-          <article class="card card-tall" data-product="drools-puppy-wet-food" data-price="18.75">
+          <article class="card active" data-product="drools-puppy-wet-food" data-price="18.75">
             <img src="../assets/images/Shop/drools.png" alt="DROOLS - PUPPY NUTRITIOUS WET FOOD" />
             <h3>DROOLS - PUPPY NUTRITIOUS WET FOOD</h3>
             <div class="product-price">$18.75</div>
           </article>
           <article class="card" data-product="royal-canin-digest-sensitive" data-price="22.99">
-            <img src="../assets/images/HomestayDetail/StandingWhiteDog.svg" alt="ROYAL CANIN - CARE DIGEST SENSITIVE" />
+            <img src="../assets/images/Shop/RoyalCanin.svg" alt="ROYAL CANIN - CARE DIGEST SENSITIVE" />
             <h3>ROYAL CANIN - CARE DIGEST SENSITIVE</h3>
             <div class="product-price">$22.99</div>
           </article>
           <article class="card" data-product="royal-canin-care-digest" data-price="19.99">
-            <img src="../assets/images/HomestayDetail/PetCage.png" alt="ROYAL CANIN - CARE DIGEST SENSITIVE" />
+            <img src="../assets/images/Shop/RoyalCanin.svg" alt="ROYAL CANIN - CARE DIGEST SENSITIVE" />
             <h3>ROYAL CANIN - CARE DIGEST SENSITIVE</h3>
             <div class="product-price">$19.99</div>
           </article>
@@ -126,10 +130,7 @@
         <div class="nutrition-features">
           <div class="feature-block">
             <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                <path d="M9 12l2 2 4-4"/>
-              </svg>
+              <img src="../assets/images/Shop/NutritionAndHealth.svg" alt="Nutrition And Health" />
             </div>
             <h3 class="feature-title">Nutrition And Health</h3>
             <p class="feature-desc">Proper nutrition is key to your pet's health, supporting growth, energy, and overall well-being.</p>
@@ -137,10 +138,7 @@
           
           <div class="feature-block">
             <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
+              <img src="../assets/images/Shop/CustomDiets.svg" alt="Custom Diets" />
             </div>
             <h3 class="feature-title">Custom Diets</h3>
             <p class="feature-desc">Each pet has unique dietary needs. Tailoring their diet ensures they get essential nutrients.</p>
@@ -148,11 +146,7 @@
           
           <div class="feature-block">
             <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-                <path d="M9 12l2 2 4-4"/>
-              </svg>
+              <img src="../assets/images/Shop/ExpertGuidance.svg" alt="Expert Guidance" />
             </div>
             <h3 class="feature-title">Expert Guidance</h3>
             <p class="feature-desc">Professional advice is crucial for managing your pet's diet, ensuring they stay healthy and thrive.</p>
@@ -174,8 +168,43 @@
 </section>
 <footer class="site-footer">
   <div class="container footer-columns">
-    <div class="footer-bottom">
-      <div class="container">© 2025 Pawfect Care. All rights reserved.</div>
+    <div class="footer-col">
+      <div class="footer-brand">
+        <img class="brand-foot-img" src="../assets/icons/logopawfooter.svg" alt="Paw" />
+        <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+      </div>
+      <p>Your trusted partner in pet care since 2020.</p>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title">Services</h4>
+      <ul class="footer-links">
+        <li><a href="homestay-detail.html">Pet Boarding</a></li>
+        <li><a href="services.html">Dog Grooming</a></li>
+        <li><a href="services.html">Cat Grooming</a></li>
+        <li><a href="services.html">Pet Training</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title">Company</h4>
+      <ul class="footer-links">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title">Follow Us</h4>
+      <div class="socials">
+        <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+        <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+        <a href="https://x.com/" aria-label="Twitter"></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container" align="center" style="color: #000000;">
+      © 2025 Pawfect Care. All rights reserved.
     </div>
   </div>
 </footer>

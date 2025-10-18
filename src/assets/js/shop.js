@@ -28,49 +28,61 @@ function initNavigation() {
 
 // Product carousel functionality
 function initProductCarousel() {
-  const prevBtn = document.querySelector('.nav-btn[aria-label="Previous"]');
-  const nextBtn = document.querySelector('.nav-btn[aria-label="Next"]');
-  const productRow = document.querySelector('.product-row');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const productTitle = document.getElementById('productTitle');
   const cards = document.querySelectorAll('.card');
   
-  if (!prevBtn || !nextBtn || !productRow || cards.length === 0) return;
+  if (!prevBtn || !nextBtn || !productTitle || cards.length === 0) return;
   
-  let currentIndex = 0;
-  const cardsPerView = getCardsPerView();
+  let currentIndex = 2; // Start with DROOLS (index 2)
   
-  function getCardsPerView() {
-    const width = window.innerWidth;
-    if (width <= 480) return 1;
-    if (width <= 768) return 2;
-    if (width <= 1200) return 3;
-    return 5;
+  // Product data for titles
+  const productData = [
+    { title: "FILLET 'O' LAKES - KIT CAT" },
+    { title: "ENCORE - CAT FOOD" },
+    { title: "DROOLS - PUPPY NUTRIOUS WET FOOD" },
+    { title: "ROYAL CANIN - CARE DIGEST SENSITIVE" },
+    { title: "ROYAL CANIN - CARE DIGEST SENSITIVE" }
+  ];
+  
+  function updateActiveCard() {
+    // Remove active class from all cards
+    cards.forEach(card => card.classList.remove('active'));
+    
+    // Add active class to current card
+    if (cards[currentIndex]) {
+      cards[currentIndex].classList.add('active');
+    }
+    
+    // Update title
+    if (productData[currentIndex]) {
+      productTitle.textContent = productData[currentIndex].title;
+    }
   }
   
-  function updateCarousel() {
-    const translateX = -currentIndex * (100 / cardsPerView);
-    productRow.style.transform = `translateX(${translateX}%)`;
-    
-    // Update button states
+  function updateButtons() {
     prevBtn.disabled = currentIndex === 0;
-    nextBtn.disabled = currentIndex >= cards.length - cardsPerView;
+    nextBtn.disabled = currentIndex === cards.length - 1;
     
     // Add visual feedback for disabled buttons
     prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
-    nextBtn.style.opacity = currentIndex >= cards.length - cardsPerView ? '0.5' : '1';
+    nextBtn.style.opacity = currentIndex === cards.length - 1 ? '0.5' : '1';
   }
   
   function nextSlide() {
-    const maxIndex = Math.max(0, cards.length - cardsPerView);
-    if (currentIndex < maxIndex) {
+    if (currentIndex < cards.length - 1) {
       currentIndex++;
-      updateCarousel();
+      updateActiveCard();
+      updateButtons();
     }
   }
   
   function prevSlide() {
     if (currentIndex > 0) {
       currentIndex--;
-      updateCarousel();
+      updateActiveCard();
+      updateButtons();
     }
   }
   
@@ -84,38 +96,9 @@ function initProductCarousel() {
     if (e.key === 'ArrowRight') nextSlide();
   });
   
-  // Touch/swipe support for mobile
-  let startX = 0;
-  let endX = 0;
-  
-  productRow.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-  });
-  
-  productRow.addEventListener('touchend', (e) => {
-    endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
-    
-    if (Math.abs(diff) > 50) { // Minimum swipe distance
-      if (diff > 0) {
-        nextSlide();
-      } else {
-        prevSlide();
-      }
-    }
-  });
-  
-  // Handle window resize
-  window.addEventListener('resize', () => {
-    const newCardsPerView = getCardsPerView();
-    if (newCardsPerView !== cardsPerView) {
-      currentIndex = Math.min(currentIndex, Math.max(0, cards.length - newCardsPerView));
-      updateCarousel();
-    }
-  });
-  
   // Initialize
-  updateCarousel();
+  updateActiveCard();
+  updateButtons();
 }
 
 // Product interactions (hover effects, click handlers)

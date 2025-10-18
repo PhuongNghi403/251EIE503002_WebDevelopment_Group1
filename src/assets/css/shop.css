@@ -20,22 +20,27 @@
 
 .hero-inner { 
   display: flex; 
-  gap: 60px; 
-  align-items: center; 
+  gap: 80px; 
+  align-items: flex-start; 
   min-height: 400px;
+  justify-content: space-between;
+  padding-top: 40px;
 }
 
 .hero-left { 
-  flex: 1 1 50%; 
+  flex: 0 0 45%; 
   z-index: 2;
+  margin-right: auto;
 }
 
 .hero-right { 
-  flex: 1 1 50%; 
+  flex: 0 0 50%; 
   display: flex; 
-  align-items: flex-start; 
-  gap: 30px; 
+  flex-direction: column;
+  align-items: flex-end; 
+  gap: 20px; 
   position: relative;
+  justify-content: flex-start;
 }
 
 .hero-title {
@@ -74,6 +79,7 @@
   position: relative; 
   margin: 0; 
   flex-shrink: 0;
+  align-self: flex-end;
 }
 
 .hero-figure img { 
@@ -97,22 +103,53 @@
 
 .hero-note { 
   margin-top: 20px; 
-  padding: 20px;
+  padding: 15px;
   background: rgba(255,255,255,0.8);
-  border-radius: 15px;
+  border-radius: 12px;
   backdrop-filter: blur(10px);
+  text-align: right;
+  max-width: 250px;
+  align-self: flex-end;
+  margin-left: auto;
+    margin-right: 0;
 }
 
 .hero-note h3 { 
-  font: 400 24px/1.3 'Bagel Fat One'; 
-  margin: 0 0 10px; 
+  font: 400 20px/1.3 'Bagel Fat One'; 
+  margin: 0 0 8px; 
   color: #4D2B12;
 }
 
+.hero-note h2 { 
+  font: 400 18px/1.4 'Lexend Deca'; 
+  color: #482121; 
+  margin: 6px 0; 
+}
 .hero-note p { 
-  font: 400 16px/1.4 'Lexend Deca'; 
+  font: 400 14px/1.4 'Lexend Deca'; 
   color: #666; 
-  margin: 8px 0; 
+  margin: 6px 0; 
+}
+
+/* Pet Accessory Image */
+.pet-accessory {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.pet-accessory img {
+  max-width: 200px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+  transition: transform 0.3s ease;
+}
+
+.pet-accessory img:hover {
+  transform: scale(1.05);
 }
 
 /* Decorative stars */
@@ -171,6 +208,7 @@
   font: 400 28px/1.3 'Bagel Fat One'; 
   color: #252525;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  letter-spacing: 1px;
 }
 
 .nav-btn { 
@@ -223,22 +261,25 @@
   border-color: #88BAFF;
 }
 
-.card-tall { 
-  height: 220px; 
-  background: linear-gradient(135deg, #88BAFF 0%, #A8C8FF 100%);
-  color: white;
-  border-color: #88BAFF;
-}
 
-.card-tall h3 {
-  color: white;
-}
 
 .card img { 
   width: 120px; 
   height: auto; 
   object-fit: contain; 
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+/* Default blur effect for all products except the active one */
+.card img {
+  filter: blur(2px);
+  opacity: 0.7;
+}
+
+/* Clear effect for the active/focused product */
+.card.active img {
+  filter: none;
+  opacity: 1;
 }
 
 .card:hover img {
@@ -249,13 +290,13 @@
   margin: 0; 
   text-align: center; 
   color: #252525; 
-  font: 700 14px/1.3 'Lexend Deca'; 
+  font: 700 14px/1.3 'Lexend Deca', ui-sans-serif, system-ui; 
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .product-price {
-  font: 600 16px/1 'Lexend Deca';
+  font: 600 16px/1 'Lexend Deca', ui-sans-serif, system-ui;
   color: #88BAFF;
   margin-top: 8px;
   text-align: center;
@@ -442,6 +483,7 @@
   justify-content: center;
   color: white;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .feature-block:hover .feature-icon {
@@ -449,10 +491,15 @@
   background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
 }
 
-.feature-icon svg {
-  width: 40px;
-  height: 40px;
-  stroke-width: 2.5;
+.feature-icon img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.feature-block:hover .feature-icon img {
+  transform: scale(1.1);
 }
 
 .feature-title {
@@ -594,6 +641,8 @@
   }
   
   .popular-title h2 {
+    font-weight: 700;
+    font: 'Bagel Fat One';
     font-size: 24px;
   }
   
@@ -628,6 +677,7 @@
   .title-sub {
     font-size: 20px;
   }
+
 }
 
 @media (max-width: 480px) {
