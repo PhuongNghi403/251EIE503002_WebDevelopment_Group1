@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="assets/css/home/home-deals.css" />
   <link rel="stylesheet" href="assets/css/home/home-flashsale.css" />
   <link rel="stylesheet" href="assets/css/home/home-testimonials.css" />
-  <!-- Import Fraunces cho tiêu đề dịch vụ -->
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -32,7 +31,6 @@
         <a class="nav-link" href="pages/profile.html">Profile</a>
       </nav>
       <div class="header-actions">
-        <!-- đổi emoji → svg icons -->
         <button class="icon-btn" aria-label="Wishlist">
           <img src="assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
         </button>
@@ -46,6 +44,7 @@
     </div>
   </header>
 
+
   <main class="home">
     <section class="home-hero container">
       <div class="hero-left">
@@ -55,9 +54,7 @@
           <a href="#" class="btn primary">About Us</a>
           <a href="#" class="btn ghost">Discover More</a>
         </div>
-        <!-- Bỏ pill text badges, thay bằng sticker cạnh ảnh -->
-        <!-- Avatars: dùng ảnh thật -->
-        <!-- hero-left avatars -->
+
         <div class="hero-avatars">
           <img class="avatar-img" src="assets/images/HomestayDetail/GreenDog.png" alt="Dog" />
           <img class="avatar-img" src="assets/images/HomestayDetail/BlueCat.png" alt="Cat" />
@@ -157,7 +154,7 @@
 
     <section class="home-deals container">
       <div class="deals-wrapper">
-        <div class="deals-header-wrap">
+        <article class="deals-header-wrap">
           <img class="deals-side-img left" src="assets/images/HomestayDetail/Food1.png" alt="Food 1" />
           <div class="deals-header" style="text-align: center;">
             <span class="badge light" style="color: #4D2B12;">✦ Limited Time Offer</span>
@@ -168,14 +165,14 @@
             </div>
             <span class="dot pink"></span>
             <span class="line" style="background: var(--mint)"></span>
-            <p class="section-desc">Buy products for free pet checkup. <br/>Premium quality food and accessories for your beloved companions.</p>
+            <p class="section-desc">Buy products for free pet checkup. <br/>Premium quality food and accessories for<br/>your beloved companions.</p>
             <div class="deals-ctas">
               <a href="#" class="btn primary">Shop Now</a>
               <a href="#" class="btn ghost">Learn More</a>
             </div>
           </div>
           <img class="deals-side-img right" src="assets/images/HomestayDetail/Food2.png" alt="Food 2" />
-        </div>
+        </article>
       </div>
     </section>
     
@@ -261,7 +258,7 @@
             <div class="testi-author">
               <img class="avatar" src="assets/icons/HomestayDetail/Avatar.svg" alt="Avatar" />
               <div>
-                <small class="fraunces-body">Sarah Mitchell</small><br/>
+                <small class="fraunces-body" style="color: #7b470b;">Sarah Mitchell</small><br/>
                 <small>Dog Owner</small>
               </div>
             </div>
@@ -278,7 +275,7 @@
             <div class="testi-author">
               <img class="avatar" src="assets/icons/HomestayDetail/Avatar.svg" alt="Avatar" />
               <div>
-                <small class="fraunces-body">Michael Chen</small><br/>
+                <small class="fraunces-body" style="color: #7b470b;">Michael Chen</small><br/>
                 <small>Cat Owner</small>
               </div>
             </div>
@@ -295,7 +292,7 @@
             <div class="testi-author">
               <img class="avatar" src="assets/icons/HomestayDetail/Avatar.svg" alt="Avatar" />
               <div>
-                <small class="fraunces-body">Emma Davis</small><br/>
+                <small class="fraunces-body" style="color: #7b470b;">Emma Davis</small><br/>
                 <small>Pet Parent</small>
               </div>
             </div>
@@ -305,6 +302,7 @@
     </section>
   </main>
 
+  <!--FOOTER-->
   <section class="site-cta">
     <div class="container cta-inner">
       <div class="cta-icons" aria-hidden="true">

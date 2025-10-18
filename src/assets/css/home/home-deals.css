@@ -34,8 +34,8 @@
   transform-origin: center;
   will-change: transform;
 }
-.deals-side-img.left { transform: scale(1.8) translateY(2px); }
-.deals-side-img.right { transform: scale(1.3) translateY(2px); }
+.deals-side-img.left { transform: scale(2.5) translateY(2px) translateX(-20%); }
+.deals-side-img.right { transform: scale(2) translateY(2px) translateX(20%); }
 
 /* Responsive cho header */
 @media (max-width: 900px) {

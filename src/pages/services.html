@@ -6,9 +6,14 @@
   <title>Pawfect Care — Services</title>
   <link rel="stylesheet" href="../assets/css/base.css" />
   <link rel="stylesheet" href="../assets/css/header.css" />
-  <link rel="stylesheet" href="../assets/css/services.css" />
+  <link rel="stylesheet" href="../assets/css/services/service-offer.css" />
+  <link rel="stylesheet" href="../assets/css/services/ourservices.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
 </head>
+
+<!--HEADER-->
 <body data-page="services">
   <header class="site-header">
     <div class="container header-inner">
@@ -18,7 +23,7 @@
       </a>
       <nav class="nav">
         <a class="nav-link" href="../index.html">Home</a>
-        <a class="nav-link" href="services.html">Services</a>
+        <a class="nav-link active" href="services.html">Services</a>
         <a class="nav-link" href="shop.html">Shop</a>
         <a class="nav-link" href="community.html">Community</a>
         <a class="nav-link" href="profile.html">Profile</a>
@@ -37,66 +42,123 @@
     </div>
   </header>
 
-  <main class="page services">
-    <section class="container">
-      <h1 class="page-title">Services</h1>
-      <p class="page-desc">Dịch vụ chăm sóc toàn diện cho thú cưng của bạn.</p>
+
+<!--MAIN-->  
+  <main class="services">
+    <section class="our-services">
+      <div class="svc-welcome-zone">
+        <img class="welcome-zone" src="../assets/images/Services/ServiceHero.svg" alt="" />
+      </div>
+      <div class="welcome-ourservices">
+        <h1 class="svc-welcome-title bagel-fat-one-regular" style="color: #4D2B12">Our Services</h1>
+        <div class="svc-welcome-decor">
+          <span class="line blue"></span>
+          <span class="dot pink"></span>
+          <span class="line mint"></span>
+        </div>
+      </div>
+      <!-- Services cards -->
+      <div class="services-grid">
+        <article class="svc-card pethomestay">
+          <div class="svc-content">
+            <div class="svc-header">
+              <h3 class="svc-title bagel-fat-one-regular" style="color: #4D2B12">Pet Homestay</h3>
+              <span class="svc-price quicksand-600">Starting at $35/night</span>
+            </div>
+            <p class="svc-desc" style="color: #7b470b">A home away from home! Your furry friend gets loving care in a cozy environment.</p>
+            <ul class="svc-features quicksand-600">
+              <li>24/7 Care & Monitoring</li>
+              <li>Large Play Areas</li>
+              <li>Daily Photo Updates</li>
+              <li>Medication Administration</li>
+            </ul>
+            <a class="btn primary" href="service-detail.html">VIEW PACKAGE and PRICING</a>
+          </div>
+          <img class="svc-image" src="../assets/images/Services/CatGoDown.svg" alt="Cat standing" />
+        </article>
+    
+        <article class="svc-card groomingspa">
+          <div class="svc-content">
+            <div class="svc-header">
+              <h3 class="svc-title bagel-fat-one-regular" style="color: #4D2B12">Grooming & Spa</h3>
+              <span class="svc-price quicksand-600">Starting at $25/session</span>
+            </div>
+            <p class="svc-desc" style="color: #7b470b">Professional grooming and gentle care that keeps your pet fresh, clean, and confident.</p>
+            <ul class="svc-features quicksand-600">
+              <li>Bath & Blow Dry</li>
+              <li>Nail Trimming & Ear Cleaning</li>
+              <li>Paw Moisturizing</li>
+              <li>Optional Perfumed Mist or Photo Session</li>
+            </ul>
+            <a class="btn primary" href="service-detail.html">VIEW PACKAGE and PRICING</a>
+          </div>
+          <img class="svc-image" src="../assets/images/Services/GroomingWhiteCatService.svg" alt="Grooming white cat" />
+        </article>
+      </div>
     </section>
+    <!-- Service offer -->
+    <section class="service-offer">
+    </section> 
   </main>
+
+
+<!--FOOTER -->
 <section class="site-cta">
-  <div class="container cta-inner">
-    <div class="cta-icons" aria-hidden="true">🐾 🐾 🐾</div>
-    <h2 class="cta-title">Ready to Give Your Pet the Best Care?</h2>
-    <p class="cta-desc">Book your first appointment today, and see why thousands of pet parents trust us.</p>
-    <div class="cta-actions">
-      <a href="services.html" class="btn primary">Book Now</a>
-      <a href="community.html" class="btn ghost">Contact Us</a>
-    </div>
-  </div>
-</section>
-<footer class="site-footer">
-  <div class="container footer-columns">
-    <div class="footer-col">
-      <div class="footer-brand">
-        <img class="brand-foot-img" src="../assets/icons/logopawfooter.svg" alt="Paw" />
-        <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+    <div class="container cta-inner">
+      <div class="cta-icons" aria-hidden="true">
+        <img class="cta-pattern" src="assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
       </div>
-      <p>Your trusted partner in pet care since 2020.</p>
-    </div>
-    <div class="footer-col">
-      <h4 class="footer-title">Services</h4>
-      <ul class="footer-links">
-        <li><a href="homestay-detail.html">Pet Boarding</a></li>
-        <li><a href="services.html">Dog Grooming</a></li>
-        <li><a href="services.html">Cat Grooming</a></li>
-        <li><a href="services.html">Pet Training</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4 class="footer-title">Company</h4>
-      <ul class="footer-links">
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Careers</a></li>
-        <li><a href="#">Blog</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4 class="footer-title">Follow Us</h4>
-      <div class="socials">
-        <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
-        <a href="https://www.instagram.com/" aria-label="Instagram"></a>
-        <a href="https://x.com/" aria-label="Twitter"></a>
+      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+      <div class="cta-actions">
+        <a href="pages/services.html" class="btn primary">Book Now</a>
+        <a href="pages/community.html" class="btn ghost">Contact Us</a>
       </div>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="container" align="center" style="color: #000000;">
-      © 2025 Pawfect Care. All rights reserved.
+  </section>
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img class="brand-foot-img" src="assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
+          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+        </div>
+        <p>Your trusted partner in pet care since 2020.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="pages/homestay-detail.html">Pet Boarding</a></li>
+          <li><a href="pages/services.html">Dog Grooming</a></li>
+          <li><a href="pages/services.html">Cat Grooming</a></li>
+          <li><a href="pages/services.html">Pet Training</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Follow Us</h4>
+        <div class="socials">
+          <a href="#" aria-label="Facebook"><img src="assets/icons/Footer/LogoSocialMediaFooter/facebook.svg" alt="Facebook" /></a>
+          <a href="#" aria-label="Instagram"><img src="assets/icons/Footer/LogoSocialMediaFooter/instagram.svg" alt="Instagram" /></a>
+          <a href="#" aria-label="Twitter"><img src="assets/icons/Footer/LogoSocialMediaFooter/twitter-x.svg" alt="Twitter/X" /></a>
+          <a href="#" aria-label="YouTube"><img src="assets/icons/Footer/LogoSocialMediaFooter/youtube.svg" alt="YouTube" /></a>
+        </div>
+      </div>
     </div>
-  </div>
-</footer>
-<script src="../assets/js/utils.js"></script>
-<script src="../assets/js/services.js"></script>
+    <div class="footer-bottom">
+      <div class="container" align="center" style="color: #000000;">
+        © 2025 Pawfect Care. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  <!-- Cuối file -->
 </body>
 </html>

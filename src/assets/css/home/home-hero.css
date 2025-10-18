@@ -1,6 +1,11 @@
 /* Layout wrapper */
-.home { display: grid; gap: clamp(32px, 6vw, 72px); padding-bottom: 64px;   background: #ffffff; }
-
+.home {
+  display: grid;
+  gap: clamp(32px, 6vw, 72px);
+  padding-bottom: 64px;
+  background: #ffffff;
+  
+}
 /* HERO — scale theo viewport width, baseline 1329px */
 .section,
 .home-hero {
@@ -13,6 +18,7 @@
   align-items: center;
   gap: clamp(12px, 1.81vw, 24px);
   padding-top: clamp(16px, 1.96vw, 26px);
+  background: #ffffff; 
 }
 .hero-title { 
   font-size: clamp(32px, 6vw, 56px);
@@ -161,3 +167,5 @@
 .feature-icon { width: 64px; height: 64px; border-radius: 999px; display: grid; place-items: center; background: var(--beige); margin: 0 auto 10px; }
 .feature-title { margin: 6px 0; font-weight: 800; }
 .feature-desc { color: #3E2723; }
+
+
