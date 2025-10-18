@@ -1,0 +1,221 @@
+/* Service Offer — center image with frame + 3:3 symmetric cards */
+.service-offer {
+  --so-scale: 0.9;           /* tỉ lệ thu nhỏ hiện tại của toàn section */
+  --so-top-space: 0.66;      /* 2/3 khoảng trống hiện tại */
+  padding-top: calc(clamp(24px, 6vw, 64px) * var(--so-top-space));
+  padding-bottom: calc(clamp(24px, 6vw, 64px) * var(--so-scale));
+}
+.service-offer .offer-inner {
+  width: min(1200px, 94vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* left | center | right */
+  gap: clamp(16px, 4vw, 40px);
+  align-items: center;
+  transform: scale(var(--so-scale));
+  transform-origin: top center;
+}
+
+/* CENTER — main image với tỉ lệ mới */
+.offer-center {
+  position: relative;
+  width: clamp(320px, 42vw, 520px);
+  justify-self: center;
+}
+/* CENTER — ảnh chính 70%, khung sau +20% */
+.offer-center .center-main {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  z-index: 2;
+}
+.offer-center .center-frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70%;            /* giảm 30% kích thước ảnh chính */
+  margin: 0 auto;        /* canh giữa */
+}
+.offer-center .center-frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: auto;
+  transform: translate(-50%, -50%) scale(1.20); /* tăng 10% khung sau */
+  z-index: 1;
+  pointer-events: none;
+}
+/* décor similar to home paw placement */
+.offer-center .decor {
+  position: absolute;
+  z-index: 3;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));
+}
+
+/* décor: lớn hơn 20% và nâng lên 20px */
+/* décor trên khung: +20% size, nâng lên 20px */
+.offer-center .decor-bone {
+  top: calc(12% - 20px);
+  right: 6%;
+  width: clamp(34px, 6vw, 52px); /* ~ +20% */
+  transform: rotate(8deg);
+}
+.offer-center .decor-paw {
+  left: 7%;
+  top: calc(24% - 20px);
+  width: clamp(32px, 5.5vw, 48px); /* ~ +20% */
+  transform: rotate(-10deg);
+}
+
+/* SIDE CARDS — đặt trên cùng và tăng emoji */
+.offer-cards {
+  display: grid;
+  gap: clamp(12px, 2vw, 20px);
+}
+.offer-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: clamp(12px, 1.8vw, 18px);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.12); /* drop shadow */
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* icon | text | number */
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 10;              /* toàn bộ khối card nằm trên khối center */
+}
+.offer-card .card-icon {
+  width: 28px;
+  height: 28px;
+}
+.offer-card .card-head {
+  display: contents; /* let icon + title align into columns */
+}
+.offer-card .card-title {
+  margin: 0;
+  color: #4D2B12;
+  line-height: 1.2;
+  font-size: clamp(16px, 1.8vw, 22px);
+}
+.offer-card .card-desc {
+  grid-column: 2 / span 1; /* text spans under title */
+  margin: 4px 0 0;
+  color: #6b5e56;
+  font-size: clamp(12px, 1.4vw, 15px);
+  line-height: 1.45;
+}
+.offer-card .num {
+  grid-column: 3 / span 1;
+  justify-self: end;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+  border: 1px solid rgba(0,0,0,0.06);
+  font-size: 18px;
+}
+/* pastel numbers — matching the look */
+.num-1 { background: #D9F2D6; color: #2E6B34; }
+.num-2 { background: #F6D3E5; color: #A23A6B; }
+.num-3 { background: #DDF2CF; color: #2F6A2F; }
+.num-4 { background: #CFF1BD; color: #356B18; }
+.num-5 { background: #BFD6F6; color: #194EA7; }
+.num-6 { background: #EBC6E6; color: #8D2B6B; }
+
+/* Responsive: stack when narrow */
+@media (max-width: 1024px) {
+  .service-offer .offer-inner {
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 4vw, 32px);
+  }
+  .offer-center { order: -1; } /* center image on top */
+  .offer-cards { grid-template-columns: 1fr; }
+}
+
+.offer-card .card-title {
+  margin: 0;
+  color: #4D2B12;
+  line-height: 1.2;
+  font-size: clamp(16px, 1.8vw, 22px);
+}
+.offer-card .card-desc {
+  grid-column: 2 / span 1; /* text spans under title */
+  margin: 4px 0 0;
+  color: #6b5e56;
+  font-size: clamp(12px, 1.4vw, 15px);
+  line-height: 1.45;
+}
+.offer-card .num {
+  grid-column: 3 / span 1;
+  justify-self: end;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+  border: 1px solid rgba(0,0,0,0.06);
+  font-size: 18px;
+}
+/* pastel numbers — matching the look */
+.num-1 { background: #D9F2D6; color: #2E6B34; }
+.num-2 { background: #F6D3E5; color: #A23A6B; }
+.num-3 { background: #DDF2CF; color: #2F6A2F; }
+.num-4 { background: #CFF1BD; color: #356B18; }
+.num-5 { background: #BFD6F6; color: #194EA7; }
+.num-6 { background: #EBC6E6; color: #8D2B6B; }
+
+/* Responsive: stack when narrow */
+@media (max-width: 1024px) {
+  .service-offer .offer-inner {
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 4vw, 32px);
+  }
+  .offer-center { order: -1; } /* center image on top */
+  .offer-cards { grid-template-columns: 1fr; }
+}
+
+.offer-card .emoji {
+  transform: scale(0.9);
+  transform-origin: center;
+  position: relative;
+  z-index: 11;              /* mỗi card ở lớp cao hơn nữa */
+  font-size: clamp(28px, 2.86vw, 39px); /* +~30% so với 22/2.2vw/30 */
+  line-height: 1;
+}
+
+/* CENTER — đẩy icon bone/paw lên thêm 50px */
+.offer-center .decor-bone {
+  top: calc(12% - 90px);    /* trước là -40px, nay cao thêm 50px => -90px */
+  right: 6%;
+  transform: rotate(8deg) scale(1.2);
+}
+.offer-center .decor-paw {
+  left: 7%;
+  top: calc(24% - 90px);    /* trước là -40px, nay cao thêm 50px => -90px */
+  transform: rotate(-10deg) scale(1.2);
+}
+/* Căn giữa tiêu đề phụ phía trên offer-inner */
+.service-offer .svc-welcome-subtitle {
+  text-align: center;
+  width: min(1200px, 94vw);
+  margin: 0 auto clamp(12px, 2.4vw, 20px);
+}
+.service-offer .offer-inner {
+  /* đã có margin: 0 auto; nên toàn khối được căn giữa */
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* left | center | right */
+  gap: clamp(16px, 4vw, 40px);
+  align-items: center;
+  transform: scale(var(--so-scale));
+  transform-origin: top center;
+}

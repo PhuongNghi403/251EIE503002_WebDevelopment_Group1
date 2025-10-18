@@ -256,7 +256,9 @@
   margin: 24px auto 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(10px, 2vw, 16px);
+  gap: clamp(10px, 2vw, 16px);            /* giá trị cũ */
+  column-gap: 0px;    /* giảm khoảng cách NGANG giữa 2 card */
+  row-gap: clamp(10px, 2vw, 16px);        /* giữ khoảng cách DỌC như trước */
   justify-items: center;
   align-items: start;
 }
@@ -269,11 +271,10 @@
   --media-h: clamp(200px, 28vw, 280px);
   border-radius: 20px;
   background: #fff;
-  box-shadow: var(--shadow);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.12);
   overflow: hidden;
-  /* Thu nhỏ toàn bộ card ~15% */
   transform: scale(0.85);
-  transform-origin: top center;  /* co từ đỉnh, tâm ngang để đối xứng */
+  transform-origin: top center;
 }
 
 /* Badge icon ngôi nhà ở góc trái trên cùng (pseudo-element) */
