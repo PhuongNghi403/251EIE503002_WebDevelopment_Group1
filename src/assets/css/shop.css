@@ -30,7 +30,7 @@
 .hero-left { 
   flex: 0 0 45%; 
   z-index: 2;
-  margin-right: auto;
+  margin-right: 0;
 }
 
 .hero-right { 
@@ -518,6 +518,161 @@
   margin: 0 auto;
 }
 
+/* Sale Section */
+.sale-section {
+  background: #F4E8DA;
+  padding: 80px 0;
+  position: relative;
+}
+
+.sale-content {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* bring side blocks closer to center */
+  gap: 24px; /* tighter spacing */
+  min-height: 300px;
+}
+
+.sale-left {
+  flex: 0 0 auto; /* don't force extra width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sale-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.sale-text {
+  font: 400 24px/1.2 'Bagel Fat One';
+  color: #88BAFF;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sale-percentage {
+  font: 400 32px/1.2 'Bagel Fat One';
+  color: #4D2B12;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sale-center {
+  flex: 0 0 auto; /* prevent stretching so sides sit near product */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.product-showcase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  max-width: 320px; /* allow larger single product */
+  width: auto;
+}
+
+.product-item {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.product-item img {
+  width: 250px; /* larger single product image */
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));
+  transition: all 0.3s ease;
+}
+
+.product-item:hover {
+  transform: translateY(-8px);
+}
+
+.product-item:hover img {
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.15));
+}
+
+/* removed legacy multi-product modifiers (pro-dura-mini, premium, etc.) */
+
+
+.sale-right {
+  flex: 0 0 auto; /* don't force extra width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.pricing-info {
+  text-align: center;
+  position: relative;
+}
+
+.price-range {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.price-label {
+  font: 400 16px/1.2 'Lexend Deca';
+  color: #666;
+  text-transform: lowercase;
+}
+
+.price-from {
+  font: 700 24px/1.2 'Lexend Deca';
+  color: #4D2B12;
+}
+
+.price-to {
+  font: 400 18px/1.2 'Lexend Deca';
+  color: #4D2B12;
+}
+
+.price-underline {
+  width: 60px;
+  height: 2px;
+  background: #88BAFF;
+  margin: 8px auto 0;
+  border-radius: 1px;
+}
+
+.buy-now-btn {
+  background: #4D2B12;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 32px;
+  font: 600 16px/1.2 'Lexend Deca';
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(77, 43, 18, 0.2);
+}
+
+.buy-now-btn:hover {
+  background: #3A2110;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(77, 43, 18, 0.3);
+}
+
+.buy-now-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(77, 43, 18, 0.2);
+}
+
 /* CTA Section */
 .site-cta {
   background: linear-gradient(135deg, #88BAFF 0%, #A8C8FF 100%);
@@ -533,6 +688,7 @@
 
 .cta-icons {
   font-size: 32px;
+  justify-content: center;
   margin-bottom: 20px;
   opacity: 0.8;
 }
@@ -678,6 +834,35 @@
     font-size: 20px;
   }
 
+  .sale-content {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
+  
+  .sale-left,
+  .sale-right {
+    flex: none;
+  }
+  
+  .product-showcase {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  /* scale single product on tablets */
+  .sale-section .product-item img {
+    width: 180px;
+  }
+  
+  .sale-text {
+    font-size: 20px;
+  }
+  
+  .sale-percentage {
+    font-size: 28px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -735,4 +920,322 @@
   .feature-desc {
     font-size: 14px;
   }
+  
+  .sale-section {
+    padding: 60px 0;
+  }
+  
+  .sale-content {
+    gap: 25px;
+  }
+  
+  /* scale single product on phones */
+  .sale-section .product-item img {
+    width: 140px;
+  }
+  
+  .sale-text {
+    font-size: 18px;
+  }
+  
+  .sale-percentage {
+    font-size: 24px;
+  }
+  
+  .price-from {
+    font-size: 20px;
+  }
+  
+  .price-to {
+    font-size: 16px;
+  }
+  
+  .buy-now-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+}
+/* --- Product Grid Section --- */
+.products-section {
+  padding: 80px 0;
+  background-color: #FFFEF9; /* A soft background for the section */
+}
+
+.shop-title-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.shop-title-header .shop-title-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.shop-title-header h2 {
+  font-family: 'Bagel Fat One', system-ui;
+  font-size: 28px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #4D2B12;
+  margin: 0;
+}
+
+.shop-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* --- Filter Sidebar --- */
+.products-filters {
+  flex: 0 0 260px; /* Sidebar width */
+}
+
+.filter-box {
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 16px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.filter-title {
+  font-family: 'Lexend Deca', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: #4D2B12;
+  margin: 0;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.filter-group h4 {
+  font-family: 'Lexend Deca', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #4D2B12;
+  margin: 0 0 15px 0;
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-options label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 16px;
+  color: #4D2B12;
+  cursor: pointer;
+}
+
+.filter-options input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: #4D2B12;
+}
+
+/* --- Price Slider --- */
+.price-slider {
+  position: relative;
+}
+.price-slider .slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: #E5E5E5;
+  border-radius: 9999px;
+  outline: none;
+}
+.price-slider .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #BFD6F6;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 0 0 1px #B7B5B5;
+}
+.price-values {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 14px;
+  color: #4D2B12;
+}
+
+
+/* --- Products Grid --- */
+.products-grid-wrapper {
+  flex: 1;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* --- Product Card --- */
+.product-card {
+  background: #FFFFFF;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.card-image-container {
+  position: relative;
+  background: #F1F1F1;
+  padding: 20px;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  color: #8C8C8C;
+  font-size: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: all 0.2s ease;
+}
+
+.wishlist-btn.active,
+.wishlist-btn:hover {
+  border-color: #FF6B6B;
+  color: #FF6B6B;
+}
+
+.card-details {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #FEC7E4;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  flex-grow: 1; /* Makes all cards equal height */
+}
+
+.card-title {
+  font-family: 'Bagel Fat One', system-ui;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #252525;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.card-meta {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 16px;
+  color: #595959;
+}
+
+.card-price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto; /* Pushes price and actions to bottom */
+}
+
+.card-price .current-price {
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #4D2B12;
+}
+
+.card-price .original-price {
+  font-family: 'Assistant', sans-serif;
+  font-size: 16px;
+  color: #595959;
+  text-decoration: line-through;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-buy {
+  flex-grow: 1;
+  background: #4D2B12;
+  color: #F4E8DA;
+  border: none;
+  border-radius: 32px;
+  padding: 8px 15px;
+  font-family: 'Assistant', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+.btn-buy:hover {
+  background: #3a2110;
+}
+
+.btn-cart {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #CCCCCC;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #595959;
+  font-size: 20px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.btn-cart:hover {
+  background-color: #f1f1f1;
+  border-color: #aaa;
 }
