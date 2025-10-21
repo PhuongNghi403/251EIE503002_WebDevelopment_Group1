@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProductCarousel();
   initProductInteractions();
   initWishlistAndCart();
-  initTailoredNutrition();
+  initProductCardButtons();
 });
 
 // Initialize shop page
@@ -243,8 +243,8 @@ function initWishlistAndCart() {
     }
   }
   
-  // Add to cart function
-  function addToCart(productName, productImage, price = 0) {
+  // Add to cart function (local scope for carousel cards)
+  function addToCartCarousel(productName, productImage, price = 0) {
     const existingItem = cart.find(item => item.name === productName);
     if (existingItem) {
       existingItem.quantity += 1;
@@ -260,7 +260,7 @@ function initWishlistAndCart() {
     }
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartButton();
-    showNotification(`${productName} added to cart!`, 'success');
+    showNotification(`${productName} đã được thêm vào giỏ hàng!`, 'success');
   }
   
   // Add wishlist and cart buttons to product cards
@@ -268,6 +268,7 @@ function initWishlistAndCart() {
   cards.forEach(card => {
     const productName = card.querySelector('h3').textContent;
     const productImage = card.querySelector('img').src;
+    const productPrice = parseFloat(card.dataset.price) || 0;
     
     // Create action buttons container
     const actionsContainer = document.createElement('div');
@@ -331,7 +332,7 @@ function initWishlistAndCart() {
     
     cartBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      addToCart(productName, productImage);
+      addToCartCarousel(productName, productImage, productPrice);
     });
     
     // Hover effects
@@ -379,6 +380,114 @@ function initWishlistAndCart() {
   // Initialize button states
   updateWishlistButton();
   updateCartButton();
+  
+  // Add event listeners for product card buttons
+  initProductCardButtons();
+}
+
+// Initialize product card buttons (Buy Now, Cart buttons)
+function initProductCardButtons() {
+  // Handle Buy Now buttons
+  document.querySelectorAll('.btn-buy').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const productCard = btn.closest('.product-card');
+      const productName = productCard.querySelector('.card-title').textContent;
+      const productImage = productCard.querySelector('img').src;
+      const currentPrice = productCard.querySelector('.current-price').textContent;
+      const price = parseFloat(currentPrice.replace('$', '').replace(',', ''));
+      
+      // Add to cart
+      addToCart(productName, productImage, price);
+      
+      // Navigate to cart page
+      setTimeout(() => {
+        window.location.href = 'cart.html';
+      }, 1000);
+    });
+  });
+  
+  // Handle Cart buttons in product cards
+  document.querySelectorAll('.btn-cart').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const productCard = btn.closest('.product-card');
+      const productName = productCard.querySelector('.card-title').textContent;
+      const productImage = productCard.querySelector('img').src;
+      const currentPrice = productCard.querySelector('.current-price').textContent;
+      const price = parseFloat(currentPrice.replace('$', '').replace(',', ''));
+      
+      // Add to cart
+      addToCart(productName, productImage, price);
+    });
+  });
+}
+
+// Add to cart function (global)
+function addToCart(productName, productImage, price = 0) {
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const existingItem = cart.find(item => item.name === productName);
+  
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({
+      id: Date.now(),
+      name: productName,
+      image: productImage,
+      price: price,
+      quantity: 1,
+      addedAt: new Date().toISOString()
+    });
+  }
+  
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartButton();
+  showNotification(`${productName} đã được thêm vào giỏ hàng!`, 'success');
+}
+
+// Update cart button with count
+function updateCartButton() {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const cartBtn = document.querySelector('.icon-btn[aria-label="Cart"]');
+  
+  if (cartBtn) {
+    const count = cart.reduce((total, item) => total + item.quantity, 0);
+    cartBtn.setAttribute('data-count', count);
+    
+    // Add count badge if items exist
+    if (count > 0) {
+      let badge = cartBtn.querySelector('.count-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'count-badge';
+        badge.style.cssText = `
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          background: #ff4757;
+          color: white;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+        `;
+        cartBtn.appendChild(badge);
+      }
+      badge.textContent = count;
+    } else {
+      const badge = cartBtn.querySelector('.count-badge');
+      if (badge) badge.remove();
+    }
+  }
 }
 
 // Notification system
