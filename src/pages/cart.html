@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../assets/css/base.css" />
   <link rel="stylesheet" href="../assets/css/header.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
-  <link rel="stylesheet" href="../assets/css/shop/cart.css" />
+  <link rel="stylesheet" href="../assets/css/cart.css" />
 </head>
 <body data-page="cart">
   <header class="site-header">
@@ -19,7 +19,7 @@
       <nav class="nav">
         <a class="nav-link" href="../index.html">Home</a>
         <a class="nav-link" href="services/services.html">Services</a>
-        <a class="nav-link" href="shop/shop.html">Shop</a>
+        <a class="nav-link" href="shop.html">Shop</a>
         <a class="nav-link" href="community.html">Community</a>
         <a class="nav-link" href="profile.html">Profile</a>
       </nav>
@@ -38,24 +38,264 @@
   </header>
 
   <main class="page cart">
-    <div class="cart-container">
+    <div class="container">
+      <!-- Shopping Cart Section -->
+      <div class="cart-section">
       <div class="cart-header">
-        <img src="../assets/icons/HomestayDetail/cart_icon.svg" alt="Cart Icon" class="cart-icon" />
-        <h1>Shopping Cart</h1>
+          <h1 class="cart-title">Shopping Cart</h1>
+        </div>
+        
+        <div class="cart-table-container">
+          <table class="cart-table" border='0'>
+            <!-- Table Header -->
+            <thead>
+              <tr class="cart-table-header">
+                <th class="header-checkbox">
+                  <input type="checkbox" id="selectAll" checked>
+                  <label for="selectAll"></label>
+                </th>
+                <th class="header-text">Products</th>
+                <th class="header-text">Unit Price</th>
+                <th class="header-text">Quantity</th>
+                <th class="header-text">Variant</th>
+                <th class="header-text">Total</th>
+                <th class="header-text"></th>
+              </tr>
+            </thead>
+            
+            <!-- Table Body -->
+            <tbody class="cart-items">
+              <!-- Item 1 -->
+              <tr class="cart-item">
+                <td class="item-checkbox">
+                  <input type="checkbox" id="item1" checked>
+                  <label for="item1"></label>
+                </td>
+                <td class="item-info-cell">
+                  <div class="item-info">
+                    <div class="item-image">
+                      <img src="../assets/images/Shop/drools.png" alt="Premium Dog Food">
+                    </div>
+                    <div class="item-details">
+                      <h3 class="item-name">Premium Dog Food - Chicken & Veggie Crunch</h3>
+                      <p class="item-weight">Weight: 10kg</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="unit-price">$43.98</td>
+                <td class="quantity-cell">
+                  <div class="quantity-selector">
+                    <button class="quantity-btn minus">-</button>
+                    <span class="quantity-value">1</span>
+                    <button class="quantity-btn plus">+</button>
+                  </div>
+                </td>
+                <td class="variant-cell">
+                  <div class="variant-selector">
+                    <select class="variant-dropdown">
+                      <option value="10kg">10kg</option>
+                      <option value="5kg">5kg</option>
+                      <option value="15kg">15kg</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="item-total">$43.98</td>
+                <td class="delete-cell">
+                  <button class="delete-btn" aria-label="Remove item">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                      <path fill="#FF0000" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+              
+              <!-- Item 2 -->
+              <tr class="cart-item">
+                <td class="item-checkbox">
+                  <input type="checkbox" id="item2" checked>
+                  <label for="item2"></label>
+                </td>
+                <td class="item-info-cell">
+                  <div class="item-info">
+                    <div class="item-image">
+                      <img src="../assets/images/Shop/RoyalCanin.svg" alt="Royal Canin Dog Food">
+                    </div>
+                    <div class="item-details">
+                      <h3 class="item-name">Premium Dog Food - Chicken & Veggie Crunch</h3>
+                      <p class="item-weight">Weight: 10kg</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="unit-price">$43.98</td>
+                <td class="quantity-cell">
+                  <div class="quantity-selector">
+                    <button class="quantity-btn minus">-</button>
+                    <span class="quantity-value">1</span>
+                    <button class="quantity-btn plus">+</button>
+                  </div>
+                </td>
+                <td class="variant-cell">
+                  <div class="variant-selector">
+                    <select class="variant-dropdown">
+                      <option value="10kg">10kg</option>
+                      <option value="5kg">5kg</option>
+                      <option value="15kg">15kg</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="item-total">$43.98</td>
+                <td class="delete-cell">
+                  <button class="delete-btn" aria-label="Remove item">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                      <path fill="#FF0000" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="cart-content">
-        <div class="cart-items" id="cartItems">
-          <!-- Cart items will be populated by JavaScript -->
+      <!-- You May Also Like Section -->
+      <div class="recommendations-section">
+        <div class="recommendations-header">
+          <h2 class="recommendations-title">You May Also Like</h2>
+          <p class="recommendations-subtitle">Based on items in your cart</p>
         </div>
 
-        <div class="cart-summary" id="cartSummary">
-          <!-- Cart summary will be populated by JavaScript -->
+        <div class="recommendations-grid">
+          <!-- Recommendation 1 -->
+          <div class="recommendation-card">
+            <div class="card-image">
+              <img src="../assets/images/Shop/BoneShapedPetToys.svg" alt="Interactive Treat Puzzle Toy">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Buddy - Interactive Treat Puzzle Toy</h3>
+              <div class="card-actions">
+                <span class="card-price">$10.60</span>
+                <div class="card-buttons">
+                  <button class="wishlist-btn" aria-label="Add to Wishlist">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                      <path fill="#6B6358" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                  </button>
+                  <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recommendation 2 -->
+          <div class="recommendation-card">
+            <div class="card-image">
+              <img src="../assets/images/Shop/Wellness.svg" alt="Natural Dog Biscuit Treat">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">LA MEEPTS - Natural Dog/Puppy Biscuit Treat</h3>
+              <div class="card-actions">
+                <span class="card-price">$10.60</span>
+                <div class="card-buttons">
+                  <button class="wishlist-btn" aria-label="Add to Wishlist">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                      <path fill="#6B6358" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                  </button>
+                  <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recommendation 3 -->
+          <div class="recommendation-card">
+            <div class="card-image">
+              <img src="../assets/images/Shop/StuffedAnimals.svg" alt="Reflective Collar">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Star - Large Dog Guardian Reflective Collar</h3>
+              <div class="card-actions">
+                <span class="card-price">$10.60</span>
+                <div class="card-buttons">
+                  <button class="wishlist-btn" aria-label="Add to Wishlist">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                      <path fill="#6B6358" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                  </button>
+                  <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recommendation 4 -->
+          <div class="recommendation-card">
+            <div class="card-image">
+              <img src="../assets/images/Shop/DogToysRawhide.svg" alt="Orthopedic Pet Bed">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Dazzling - Cozy Orthopedic Bed For Every Pet Size</h3>
+              <div class="card-actions">
+                <span class="card-price">$10.60</span>
+                <div class="card-buttons">
+                  <button class="wishlist-btn" aria-label="Add to Wishlist">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                      <path fill="#6B6358" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                  </button>
+                  <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Cart Summary Section -->
+      <div class="cart-summary-section">
+        <div class="summary-content">
+          <div class="summary-left">
+            <span class="selected-items">Selected (2 items)</span>
+            <div class="discount-code">
+              <input type="text" placeholder="Enter code" class="code-input">
+              <button class="apply-btn">Apply</button>
+            </div>
+          </div>
+          <div class="summary-right">
+            <div class="price-breakdown">
+              <div class="price-row">
+                <span class="price-label">Subtotal</span>
+                <span class="price-value">$100</span>
+              </div>
+              <div class="price-row discount">
+                <span class="price-label">Discount</span>
+                <span class="price-value">-$20</span>
+              </div>
+              <div class="price-row total">
+                <span class="price-label">Total</span>
+                <span class="price-value">$80</span>
+              </div>
+            </div>
+            <button class="checkout-btn">Checkout</button>
+          </div>
         </div>
       </div>
     </div>
   </main>
 
+  <section class="site-cta">
+    <div class="container cta-inner">
+      <div class="cta-icons" aria-hidden="true">
+        <img class="cta-pattern" src="../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+      </div>
+      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+      <div class="cta-actions">
+        <a href="services/services.html" class="btn primary">Book Now</a>
+        <a href="community.html" class="btn ghost">Contact Us</a>
+      </div>
+    </div>
+  </section>
   <footer class="site-footer">
     <div class="container footer-columns">
       <div class="footer-col">
