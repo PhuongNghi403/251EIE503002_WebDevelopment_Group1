@@ -56,15 +56,20 @@
       e.preventDefault();
       if (!validateSignIn()) return;
       siSubmit.classList.add("loading");
-      setTimeout(async () => {
-        const users = getUsers();
-        const found = users.find(u => (u.phone === siPhone.value) && u.password === siPass.value);
+      
+      const users = getUsers();
+      const found = users.find(u => (u.phone === siPhone.value) && u.password === siPass.value);
+      
+      if (!found) { 
         siSubmit.classList.remove("loading");
-        if (!found) { showError("si-pass-error", "Incorrect phone or password."); return; }
-        logUserActivity(found.email, { type: "signin", detail: "User signed in" });
-        setSession(found);
-        window.location.href = "../index.html";
-      }, 600);
+        showError("si-pass-error", "Incorrect phone or password."); 
+        return; 
+      }
+      
+      logUserActivity(found.id, "signin", "User signed in successfully");
+      setSession(found);
+      siSubmit.classList.remove("loading");
+      window.location.href = "../index.html";
     });
 
     // Sign Up
@@ -72,28 +77,30 @@
       e.preventDefault();
       if (!validateSignUp()) return;
       suSubmit.classList.add("loading");
-      setTimeout(async () => {
-        const users = getUsers();
-        if (users.some(u => u.email === suEmail.value)) {
-          suSubmit.classList.remove("loading");
-          showError("su-email-error", "This email is already in use.");
-          return;
-        }
-        const newUser = {
-          firstName: suFirst.value.trim(),
-          lastName: suLast.value.trim(),
-          email: suEmail.value.trim(),
-          phone: suPhone.value.trim(),
-          password: suPass.value,
-          activities: []
-        };
-        users.push(newUser);
-        setUsers(users);
-        logUserActivity(newUser.email, { type: "signup", detail: "User created via form" });
-        setSession(newUser);
+      
+      const users = getUsers();
+      if (users.some(u => u.email === suEmail.value)) {
         suSubmit.classList.remove("loading");
-        window.location.href = "../index.html";
-      }, 800);
+        showError("su-email-error", "This email is already in use.");
+        return;
+      }
+      
+      const newUser = {
+        id: Date.now(),
+        firstName: suFirst.value.trim(),
+        lastName: suLast.value.trim(),
+        email: suEmail.value.trim(),
+        phone: suPhone.value.trim(),
+        password: suPass.value,
+        createdAt: new Date().toISOString()
+      };
+      
+      users.push(newUser);
+      setUsers(users);
+      logUserActivity(newUser.id, "signup", "User created via form");
+      setSession(newUser);
+      suSubmit.classList.remove("loading");
+      window.location.href = "../index.html";
     });
 
     // Social buttons (demo)

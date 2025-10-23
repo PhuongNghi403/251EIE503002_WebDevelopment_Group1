@@ -24,9 +24,9 @@
         <a class="nav-link" href="profile.html">Profile</a>
       </nav>
       <div class="header-actions">
-        <button class="icon-btn" aria-label="Wishlist">
+        <a class="icon-btn" href="favorite.html" aria-label="Wishlist">
           <img src="../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
-        </button>
+        </a>
         <a class="icon-btn" href="cart.html" aria-label="Cart">
           <img src="../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
         </a>
@@ -57,15 +57,7 @@
             <div class="shadow"></div>
           </figure>
 
-          <div class="pet-accessory">
-            <img src="../assets/images/Shop/PetAccessory.svg" alt="Pet Accessories" />
-          </div>
-
-          <div class="hero-note">
-            <h3>November Special</h3>
-            <h2>PAWFECT11</h2>
-            <p>Get 11% off Drools Puppy Nutrition this month! Use code PAWFECT11 at checkout.</p>
-          </div>
+          
         </div>
       </div>
 
@@ -130,7 +122,7 @@
         <div class="nutrition-features">
           <div class="feature-block">
             <div class="feature-icon">
-              <img src="../assets/images/Shop/NutritionAndHealth.svg" alt="Nutrition And Health" />
+              <img src="../assets/images/Shop/ExpertGuidance.svg" alt="Nutrition And Health" />
             </div>
             <h3 class="feature-title">Nutrition And Health</h3>
             <p class="feature-desc">Proper nutrition is key to your pet's health, supporting growth, energy, and overall well-being.</p>
@@ -154,12 +146,405 @@
         </div>
       </div>
     </section>
+
+    <!-- Sale Section -->
+    <section class="sale-section">
+      <div class="container">
+        <div class="sale-content">
+          <div class="sale-left">
+            <div class="sale-badge">
+              <span class="sale-text">SALE OFF</span>
+              <span class="sale-percentage">UP TO 50%</span>
+            </div>
+          </div>
+          
+          <div class="sale-center">
+            <div class="product-showcase">
+              <div class="product-item pro-dura">
+                <img src="../assets/images/Shop/Produra.svg" alt="PRO-DURA" />
+              </div>
+              
+            </div>
+          </div>
+          
+          <div class="sale-right">
+            <div class="pricing-info">
+              <div class="price-range">
+                <span class="price-label">from</span>
+                <span class="price-from">$20</span>
+                <span class="price-to">to $50</span>
+              </div>
+              <div class="price-underline"></div>
+            </div>
+            <button class="buy-now-btn">BUY NOW</button>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <section class="products-section">
+    <div class="container">
+      <div class="shop-title-header">
+        <img src="../assets/icons/Shop/icon_Shop.svg" alt="Shop Icon" class="shop-title-icon" />
+        <h2>Shop</h2>
+      </div>
+      <div class="shop-layout">
+        <aside class="products-filters">
+          <div class="filter-box">
+            <h3 class="filter-title">Filters</h3>
+            
+            <div class="filter-group">
+              <h4>Categories</h4>
+              <div class="filter-options">
+              <label><span class="dot dot-dog-toy"></span><input type="checkbox" name="category" value="dog-toy"> Dog Toys</label>
+              <label><span class="dot dot-cat-food-dry"></span><input type="checkbox" name="category" value="cat-food-dry"> Cat Food (Dry)</label>
+              <label><span class="dot dot-cat-food-wet"></span><input type="checkbox" name="category" value="cat-food-wet"> Cat Food (Wet)</label>
+              <label><span class="dot dot-dog-food-dry"></span><input type="checkbox" name="category" value="dog-food-dry"> Dog Food (Dry)</label>
+            </div>
+            </div>
+  
+            <div class="filter-group">
+              <h4>Pet Type</h4>
+              <div class="filter-options">
+                <label><input type="checkbox" name="pet_type" value="dogs"> Dogs</label>
+                <label><input type="checkbox" name="pet_type" value="cats"> Cats</label>
+              </div>
+            </div>
+  
+            <div class="filter-group">
+              <h4>Price Range</h4>
+              <div class="price-slider">
+                <input type="range" min="0" max="5" value="5" class="slider" id="priceSlider">
+                <div class="price-values">
+                  <span>$0</span>
+                  <span>$100</span>
+                  <span>$200</span>
+                  <span>$300</span>
+                  <span>$400</span>
+                  <span>>$500</span>
+                </div>
+                <div class="price-display">
+                  <span id="currentPriceRange">>$500</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+  
+        <main class="products-grid-wrapper">
+          <div class="filter-results">
+            <span class="results-count">Loading products...</span>
+          </div>
+          <div class="products-grid">
+            <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/Basketball.svg" alt="Squeaky Sports Ball Set">
+                <button class="wishlist-btn" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">SQUEAKY SPORTS BALL SET (BASKETBALL & FOOTBALL)</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (4.0)</span>
+                  <span class="sold">529 Sold</span>
+                </div>
+                <div class="item-weight">Category: Dog Toy</div>
+                <div class="card-price">
+                  <span class="current-price">$300.00</span>
+                  <span class="original-price">$306.00</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+  
+            <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/BoneShapedPetToys.svg" alt="Bone Shaped Pet Toys">
+                <button class="wishlist-btn" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">Bone Shaped Pet Toys</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (4.5)</span>
+                  <span class="sold">900 Sold</span>
+                </div>
+                <div class="item-weight">Category: Dog Toy</div>
+                <div class="card-price">
+                  <span class="current-price">$700.00</span>
+                  <span class="original-price">$778.35</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+            </article>
+  
+             <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/BallForDog.svg" alt="Ball for Dog">
+                <button class="wishlist-btn" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">Ball for Dog</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (3.0)</span>
+                  <span class="sold">12 Sold</span>
+                </div>
+                <div class="item-weight">Category: Dog Toy</div>
+                <div class="card-price">
+                  <span class="current-price">$300.00</span>
+                  <span class="original-price">$475.22</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+            </article>
+
+            <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/FilletOLakes.svg" alt="FILLET 'O' LAKES - KIT CAT">
+                <button class="wishlist-btn active" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">FILLET 'O' LAKES - KIT CAT</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (5.0)</span>
+                  <span class="sold">1000+ Sold</span>
+                </div>
+                <div class="item-weight">Category: Cat Food (Dry)</div>
+                <div class="card-price">
+                  <span class="current-price">$100.00</span>
+                  <span class="original-price">$200.00</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/EncoreCatFood.svg" alt="ENCORE - CAT FOOD">
+                <button class="wishlist-btn active" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">ENCORE - CAT FOOD</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (4.0)</span>
+                  <span class="sold">329 Sold</span>
+                </div>
+                <div class="item-weight">Category: Cat Food (Dry)</div>
+                <div class="card-price">
+                  <span class="current-price">$400.00</span>
+                  <span class="original-price">$450.54</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/Wellness.svg" alt="WELLNESS - SIGNATURE SELECTS">
+                <button class="wishlist-btn" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">WELLNESS - SIGNATURE SELECTS</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (3.0)</span>
+                  <span class="sold">12 Sold</span>
+                </div>
+                <div class="item-weight">Category: Cat Food (Wet)</div>
+                <div class="card-price">
+                  <span class="current-price">$200.00</span>
+                  <span class="original-price">$299.01</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/Friskies.svg" alt="FRISKIES WITH CHICKEN">
+                <button class="wishlist-btn active" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">FRISKIES WITH CHICKEN</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (5.0)</span>
+                  <span class="sold">1000+ Sold</span>
+                </div>
+                <div class="item-weight">Category: Cat Food (Wet)</div>
+                <div class="card-price">
+                  <span class="current-price">$400.00</span>
+                  <span class="original-price">$450.54</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/Tamagotchi.svg" alt="THÉRIE - THE FINEST">
+                <button class="wishlist-btn active" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">THÉRIE - THE FINEST</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (4.0)</span>
+                  <span class="sold">329 Sold</span>
+                </div>
+                <div class="item-weight">Category: Cat Food (Wet)</div>
+                <div class="card-price">
+                  <span class="current-price">$550.00</span>
+                  <span class="original-price">$601.13</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/Pedigree.svg" alt="PEDIGREE - DOG FOOD">
+                <button class="wishlist-btn" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">PEDIGREE - DOG FOOD</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (3.0)</span>
+                  <span class="sold">12 Sold</span>
+                </div>
+                <div class="item-weight">Category: Dog Food (Dry)</div>
+                <div class="card-price">
+                  <span class="current-price">$200.00</span>
+                  <span class="original-price">$275.43</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/StuffedAnimals.svg" alt="STUFFED ANIMALS & TOYS">
+                <button class="wishlist-btn active" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">STUFFED ANIMALS & TOYS</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (4.0)</span>
+                  <span class="sold">329 Sold</span>
+                </div>
+                <div class="item-weight">Category: Dog Toy</div>
+                <div class="card-price">
+                  <span class="current-price">$700.00</span>
+                  <span class="original-price">$778.35</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card">
+              <div class="card-image-container">
+                <img src="../assets/images/Shop/DogToysRawhide.svg" alt="DOG TOYS RAWHIDE">
+                <button class="wishlist-btn" aria-label="Add to Wishlist">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+              </div>
+              <div class="card-details">
+                <h3 class="card-title">DOG TOYS RAWHIDE</h3>
+                <div class="card-meta">
+                  <span class="rating">⭐ (3.0)</span>
+                  <span class="sold">12 Sold</span>
+                </div>
+                <div class="item-weight">Category: Dog Toy</div>
+                <div class="card-price">
+                  <span class="current-price">$190.00</span>
+                  <span class="original-price">$202.87</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-buy">Buy Now</button>
+                  <button class="btn-cart" aria-label="Add to Cart">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+  
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
 <section class="site-cta">
   <div class="container cta-inner">
-    <div class="cta-icons" aria-hidden="true">🐾 🐾 🐾</div>
-    <h2 class="cta-title">Ready to Give Your Pet the Best Care?</h2>
-    <p class="cta-desc">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+    <div class="cta-icons" aria-hidden="true">
+      <img class="cta-pattern" src="../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+    </div>
+    <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+    <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
     <div class="cta-actions">
       <a href="services/services.html" class="btn primary">Book Now</a>
       <a href="community.html" class="btn ghost">Contact Us</a>

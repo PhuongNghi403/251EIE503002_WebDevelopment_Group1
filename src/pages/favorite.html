@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pawfect Care — Shopping Cart</title>
+  <title>Pawfect Care — My Favorites</title>
   <link rel="stylesheet" href="../assets/css/base.css" />
   <link rel="stylesheet" href="../assets/css/header.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
-  <link rel="stylesheet" href="../assets/css/cart.css" />
+  <link rel="stylesheet" href="../assets/css/favorite.css" />
 </head>
-<body data-page="cart">
+<body data-page="favorite">
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="../index.html">
@@ -37,121 +37,35 @@
     </div>
   </header>
 
-  <main class="page cart">
+  <main class="page favorite">
     <div class="container">
-      <!-- Shopping Cart Section -->
-      <div class="cart-section">
-      <div class="cart-header">
-          <h1 class="cart-title">Shopping Cart</h1>
+      <!-- Favorites Section -->
+      <div class="favorite-section">
+        <div class="favorite-header">
+          <h1 class="favorite-title">My Favorites</h1>
         </div>
         
-        <div class="cart-table-container">
-          <table class="cart-table" border='0'>
+        <div class="favorite-table-container">
+          <table class="favorite-table" border='0'>
             <!-- Table Header -->
             <thead>
-              <tr class="cart-table-header">
+              <tr class="favorite-table-header">
                 <th class="header-checkbox">
-                  <input type="checkbox" id="selectAll" checked>
+                  <input type="checkbox" id="selectAll">
                   <label for="selectAll"></label>
                 </th>
                 <th class="header-text">Products</th>
-                <th class="header-text">Unit Price</th>
-                <th class="header-text">Quantity</th>
-                <th class="header-text">Variant</th>
-                <th class="header-text">Total</th>
+                <th class="header-text">Price</th>
+                <th class="header-text">Category</th>
+                <th class="header-text">Added Date</th>
+                <th class="header-text">Actions</th>
                 <th class="header-text"></th>
               </tr>
             </thead>
             
             <!-- Table Body -->
-            <tbody class="cart-items">
-              <!-- Item 1 -->
-              <tr class="cart-item">
-                <td class="item-checkbox">
-                  <input type="checkbox" id="item1" checked>
-                  <label for="item1"></label>
-                </td>
-                <td class="item-info-cell">
-                  <div class="item-info">
-                    <div class="item-image">
-                      <img src="../assets/images/Shop/drools.png" alt="Premium Dog Food">
-                    </div>
-                    <div class="item-details">
-                      <h3 class="item-name">Premium Dog Food - Chicken & Veggie Crunch</h3>
-                      
-                    </div>
-                  </div>
-                </td>
-                <td class="unit-price">$43.98</td>
-                <td class="quantity-cell">
-                  <div class="quantity-selector">
-                    <button class="quantity-btn minus">-</button>
-                    <span class="quantity-value">1</span>
-                    <button class="quantity-btn plus">+</button>
-                  </div>
-                </td>
-                <td class="variant-cell">
-                  <div class="variant-selector">
-                    <select class="variant-dropdown">
-                      <option value="10kg">10kg</option>
-                      <option value="5kg">5kg</option>
-                      <option value="15kg">15kg</option>
-                    </select>
-                  </div>
-                </td>
-                <td class="item-total">$43.98</td>
-                <td class="delete-cell">
-                  <button class="delete-btn" aria-label="Remove item">
-                    <svg viewBox="0 0 24 24" width="20" height="20">
-                      <path fill="#FF0000" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-              
-              <!-- Item 2 -->
-              <tr class="cart-item">
-                <td class="item-checkbox">
-                  <input type="checkbox" id="item2" checked>
-                  <label for="item2"></label>
-                </td>
-                <td class="item-info-cell">
-                  <div class="item-info">
-                    <div class="item-image">
-                      <img src="../assets/images/Shop/RoyalCanin.svg" alt="Royal Canin Dog Food">
-                    </div>
-                    <div class="item-details">
-                      <h3 class="item-name">Premium Dog Food - Chicken & Veggie Crunch</h3>
-                      
-                    </div>
-                  </div>
-                </td>
-                <td class="unit-price">$43.98</td>
-                <td class="quantity-cell">
-                  <div class="quantity-selector">
-                    <button class="quantity-btn minus">-</button>
-                    <span class="quantity-value">1</span>
-                    <button class="quantity-btn plus">+</button>
-                  </div>
-                </td>
-                <td class="variant-cell">
-                  <div class="variant-selector">
-                    <select class="variant-dropdown">
-                      <option value="10kg">10kg</option>
-                      <option value="5kg">5kg</option>
-                      <option value="15kg">15kg</option>
-                    </select>
-                  </div>
-                </td>
-                <td class="item-total">$43.98</td>
-                <td class="delete-cell">
-                  <button class="delete-btn" aria-label="Remove item">
-                    <svg viewBox="0 0 24 24" width="20" height="20">
-                      <path fill="#FF0000" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                  </button>
-                </td>
-              </tr>
+            <tbody class="favorite-items">
+              <!-- Items will be dynamically loaded here -->
             </tbody>
           </table>
         </div>
@@ -161,16 +75,17 @@
       <div class="recommendations-section">
         <div class="recommendations-header">
           <h2 class="recommendations-title">You May Also Like</h2>
+          <p class="recommendations-subtitle">Based on your favorites</p>
         </div>
 
         <div class="recommendations-grid">
           <!-- Recommendation 1 -->
           <div class="recommendation-card">
             <div class="card-image">
-              <img src="../assets/images/Shop/BoneShapedPetToys.svg" alt="Bone Shaped Pet Toys">
+              <img src="../assets/images/Shop/BoneShapedPetToys.svg" alt="Interactive Treat Puzzle Toy">
             </div>
             <div class="card-content">
-              <h3 class="card-title">BONE-SHAPED PET TOYS (SET OF 4)</h3>
+              <h3 class="card-title">Buddy - Interactive Treat Puzzle Toy</h3>
               <div class="card-actions">
                 <span class="card-price">$10.60</span>
                 <div class="card-buttons">
@@ -188,10 +103,10 @@
           <!-- Recommendation 2 -->
           <div class="recommendation-card">
             <div class="card-image">
-              <img src="../assets/images/Shop/Wellness.svg" alt="WELLNESS - SIGNATURE SELECTS">
+              <img src="../assets/images/Shop/Wellness.svg" alt="Natural Dog Biscuit Treat">
             </div>
             <div class="card-content">
-              <h3 class="card-title">WELLNESS SIGNATURE SELECTS (CHICKEN ENTRÉE)</h3>
+              <h3 class="card-title">LA MEEPTS - Natural Dog/Puppy Biscuit Treat</h3>
               <div class="card-actions">
                 <span class="card-price">$10.60</span>
                 <div class="card-buttons">
@@ -209,10 +124,10 @@
           <!-- Recommendation 3 -->
           <div class="recommendation-card">
             <div class="card-image">
-              <img src="../assets/images/Shop/StuffedAnimals.svg" alt="STUFFED ANIMALS & TOYS"/>
+              <img src="../assets/images/Shop/StuffedAnimals.svg" alt="Reflective Collar">
             </div>
             <div class="card-content">
-              <h3 class="card-title">STUFFED ANIMALS &AMP; ROPE PLAY SET</h3>
+              <h3 class="card-title">Star - Large Dog Guardian Reflective Collar</h3>
               <div class="card-actions">
                 <span class="card-price">$10.60</span>
                 <div class="card-buttons">
@@ -230,10 +145,10 @@
           <!-- Recommendation 4 -->
           <div class="recommendation-card">
             <div class="card-image">
-              <img src="../assets/images/Shop/DogToysRawhide.svg" alt="DOG TOYS RAWHIDE">
+              <img src="../assets/images/Shop/DogToysRawhide.svg" alt="Orthopedic Pet Bed">
             </div>
             <div class="card-content">
-              <h3 class="card-title">RAWHIDE BONE CHEW</h3>
+              <h3 class="card-title">Dazzling - Cozy Orthopedic Bed For Every Pet Size</h3>
               <div class="card-actions">
                 <span class="card-price">$10.60</span>
                 <div class="card-buttons">
@@ -250,32 +165,28 @@
         </div>
       </div>
       
-      <!-- Cart Summary Section -->
-      <div class="cart-summary-section">
+      <!-- Favorite Summary Section -->
+      <div class="favorite-summary-section">
         <div class="summary-content">
           <div class="summary-left">
-            <span class="selected-items">Selected (2 items)</span>
-            <div class="discount-code">
-              <input type="text" placeholder="Enter code" class="code-input">
-              <button class="apply-btn">Apply</button>
+            <span class="selected-items">Selected (0 items)</span>
+            <div class="bulk-actions">
+              <button class="add-all-to-cart-btn">Add All to Cart</button>
+              <button class="clear-all-btn">Clear All</button>
             </div>
           </div>
           <div class="summary-right">
-            <div class="price-breakdown">
-              <div class="price-row">
-                <span class="price-label">Subtotal</span>
-                <span class="price-value">$100</span>
+            <div class="favorite-stats">
+              <div class="stat-row">
+                <span class="stat-label">Total Favorites</span>
+                <span class="stat-value">0</span>
               </div>
-              <div class="price-row discount">
-                <span class="price-label">Discount</span>
-                <span class="price-value">-$20</span>
-              </div>
-              <div class="price-row total">
-                <span class="price-label">Total</span>
-                <span class="price-value">$80</span>
+              <div class="stat-row">
+                <span class="stat-label">Categories</span>
+                <span class="stat-value">0</span>
               </div>
             </div>
-            <button class="checkout-btn">Checkout</button>
+            <button class="continue-shopping-btn">Continue Shopping</button>
           </div>
         </div>
       </div>
@@ -339,6 +250,6 @@
   </footer>
 
   <script src="../assets/js/utils.js"></script>
-  <script src="../assets/js/cart.js"></script>
+  <script src="../assets/js/favorite.js"></script>
 </body>
 </html>
