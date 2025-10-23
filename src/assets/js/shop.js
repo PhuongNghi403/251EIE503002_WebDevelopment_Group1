@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize shop functionality
   initShopPage();
   initNavigation();
+  loadProductsFromXML();
   initProductCarousel();
   initProductInteractions();
   initWishlistAndCart();
-  initTailoredNutrition();
+  initProductCardButtons();
+  initGlobalCartListeners();
 });
 
 // Initialize shop page
@@ -131,14 +133,6 @@ function initProductInteractions() {
   });
 }
 
-// Show product details (placeholder for future product detail page)
-function showProductDetails(productName, productImage) {
-  // For now, show an alert. In the future, this could open a modal or navigate to product detail page
-  alert(`Product: ${productName}\n\nThis would normally show detailed product information, pricing, and add to cart functionality.`);
-  
-  // Future implementation could be:
-  // window.location.href = `product-detail.html?product=${encodeURIComponent(productName)}`;
-}
 
 // Wishlist and cart functionality
 function initWishlistAndCart() {
@@ -226,25 +220,31 @@ function initWishlistAndCart() {
   }
   
   // Add to wishlist function
-  function addToWishlist(productName, productImage) {
+  function addToWishlist(productName, productImage, category = 'General') {
     const existingItem = wishlist.find(item => item.name === productName);
     if (!existingItem) {
       wishlist.push({
         id: Date.now(),
         name: productName,
         image: productImage,
+        category: category,
         addedAt: new Date().toISOString()
       });
       localStorage.setItem('wishlist', JSON.stringify(wishlist));
       updateWishlistButton();
-      showNotification(`${productName} added to wishlist!`, 'success');
+      showNotification(`${productName} added to favorites!`, 'success');
+      
+      // Dispatch wishlist update event
+      window.dispatchEvent(new CustomEvent('wishlistUpdated', {
+        detail: { wishlist, action: 'add', productName }
+      }));
     } else {
-      showNotification(`${productName} is already in your wishlist!`, 'info');
+      showNotification(`${productName} is already in your favorites!`, 'info');
     }
   }
   
-  // Add to cart function
-  function addToCart(productName, productImage, price = 0) {
+  // Add to cart function (local scope for carousel cards)
+  function addToCartCarousel(productName, productImage, price = 0) {
     const existingItem = cart.find(item => item.name === productName);
     if (existingItem) {
       existingItem.quantity += 1;
@@ -260,7 +260,7 @@ function initWishlistAndCart() {
     }
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartButton();
-    showNotification(`${productName} added to cart!`, 'success');
+    showNotification(`${productName} đã được thêm vào giỏ hàng!`, 'success');
   }
   
   // Add wishlist and cart buttons to product cards
@@ -268,6 +268,7 @@ function initWishlistAndCart() {
   cards.forEach(card => {
     const productName = card.querySelector('h3').textContent;
     const productImage = card.querySelector('img').src;
+    const productPrice = parseFloat(card.dataset.price) || 0;
     
     // Create action buttons container
     const actionsContainer = document.createElement('div');
@@ -331,7 +332,7 @@ function initWishlistAndCart() {
     
     cartBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      addToCart(productName, productImage);
+      addToCartCarousel(productName, productImage, productPrice);
     });
     
     // Hover effects
@@ -379,6 +380,124 @@ function initWishlistAndCart() {
   // Initialize button states
   updateWishlistButton();
   updateCartButton();
+  
+  // Add event listeners for product card buttons
+  initProductCardButtons();
+}
+
+// Initialize product card buttons (Buy Now, Cart buttons)
+function initProductCardButtons() {
+  // Handle Buy Now buttons
+  document.querySelectorAll('.btn-buy').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const productCard = btn.closest('.product-card');
+      const productName = productCard.querySelector('.card-title').textContent;
+      const productImage = productCard.querySelector('img').src;
+      const currentPrice = productCard.querySelector('.current-price').textContent;
+      const price = parseFloat(currentPrice.replace('$', '').replace(',', ''));
+      
+      // Add to cart
+      addToCart(productName, productImage, price);
+      
+      // Navigate to cart page
+      setTimeout(() => {
+        window.location.href = 'cart.html';
+      }, 1000);
+    });
+  });
+  
+  // Handle Cart buttons in product cards
+  document.querySelectorAll('.btn-cart').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const productCard = btn.closest('.product-card');
+      const productName = productCard.querySelector('.card-title').textContent;
+      const productImage = productCard.querySelector('img').src;
+      const currentPrice = productCard.querySelector('.current-price').textContent;
+      const price = parseFloat(currentPrice.replace('$', '').replace(',', ''));
+      
+      // Add to cart
+      addToCart(productName, productImage, price);
+    });
+  });
+}
+
+// Add to cart function (global)
+function addToCart(productName, productImage, price = 0) {
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const existingItem = cart.find(item => item.name === productName);
+  
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({
+      id: Date.now(),
+      name: productName,
+      image: productImage,
+      price: price,
+      quantity: 1,
+      addedAt: new Date().toISOString()
+    });
+  }
+  
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartButton();
+  showNotification(`${productName} added to cart!`, 'success');
+  
+  // Dispatch custom event for cart updates
+  window.dispatchEvent(new CustomEvent('cartUpdated', {
+    detail: { cart, action: 'add', productName }
+  }));
+}
+
+// Update cart button with count
+function updateCartButton() {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const cartBtn = document.querySelector('.icon-btn[aria-label="Cart"]');
+  
+  if (cartBtn) {
+    const count = cart.reduce((total, item) => total + item.quantity, 0);
+    cartBtn.setAttribute('data-count', count);
+    
+    // Add count badge if items exist
+    if (count > 0) {
+      let badge = cartBtn.querySelector('.count-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'count-badge';
+        badge.style.cssText = `
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          background: #ff4757;
+          color: white;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+        `;
+        cartBtn.appendChild(badge);
+      }
+      badge.textContent = count;
+    } else {
+      const badge = cartBtn.querySelector('.count-badge');
+      if (badge) badge.remove();
+    }
+  }
+  
+  // Dispatch global cart update event
+  window.dispatchEvent(new CustomEvent('cartCountUpdated', {
+    detail: { count }
+  }));
 }
 
 // Notification system
@@ -444,66 +563,363 @@ function initSmoothScroll() {
 // Initialize smooth scroll
 initSmoothScroll();
 
-// Tailored Nutrition section interactions
-function initTailoredNutrition() {
-  const featureBlocks = document.querySelectorAll('.feature-block');
+// Global add to wishlist function
+function addToWishlist(productName, productImage, category = 'General') {
+  let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  const existingItem = wishlist.find(item => item.name === productName);
   
-  featureBlocks.forEach(block => {
-    // Add click handler for feature blocks
-    block.addEventListener('click', (e) => {
-      e.preventDefault();
-      const title = block.querySelector('.feature-title').textContent;
-      showFeatureDetails(title);
+  if (!existingItem) {
+    wishlist.push({
+      id: Date.now(),
+      name: productName,
+      image: productImage,
+      category: category,
+      addedAt: new Date().toISOString()
     });
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    updateWishlistButton();
+    showNotification(`${productName} added to favorites!`, 'success');
     
-    // Add keyboard support
-    block.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        block.click();
+    // Dispatch wishlist update event
+    window.dispatchEvent(new CustomEvent('wishlistUpdated', {
+      detail: { wishlist, action: 'add', productName }
+    }));
+  } else {
+    showNotification(`${productName} is already in your favorites!`, 'info');
+  }
+}
+
+// Update wishlist button with count
+function updateWishlistButton() {
+  const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  const wishlistBtn = document.querySelector('.icon-btn[aria-label="Wishlist"]');
+  
+  if (wishlistBtn) {
+    const count = wishlist.length;
+    wishlistBtn.setAttribute('data-count', count);
+    
+    // Add count badge if items exist
+    if (count > 0) {
+      let badge = wishlistBtn.querySelector('.count-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'count-badge';
+        badge.style.cssText = `
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          background: #ff4757;
+          color: white;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+        `;
+        wishlistBtn.appendChild(badge);
       }
-    });
+      badge.textContent = count;
+    } else {
+      const badge = wishlistBtn.querySelector('.count-badge');
+      if (badge) badge.remove();
+    }
+  }
+}
+
+// Initialize global cart listeners
+function initGlobalCartListeners() {
+  // Listen for cart updates from other pages
+  window.addEventListener('cartUpdated', (event) => {
+    const { cart, action, productName } = event.detail;
+    updateCartButton();
     
-    // Make blocks focusable
-    block.setAttribute('tabindex', '0');
-    block.setAttribute('role', 'button');
-    block.setAttribute('aria-label', `Learn more about ${block.querySelector('.feature-title').textContent}`);
-    
-    // Add intersection observer for animation
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
-    
-    // Set initial state for animation
-    block.style.opacity = '0';
-    block.style.transform = 'translateY(30px)';
-    block.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    
-    observer.observe(block);
+    if (action === 'add') {
+      showNotification(`${productName} added to cart!`, 'success');
+    }
+  });
+  
+  // Listen for cart count updates
+  window.addEventListener('cartCountUpdated', (event) => {
+    updateCartButton();
+  });
+  
+  // Listen for storage changes (cross-tab communication)
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'cart') {
+      updateCartButton();
+    } else if (event.key === 'wishlist') {
+      updateWishlistButton();
+    }
+  });
+  
+  // Listen for wishlist updates
+  window.addEventListener('wishlistUpdated', (event) => {
+    updateWishlistButton();
   });
 }
 
-// Show feature details (placeholder for future feature detail page)
-function showFeatureDetails(featureTitle) {
-  const descriptions = {
-    'Nutrition And Health': 'Learn about the importance of proper nutrition for your pet\'s overall health and well-being. Our expert team can help you choose the right food for your pet\'s specific needs.',
-    'Custom Diets': 'Every pet is unique. We offer personalized diet plans tailored to your pet\'s age, breed, health conditions, and lifestyle. Consult with our nutrition experts today.',
-    'Expert Guidance': 'Get professional advice from our certified pet nutritionists. We provide comprehensive guidance on feeding schedules, portion control, and dietary supplements.'
-  };
+// Initialize product filtering
+function initProductFiltering() {
+  const categoryFilters = document.querySelectorAll('input[name="category"]');
+  const petTypeFilters = document.querySelectorAll('input[name="pet_type"]');
+  const priceSlider = document.getElementById('priceSlider');
   
-  const description = descriptions[featureTitle] || 'Learn more about this feature and how it can benefit your pet.';
+  // Category filtering
+  categoryFilters.forEach(filter => {
+    filter.addEventListener('change', applyFilters);
+  });
   
-  // For now, show an alert. In the future, this could open a modal or navigate to a detailed page
-  alert(`${featureTitle}\n\n${description}\n\nThis would normally show detailed information and allow you to book a consultation with our experts.`);
+  // Pet type filtering
+  petTypeFilters.forEach(filter => {
+    filter.addEventListener('change', applyFilters);
+  });
   
-  // Future implementation could be:
-  // window.location.href = `nutrition-consultation.html?feature=${encodeURIComponent(featureTitle)}`;
+  // Price range filtering
+  if (priceSlider) {
+    priceSlider.addEventListener('input', updatePriceDisplay);
+    priceSlider.addEventListener('input', applyFilters);
+  }
 }
+
+// Update price display
+function updatePriceDisplay() {
+  const slider = document.getElementById('priceSlider');
+  const priceDisplay = document.getElementById('currentPriceRange');
+  
+  if (slider && priceDisplay) {
+    const value = parseInt(slider.value);
+    const priceRanges = ['$0', '$100', '$200', '$300', '$400', '>$500'];
+    priceDisplay.textContent = priceRanges[value];
+  }
+}
+
+// Apply filters to products
+function applyFilters() {
+  const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked'))
+    .map(cb => cb.value);
+  const selectedPetTypes = Array.from(document.querySelectorAll('input[name="pet_type"]:checked'))
+    .map(cb => cb.value);
+  
+  // Get price range from slider
+  const priceSlider = document.getElementById('priceSlider');
+  const priceValue = priceSlider ? parseInt(priceSlider.value) : 5;
+  const priceRanges = [0, 100, 200, 300, 400, 500];
+  const maxPrice = priceRanges[priceValue];
+  
+  const productCards = document.querySelectorAll('.product-card');
+  
+  productCards.forEach(card => {
+    let shouldShow = true;
+    
+    // Get product data
+    const cardCategory = card.getAttribute('data-category') || '';
+    const cardPrice = parseFloat(card.getAttribute('data-price') || 0);
+    
+    // If no filters are selected, show all items (only apply price filter)
+    if (selectedCategories.length === 0 && selectedPetTypes.length === 0) {
+      if (priceValue === 5) {
+        // Show all products if ">$500" is selected
+        shouldShow = true;
+      } else {
+        // Check if price is within range
+        if (cardPrice > maxPrice) {
+          shouldShow = false;
+        }
+      }
+    } else {
+      // Apply category filter if any categories are selected
+      if (selectedCategories.length > 0) {
+        const categoryMatch = selectedCategories.some(selectedCat => {
+          // Direct word matching for categories
+          if (selectedCat === 'dog-toy') {
+            return cardCategory.toLowerCase().includes('dog') && cardCategory.toLowerCase().includes('toy');
+          } else if (selectedCat === 'cat-food-dry') {
+            return cardCategory.toLowerCase().includes('cat') && cardCategory.toLowerCase().includes('food') && cardCategory.toLowerCase().includes('dry');
+          } else if (selectedCat === 'cat-food-wet') {
+            return cardCategory.toLowerCase().includes('cat') && cardCategory.toLowerCase().includes('food') && cardCategory.toLowerCase().includes('wet');
+          } else if (selectedCat === 'dog-food-dry') {
+            return cardCategory.toLowerCase().includes('dog') && cardCategory.toLowerCase().includes('food') && cardCategory.toLowerCase().includes('dry');
+          }
+          return false;
+        });
+        
+        if (!categoryMatch) {
+          shouldShow = false;
+        }
+      }
+      
+      // Apply pet type filter if any pet types are selected
+      if (selectedPetTypes.length > 0 && shouldShow) {
+        const petTypeMatch = selectedPetTypes.some(petType => {
+          if (petType === 'dogs') {
+            return cardCategory.toLowerCase().includes('dog');
+          } else if (petType === 'cats') {
+            return cardCategory.toLowerCase().includes('cat');
+          }
+          return false;
+        });
+        
+        if (!petTypeMatch) {
+          shouldShow = false;
+        }
+      }
+      
+      // Apply price filter
+      if (shouldShow) {
+        if (priceValue === 5) {
+          // Show all products if ">$500" is selected
+          shouldShow = true;
+        } else {
+          // Check if price is within range
+          if (cardPrice > maxPrice) {
+            shouldShow = false;
+          }
+        }
+      }
+    }
+    
+    // Show/hide card
+    card.style.display = shouldShow ? 'block' : 'none';
+  });
+  
+  // Update results count
+  updateResultsCount();
+}
+
+// Update results count
+function updateResultsCount() {
+  const productCards = document.querySelectorAll('.product-card');
+  let visibleCount = 0;
+  
+  productCards.forEach(card => {
+    if (card.style.display !== 'none') {
+      visibleCount++;
+    }
+  });
+  
+  const resultsCount = document.querySelector('.results-count');
+  if (resultsCount) {
+    resultsCount.textContent = `${visibleCount} product${visibleCount !== 1 ? 's' : ''} found`;
+  }
+}
+
+// Load products from XML and update HTML
+async function loadProductsFromXML() {
+  try {
+    const response = await fetch('../assets/data/products.xml');
+    const xmlText = await response.text();
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+    
+    const products = xmlDoc.querySelectorAll('product');
+    const productCards = document.querySelectorAll('.product-card');
+    
+    // Store products data globally for filtering
+    window.productsData = [];
+    
+    // Map XML products to HTML cards
+    products.forEach((product, index) => {
+      if (index < productCards.length) {
+        const card = productCards[index];
+        const cardDetails = card.querySelector('.card-details');
+        
+        if (cardDetails) {
+          // Get data from XML
+          const name = product.querySelector('name')?.textContent || '';
+          const discountedPrice = product.querySelector('discounted_price')?.textContent || '0';
+          const originalPrice = product.querySelector('original_price')?.textContent || '0';
+          const rating = product.querySelector('rating')?.textContent || '0';
+          const soldCount = product.querySelector('sold_count')?.textContent || '0';
+          const category = product.querySelector('category')?.textContent || '';
+          
+          // Store product data for filtering
+          window.productsData.push({
+            id: product.getAttribute('id'),
+            name: name,
+            discountedPrice: parseFloat(discountedPrice),
+            originalPrice: parseFloat(originalPrice),
+            rating: parseFloat(rating),
+            soldCount: soldCount,
+            category: category,
+            element: card
+          });
+          
+          // Update card title (item-name)
+          const cardTitle = cardDetails.querySelector('.card-title');
+          if (cardTitle) {
+            cardTitle.textContent = name;
+          }
+          
+          // Update price (unit-price)
+          const currentPriceElement = cardDetails.querySelector('.current-price');
+          const originalPriceElement = cardDetails.querySelector('.original-price');
+          
+          if (currentPriceElement) {
+            currentPriceElement.textContent = `$${parseFloat(discountedPrice).toFixed(2)}`;
+          }
+          
+          if (originalPriceElement) {
+            originalPriceElement.textContent = `$${parseFloat(originalPrice).toFixed(2)}`;
+          }
+          
+          // Update rating and sold count
+          const ratingElement = cardDetails.querySelector('.rating');
+          const soldElement = cardDetails.querySelector('.sold');
+          
+          if (ratingElement) {
+            ratingElement.textContent = `⭐ (${rating})`;
+          }
+          
+          if (soldElement) {
+            soldElement.textContent = `${soldCount} Sold`;
+          }
+          
+          // Add weight information (using category as weight placeholder)
+          const weightElement = cardDetails.querySelector('.item-weight');
+          if (!weightElement) {
+            // Create weight element if it doesn't exist
+            const weightDiv = document.createElement('div');
+            weightDiv.className = 'item-weight';
+            weightDiv.textContent = `Category: ${category}`;
+            weightDiv.style.cssText = `
+              font-size: 12px;
+              color: #666;
+              margin-top: 4px;
+            `;
+            cardDetails.appendChild(weightDiv);
+          } else {
+            weightElement.textContent = `Category: ${category}`;
+          }
+          
+          // Add data attributes for filtering
+          card.setAttribute('data-category', category);
+          card.setAttribute('data-price', discountedPrice);
+          
+          console.log(`Product ${index + 1}:`, {
+            name: name,
+            category: category,
+            price: discountedPrice,
+            card: card
+          });
+        }
+      }
+    });
+    
+  // Initialize filtering
+  initProductFiltering();
+  
+  // Update results count after loading
+  updateResultsCount();
+  
+  // Initialize wishlist button
+  updateWishlistButton();
+  
+  console.log('Products loaded from XML successfully');
+  } catch (error) {
+    console.error('Error loading products from XML:', error);
+  }
+}
+
