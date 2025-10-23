@@ -24,9 +24,9 @@
         <a class="nav-link" href="profile.html">Profile</a>
       </nav>
       <div class="header-actions">
-        <button class="icon-btn" aria-label="Wishlist">
+        <a class="icon-btn" href="favorite.html" aria-label="Wishlist">
           <img src="../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
-        </button>
+        </a>
         <a class="icon-btn" href="cart.html" aria-label="Cart">
           <img src="../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
         </a>
@@ -196,11 +196,11 @@
             
             <div class="filter-group">
               <h4>Categories</h4>
-            <div class="filter-options">
-              <label><span class="dot dot-food"></span><input type="checkbox" name="category" value="food"> Food</label>
-              <label><span class="dot dot-toys"></span><input type="checkbox" name="category" value="toys" checked> Toys</label>
-              <label><span class="dot dot-accessories"></span><input type="checkbox" name="category" value="accessories"> Accessories</label>
-              <label><span class="dot dot-healthcare"></span><input type="checkbox" name="category" value="healthcare"> Healthcare</label>
+              <div class="filter-options">
+              <label><span class="dot dot-dog-toy"></span><input type="checkbox" name="category" value="dog-toy"> Dog Toys</label>
+              <label><span class="dot dot-cat-food-dry"></span><input type="checkbox" name="category" value="cat-food-dry"> Cat Food (Dry)</label>
+              <label><span class="dot dot-cat-food-wet"></span><input type="checkbox" name="category" value="cat-food-wet"> Cat Food (Wet)</label>
+              <label><span class="dot dot-dog-food-dry"></span><input type="checkbox" name="category" value="dog-food-dry"> Dog Food (Dry)</label>
             </div>
             </div>
   
@@ -209,17 +209,23 @@
               <div class="filter-options">
                 <label><input type="checkbox" name="pet_type" value="dogs"> Dogs</label>
                 <label><input type="checkbox" name="pet_type" value="cats"> Cats</label>
-                <label><input type="checkbox" name="pet_type" value="rabbits" checked> Rabbits</label>
               </div>
             </div>
   
             <div class="filter-group">
               <h4>Price Range</h4>
               <div class="price-slider">
-                <input type="range" min="0" max="100" value="75" class="slider">
+                <input type="range" min="0" max="5" value="5" class="slider" id="priceSlider">
                 <div class="price-values">
                   <span>$0</span>
-                  <span>$100+</span>
+                  <span>$100</span>
+                  <span>$200</span>
+                  <span>$300</span>
+                  <span>$400</span>
+                  <span>>$500</span>
+                </div>
+                <div class="price-display">
+                  <span id="currentPriceRange">>$500</span>
                 </div>
               </div>
             </div>
@@ -227,23 +233,27 @@
         </aside>
   
         <main class="products-grid-wrapper">
+          <div class="filter-results">
+            <span class="results-count">Loading products...</span>
+          </div>
           <div class="products-grid">
             <article class="product-card">
               <div class="card-image-container">
-                <img src="../assets/images/Shop/Basketball.svg" alt="Basketball and Football toys">
-                <button class="wishlist-btn active" aria-label="Add to Wishlist">
+                <img src="../assets/images/Shop/Basketball.svg" alt="Squeaky Sports Ball Set">
+                <button class="wishlist-btn" aria-label="Add to Wishlist">
                   <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                 </button>
               </div>
               <div class="card-details">
-                <h3 class="card-title">Basketball and Football Pet Toys</h3>
+                <h3 class="card-title">SQUEAKY SPORTS BALL SET (BASKETBALL & FOOTBALL)</h3>
                 <div class="card-meta">
                   <span class="rating">⭐ (4.0)</span>
-                  <span class="sold">329 Sold</span>
+                  <span class="sold">529 Sold</span>
                 </div>
+                <div class="item-weight">Category: Dog Toy</div>
                 <div class="card-price">
                   <span class="current-price">$300.00</span>
-                  <span class="original-price">$328.85</span>
+                  <span class="original-price">$306.00</span>
                 </div>
                 <div class="card-actions">
                   <button class="btn-buy">Buy Now</button>
@@ -267,6 +277,7 @@
                   <span class="rating">⭐ (4.5)</span>
                   <span class="sold">900 Sold</span>
                 </div>
+                <div class="item-weight">Category: Dog Toy</div>
                 <div class="card-price">
                   <span class="current-price">$700.00</span>
                   <span class="original-price">$778.35</span>
@@ -292,6 +303,7 @@
                   <span class="rating">⭐ (3.0)</span>
                   <span class="sold">12 Sold</span>
                 </div>
+                <div class="item-weight">Category: Dog Toy</div>
                 <div class="card-price">
                   <span class="current-price">$300.00</span>
                   <span class="original-price">$475.22</span>
@@ -317,6 +329,7 @@
                   <span class="rating">⭐ (5.0)</span>
                   <span class="sold">1000+ Sold</span>
                 </div>
+                <div class="item-weight">Category: Cat Food (Dry)</div>
                 <div class="card-price">
                   <span class="current-price">$100.00</span>
                   <span class="original-price">$200.00</span>
@@ -343,6 +356,7 @@
                   <span class="rating">⭐ (4.0)</span>
                   <span class="sold">329 Sold</span>
                 </div>
+                <div class="item-weight">Category: Cat Food (Dry)</div>
                 <div class="card-price">
                   <span class="current-price">$400.00</span>
                   <span class="original-price">$450.54</span>
@@ -369,6 +383,7 @@
                   <span class="rating">⭐ (3.0)</span>
                   <span class="sold">12 Sold</span>
                 </div>
+                <div class="item-weight">Category: Cat Food (Wet)</div>
                 <div class="card-price">
                   <span class="current-price">$200.00</span>
                   <span class="original-price">$299.01</span>
@@ -395,6 +410,7 @@
                   <span class="rating">⭐ (5.0)</span>
                   <span class="sold">1000+ Sold</span>
                 </div>
+                <div class="item-weight">Category: Cat Food (Wet)</div>
                 <div class="card-price">
                   <span class="current-price">$400.00</span>
                   <span class="original-price">$450.54</span>
@@ -421,6 +437,7 @@
                   <span class="rating">⭐ (4.0)</span>
                   <span class="sold">329 Sold</span>
                 </div>
+                <div class="item-weight">Category: Cat Food (Wet)</div>
                 <div class="card-price">
                   <span class="current-price">$550.00</span>
                   <span class="original-price">$601.13</span>
@@ -447,6 +464,7 @@
                   <span class="rating">⭐ (3.0)</span>
                   <span class="sold">12 Sold</span>
                 </div>
+                <div class="item-weight">Category: Dog Food (Dry)</div>
                 <div class="card-price">
                   <span class="current-price">$200.00</span>
                   <span class="original-price">$275.43</span>
@@ -473,6 +491,7 @@
                   <span class="rating">⭐ (4.0)</span>
                   <span class="sold">329 Sold</span>
                 </div>
+                <div class="item-weight">Category: Dog Toy</div>
                 <div class="card-price">
                   <span class="current-price">$700.00</span>
                   <span class="original-price">$778.35</span>
@@ -499,6 +518,7 @@
                   <span class="rating">⭐ (3.0)</span>
                   <span class="sold">12 Sold</span>
                 </div>
+                <div class="item-weight">Category: Dog Toy</div>
                 <div class="card-price">
                   <span class="current-price">$190.00</span>
                   <span class="original-price">$202.87</span>

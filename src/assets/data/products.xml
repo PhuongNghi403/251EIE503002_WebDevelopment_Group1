@@ -1,0 +1,297 @@
+<products>
+  <product id="1">
+    <name>SQUEAKY SPORTS BALL SET (BASKETBALL &AMP; FOOTBALL)</name>
+    <rating>4.0</rating>
+    <sold_count>529</sold_count>
+    <original_price currency="USD">306.00</original_price>
+    <discounted_price currency="USD">300.00</discounted_price>
+    <category>Dog Toy</category>
+    <brand>Pawfect</brand>
+    <product_description>
+      A textured squeaky ball set inspired by classic basketball and football shapes. 
+      Made from durable, non-toxic rubber with raised massage nubs that are gentle on gums, 
+      these toys keep dogs engaged through fetch, chase, and solo chew time. The grippy surface 
+      is easy to hold with wet paws and stands up to daily play, indoors or out.
+    </product_description>
+    <benefits>
+      <benefit>Durable, non-toxic rubber built for daily play</benefit>
+      <benefit>Raised nubs help reduce plaque while massaging gums</benefit>
+      <benefit>Easy-clean surface; wipe down after outdoor sessions</benefit>
+    </benefits>
+    <nutrition_facts/>
+  </product>
+
+  <product id="2">
+    <name>BONE-SHAPED CHEW TOYS (SET OF 4)</name>
+    <rating>4.5</rating>
+    <sold_count>902</sold_count>
+    <original_price currency="USD">770.00</original_price>
+    <discounted_price currency="USD">700.00</discounted_price>
+    <category>Dog Toy</category>
+    <brand>Pawfect</brand>
+    <product_description>
+      A colorful set of bone-shaped toys crafted from flexible TPR that is 
+      gentle on teeth yet tough enough for repeated chewing. Their lightweight 
+      build and lively bounce make them perfect for fetch and training games. 
+      Subtle textures keep interest high and help support oral hygiene during casual chew sessions.
+    </product_description>
+    <benefits>
+      <benefit>Gentle on teeth and gums; ideal for everyday chewing</benefit>
+      <benefit>Lightweight with lively bounce for fetch and recall practice</benefit>
+      <benefit>Textured surface supports basic dental care</benefit>
+      <benefit>Easy to rinse and dry for quick cleanup</benefit>
+    </benefits>
+    <nutrition_facts/>
+  </product>
+
+  <product id="3">
+    <name>HIGH-GRIP TRAINING BALL</name>
+    <rating>3.0</rating>
+    <sold_count>12</sold_count>
+    <original_price currency="USD">303.22</original_price>
+    <discounted_price currency="USD">300.00</discounted_price>
+    <category>Dog Toy</category>
+    <brand>Pawfect</brand>
+    <product_description>
+      A lightweight, high-grip training ball designed for everyday fetch. 
+      The smooth outer shell resists dirt, while the responsive core delivers 
+      a satisfying bounce that encourages exercise and healthy play routines. 
+      Sized for easy carrying without straining the jaw.
+    </product_description>
+    <benefits>
+      <benefit>Encourages daily exercise and weight management</benefit>
+      <benefit>Consistent bounce keeps dogs engaged longer</benefit>
+      <benefit>Easy-grip surface for secure catches</benefit>
+      <benefit>Wipes clean quickly after outdoor play</benefit>
+    </benefits>
+    <nutrition_facts/>
+  </product>
+
+  <product id="4">
+    <name>KIT CAT FILLET 'O' LAKES</name>
+    <rating>5.0</rating>
+    <sold_count>1000+</sold_count>
+    <original_price currency="USD">200.00</original_price>
+    <discounted_price currency="USD">100.00</discounted_price>
+    <category>Cat Food (Dry)</category>
+    <brand>Kit Cat</brand>
+    <product_description>
+      Packed with tender chicken breast pieces blended with crunchy 
+      biscuit bites and natural vegetables, this complete recipe turns 
+      every scoop into a tasty surprise. The formula is enriched with Omega-3 &amp; 
+      Omega-6 fatty acids, taurine, and prebiotic vitamins to nourish skin and coat, 
+      digestion, and overall vitality. Made without pork or lard and crafted for a balanced daily diet, 
+      it supports your cat's heart, eyes, and immune system while keeping mealtime delicious and satisfying.
+    </product_description>
+    <benefits>
+      <benefit>Omega-3 &amp; Omega-6 support shiny coat and healthy skin</benefit>
+      <benefit>Prebiotics aid digestion and stool quality</benefit>
+      <benefit>Crunchy bites help clean teeth for fresher breath</benefit>
+      <benefit>Added calcium and vitamin E support bones and immunity</benefit>
+    </benefits>
+    <nutrition_facts>
+      <protein>31%</protein>
+      <fat>10%</fat>
+      <fiber>6%</fiber>
+      <ash>12%</ash>
+      <moisture>8%</moisture>
+    </nutrition_facts>
+  </product>
+
+  <product id="5">
+    <name>ENCORE COMPLETE - CAT FOOD</name>
+    <rating>4.0</rating>
+    <sold_count>329</sold_count>
+    <original_price currency="USD">450.54</original_price>
+    <discounted_price currency="USD">400.00</discounted_price>
+    <category>Cat Food (Dry)</category>
+    <brand>Encore</brand>
+    <product_description>
+      A complete and balanced meal made with real chicken breast, 
+      crunchy kibble accents, and garden vegetables. Each serving provides 
+      high-quality protein for strong, lean muscles and is fortified with Omega-3 &amp; Omega-6, 
+      taurine, and essential vitamins. Free from pork and lard, the recipe is designed to support 
+      everyday wellness—from skin and coat to digestion and immune defense—while delivering a flavor cats love.
+    </product_description>
+    <benefits>
+      <benefit>Omega-3 &amp; Omega-6 promote glossy coat and skin comfort</benefit>
+      <benefit>Taurine supports cardiac function and eye health</benefit>
+      <benefit>Glucosamine with minerals helps keep cats agile</benefit>
+      <benefit>Crunchy texture contributes to dental hygiene</benefit>
+    </benefits>
+    <nutrition_facts>
+      <protein>29%</protein>
+      <fat>11%</fat>
+      <fiber>9%</fiber>
+      <ash>10%</ash>
+      <moisture>20%</moisture>
+    </nutrition_facts>
+  </product>
+
+  <product id="6">
+    <name>WELLNESS SIGNATURE SELECTS (CHICKEN ENTRÉE)</name>
+    <rating>3.0</rating>
+    <sold_count>12</sold_count>
+    <original_price currency="USD">293.01</original_price>
+    <discounted_price currency="USD">200.00</discounted_price>
+    <category>Cat Food (Wet)</category>
+    <brand>Wellness</brand>
+    <product_description>
+      A premium, protein-rich entrée crafted with real chicken and carefully 
+      selected nutrients to support daily vitality. The balanced profile includes Omega-3 &amp; Omega-6 
+      fatty acids, taurine, and antioxidants for whole-body wellness. Gentle on sensitive stomachs 
+      and free from pork or lard, this recipe delivers complete nutrition with a succulent, highly palatable 
+      texture that keeps picky eaters interested.
+    </product_description>
+    <benefits>
+      <benefit>Real chicken protein supports lean muscle and energy</benefit>
+      <benefit>Omega-3 &amp; Omega-6 nourish coat, skin, and immune function</benefit>
+      <benefit>Taurine reinforces heart health and vision</benefit>
+      <benefit>Hydration-friendly texture supports urinary tract health</benefit>
+      <benefit>Vitamin E and minerals aid natural defenses</benefit>
+      <benefit>No pork or lard; suitable for everyday feeding</benefit>
+    </benefits>
+    <nutrition_facts>
+      <protein>38%</protein>
+      <fat>14%</fat>
+      <fiber>3%</fiber>
+      <ash>9%</ash>
+      <moisture>10%</moisture>
+    </nutrition_facts>
+  </product>
+  
+  <product id="7">
+    <name>FRISKIES WITH CHICKEN (CANNED)</name>
+    <rating>5.0</rating>
+    <sold_count>1000+</sold_count>
+    <original_price currency="USD">455.54</original_price>
+    <discounted_price currency="USD">400.00</discounted_price>
+    <category>Cat Food (Wet)</category>
+    <brand>Friskies</brand>
+    <product_description>
+      Tender chicken in a savory gravy that keeps cats coming back to the bowl. 
+      This complete and balanced entrée delivers high-quality protein for lean 
+      muscles and includes essential vitamins, taurine, and omegas to support heart, 
+      vision, skin, and coat. The juicy texture adds extra hydration while the irresistible 
+      aroma turns mealtime into a treat. Made without pork or lard for everyday feeding.
+    </product_description>
+    <benefits>
+      <benefit>High-quality chicken protein fuels daily energy</benefit>
+      <benefit>Hydration-friendly gravy supports urinary health</benefit>
+      <benefit>Taurine helps maintain heart and eye function</benefit>
+      <benefit>Omega-3 &amp; Omega-6 promote shiny coat and healthy skin</benefit>
+      <benefit>Complete &amp; balanced for adult cats</benefit>
+    </benefits>
+    <nutrition_facts>
+      <protein>35.5%</protein>
+      <fat>12%</fat>
+      <fiber>3.6%</fiber>
+      <ash>8%</ash>
+      <moisture>11%</moisture>
+    </nutrition_facts>
+  </product>
+
+  <product id="8">
+    <name>CHERIE “THE FINEST” (SHREDDED CHICKEN IN GRAVY)</name>
+    <rating>4.0</rating>
+    <sold_count>329</sold_count>
+    <original_price currency="USD">603.13</original_price>
+    <discounted_price currency="USD">550.00</discounted_price>
+    <category>Cat Food (Wet)</category>
+    <brand>Cherie</brand>
+    <product_description>
+      A gourmet shredded-chicken entrée in silky gravy crafted for discerning felines. 
+      Each serving combines real chicken with targeted nutrients—taurine, Omega-3 &amp; Omega-6, 
+      and antioxidants—to support heart, vision, skin, coat, and immune health. The highly palatable 
+      texture is gentle on sensitive stomachs and free from pork or lard.
+    </product_description>
+    <benefits>
+      <benefit>Real shredded chicken for lean muscle maintenance</benefit>
+      <benefit>Silky gravy encourages hydration and appetite</benefit>
+      <benefit>Taurine supports cardiac and ocular health</benefit>
+      <benefit>Omega fatty acids nourish skin and promote a glossy coat</benefit>
+    </benefits>
+    <nutrition_facts>
+      <protein>35%</protein>
+      <fat>12%</fat>
+      <fiber>3%</fiber>
+      <ash>8%</ash>
+      <moisture>10%</moisture>
+    </nutrition_facts>
+  </product>
+
+  <product id="9">
+    <name>PEDIGREE VITAL PROTECTION (ADULT DOG)</name>
+    <rating>3.0</rating>
+    <sold_count>12</sold_count>
+    <original_price currency="USD">275.43</original_price>
+    <discounted_price currency="USD">200.00</discounted_price>
+    <category>Dog Food (Dry)</category>
+    <brand>Pedigree</brand>
+    <product_description>
+      Complete dry food for adult dogs featuring a crunchy kibble texture 
+      and a balanced blend of protein, whole-grain carbohydrates, and essential 
+      vitamins and minerals. Fortified with Omega-6 fatty acids and zinc to help nourish 
+      skin and coat, plus fiber to support healthy digestion. Formulated without pork or lard for everyday feeding.
+    </product_description>
+    <benefits>
+      <benefit>Balanced nutrition for daily vitality</benefit>
+      <benefit>Crunchy kibble helps keep teeth clean</benefit>
+      <benefit>Omega-6 supports skin comfort and coat shine</benefit>
+      <benefit>Fiber blend supports digestive health</benefit>
+      <benefit>Complete &amp; balanced for adult dogs</benefit>
+    </benefits>
+    <nutrition_facts>
+      <protein>24%</protein>
+      <fat>12%</fat>
+      <fiber>4%</fiber>
+      <ash>7%</ash>
+      <moisture>10%</more>
+    </nutrition_facts>
+  </product>
+
+  <product id="10">
+    <name>STUFFED ANIMALS &AMP; ROPE PLAY SET</name>
+    <rating>4.0</rating>
+    <sold_count>329</sold_count>
+    <original_price currency="USD">788.00</original_price>
+    <discounted_price currency="USD">700.00</discounted_price>
+    <category>Dog Toy</category>
+    <brand>PetStay</brand>
+    <product_description>
+      A multi-toy bundle that mixes plush squeakers with a tough rope for tug, 
+      fetch, and independent play. The varied shapes, sounds, and textures keep dogs mentally 
+      stimulated while the rope fibers can help with light flossing as they chew. Ideal for indoor sessions and basic training games.
+    </product_description>
+    <benefits>
+      <benefit>Multiple play styles in one set: tug, fetch, and chew</benefit>
+      <benefit>Squeakers add excitement to extend playtime</benefit>
+      <benefit>Rope fibers aid light dental flossing</benefit>
+      <benefit>Soft plush is gentle on gums for younger or small dogs</benefit>
+      <benefit>Great for bonding and positive training rewards</benefit>
+    </benefits>
+    <nutrition_facts/>
+  </product>
+
+  <product id="11">
+    <name>RAWHIDE BONE CHEW </name>
+    <rating>3.0</rating>
+    <sold_count>12</sold_count>
+    <original_price currency="USD">200.00</original_price>
+    <discounted_price currency="USD">190.00</discounted_price>
+    <category>Dog Toy</category>
+    <brand>PetStay</brand>
+    <product_description>
+      A long-lasting rawhide chew shaped like a classic bone to satisfy a dog's natural urge to chew. 
+      Helps alleviate boredom and promotes healthy chewing habits. Always supervise your pet while chewing 
+      and provide fresh water; this is a chew, not a complete meal.
+    </product_description>
+    <benefits>
+      <benefit>Helps reduce plaque buildup through mechanical chewing</benefit>
+      <benefit>Relieves boredom and supports calm behavior</benefit>
+      <benefit>Encourages healthy chewing away from household items</benefit>
+    </benefits>
+    <nutrition_facts/>
+  </product>
+
+</products>
