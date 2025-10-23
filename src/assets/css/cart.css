@@ -578,17 +578,16 @@
   border-radius: 7.04179px;
   border: none;
   cursor: pointer;
-}
 
-.add-to-cart-btn {
-  width: 83px;
-  height: 18px;
   font-family: 'Lexend Deca', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 14.0836px;
   line-height: 18px;
   color: #FFF9F2;
+}
+.add-to-cart-btn:hover {
+  background: #3a2110;
 }
 
 /* Cart Summary Section */
