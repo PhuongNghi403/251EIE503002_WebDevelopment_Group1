@@ -256,11 +256,9 @@
   margin: 24px auto 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(10px, 2vw, 16px);            /* giá trị cũ */
-  column-gap: 0px;    /* giảm khoảng cách NGANG giữa 2 card */
-  row-gap: clamp(10px, 2vw, 16px);        /* giữ khoảng cách DỌC như trước */
-  justify-items: center;
-  align-items: start;
+  gap: clamp(20px, 3vw, 40px);            /* khoảng cách đều giữa 2 cards */
+  justify-items: stretch;                  /* đảm bảo cards có cùng kích thước */
+  align-items: stretch;                    /* đảm bảo cards có cùng chiều cao */
 }
 
 /* Card: chia 2 khu — media (trên) + nội dung (dưới) */
@@ -273,8 +271,9 @@
   background: #fff;
   box-shadow: 0 12px 26px rgba(0,0,0,0.12);
   overflow: hidden;
-  transform: scale(0.85);
-  transform-origin: top center;
+  width: 100%;                             /* đảm bảo card chiếm toàn bộ không gian */
+  max-width: 500px;                        /* giới hạn kích thước tối đa */
+  margin: 0 auto;                          /* căn giữa card trong grid cell */
 }
 
 /* Badge icon ngôi nhà ở góc trái trên cùng (pseudo-element) */
@@ -316,9 +315,12 @@
   grid-row: 2;
   position: relative;
   z-index: 2;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--rhythm);
   padding: clamp(20px, 3vw, 28px);
+  height: 100%;                            /* đảm bảo content chiếm toàn bộ chiều cao */
+  justify-content: space-between;          /* phân bố đều các phần tử */
 }
 
 /* Hàng tiêu đề + badge giá */
@@ -400,6 +402,7 @@
   list-style: none;
   color: #6b5e56;
   font-size: clamp(12px, 1.4vw, 16px);
+  flex-grow: 1;                            /* cho phép features mở rộng để cân bằng */
 }
 .svc-features li {
   display: flex;
@@ -440,16 +443,20 @@
 
 /* Responsive: xuống 1 cột trên màn nhỏ */
 @media (max-width: 900px) {
-  .services .our-services .services-grid { grid-template-columns: 1fr; }
+  .services .our-services .services-grid { 
+    grid-template-columns: 1fr; 
+    gap: clamp(20px, 4vw, 30px);          /* khoảng cách đều trên mobile */
+  }
   .svc-features { grid-template-columns: 1fr; }
+  .svc-card { 
+    max-width: 100%;                       /* full width trên mobile */
+    margin: 0;                             /* loại bỏ margin auto */
+  }
 }
 
 @media (max-width: 640px) {
   .svc-header { flex-wrap: wrap; }
   .svc-price { margin-top: 8px; }
-}
-@media (max-width: 900px) {
-  .svc-card { transform: scale(0.85); } /* trở lại kích thước đầy đủ trên mobile */
 }
 /* Đảm bảo biến nhịp nhỏ ở cuối file (tránh rule sau override) */
 .services .our-services {

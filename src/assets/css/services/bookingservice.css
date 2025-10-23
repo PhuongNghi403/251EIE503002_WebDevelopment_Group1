@@ -1,0 +1,13 @@
+/* Booking Service Page Styles */
+.booking-page {
+  min-height: 60vh;
+  padding: 2rem 0;
+}
+
+/* Placeholder styles for future booking interface */
+.booking-content {
+  display: grid;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}

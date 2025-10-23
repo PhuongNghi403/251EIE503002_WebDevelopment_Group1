@@ -23,7 +23,8 @@
 .homeboardservice-welcome .welcome-head .subtitle {
   color: #7b470b;
   max-width: 1100px;
-  margin: 4px 0 8px;
+  margin: 4px auto 8px;        
+  text-align: justify;        
 }
 .rating-badge {
   display: inline-block;
@@ -45,7 +46,7 @@
   gap: clamp(12px, 2vw, 18px);
   align-items: stretch;         /* đảm bảo tất cả card có cùng chiều cao */
   justify-content: center;      /* căn giữa toàn bộ gallery */
-  max-width: 1200px;           /* giới hạn chiều rộng tối đa */
+  max-width: 1100px;           /* căn lề với subtitle (thay đổi từ 1200px) */
   margin: 0 auto;              /* căn giữa gallery trong container */
 }
 .welcome-gallery .big { 
@@ -83,26 +84,17 @@
   aspect-ratio: 16 / 9;
   height: clamp(182px, 28vw, 364px); 
 }
-
 /* 2 card nhỏ áp dụng bố cục tương tự card lớn nhưng linh động kích thước */
 .flip-card:not(.big) { 
-  aspect-ratio: 16 / 9;                    /* bỏ aspect-ratio để ảnh tự do */
-  height: calc((clamp(182px, 28vw, 364px) - clamp(12px, 2vw, 18px)) / 2);  /* (chiều cao card lớn - gap) / 2 */
-  display: block;                         /* giống card lớn */
-  line-height: 0;                         /* giống card lớn */
-  perspective: 1000px;                    /* giống card lớn */
-  border-radius: 18px;                    /* giống card lớn */
-  overflow: hidden;                       /* giống card lớn */
-  background: transparent !important;     /* giống card lớn */
-  font-size: 0;                          /* giống card lớn */
+  display: block;                        
+  line-height: 0;                         
+  perspective: 1000px;                   
+  border-radius: 18px;                    
+  overflow: hidden;                       
+  background: transparent !important;     
+  font-size: 0;                          
 }
 
-/* Ảnh trong 2 card nhỏ phủ kín hoàn toàn */
-.flip-card:not(.big) .flip-front {     
-  background-size: cover;                 /* ảnh phủ kín toàn bộ, cắt bỏ phần thừa */
-  width: 100%;
-  height: 100%;
-}
 .flip-front, .flip-back {
   position: absolute;
   width: 100%;
@@ -112,7 +104,7 @@
 }
 .flip-front {
   background-position: center;
-  background-size: cover;       /* ảnh phủ kín, chấp nhận crop */
+  background-size: cover !important;       /* ảnh phủ kín, chấp nhận crop */
   background-repeat: no-repeat;
 }
 /* bỏ <img> nội bộ để tránh phát sinh khoảng trắng */
@@ -134,50 +126,902 @@
 }
     
 
-/* Choose package */
+/* Choose package - New Layout */
 .homeboardservice-chooseyourpackage {
   margin-top: clamp(18px, 3.2vw, 28px);
 }
-.homeboardservice-chooseyourpackage .section-title {
-  color: #4D2B12;
-  font-size: clamp(22px, 3.4vw, 34px);
-  margin-bottom: clamp(10px, 2vw, 16px);
-}
-.package-grid {
+
+.package-layout {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(12px, 2vw, 18px);
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
+
+.package-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.package-sidebar {
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
+/* Package Cards - New Design với 2 hàng */
 .pkg-card {
-  border-radius: 16px;
-  padding: clamp(12px, 2.2vw, 20px);
-  background: #fffaf3;
-  border: 1px solid #ffe7cd;
-  /* bỏ box-shadow riêng, chuyển sang dùng .card-shadow cho đồng bộ */
+  background: rgba(244, 232, 218, 0.69); /* Opacity 69% để màu be nhạt hơn */
+  border: 1px solid #d8b894;
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column; /* THAY ĐỔI TỪ 'row' THÀNH 'column' */
+  padding: 0;             /* XÓA PADDING Ở ĐÂY */
+  min-height: 320px;      /* Tăng chiều cao tối thiểu để đồng nhất hơn */
 }
+
+/* Hàng 1: Main Content (Ảnh + Header) */
+.pkg-main-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem; /* CHUYỂN PADDING VÀO ĐÂY */
+}
+
+.pkg-image-container {
+  width: 250px;
+  height: 250px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.pkg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pkg-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pkg-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1; /* Cho phép header mở rộng để lấp đầy không gian */
+  min-height: 200px; /* Đảm bảo chiều cao tối thiểu đồng nhất cho nội dung */
+}
+
 .pkg-title {
   color: #4D2B12;
-  font-size: clamp(16px, 2.4vw, 22px);
-  margin: 0 0 6px;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  min-height: 2.5rem; /* Đảm bảo chiều cao đồng nhất cho title */
+  line-height: 1.2;
 }
+
 .pkg-price {
   font-weight: 800;
   color: #7b470b;
-  font-size: clamp(18px, 2.8vw, 26px);
-  margin-bottom: 8px;
+  font-size: 1.5rem;
+  font-family: "Bagel Fat One", system-ui, sans-serif;
 }
-.pkg-price .unit { font-weight: 600; font-size: 0.9em; color: #a06a30; }
-.pkg-features {
-  list-style: none; padding: 0; margin: 0 0 12px;
-  color: #6b5e56; display: grid; gap: 8px;
+
+.pkg-price .unit {
+  font-family: "Fraunces", serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-size: 0.72em;
+  color: #a06a30;
 }
-.pkg-card .btn.full { width: 100%; }
+
+.pkg-description {
+  color: #6b5e56;
+  margin: 0;
+  line-height: 1.5;
+  min-height: 3rem; /* Đảm bảo chiều cao đồng nhất cho mô tả */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pkg-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stars {
+  color: #ff69b4;
+  font-size: 1rem;
+}
+
+.rating-text {
+  color: #6b5e56;
+  font-size: 0.875rem;
+}
+
+.pkg-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  align-items: flex-start;
+  min-height: 2rem; /* Đảm bảo chiều cao đồng nhất cho tags */
+}
+
+/* Hàng 2: Details Toggle Logic với border-top rõ ràng */
+.pkg-details-toggled {
+  display: none;
+  border-top: 1px solid #d8b894; /* ĐƯỜNG KẺ NGANG */
+  padding: 1.5rem;              /* THÊM PADDING VÀO ĐÂY */
+  margin-top: 0;                /* Xóa margin-top cũ */
+}
+
+.pkg-details-toggled.is-active {
+  display: block;
+}
+
+.pkg-title {
+  color: #4D2B12;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  min-height: 2rem; /* Đảm bảo chiều cao tối thiểu cho title */
+}
+
+.pkg-price {
+  font-weight: 800;
+  color: #7b470b;
+  font-size: 1.75rem;
+  min-height: 2.5rem; /* Đảm bảo chiều cao tối thiểu cho price */
+}
+
+.pkg-price .unit {
+  font-family: "Fraunces", serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-size: 0.72em;
+  color: #b0b0b0 !important;
+}
+
+.pkg-description {
+  color: #6b5e56;
+  margin: 0;
+  line-height: 1.5;
+  min-height: 3rem; /* Đảm bảo chiều cao tối thiểu cho description */
+}
+
+.pkg-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.5rem; /* Đảm bảo chiều cao tối thiểu cho rating */
+}
+
+.stars {
+  color: #ff69b4;
+  font-size: 1rem;
+}
+
+.rating-text {
+  color: #6b5e56;
+  font-size: 0.875rem;
+}
+
+.pkg-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-height: 2.5rem; /* Đảm bảo chiều cao tối thiểu cho tags */
+  align-items: flex-start;
+}
+
+.tag {
+  border-radius: 999px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  color: #4D2B12;
+  font-weight: 600;
+  height: 1.75rem; /* Đảm bảo tất cả tags có cùng chiều cao */
+  box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng đến chiều cao */
+  display: inline-flex;
+  align-items: center;
+}
+
+.tag img {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Tag Color Variations */
+.tag-room {
+  background: #E0F2FE;
+  border: 1px solid #BAE6FD;
+  order: 1; /* Đảm bảo tag xanh dương luôn ở vị trí đầu tiên */
+}
+
+.tag-meal {
+  background: #DCFCE7;
+  border: 1px solid #BBF7D0;
+  order: 2; /* Đảm bảo tag hồng luôn ở vị trí thứ hai */
+}
+
+.tag-play {
+  background: #FCE7F3;
+  border: 1px solid #F9A8D4;
+  order: 3; /* Đảm bảo tag xanh lá luôn ở vị trí thứ ba */
+}
+
+.pkg-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto; /* Đẩy actions xuống dưới cùng */
+  padding-top: 1rem;
+  min-height: 3rem; /* Đảm bảo chiều cao tối thiểu cho actions */
+}
+
+.details-toggle {
+  background: none;
+  border: none;
+  color: #7b470b;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.details-toggle:hover {
+  text-decoration: underline;
+}
+
+/* Tabs */
+.pkg-tabs {
+  width: 100%;
+}
+
+.tab-nav {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid #ffe7cd;
+  margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 0.75rem 0;
+  color: #6b5e56;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab-btn.active {
+  color: #4D2B12;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #7b470b;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Đảm bảo 2 cột */
+  gap: 1rem;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  /* Styling thành 'viên thuốc' (pill) */
+  background-color: white;
+  border-radius: 999px; /* Bo góc rất lớn */
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Thêm bóng nhẹ */
+}
+
+.benefit-item span:last-child {
+  font-size: 0.9rem;
+}
+
+.benefit-check-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* Sidebar Styles */
+.order-summary {
+  background: rgba(244, 232, 218, 0.2);
+  border-radius: 24px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sidebar-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.selected-package h4 {
+  color: #4D2B12;
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.selected-label {
+  background: #10b981;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+}
+
+.package-price {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #7b470b;
+}
+
+.package-price .unit {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #a06a30;
+}
+
+/* Accordion */
+.accordion-section {
+  margin-bottom: 0;
+}
+
+.accordion-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #4D2B12;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.selected-count {
+  font-size: 0.875rem;
+  color: #6b5e56;
+}
+
+.chevron {
+  transition: transform 0.3s ease;
+}
+
+.accordion-content {
+  display: none;
+  padding-bottom: 1rem;
+}
+
+.accordion-content.expanded {
+  display: block;
+}
+
+.addon-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem;
+  background: #f7f3ed;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.addon-info {
+  flex: 1;
+}
+
+.addon-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.addon-name {
+  font-weight: 600;
+  color: #4D2B12;
+}
+
+.popular-tag {
+  background: #fbbf24;
+  color: white;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+
+.addon-desc {
+  color: #6b5e56;
+  font-size: 0.875rem;
+  margin: 0.25rem 0;
+}
+
+.addon-price {
+  font-weight: 700;
+  color: #7b470b;
+}
+
+.addon-price .unit {
+  font-size: 0.6rem;
+  color: #6b5e56;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.add-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #4D2B12;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.add-btn:hover {
+  background: #7b470b;
+}
+
+/* Treats Grid */
+.treats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.treat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #fffaf3;
+  border-radius: 12px;
+  border: 1px solid #ffe7cd;
+}
+
+.treat-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.treat-info {
+  text-align: center;
+  flex: 1;
+}
+
+.treat-name {
+  font-weight: 600;
+  color: #4D2B12;
+  font-size: 0.875rem;
+}
+
+.treat-price {
+  font-weight: 700;
+  color: #7b470b;
+  font-size: 0.875rem;
+}
+
+.treat-price .unit {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #a06a30;
+}
+
+/* Price Summary */
+.price-summary {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1.5rem;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.price-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Checkout Button */
+.checkout-btn {
+  width: 100%;
+  background: #7b470b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.checkout-btn:hover {
+  background: #4D2B12;
+}
+
+.cancellation-note {
+  color: #6b5e56;
+  font-size: 0.75rem;
+  text-align: center;
+  margin: 0;
+}
+
+/* Add-ons Tab Styles */
+.add-ons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.addon-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  background: rgba(244, 232, 218, 0.69);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid #d8b894;
+}
+
+.addon-info {
+  flex: 1;
+  margin-bottom: 0.25rem;
+}
+
+.addon-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.addon-name {
+  font-weight: 600;
+  color: #4D2B12;
+}
+
+.popular-tag {
+  background: #fbbf24;
+  color: white;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+
+.addon-desc {
+  color: #6b5e56;
+  font-size: 0.875rem;
+  margin: 0.5rem 0 0.25rem 0;
+  line-height: 1.4;
+}
+
+.addon-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.addon-price {
+  display: flex;
+  align-items: baseline;
+  font-weight: 700;
+  color: #7b470b;
+  font-size: 1.8rem;
+}
+
+.addon-price .unit {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #a06a30;
+}
+
+.add-btn {
+  background: #D4B896;
+  color: #4D2B12;
+  border: none;
+  border-radius: 999px;
+  padding: 1rem 1.8rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: #7b470b;
+}
+
+/* Photos Tab Styles */
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.photo-item {
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  display: block;
+  transition: box-shadow 0.3s ease;
+}
+
+.photo-item:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.photo-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Reviews Tab Styles */
+.reviews-summary {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.overall-rating {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #4D2B12;
+  margin-right: 0.5rem;
+}
+
+.overall-stars {
+  color: #ff69b4;
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+}
+
+.total-reviews {
+  color: #6b5e56;
+  font-size: 0.9rem;
+}
+
+.rating-breakdown {
+  flex: 1;
+}
+
+.rating-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.rating-label {
+  color: #4D2B12;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: right;
+  font-size: 0.875rem;
+}
+
+.progress-bar-container {
+  flex: 1;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #92b7df;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.review-count {
+  color: #6b5e56;
+  font-size: 0.875rem;
+  min-width: 30px;
+  text-align: right;
+}
+
+.view-all-reviews {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  text-decoration: none;
+  color: #7b470b;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 0;
+}
+
+.view-all-reviews:hover {
+  text-decoration: underline;
+}
+
+.review-item {
+  background: #f7f3ed;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.reviewer-name {
+  font-weight: 700;
+  color: #4D2B12;
+  font-size: 1rem;
+}
+
+.review-date {
+  font-size: 0.85rem;
+  color: #6b5e56;
+}
+
+.review-stars {
+  color: #ff69b4;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.review-text {
+  color: #6b5e56;
+  line-height: 1.5;
+  margin: 0;
+}
 
 /* Responsive */
-@media (max-width: 980px) {
-  .welcome-gallery { grid-template-columns: 1fr; grid-template-rows: auto; }
-  .welcome-gallery .big { grid-row: auto; }
-  .package-grid { grid-template-columns: 1fr; }
+@media (max-width: 1024px) {
+  .package-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .package-sidebar {
+    position: static;
+    order: -1;
+  }
+  
+  .reviews-summary {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .add-ons-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .pkg-main-info {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .pkg-image-container {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .pkg-content {
+    width: 100%;
+  }
+  
+  .pkg-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .treats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pkg-details-toggled {
+    padding: 1rem;
+  }
+  
+  .add-ons-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .photos-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+  
+  .reviews-summary {
+    text-align: center;
+  }
+  
+  .rating-breakdown {
+    width: 100%;
+  }
 }
 .homeboardservice-welcome .welcome-head {
   display: grid;
