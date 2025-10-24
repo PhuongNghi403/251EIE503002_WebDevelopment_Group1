@@ -6,8 +6,16 @@
 
   // Validators
   window.isEmail = (v) => /^\S+@\S+\.\S+$/.test(v || "");
-  window.isPhone = (v) => /^\+?\d[\d\s-]{7,}$/.test(v || "");
-  window.isPassword = (v) => (v || "").length >= 8;
+  window.isPhone = (v) => {
+    const result = /^\+?\d[\d\s-]{7,}$/.test(v || "");
+    console.log('isPhone validation:', v, '->', result);
+    return result;
+  };
+  window.isPassword = (v) => {
+    const result = (v || "").length >= 8;
+    console.log('isPassword validation:', v, 'length:', (v || "").length, '->', result);
+    return result;
+  };
 
   // Local storage helpers
   window.getUsers = () => JSON.parse(localStorage.getItem("pc_users") || "[]");
