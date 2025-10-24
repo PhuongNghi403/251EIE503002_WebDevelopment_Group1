@@ -36,7 +36,10 @@
       const mode = btn.dataset.tab;
       formSignIn.style.display = mode === "signin" ? "" : "none";
       formSignUp.style.display = mode === "signup" ? "" : "none";
-      updateAuthHeader(mode);
+      updateAuthHeader(mode); // Nếu có hàm này
+      // Thêm class cho .segmented để kích hoạt animation
+      const segmented = document.querySelector('.segmented');
+      segmented.className = 'segmented ' + mode; // Thêm 'signin' hoặc 'signup'
     }));
 
     // Toast notification helper
