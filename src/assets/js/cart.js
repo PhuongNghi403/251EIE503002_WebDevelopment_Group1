@@ -9,6 +9,7 @@ function initCartPage() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
   renderCartItems(cart);
   renderCartSummary(cart);
+  initCartSelectionListeners();
 }
 
 function renderCartItems(cart) {
@@ -77,37 +78,93 @@ function renderCartItems(cart) {
       </td>
     </tr>
   `).join('');
+
+  // Bind selection listeners after rendering
+  initCartSelectionListeners();
+}
+
+function getSelectedCartItems(cart) {
+  const checkedBoxes = document.querySelectorAll('.cart-item input[type="checkbox"]:checked');
+  const selectedIds = new Set(Array.from(checkedBoxes).map(cb => parseInt(cb.closest('.cart-item').dataset.itemId)));
+  return cart.filter(item => selectedIds.has(item.id));
+}
+
+function initCartSelectionListeners() {
+  const selectAll = document.getElementById('selectAll');
+  const itemCheckboxes = document.querySelectorAll('.cart-item input[type="checkbox"]');
+
+  if (selectAll) {
+    selectAll.addEventListener('change', (e) => {
+      const checked = e.target.checked;
+      itemCheckboxes.forEach(cb => cb.checked = checked);
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      renderCartSummary(cart);
+    });
+  }
+
+  itemCheckboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const allCount = document.querySelectorAll('.cart-item input[type="checkbox"]').length;
+      const checkedCount = document.querySelectorAll('.cart-item input[type="checkbox"]:checked').length;
+      if (selectAll) selectAll.checked = allCount > 0 && checkedCount === allCount;
+      renderCartSummary(cart);
+    });
+  });
 }
 
 function renderCartSummary(cart) {
   const selectedItemsSpan = document.querySelector('.selected-items');
   const subtotalSpan = document.querySelector('.price-row .price-value');
+  const discountSpan = document.querySelector('.price-row.discount .price-value');
   const totalSpan = document.querySelector('.price-row.total .price-value');
   const checkoutBtn = document.querySelector('.checkout-btn');
   
   if (cart.length === 0) {
     if (selectedItemsSpan) selectedItemsSpan.textContent = 'Selected (0 items)';
     if (subtotalSpan) subtotalSpan.textContent = '$0.00';
+    if (discountSpan) discountSpan.textContent = '-$0.00';
     if (totalSpan) totalSpan.textContent = '$0.00';
     return;
   }
 
-  const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const discount = 20; // Fixed discount for demo
+  const selectedCart = getSelectedCartItems(cart);
+  const subtotal = selectedCart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const discount = selectedCart.length > 0 ? 20 : 0; // Fixed discount for demo when items selected
   const total = subtotal - discount;
 
   if (selectedItemsSpan) {
-    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    const totalItems = selectedCart.reduce((total, item) => total + item.quantity, 0);
     selectedItemsSpan.textContent = `Selected (${totalItems} items)`;
   }
   
   if (subtotalSpan) subtotalSpan.textContent = `$${subtotal.toFixed(2)}`;
+  if (discountSpan) discountSpan.textContent = `-$${discount.toFixed(2)}`;
   if (totalSpan) totalSpan.textContent = `$${total.toFixed(2)}`;
   
-  // Update checkout button
   if (checkoutBtn) {
     checkoutBtn.onclick = checkout;
   }
+}
+
+function checkout() {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const selectedCart = getSelectedCartItems(cart);
+  if (selectedCart.length === 0) {
+    alert('Please select at least one item to proceed to payment.');
+    return;
+  }
+  // Check if user is logged in
+  const isLoggedIn = localStorage.getItem('user') !== null;
+  
+  if (!isLoggedIn) {
+    alert('Please login or sign up to proceed with checkout.');
+    window.location.href = 'login-signup.html';
+    return;
+  }
+  
+  alert('Redirecting to payment page with selected items...');
+  // window.location.href = 'checkout.html';
 }
 
 function updateQuantity(itemId, change) {
@@ -281,3 +338,147 @@ function initGlobalCartListeners() {
 
 // Initialize cart button state
 updateCartButton();
+
+
+// Global add to cart function
+function addToCart(productName, productImage, price = 0) {
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const existingItem = cart.find(item => item.name === productName);
+  
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({
+      id: Date.now(),
+      name: productName,
+      image: productImage,
+      price: price,
+      quantity: 1,
+      addedAt: new Date().toISOString()
+    });
+  }
+  
+  localStorage.setItem('cart', JSON.stringify(cart));
+  
+  if (typeof updateCartButton === 'function') {
+    updateCartButton();
+  }
+  
+  // Dispatch cart update event
+  window.dispatchEvent(new CustomEvent('cartUpdated', {
+    detail: { cart, action: 'add', productName }
+  }));
+}
+
+// Global add to wishlist function
+function addToWishlist(productName, productImage, category = 'General') {
+  let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  const existingItem = wishlist.find(item => item.name === productName);
+  
+  if (!existingItem) {
+    wishlist.push({
+      id: Date.now(),
+      name: productName,
+      image: productImage,
+      category: category,
+      addedAt: new Date().toISOString()
+    });
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    
+    if (typeof updateWishlistButton === 'function') {
+      updateWishlistButton();
+    }
+    
+    showNotification(`${productName} added to favorites!`, 'success');
+    
+    // Dispatch wishlist update event
+    window.dispatchEvent(new CustomEvent('wishlistUpdated', {
+      detail: { wishlist, action: 'add', productName }
+    }));
+  } else {
+    showNotification(`${productName} is already in your favorites!`, 'info');
+  }
+}
+
+// Update wishlist button with count badge
+function updateWishlistButton() {
+  const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  const wishlistBtn = document.querySelector('.icon-btn[aria-label="Wishlist"]');
+  
+  if (wishlistBtn) {
+    const count = wishlist.length;
+    wishlistBtn.setAttribute('data-count', count);
+    
+    if (count > 0) {
+      let badge = wishlistBtn.querySelector('.count-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'count-badge';
+        badge.style.cssText = `
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          background: #ff4757;
+          color: white;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+        `;
+        wishlistBtn.appendChild(badge);
+      }
+      badge.textContent = count;
+    } else {
+      const badge = wishlistBtn.querySelector('.count-badge');
+      if (badge) badge.remove();
+    }
+  }
+}
+
+// Notification system
+function showNotification(message, type = 'info') {
+  // Remove existing notifications
+  const existingNotifications = document.querySelectorAll('.notification');
+  existingNotifications.forEach(notification => notification.remove());
+  
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'success' ? '#2ed573' : type === 'error' ? '#ff4757' : '#88BAFF'};
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Animate in
+  setTimeout(() => {
+    notification.style.transform = 'translateX(0)';
+  }, 100);
+  
+  // Auto remove after 3 seconds
+  setTimeout(() => {
+    notification.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.remove();
+      }
+    }, 300);
+  }, 3000);
+}

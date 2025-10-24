@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFavoritePage();
   initFavoriteEventListeners();
   initGlobalFavoriteListeners();
+  initFavoriteSelectionListeners();
 });
 
 function initFavoritePage() {
@@ -51,14 +52,14 @@ function renderFavoriteItems(wishlist) {
           </div>
         </div>
       </td>
-      <td class="item-price">$${item.price ? item.price.toFixed(2) : '0.00'}</td>
+      <td class="unit-price">$${(item.price || 0).toFixed(2)}</td>
       <td class="category-cell">${item.category || 'General'}</td>
       <td class="date-cell">${formatDate(item.addedAt)}</td>
       <td class="actions-cell">
-        <button class="add-to-cart-btn" onclick="addFavoriteToCart(${item.id})">Add to Cart</button>
+        <button class="add-to-cart-btn">Add to Cart</button>
       </td>
       <td class="remove-cell">
-        <button class="remove-btn" onclick="removeFromFavorites(${item.id})" aria-label="Remove from favorites">
+        <button class="delete-btn" onclick="removeFromFavorites(${item.id})" aria-label="Remove favorite">
           <svg viewBox="0 0 24 24" width="20" height="20">
             <path fill="#FF0000" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
           </svg>
@@ -66,6 +67,39 @@ function renderFavoriteItems(wishlist) {
       </td>
     </tr>
   `).join('');
+
+  // Bind selection listeners after rendering
+  initFavoriteSelectionListeners();
+}
+
+function getSelectedFavoriteItems(wishlist) {
+  const checkedBoxes = document.querySelectorAll('.favorite-item input[type="checkbox"]:checked');
+  const selectedIds = new Set(Array.from(checkedBoxes).map(cb => parseInt(cb.closest('.favorite-item').dataset.itemId)));
+  return wishlist.filter(item => selectedIds.has(item.id));
+}
+
+function initFavoriteSelectionListeners() {
+  const selectAll = document.getElementById('selectAll');
+  const itemCheckboxes = document.querySelectorAll('.favorite-item input[type="checkbox"]');
+
+  if (selectAll) {
+    selectAll.addEventListener('change', (e) => {
+      const checked = e.target.checked;
+      itemCheckboxes.forEach(cb => cb.checked = checked);
+      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      renderFavoriteSummary(wishlist);
+    });
+  }
+
+  itemCheckboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      const allCount = document.querySelectorAll('.favorite-item input[type="checkbox"]').length;
+      const checkedCount = document.querySelectorAll('.favorite-item input[type="checkbox"]:checked').length;
+      if (selectAll) selectAll.checked = allCount > 0 && checkedCount === allCount;
+      renderFavoriteSummary(wishlist);
+    });
+  });
 }
 
 function renderFavoriteSummary(wishlist) {
@@ -80,11 +114,11 @@ function renderFavoriteSummary(wishlist) {
     return;
   }
 
-  // Get unique categories
+  const selectedList = getSelectedFavoriteItems(wishlist);
   const categories = [...new Set(wishlist.map(item => item.category || 'General'))];
 
   if (selectedItemsSpan) {
-    selectedItemsSpan.textContent = `Selected (${wishlist.length} items)`;
+    selectedItemsSpan.textContent = `Selected (${selectedList.length} items)`;
   }
   
   if (totalFavoritesSpan) {
