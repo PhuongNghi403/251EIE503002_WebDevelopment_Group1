@@ -1,0 +1,84 @@
+/* Product Detail Page Styles */
+.page.product-detail {
+  background: #FFFEF9;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Lexend Deca', sans-serif;
+  color: #6B6358;
+  margin: 24px 0;
+}
+.breadcrumbs a { color: #4D2B12; text-decoration: none; }
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  padding: 24px 0;
+}
+
+.detail-media {
+  background: #fff;
+  border: 1px solid rgba(77, 43, 18, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.detail-image {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  object-fit: contain;
+}
+
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.detail-title {
+  font-family: 'Bagel Fat One', cursive;
+  font-size: 28px;
+  color: #4D2B12;
+}
+.detail-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.detail-price {
+  font-size: 24px;
+  font-weight: 700;
+  color: #4D2B12;
+}
+.detail-rating {
+  color: #6B6358;
+}
+.detail-desc {
+  color: #6B6358;
+  line-height: 1.6;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 12px;
+}
+.detail-actions .btn { min-width: 140px; }
+
+.detail-extra {
+  margin-top: 32px;
+  background: #fff;
+  border: 1px solid rgba(77, 43, 18, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+@media (max-width: 960px) {
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-image { max-width: 100%; }
+}

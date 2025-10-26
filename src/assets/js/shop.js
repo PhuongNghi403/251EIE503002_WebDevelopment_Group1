@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initWishlistAndCart();
   initProductCardButtons();
   initGlobalCartListeners();
+  initCardTitleNavigation(); // Add navigation for card titles
 });
 
 // Initialize shop page
@@ -916,5 +917,45 @@ async function loadProductsFromXML() {
   } catch (error) {
     console.error('Error loading products from XML:', error);
   }
+}
+
+
+// Initialize card title navigation to product detail page
+function initCardTitleNavigation() {
+  // Product name to XML ID mapping
+  const productNameToId = {
+    'SQUEAKY SPORTS BALL SET (BASKETBALL & FOOTBALL)': '1',
+    'BONE-SHAPED PET TOYS (SET OF 4)': '2', 
+    'HIGH-GRIP TRAINING BALL': '3',
+    'KIT CAT FILLET \'O\' LAKES': '4',
+    'ENCORE COMPLETE - CAT FOOD': '5',
+    'WELLNESS SIGNATURE SELECTS (CHICKEN ENTRÉE)': '6',
+    'FRISKIES WITH CHICKEN (CANNED)': '7',
+    'CHERIE "THE FINEST" (SHREDDED CHICKEN IN GRAVY)': '8',
+    'PEDIGREE VITAL PROTECTION (ADULT DOG)': '9',
+    'STUFFED ANIMALS & ROPE PLAY SET': '10',
+    'RAWHIDE BONE CHEW': '11'
+  };
+
+  // Add click handlers to all card-title elements
+  document.querySelectorAll('.card-title').forEach(titleElement => {
+    titleElement.style.cursor = 'pointer';
+    titleElement.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const productName = titleElement.textContent.trim();
+      const productId = productNameToId[productName];
+      
+      if (productId) {
+        // Navigate to product detail page with the XML product ID
+        window.location.href = `product_detail.html?id=${productId}`;
+      } else {
+        // Fallback: use product name as parameter if no ID mapping found
+        const encodedName = encodeURIComponent(productName);
+        window.location.href = `product_detail.html?name=${encodedName}`;
+      }
+    });
+  });
 }
 
