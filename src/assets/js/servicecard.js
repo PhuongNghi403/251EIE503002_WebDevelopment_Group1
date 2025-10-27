@@ -423,7 +423,7 @@ function initPackageSelection() {
       localStorage.setItem('selectedPackageName', packageName);
       localStorage.setItem('selectedPackagePrice', priceStr);
 
-      showNotification(`${packageName} đã được chọn!`, 'success');
+      showNotification(`${packageName}  has been picked!`, 'success');
     });
   });
 }

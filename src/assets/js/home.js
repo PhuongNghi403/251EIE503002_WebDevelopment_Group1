@@ -2,12 +2,34 @@
   // Đánh dấu nav active theo data-page
   document.addEventListener("DOMContentLoaded", () => {
     const page = document.body.dataset.page || "";
-    $$(".nav .nav-link").forEach((a) => a.classList.remove("active"));
+    $(".nav .nav-link").forEach((a) => a.classList.remove("active"));
     // Map đơn giản tên page -> text của link
     const map = { home: "Home", services: "Services", shop: "Shop", community: "Community", profile: "Profile" };
     const target = map[page] || "Home";
-    const link = Array.from($$(".nav .nav-link")).find(a => (a.textContent || "").trim() === target);
+    const link = Array.from($(".nav .nav-link")).find(a => (a.textContent || "").trim() === target);
     if (link) link.classList.add("active");
+
+    // Smooth scroll functionality for About Us and Discover More buttons
+    const scrollToButtons = document.querySelectorAll('.scroll-to');
+    scrollToButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          // Tính toán vị trí chính xác để hiển thị tiêu đề từ đầu
+          const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
+          const elementPosition = targetElement.offsetTop - headerHeight - 20; // Thêm 20px padding
+          
+          // Cuộn mượt đến vị trí chính xác
+          window.scrollTo({
+            top: elementPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
   });
 
   // Kích hoạt animation sau khi toàn bộ trang (ảnh) đã tải xong
