@@ -1,4 +1,45 @@
 // Favorite/Wishlist functionality
+
+// Global products data cache
+let productsData = [];
+
+// Load products from XML
+async function loadProductsData() {
+  try {
+    const response = await fetch('../assets/data/products.xml');
+    const xmlText = await response.text();
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+    
+    const products = xmlDoc.querySelectorAll('product');
+    productsData = Array.from(products).map(product => ({
+      id: product.getAttribute('id'),
+      name: product.querySelector('name')?.textContent || '',
+      price: parseFloat(product.querySelector('discounted_price')?.textContent || product.querySelector('original_price')?.textContent || '0'),
+      originalPrice: parseFloat(product.querySelector('original_price')?.textContent || '0'),
+      category: product.querySelector('category')?.textContent || 'General',
+      image: product.querySelector('image_url')?.textContent || '',
+      rating: parseFloat(product.querySelector('rating')?.textContent || '0'),
+      soldCount: product.querySelector('sold_count')?.textContent || '0'
+    }));
+    
+    console.log('Products data loaded:', productsData.length, 'products');
+    return productsData;
+  } catch (error) {
+    console.error('Error loading products data:', error);
+    return [];
+  }
+}
+
+// Get product data by name
+function getProductDataByName(productName) {
+  return productsData.find(product => 
+    product.name.toLowerCase() === productName.toLowerCase() ||
+    product.name.toLowerCase().includes(productName.toLowerCase()) ||
+    productName.toLowerCase().includes(product.name.toLowerCase())
+  );
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initFavoritePage();
   initFavoriteEventListeners();
@@ -6,8 +47,29 @@ document.addEventListener('DOMContentLoaded', () => {
   initFavoriteSelectionListeners();
 });
 
-function initFavoritePage() {
-  const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+async function initFavoritePage() {
+  // Load products data first
+  await loadProductsData();
+  
+  let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  
+  // Enhance existing wishlist items with correct price and category from XML
+  wishlist = wishlist.map(item => {
+    const productData = getProductDataByName(item.name);
+    if (productData && (!item.price || item.price === 0 || item.category === 'General')) {
+      return {
+        ...item,
+        price: productData.price,
+        originalPrice: productData.originalPrice,
+        category: productData.category
+      };
+    }
+    return item;
+  });
+  
+  // Save enhanced wishlist back to localStorage
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  
   renderFavoriteItems(wishlist);
   renderFavoriteSummary(wishlist);
 }
@@ -56,7 +118,7 @@ function renderFavoriteItems(wishlist) {
       <td class="category-cell">${item.category || 'General'}</td>
       <td class="date-cell">${formatDate(item.addedAt)}</td>
       <td class="actions-cell">
-        <button class="add-to-cart-btn">Add to Cart</button>
+        <button class="add-to-cart-btn" data-item-id="${item.id}">Add to Cart</button>
       </td>
       <td class="remove-cell">
         <button class="delete-btn" onclick="removeFromFavorites(${item.id})" aria-label="Remove favorite">
@@ -70,6 +132,9 @@ function renderFavoriteItems(wishlist) {
 
   // Bind selection listeners after rendering
   initFavoriteSelectionListeners();
+  
+  // Bind add-to-cart listeners after rendering
+  initAddToCartListeners();
 }
 
 function getSelectedFavoriteItems(wishlist) {
@@ -160,6 +225,9 @@ function addFavoriteToCart(itemId) {
       localStorage.setItem('cart', JSON.stringify(cart));
       showNotification(`${item.name} added to cart!`, 'success');
     }
+    
+    // Remove item from favorites after adding to cart
+    removeFromFavorites(itemId);
   }
 }
 
@@ -324,18 +392,29 @@ function initFavoriteEventListeners() {
 }
 
 // Add to wishlist function (global)
-function addToWishlist(productName, productImage, category = 'General') {
+async function addToWishlist(productName, productImage, category = 'General') {
+  // Ensure products data is loaded
+  if (productsData.length === 0) {
+    await loadProductsData();
+  }
+  
   let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
   const existingItem = wishlist.find(item => item.name === productName);
   
   if (!existingItem) {
+    // Get product data from XML
+    const productData = getProductDataByName(productName);
+    
     wishlist.push({
       id: Date.now(),
       name: productName,
       image: productImage,
-      category: category,
+      category: productData ? productData.category : category,
+      price: productData ? productData.price : 0,
+      originalPrice: productData ? productData.originalPrice : 0,
       addedAt: new Date().toISOString()
     });
+    
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
     updateWishlistButton();
     showNotification(`${productName} added to favorites!`, 'success');
@@ -464,3 +543,16 @@ function formatDate(dateString) {
 
 // Initialize wishlist button state
 updateWishlistButton();
+
+function initAddToCartListeners() {
+  // Handle add-to-cart buttons in the favorites table
+  document.querySelectorAll('.favorite-item .add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const itemId = parseInt(btn.getAttribute('data-item-id'));
+      addFavoriteToCart(itemId);
+    });
+  });
+}
