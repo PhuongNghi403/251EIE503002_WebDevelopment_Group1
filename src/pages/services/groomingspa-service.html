@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Pawfect Care — GroomingSpa</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/header.css" />
+  <link rel="stylesheet" href="../../assets/css/services/service-offer.css" />
+  <link rel="stylesheet" href="../../assets/css/services/ourservices.css" />
+  <link rel="stylesheet" href="../../assets/css/footer.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chiron+Sung+HK:ital,wght@0,200..900;1,200..900&family=Fraunces:ital,opsz,wght@0,9..144,100;1,9..144,100&family=Lexend+Deca:wght@100&family=Quicksand:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/services/servicecard.css" />
+</head>
+
+<body data-page="groomingspa">
+  <!--HEADER-->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../index.html">
+        <img class="brand-mark-img" src="../../assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+        <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+      </a>
+      <nav class="nav">
+        <a class="nav-link" href="../../index.html">Home</a>
+        <a class="nav-link active" href="services.html">Services</a>
+        <a class="nav-link" href="../shop.html">Shop</a>
+        <a class="nav-link" href="../community.html">Community</a>
+        <a class="nav-link" href="../profile.html">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" aria-label="Wishlist">
+          <img src="../../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+        </button>
+        <a class="icon-btn" href="../cart.html" aria-label="Cart">
+          <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="../login-signup.html" aria-label="Account">
+          <img src="../../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="page homestayboarding container">
+    <!-- Back to Services -->
+    <a class="back-to-services" href="services.html"><u>← Back to Services</u></a>
+    <!-- Section 1: Welcome + Gallery -->
+    <section class="homeboardservice-welcome">
+      <div class="welcome-head">
+        <h1 class="title bagel-fat-one-regular">Homestay & Boarding Services</h1>
+        <span class="rating-badge">✨ 4.8 Rating • 890+ Reviews</span>
+        <p class="subtitle quicksand-600">
+          A home away from home for your beloved pets. In our clean, cozy, and secure homestay, they receive 24/7 care, gentle supervision, and lots of playtime. Each pet gets individual attention, a comfy sleeping area, fresh water, and meals on schedule—quiet space for shy pets and small group play for social ones. We follow your instructions for diet and medicine, and send daily photo updates so you can relax on your trip. Our loving team is always nearby to cuddle, groom, and watch over their health and happiness.
+        </p>
+      </div>
+      <div class="welcome-gallery">
+        <!-- Left: big card (CatGoDown) -->
+        <article class="flip-card big card-shadow" tabindex="0" aria-label="Cat going downstairs">
+          <div class="flip-inner">
+            <div class="flip-front" style="background-image: url('../../assets/images/Services/CatGoDown.svg');"></div>
+            <div class="flip-back">
+              <blockquote>
+                “Feels just like home! Daily photo updates melted all our worries.”
+                <footer>_Sarah M_</footer>
+              </blockquote>
+            </div>
+          </div>
+        </article>
+        <!-- Right-top: (CatOnSofa) -->
+        <article class="flip-card card-shadow" tabindex="0" aria-label="Cat on sofa">
+          <div class="flip-inner">
+            <div class="flip-front" style="background-image: url('../../assets/images/Services/CatOnSofa.svg');"></div>
+            <div class="flip-back">
+              <blockquote>
+                “Cozy spaces and constant love. My cat didn’t want to leave!”
+                <footer>_Linh T_</footer>
+              </blockquote>
+            </div>
+          </div>
+        </article>
+        <!-- Right-bottom: (DogHomeBoardingHeroService) -->
+        <article class="flip-card card-shadow" tabindex="0" aria-label="Dog in homestay">
+          <div class="flip-inner">
+            <div class="flip-front" style="background-image: url('../../assets/images/Services/DogHomeBoardingHeroService.svg');"></div>
+            <div class="flip-back">
+              <blockquote>
+                “Playtime galore and gentle care. 5/5 — would book again!”
+                <footer>_An Nguyễn_</footer>
+              </blockquote>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 2: Choose Your Package -->
+    <section class="homeboardservice-chooseyourpackage">
+      <div class="package-layout">
+        <!-- Main Content (Left Column) -->
+        <div class="package-main">
+          <h2 class="section-title bagel-fat-one-regular">Choose Your Package</h2>
+          <!-- Package Card 1: Cozy Room (Basic) - Initially Expanded -->
+          <article class="pkg-card card-shadow">
+            <!-- Hàng 1: Main Info (Ảnh + Header) -->
+            <div class="pkg-main-info">
+              <div class="pkg-image-container">
+                <img class="pkg-image" src="../../assets/images/Services/CatGoDown.svg" alt="Cozy Room" />
+              </div>
+              <div class="pkg-content">
+                <div class="pkg-header">
+                  <h3 class="pkg-title bagel-fat-one-regular">Cozy Room (Basic)</h3>
+                  <div class="pkg-price">$40<span class="unit"> per pet</span></div>
+                  <p class="pkg-description fraunces-body">Simple comfort for your furry friend. Ideal for pets staying 1-2 nights</p>
+                  <div class="pkg-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-text">5.0 (200 reviews)</span>
+                  </div>
+                  <div class="pkg-tags">
+                    <span class="tag tag-room"><img src="../../assets/icons/Service/HouseIcon.svg" alt="House"> Private Room</span>
+                    <span class="tag tag-meal"><img src="../../assets/icons/Service/BowlFoodIcon.svg" alt="Food"> Meal Plan</span>
+                    <span class="tag tag-play"><img src="../../assets/icons/Service/SettingIcon.svg" alt="Setting"> Playtime</span>
+                  </div>
+                  <div class="pkg-actions">
+                    <button class="details-toggle" onclick="toggleDetails(this)">
+                      View Details <span class="arrow">↓</span>
+                    </button>
+                    <a class="btn primary" href="bookingservice.html">Book Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Hàng 2: Details Section (Tabs) -->
+            <div class="pkg-details-toggled">
+              <div class="pkg-tabs">
+                <div class="tab-nav">
+                  <button class="tab-btn active" onclick="switchTab(this, 'benefits-1')">Benefits</button>
+                  <button class="tab-btn" onclick="switchTab(this, 'addons-1')">Add-ons</button>
+                  <button class="tab-btn" onclick="switchTab(this, 'photos-1')">Photos</button>
+                  <button class="tab-btn" onclick="switchTab(this, 'reviews-1')">Reviews</button>
+                </div>
+                <div class="tab-content">
+                  <div class="tab-panel active" id="benefits-1">
+                    <div class="benefits-grid">
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Private room with soft bedding & toys</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Standard dry food meals (2x daily)</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Shared playtime (1 session/day)</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Daily cleaning & hygiene check</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>1 photo update per day</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-panel" id="addons-1">
+                    <div class="add-ons-grid">
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Gourmet Meal Upgrade</span>
+                          </div>
+                          <p class="addon-desc">Chef-crafted wet meals made with real meat, veggies, and an evening snack</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$5<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Vet Visit</span>
+                          </div>
+                          <p class="addon-desc">A professional vet checks your pet's health, coat, and overall condition</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$25<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Pet Taxi</span>
+                          </div>
+                          <p class="addon-desc">Pawfect Care staff picks up and returns your pet within a 5 km radius.</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$10<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Live Camera</span>
+                          </div>
+                          <p class="addon-desc">HD livestream of your pet 24/7</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$12<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-panel" id="photos-1">
+                    <div class="photos-grid">
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatGoDown.svg" alt="Pet facility photo 1" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatOnSofa.svg" alt="Pet facility photo 2" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/DogHomeBoardingHeroService.svg" alt="Pet facility photo 3" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatGoDown.svg" alt="Pet facility photo 4" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatOnSofa.svg" alt="Pet facility photo 5" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/DogHomeBoardingHeroService.svg" alt="Pet facility photo 6" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatGoDown.svg" alt="Pet facility photo 7" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatOnSofa.svg" alt="Pet facility photo 8" />
+                      </a>
+                    </div>
+                  </div>
+                  <div class="tab-panel" id="reviews-1">
+                    <div class="reviews-summary">
+                      <div class="rating-overview">
+                        <div class="overall-rating">5.0</div>
+                        <div class="overall-stars">★★★★★</div>
+                        <div class="total-reviews">200 reviews</div>
+                      </div>
+                      <div class="rating-breakdown">
+                        <div class="rating-bar-row">
+                          <span class="rating-label">5 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 99%;"></div>
+                          </div>
+                          <span class="review-count">198</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">4 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 1%;"></div>
+                          </div>
+                          <span class="review-count">2</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">3 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                          </div>
+                          <span class="review-count">0</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">2 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                          </div>
+                          <span class="review-count">0</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">1 star</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                          </div>
+                          <span class="review-count">0</span>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="#" class="view-all-reviews">View All</a>
+                    <div class="review-item">
+                      <div class="review-header">
+                        <span class="reviewer-name">Jennifer Lee</span>
+                        <span class="review-date">3 days ago</span>
+                      </div>
+                      <div class="review-stars">★★★★★</div>
+                      <p class="review-text">My dog had an amazing time! Regular updates and photos made me feel at ease.</p>
+                    </div>
+                    <div class="review-item">
+                      <div class="review-header">
+                        <span class="reviewer-name">Robert Taylor</span>
+                        <span class="review-date">1 week ago</span>
+                      </div>
+                      <div class="review-stars">★★★★★</div>
+                      <p class="review-text">Clean facilities, caring staff. Our cat was well taken care of.</p>
+                    </div>
+                    <div class="review-item">
+                      <div class="review-header">
+                        <span class="reviewer-name">Lisa Anderson</span>
+                        <span class="review-date">2 weeks ago</span>
+                      </div>
+                      <div class="review-stars">★★★★</div>
+                      <p class="review-text">Great service! Would definitely book again for our next vacation.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Package Card 2: Premium Retreat - Initially Collapsed -->
+          <article class="pkg-card card-shadow">
+            <!-- Hàng 1: Main Info (Ảnh + Header) -->
+            <div class="pkg-main-info">
+              <div class="pkg-image-container">
+                <img class="pkg-image" src="../../assets/images/Services/CatOnSofa.svg" alt="Premium Retreat" />
+              </div>
+              <div class="pkg-content">
+                <div class="pkg-header">
+                  <h3 class="pkg-title bagel-fat-one-regular">Premium Retreat</h3>
+                  <div class="pkg-price ">$55<span class="unit"> per pet</span></div>
+                  <p class="pkg-description fraunces-body">A step up in comfort and personalized attention. Perfect for pets who love extra space, custom meals, and one-on-one care.</p>
+                  <div class="pkg-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-text">5.0 (180 reviews)</span>
+                  </div>
+                  <div class="pkg-tags">
+                    <span class="tag tag-room"><img src="../../assets/icons/Service/HouseIcon.svg" alt="House"> Private Room</span>
+                    <span class="tag tag-meal"><img src="../../assets/icons/Service/BowlFoodIcon.svg" alt="Food"> Custom Meals</span>
+                    <span class="tag tag-play"><img src="../../assets/icons/Service/SettingIcon.svg" alt="Setting"> Premium Play</span>
+                  </div>
+                  <div class="pkg-actions">
+                    <button class="details-toggle" onclick="toggleDetails(this)">
+                      View Details <span class="arrow">↓</span>
+                    </button>
+                    <a class="btn primary" href="bookingservice.html">Book Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Hàng 2: Details Section (Tabs) -->
+            <div class="pkg-details-toggled">
+              <div class="pkg-tabs">
+                <div class="tab-nav">
+                  <button class="tab-btn active" onclick="switchTab(this, 'benefits-2')">Benefits</button>
+                  <button class="tab-btn" onclick="switchTab(this, 'addons-2')">Add-ons</button>
+                  <button class="tab-btn" onclick="switchTab(this, 'photos-2')">Photos</button>
+                  <button class="tab-btn" onclick="switchTab(this, 'reviews-2')">Reviews</button>
+                </div>
+                <div class="tab-content">
+                  <div class="tab-panel active" id="benefits-2">
+                    <div class="benefits-grid">
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Deluxe air-conditioned room with window view</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Custom feeding schedule & premium wet meals</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>1-on-1 walk & playtime with caretaker</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Pre-checkout mini grooming</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Daily photo & video updates</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-panel" id="addons-2">
+                    <div class="add-ons-grid">
+                      <!-- Add-ons item example -->
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Aromatherapy Bedtime</span>
+                          </div>
+                          <p class="addon-desc">Relaxing and soothing aroma therapy session before bedtime</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$8<span class="unit"> /per pet</span></div>
+                          <!-- New quantity control -->
+                          <div class="qty-control">
+                            <button class="qty-btn qty-minus" aria-label="Decrease">−</button>
+                            <span class="qty-number">0</span>
+                            <button class="qty-btn qty-plus" aria-label="Increase">+</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Vet Visit</span>
+                          </div>
+                          <p class="addon-desc">A professional vet checks your pet's health, coat, and overall condition</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$25<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Pet Taxi</span>
+                          </div>
+                          <p class="addon-desc">Pawfect Care staff picks up and returns your pet within a 5 km radius.</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$10<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Live Camera</span>
+                          </div>
+                          <p class="addon-desc">HD livestream of your pet 24/7</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$12<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-panel" id="photos-2">
+                    <div class="photos-grid">
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatGoDown.svg" alt="Premium facility photo 1" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatOnSofa.svg" alt="Premium facility photo 2" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/DogHomeBoardingHeroService.svg" alt="Premium facility photo 3" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatGoDown.svg" alt="Premium facility photo 4" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatOnSofa.svg" alt="Premium facility photo 5" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/DogHomeBoardingHeroService.svg" alt="Premium facility photo 6" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatGoDown.svg" alt="Premium facility photo 7" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatOnSofa.svg" alt="Premium facility photo 8" />
+                      </a>
+                    </div>
+                  </div>
+                  <div class="tab-panel" id="reviews-2">
+                    <div class="reviews-summary">
+                      <div class="rating-overview">
+                        <div class="overall-rating">5.0</div>
+                        <div class="overall-stars">★★★★★</div>
+                        <div class="total-reviews">180 reviews</div>
+                      </div>
+                      <div class="rating-breakdown">
+                        <div class="rating-bar-row">
+                          <span class="rating-label">5 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 98%;"></div>
+                          </div>
+                          <span class="review-count">176</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">4 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 2%;"></div>
+                          </div>
+                          <span class="review-count">4</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">3 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                          </div>
+                          <span class="review-count">0</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">2 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                          </div>
+                          <span class="review-count">0</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">1 star</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                          </div>
+                          <span class="review-count">0</span>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="#" class="view-all-reviews">View All</a>
+                    <div class="review-item">
+                      <div class="review-header">
+                        <span class="reviewer-name">Michael Chen</span>
+                        <span class="review-date">2 days ago</span>
+                      </div>
+                      <div class="review-stars">★★★★★</div>
+                      <p class="review-text">Premium service exceeded expectations. Custom meals were perfect for my picky eater!</p>
+                    </div>
+                    <div class="review-item">
+                      <div class="review-header">
+                        <span class="reviewer-name">Sarah Johnson</span>
+                        <span class="review-date">5 days ago</span>
+                      </div>
+                      <div class="review-stars">★★★★★</div>
+                      <p class="review-text">Spacious suite and one-on-one attention made all the difference. Highly recommend!</p>
+                    </div>
+                    <div class="review-item">
+                      <div class="review-header">
+                        <span class="reviewer-name">David Kim</span>
+                        <span class="review-date">1 week ago</span>
+                      </div>
+                      <div class="review-stars">★★★★★</div>
+                      <p class="review-text">Amazing grooming services and HD video updates. Worth every penny!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Package Card 3: Luxury Suite - Initially Collapsed -->
+          <article class="pkg-card card-shadow">
+            <!-- Hàng 1: Main Info (Ảnh + Header) -->
+            <div class="pkg-main-info">
+              <div class="pkg-image-container">
+                <img class="pkg-image" src="../../assets/images/Services/DogHomeBoardingHeroService.svg" alt="Luxury Suite" />
+              </div>
+              <div class="pkg-content">
+                <div class="pkg-header">
+                  <h3 class="pkg-title bagel-fat-one-regular">Luxury Suite</h3>
+                  <div class="pkg-price">$75<span class="unit"> per pet</span></div>
+                  <p class="pkg-description fraunces-body">Five-star luxury stay for your best friend. Exclusive suite with full monitoring, spa treatment, and premium service from start to finish.</p>
+                  <div class="pkg-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-text">5.0 (95 reviews)</span>
+                  </div>
+                  <div class="pkg-tags">
+                    <span class="tag tag-room"><img src="../../assets/icons/Service/HouseIcon.svg" alt="House"> Luxury Suite</span>
+                    <span class="tag tag-meal"><img src="../../assets/icons/Service/BowlFoodIcon.svg" alt="Food"> Gourmet Meals</span>
+                    <span class="tag tag-play"><img src="../../assets/icons/Service/SettingIcon.svg" alt="Setting"> VIP Treatment</span>
+                  </div>
+                  <div class="pkg-actions">
+                    <button class="details-toggle" onclick="toggleDetails(this)">
+                      View Details <span class="arrow">↓</span>
+                    </button>
+                    <a class="btn primary" href="bookingservice.html">Book Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Hàng 2: Details Section (Tabs) -->
+            <div class="pkg-details-toggled">
+              <div class="pkg-tabs">
+                <div class="tab-nav">
+                  <button class="tab-btn active" onclick="switchTab(this, 'benefits-3')">Benefits</button>
+                  <button class="tab-btn" onclick="switchTab(this, 'addons-3')">Add-ons</button>
+                  <button class="tab-btn" onclick="switchTab(this, 'photos-3')">Photos</button>
+                  <button class="tab-btn" onclick="switchTab(this, 'reviews-3')">Reviews</button>
+                </div>
+                <div class="tab-content">
+                  <div class="tab-panel active" id="benefits-3">
+                    <div class="benefits-grid">
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Suite-style room with sofa, ambient lighting & TV</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Gourmet meals prepared by pet nutritionist</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Priority 24/7 care & attention</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Complimentary spa grooming session</span>
+                      </div>
+                      <div class="benefit-item">
+                        <img src="../../assets/icons/Service/BenefitCheck.svg" alt="Check" class="benefit-check-icon" />
+                        <span>Real-time video updates & chat with staff</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-panel" id="addons-3">
+                    <div class="add-ons-grid">
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Gourmet Meal Upgrade</span>
+                          </div>
+                          <p class="addon-desc">Chef-crafted wet meals made with real meat, veggies, and an evening snack</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$5<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Vet Visit</span>
+                          </div>
+                          <p class="addon-desc">A professional vet checks your pet's health, coat, and overall condition</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$25<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Pet Taxi</span>
+                          </div>
+                          <p class="addon-desc">Pawfect Care staff picks up and returns your pet within a 5 km radius.</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$10<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                      <div class="addon-item">
+                        <div class="addon-info">
+                          <div class="addon-header">
+                            <span class="addon-name">Pet Yoga & Relaxation Session</span>
+                          </div>
+                          <p class="addon-desc">Relaxing and soothing yoga session with a pet-friendly instructor</p>
+                        </div>
+                        <div class="addon-footer">
+                          <div class="addon-price bagel-fat-one-regular">$12<span class="unit"> /per pet</span></div>
+                          <button class="add-btn">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-panel" id="photos-3">
+                    <div class="photos-grid">
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatGoDown.svg" alt="Luxury facility photo 1" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatOnSofa.svg" alt="Luxury facility photo 2" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/DogHomeBoardingHeroService.svg" alt="Luxury facility photo 3" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatGoDown.svg" alt="Luxury facility photo 4" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatOnSofa.svg" alt="Luxury facility photo 5" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/DogHomeBoardingHeroService.svg" alt="Luxury facility photo 6" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatGoDown.svg" alt="Luxury facility photo 7" />
+                      </a>
+                      <a href="#" class="photo-item">
+                        <img src="../../assets/images/Services/CatOnSofa.svg" alt="Luxury facility photo 8" />
+                      </a>
+                    </div>
+                  </div>
+                  <div class="tab-panel" id="reviews-3">
+                    <div class="reviews-summary">
+                      <div class="rating-overview">
+                        <div class="overall-rating">5.0</div>
+                        <div class="overall-stars">★★★★★</div>
+                        <div class="total-reviews">95 reviews</div>
+                      </div>
+                      <div class="rating-breakdown">
+                        <div class="rating-bar-row">
+                          <span class="rating-label">5 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 100%;"></div>
+                          </div>
+                          <span class="review-count">95</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">4 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                          </div>
+                          <span class="review-count">0</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">3 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                          </div>
+                          <span class="review-count">0</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">2 stars</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                          </div>
+                          <span class="review-count">0</span>
+                        </div>
+                        <div class="rating-bar-row">
+                          <span class="rating-label">1 star</span>
+                          <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                          </div>
+                          <span class="review-count">0</span>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="#" class="view-all-reviews">View All</a>
+                    <div class="review-item">
+                      <div class="review-header">
+                        <span class="reviewer-name">Emma Wilson</span>
+                        <span class="review-date">1 day ago</span>
+                      </div>
+                      <div class="review-stars">★★★★★</div>
+                      <p class="review-text">Absolutely luxurious! The private garden and 24/7 caregiver made this the best experience ever.</p>
+                    </div>
+                    <div class="review-item">
+                      <div class="review-header">
+                        <span class="reviewer-name">James Rodriguez</span>
+                        <span class="review-date">3 days ago</span>
+                      </div>
+                      <div class="review-stars">★★★★★</div>
+                      <p class="review-text">Gourmet meals and live streaming were incredible. My pet was treated like royalty!</p>
+                    </div>
+                    <div class="review-item">
+                      <div class="review-header">
+                        <span class="reviewer-name">Amanda Foster</span>
+                        <span class="review-date">1 week ago</span>
+                      </div>
+                      <div class="review-stars">★★★★★</div>
+                      <p class="review-text">Professional grooming and spa treatments exceeded all expectations. Worth every dollar!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <!-- Sidebar (Right Column) -->
+        <div class="package-sidebar">
+          <div class="order-summary card-shadow">
+            <!-- Selected Package Card -->
+            <div class="sidebar-card selected-package bagel-fat-one-regular">
+              <h4>Cozy Room (Basic)</h4>
+              <span class="selected-label fraunces-body">Selected</span>
+              <div class="package-price">$40<span class="unit">per night</span></div>
+            </div>
+            <!-- Add-ons Card -->
+            <div class="sidebar-card">
+              <div class="accordion-section">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                  <span>Add-ons</span>
+                  <span class="selected-count">2 selected</span>
+                  <span class="chevron">▼</span>
+                </button>
+                <div class="accordion-content">
+                  <div class="addon-item">
+                    <div class="addon-info">
+                      <div class="addon-header">
+                        <span class="addon-name">Live Camera Access</span>
+                        <span class="popular-tag">POPULAR</span>
+                      </div>
+                      <p class="addon-desc">Watch your pet anytime from anywhere with HD streaming</p>
+                      <div class="addon-price">$12<span class="unit">per entire stay</span></div>
+                    </div>
+                    <button class="add-btn">+</button>
+                  </div>
+                  <div class="addon-item">
+                    <div class="addon-info">
+                      <div class="addon-header">
+                        <span class="addon-name">Treats Package</span>
+                        <span class="popular-tag">POPULAR</span>
+                      </div>
+                      <p class="addon-desc">Healthy snacks & chews</p>
+                      <div class="addon-price">$10<span class="unit">per entire stay</span></div>
+                    </div>
+                    <button class="add-btn">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Treats for buddy Card -->
+            <div class="sidebar-card">
+              <div class="accordion-section">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                  <span>Treats for buddy</span>
+                  <span class="selected-count">2 selected</span>
+                  <span class="chevron">▲</span>
+                </button>
+                <div class="accordion-content expanded">
+                  <div class="treats-grid">
+                    <div class="treat-item">
+                      <img src="../../assets/images/Services/ChewVitamin.svg" alt="Chew Vitamins" />
+                      <div class="treat-info">
+                        <span class="treat-name">Chew Vitamins</span>
+                        <div class="treat-price">$12<span class="unit">each</span></div>
+                      </div>
+                      <button class="add-btn">+</button>
+                    </div>
+                    <div class="treat-item">
+                      <img src="../../assets/images/Services/BeefBiscuit.svg" alt="Beef Biscuit" />
+                      <div class="treat-info">
+                        <span class="treat-name">Beef Biscuit</span>
+                        <div class="treat-price">$12<span class="unit">each</span></div>
+                      </div>
+                      <button class="add-btn">+</button>
+                    </div>
+                    <div class="treat-item">
+                      <img src="../../assets/images/Services/CreamySoup.svg" alt="Creamy Soup" />
+                      <div class="treat-info">
+                        <span class="treat-name">Creamy Soup</span>
+                        <div class="treat-price">$12<span class="unit">each</span></div>
+                      </div>
+                      <button class="add-btn">+</button>
+                    </div>
+                    <div class="treat-item">
+                      <img src="../../assets/images/Services/ArtisanBiscuits.svg" alt="Artisan Biscuits" />
+                      <div class="treat-info">
+                        <span class="treat-name">Artisan Biscuits</span>
+                        <div class="treat-price">$12<span class="unit">each</span></div>
+                      </div>
+                      <button class="add-btn">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- Price Summary Card -->
+            <div class="sidebar-card">
+              <div class="price-summary">
+                <div class="price-row ">
+                  <span>Package Rate</span>
+                  <span>$55/night</span>
+                </div>
+                <div class="price-row">
+                  <span>Subtotal</span>
+                  <span>$165.00</span>
+                </div>
+                <div class="price-row">
+                  <span>Service Fee</span>
+                  <span>$8.25</span>
+                </div>
+              </div>
+              <!-- Checkout Button -->
+              <a class="checkout-btn" href="bookingspa.html">Checkout →</a>
+              <p class="cancellation-note">Free cancellation up to 48 hours before check-in</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <section class="site-cta">
+    <div class="container cta-inner">
+      <div class="cta-icons" aria-hidden="true">
+        <img class="cta-pattern" src="../../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+      </div>
+      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+      <div class="cta-actions">
+        <a href="services.html" class="btn primary">Book Now</a>
+        <a href="../community.html" class="btn ghost">Contact Us</a>
+      </div>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img class="brand-foot-img" src="../../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
+          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+        </div>
+        <p>Your trusted partner in pet care since 2020.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="homestayboarding-service.html">Pet Boarding</a></li>
+          <li><a href="services.html">Dog Grooming</a></li>
+          <li><a href="services.html">Cat Grooming</a></li>
+          <li><a href="services.html">Pet Training</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Follow Us</h4>
+        <div class="socials">
+          <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+          <a href="https://x.com/" aria-label="Twitter"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" align="center" style="color: #000000;">
+        © 2025 Pawfect Care. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  <script src="../../assets/js/servicecard.js"></script>
+</body>
+</html>

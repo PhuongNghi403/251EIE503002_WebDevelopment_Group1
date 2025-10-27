@@ -164,6 +164,13 @@
   min-height: 320px;      /* Tăng chiều cao tối thiểu để đồng nhất hơn */
 }
 
+/* Selected package card styling */
+.pkg-card.selected-card {
+  border: 2px solid #88BAFF;
+  box-shadow: 0 4px 20px rgba(136, 186, 255, 0.3);
+  background: rgba(136, 186, 255, 0.1);
+}
+
 /* Hàng 1: Main Content (Ảnh + Header) */
 .pkg-main-info {
   display: flex;
@@ -466,10 +473,10 @@
 
 /* Sidebar Styles */
 .order-summary {
-  background: rgba(244, 232, 218, 0.2);
+  background: rgba(244, 232, 218, 0.69);
   border-radius: 24px;
   padding: 1.5rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #d8b894;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -480,6 +487,7 @@
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
 }
 
 .selected-package h4 {
@@ -503,6 +511,8 @@
   font-size: 1.5rem;
   font-weight: 800;
   color: #7b470b;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
 }
 
 .package-price .unit {
@@ -772,13 +782,13 @@
   align-items: baseline;
   font-weight: 700;
   color: #7b470b;
-  font-size: 1.8rem;
+  font-size: 1.25rem;
 }
 
 .addon-price .unit {
-  font-weight: 600;
-  font-size: 0.75rem;
-  color: #a06a30;
+  font-weight: 400;
+  font-size: 0.7rem;
+  color: #6b5e56;
 }
 
 .add-btn {
@@ -786,7 +796,7 @@
   color: #4D2B12;
   border: none;
   border-radius: 999px;
-  padding: 1rem 1.8rem;
+  padding: 0.5rem 1.2rem;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
@@ -1038,4 +1048,152 @@
     justify-self: start;
     margin-top: 6px;
   }
+}
+
+/* Quantity control for add-ons & treats */
+.qty-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #4D2B12;
+  background: #fff;
+  color: #4D2B12;
+  font-size: 20px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+.qty-btn:hover,
+.qty-btn:focus { background: #F5EEE6; color: #3a2110; outline: none; }
+.qty-number {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 800;
+  color: #4D2B12;
+}
+
+/* Sidebar specific styles */
+.package-sidebar .addon-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  padding: 1rem 0 !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  background: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+}
+
+.package-sidebar .addon-info {
+  flex: 1;
+  margin-right: 1rem;
+  text-align: left; /* Căn lề trái cho nội dung add-on */
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.package-sidebar .addon-header {
+  display: flex;
+  justify-content: flex-start !important;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.package-sidebar .addon-desc {
+  margin-bottom: 0.5rem !important;
+}
+
+.package-sidebar .addon-price-container {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.package-sidebar .addon-right {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 0.5rem !important;
+}
+
+.package-sidebar .popular-tag {
+  background: #4D2B12;
+  color: white;
+}
+
+.package-sidebar .addon-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #7b470b;
+  text-align: left !important;
+  line-height: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.package-sidebar .addon-price .unit {
+  display: block;
+  font-size: 0.75rem;
+  color: #6b5e56;
+  margin-left: 0;
+  font-weight: 400;
+  margin-top: 0.25rem;
+  text-align: left !important;
+}
+
+.package-sidebar .add-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #4D2B12;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+  align-self: flex-start !important;
+  margin-top: 0 !important;
+}
+
+/* Align '+' in Treats (center) and Add-ons (flush right) */
+.package-sidebar .treat-item .add-btn {
+  align-self: center !important;  /* Center nút '+' trong Treats grid */
+}
+
+.package-sidebar .addon-item .add-btn {
+  margin-left: auto !important;   /* Đẩy nút '+' của Add-ons sát bên phải */
+}
+
+.package-sidebar .treat-item {
+  background: #fffaf3;
+  border: 1px solid #ffe7cd;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.package-sidebar .treat-price {
+  display: block;
+}
+
+.package-sidebar .treat-price .unit {
+  display: block;
+  font-size: 0.7rem;
+  color: #6b5e56;
+  font-weight: 400;
 }

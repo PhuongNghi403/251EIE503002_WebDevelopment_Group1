@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize sidebar selections and pricing
   initSidebarSelections();
-  initQuantityControls(); // NEW: bind qty controls for add-ons & treats
+  initQuantityControls(); // bind qty controls for add-ons & treats
 });
 
 // Update selected package in sidebar
@@ -419,11 +419,14 @@ function initPackageSelection() {
       updateSelectedCounts();
       updatePriceSummary();
 
+      // Store selected package in localStorage for booking page
+      localStorage.setItem('selectedPackageName', packageName);
+      localStorage.setItem('selectedPackagePrice', priceStr);
+
       showNotification(`${packageName} đã được chọn!`, 'success');
     });
   });
 }
-
 
 function initQuantityControls() {
   setupQtyForItems('.addon-item', 'selectedAddons', '.addon-name', '.addon-price');

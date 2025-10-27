@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawfect Care — Booking Service</title>
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/header.css" />
+  <link rel="stylesheet" href="../../assets/css/services/bookingservice.css" />
+  <link rel="stylesheet" href="../../assets/css/footer.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body data-page="services">
+  <!--HEADER-->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../index.html">
+        <img class="brand-mark-img" src="../../assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+        <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+      </a>
+      <nav class="nav">
+        <a class="nav-link" href="../../index.html">Home</a>
+        <a class="nav-link active" href="services.html">Services</a>
+        <a class="nav-link" href="../shop.html">Shop</a>
+        <a class="nav-link" href="../community.html">Community</a>
+        <a class="nav-link" href="../profile.html">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" aria-label="Wishlist">
+          <img src="../../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+        </button>
+        <a class="icon-btn" href="../cart.html" aria-label="Cart">
+          <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="../login-signup.html" aria-label="Account">
+          <img src="../../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="booking-main">
+    <div class="booking-shell">
+      <a href="homestayboarding-service.html" class="back-link">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        Back
+      </a>
+
+      <div class="steps-indicator" aria-label="Checkout steps">
+        <div class="step active">
+          <div class="dot">1</div>
+          <div class="label">Date/Time</div>
+        </div>
+        <div class="bar"></div>
+        <div class="step">
+          <div class="dot">2</div>
+          <div class="label">Information</div>
+        </div>
+        <div class="bar"></div>
+        <div class="step">
+          <div class="dot">3</div>
+          <div class="label">Review</div>
+        </div>
+      </div>
+
+      <div class="booking-layout">
+        <!-- Left: Main Content Card -->
+        <section class="card booking-card" aria-labelledby="booking-title">
+          <h2 id="booking-title">Book Your Spa Appointment</h2>
+          <p class="subtitle">Pick your preferred date and time. We’ll pamper your pet!</p>
+
+          <div class="select-grid">
+            <!-- Date Selection -->
+            <div class="select-col">
+              <div class="select-header">Select Date</div>
+
+              <div class="calendar">
+                <div class="calendar-header">
+                  <button class="cal-nav" aria-label="Previous month">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                  <div class="cal-title">October 2025</div>
+                  <button class="cal-nav" aria-label="Next month">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+
+                <div class="cal-weekdays">
+                  <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                </div>
+
+                <div class="cal-grid" role="grid">
+                  <button class="day muted" disabled>28</button>
+                  <button class="day muted" disabled>29</button>
+                  <button class="day muted" disabled>30</button>
+                  <button class="day">1</button>
+                  <button class="day">2</button>
+                  <button class="day">3</button>
+                  <button class="day">4</button>
+
+                  <button class="day">5</button>
+                  <button class="day">6</button>
+                  <button class="day">7</button>
+                  <button class="day">8</button>
+                  <button class="day">9</button>
+                  <button class="day">10</button>
+                  <button class="day selected" aria-current="date">11</button>
+
+                  <button class="day">12</button>
+                  <button class="day">13</button>
+                  <button class="day">14</button>
+                  <button class="day">15</button>
+                  <button class="day">16</button>
+                  <button class="day">17</button>
+                  <button class="day">18</button>
+
+                  <button class="day">19</button>
+                  <button class="day">20</button>
+                  <button class="day">21</button>
+                  <button class="day">22</button>
+                  <button class="day">23</button>
+                  <button class="day">24</button>
+                  <button class="day">25</button>
+
+                  <button class="day">26</button>
+                  <button class="day">27</button>
+                  <button class="day">28</button>
+                  <button class="day">29</button>
+                  <button class="day">30</button>
+                  <button class="day">31</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Time Selection -->
+            <div class="select-col">
+              <div class="select-header">Select Time</div>
+
+              <div class="time-grid">
+                <button class="time">3:00 PM</button>
+                <button class="time">3:30 PM</button>
+                <button class="time">4:00 PM</button>
+                <button class="time selected" aria-current="time">4:30 PM</button>
+                <button class="time">5:00 PM</button>
+                <button class="time">5:30 PM</button>
+                <button class="time">6:00 PM</button>
+                <button class="time">6:30 PM</button>
+                <button class="time">7:00 PM</button>
+                <button class="time">7:30 PM</button>
+                <button class="time">8:00 PM</button>
+                <button class="time">8:30 PM</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary">Continue
+              <svg class="icon ml-8" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <!-- Disabled visual variant (for later JS control) -->
+            <!-- <button class="btn primary is-disabled" disabled>Continue
+              <svg class="icon ml-8" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button> -->
+          </div>
+        </section>
+
+        <!-- Right: Booking Summary Sidebar -->
+        <aside class="card summary-card" aria-labelledby="summary-title">
+          <h4 id="summary-title" class="summary-title">Booking Summary</h4>
+
+          <div class="summary-block">
+            <div class="block-header">
+              <div>
+                <div class="block-label">Select Package</div>
+                <div class="block-value">
+                  <span class="pkg-name">Basic Room</span>
+                  <span class="price">$55</span>
+                </div>
+              </div>
+              <a href="homestayboarding-service.html" class="edit-btn" aria-label="Change package">
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path d="M4 20h4l10.5-10.5-4-4L4 16v4zM18.5 3.5l2 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- New Duration Section -->
+          <div class="duration-section">
+            <h4 class="duration-title">Duration</h4>
+            <hr class="duration-hr">
+            <div class="date-range">
+              <div class="date-col">
+                <p class="date-label">Check-in</p>
+                <p class="date-value">Nov 11, 2025</p>
+              </div>
+              <div class="date-col">
+                <p class="date-label">Check-out</p>
+                <p class="date-value">Nov 14, 2025</p>
+              </div>
+            </div>
+            <div class="day-counter">
+              <button class="counter-btn minus" aria-label="Decrease days">−</button>
+              <span class="day-count bagel-fat-one-regular">1 Day</span>
+              <button class="counter-btn plus" aria-label="Increase days">+</button>
+            </div>
+          </div>
+
+          <!-- Treats for buddy -->
+          <details class="summary-accordion" open>
+            <summary class="accordion-header">
+              <span>Treats for buddy</span>
+              <span class="count">0 selected</span>
+              <svg class="icon chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="accordion-body">
+              <ul class="summary-list treats-list">
+                <!-- Rendered by JS -->
+              </ul>
+            </div>
+          </details>
+
+          <!-- Add-ons -->
+          <details class="summary-accordion" open>
+            <summary class="accordion-header">
+              <span>Add-ons</span>
+              <span class="count">0 selected</span>
+              <svg class="icon chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="accordion-body">
+              <ul class="summary-list addons-list">
+                <!-- Rendered by JS -->
+              </ul>
+            </div>
+          </details>
+
+          <!-- Discount Code (new UI) -->
+          <div class="discount-section">
+            <h4>Discount Code</h4>
+
+            <div class="discount-input-group">
+              <div class="input-wrapper">
+                <!-- optional icon inside input -->
+                <svg class="input-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 7a2 2 0 0 1 2-2h8l8 8-6 6-8-8V7a2 2 0 0 1 2-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <input type="text" id="discount-code-input" placeholder="Enter code" />
+              </div>
+              <button id="apply-discount-btn">Apply</button>
+            </div>
+
+            <div id="discount-status" class="discount-status" aria-live="polite"></div>
+            <hr class="discount-hr" />
+          </div>
+
+          <div class="price-summary">
+            <div class="row">
+              <span>Service</span>
+              <span class="value strong">Basic Care</span>
+            </div>
+            <div class="row">
+              <span>Duration</span>
+              <span class="value">1 day</span>
+            </div>
+            <div class="row">
+              <span>Subtotal</span>
+              <span class="value">$55</span>
+            </div>
+            <div class="row total">
+              <span>Total</span>
+              <span class="value strong">$55</span>
+            </div>
+          </div>
+
+          <button class="btn pay-now">PAY NOW</button>
+        </aside>
+      </div>
+    </div>
+  </main>
+  <!--FOOTER-->
+  <section class="site-cta">
+    <div class="container cta-inner">
+      <div class="cta-icons" aria-hidden="true">
+        <img class="cta-pattern" src="../../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+      </div>
+      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+      <div class="cta-actions">
+        <a href="services.html" class="btn primary">Book Now</a>
+        <a href="../community.html" class="btn ghost">Contact Us</a>
+      </div>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img class="brand-foot-img" src="../../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
+          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+        </div>
+        <p>Your trusted partner in pet care since 2020.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="homestayboarding-service.html">Pet Boarding</a></li>
+          <li><a href="services.html">Dog Grooming</a></li>
+          <li><a href="services.html">Cat Grooming</a></li>
+          <li><a href="services.html">Pet Training</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Follow Us</h4>
+        <div class="socials">
+          <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+          <a href="https://x.com/" aria-label="Twitter"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" align="center" style="color: #000000;">
+        © 2025 Pawfect Care. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  <script src="../../assets/js/booking.js"></script>
+</body>
+</html>
