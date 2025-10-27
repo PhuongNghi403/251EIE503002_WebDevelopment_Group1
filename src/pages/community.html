@@ -24,9 +24,9 @@
         <a class="nav-link" href="profile.html">Profile</a>
       </nav>
       <div class="header-actions">
-        <button class="icon-btn" aria-label="Wishlist">
-          <img src="../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
-        </button>
+        <a class="icon-btn" href="favorite.html" aria-label="Wishlist">
+              <img src="../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+            </a>
         <a class="icon-btn" href="cart.html" aria-label="Cart">
           <img src="../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
         </a>
@@ -38,11 +38,163 @@
   </header>
 
   <main class="page community">
+    <!-- Hero (cat-head masked collage) --> 
+  <section class="hero container"> 
+    <div class="hero-copy"> 
+      <p class="eyebrow">Pawfect WITH PET</p> 
+      <h1 class="hero-title">Sống cùng thú cưng <br/> thật nhẹ nhàng</h1> 
+      <p class="hero-sub">Nơi bạn chia sẻ câu chuyện, feedback, tips tắm – chải – ăn uống, và cùng xây dựng cộng đồng yêu thú cưng.</p> 
+      <div class="hero-actions"> 
+        <button class="btn">Đăng bài của bạn</button> 
+        <button class="btn btn-ghost">Xem hướng dẫn post</button> 
+      </div> 
+    </div> 
+ 
+    <div class="cat-mask"> 
+      <!-- Collage inside the cat head --> 
+      <div class="collage"> 
+        <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=1200&auto=format&fit=crop" alt="cat 1"/> 
+        <img src="https://images.unsplash.com/photo-1568572933382-74d440642117?q=80&w=1200&auto=format&fit=crop" alt="cat 2"/> 
+        <img src="https://images.unsplash.com/photo-1558944351-c6ae87f1d417?q=80&w=1200&auto=format&fit=crop" alt="cat 3"/> 
+        <img src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?q=80&w=1200&auto=format&fit=crop" alt="cat 4"/> 
+      </div> 
+      <!-- subtle paw trail --> 
+      <div class="paw-trail" aria-hidden="true">🐾 🐾 🐾</div> 
+    </div> 
+  </section> 
+ 
+  <!-- Intro block with arched image + sticker pets --> 
+  <section class="intro container"> 
+    <figure class="arch-photo"> 
+      <img src="https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?q=80&w=1200&auto=format&fit=crop" alt="cat sofa"> 
+    </figure> 
+    <div class="intro-copy"> 
+      <h2>Không gian ấm áp cho cả bạn và boss</h2> 
+      <p>Chúng mình thiết kế cộng đồng để mọi người có thể kể chuyện, hỏi – đáp nhanh và save các mẹo hay. Mỗi bài đều có tag rõ ràng, dễ tìm lại.</p> 
+      <ul class="bullet"> 
+        <li>Filter theo chủ đề: Tắm gội, Dinh dưỡng, Training, Health check.</li> 
+        <li>Reaction thân thiện: ❤️ 💬 🐾, kèm huy hiệu cho bài nổi bật.</li> 
+        <li>Quy tắc cộng đồng ngắn gọn, dễ hiểu, tôn trọng đa dạng giống loài.</li> 
+      </ul> 
+    </div> 
+    <img class="sticker-cat small" src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?q=80&w=600&auto=format&fit=crop" alt="sticker cat"> 
+    <img class="sticker-cat big" src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=600&auto=format&fit=crop" alt="sticker orange cat">
+  </section>
+
+   <!-- Meet Our Staff Section -->
+   <section class="staff-section">
+     <div class="staff-container">
+       <h2 class="staff-title">Gặp gỡ đội ngũ của chúng tôi</h2>
+       <div class="staff-grid">
+         <div class="staff-card">
+           <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1000&auto=format&fit=crop" alt="Staff member" class="staff-image">
+           <div class="staff-info">
+             <h3 class="staff-name">Nguyễn Thị Minh</h3>
+             <p class="staff-role">Pet Care Specialist</p>
+             <p class="staff-bio">Với 5 năm kinh nghiệm chăm sóc thú cưng, Minh luôn đảm bảo mỗi boss đều nhận được sự quan tâm đặc biệt.</p>
+           </div>
+         </div>
+         <div class="staff-card">
+           <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?q=80&w=1000&auto=format&fit=crop" alt="Staff member" class="staff-image">
+           <div class="staff-info">
+             <h3 class="staff-name">Trần Văn Hùng</h3>
+             <p class="staff-role">Grooming Expert</p>
+             <p class="staff-bio">Hùng có chứng chỉ quốc tế về grooming và đam mê biến mỗi thú cưng thành ngôi sao thời trang.</p>
+           </div>
+         </div>
+         <div class="staff-card">
+           <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000&auto=format&fit=crop" alt="Staff member" class="staff-image">
+           <div class="staff-info">
+             <h3 class="staff-name">Lê Thị Hương</h3>
+             <p class="staff-role">Community Manager</p>
+             <p class="staff-bio">Hương quản lý cộng đồng Pawfect, đảm bảo mọi thành viên đều có trải nghiệm tuyệt vời và hỗ trợ kịp thời.</p>
+           </div>
+         </div>
+         <div class="staff-card">
+           <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000&auto=format&fit=crop" alt="Staff member" class="staff-image">
+           <div class="staff-info">
+             <h3 class="staff-name">Phạm Minh Tuấn</h3>
+             <p class="staff-role">Veterinary Consultant</p>
+             <p class="staff-bio">Bác sĩ Tuấn tư vấn về sức khỏe thú cưng và đảm bảo mọi dịch vụ của chúng tôi đều an toàn cho thú cưng.</p>
+           </div>
+         </div>
+       </div>
+     </div>
+   </section>
+ 
+     <!-- Search and Filter Section -->
     <section class="container">
-      <h1 class="page-title">Community</h1>
-      <p class="page-desc">Kết nối cộng đồng người nuôi thú cưng, chia sẻ kinh nghiệm.</p>
+      <div class="community-toolbar">
+        <div class="search-box">
+          <img src="../assets/icons/Login/EnvelopeSimple.svg" alt="Search" class="search-icon" />
+          <input type="text" placeholder="Tìm kiếm bài viết..." id="search-input" />
+        </div>
+        <div class="category-filter">
+          <button class="category-btn active" data-category="all">Tất cả</button>
+          <button class="category-btn" data-category="tips">Tips & Tricks</button>
+          <button class="category-btn" data-category="health">Sức khỏe</button>
+          <button class="category-btn" data-category="grooming">Chăm sóc</button>
+          <button class="category-btn" data-category="training">Huấn luyện</button>
+          <button class="category-btn" data-category="food">Thức ăn</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Blog (moved up) -->
+    <section class="container community-blog">
+      <div class="blog-header">
+        <h2 class="section-title">Community Blog</h2>
+        <button class="btn" id="create-post-btn">Thêm bài mới</button>
+      </div>
+      <div class="blog-grid" id="blog-grid">
+        <!-- Blog Post Items will be rendered here by JS -->
+      </div>
+      <button class="load-more-btn" id="load-more">Xem thêm bài viết</button>
+    </section>
+
+    <!-- Share Post Section -->
+    <section class="share-section container">
+      <div class="share-box">
+        <h3>Chia sẻ kinh nghiệm của bạn</h3>
+        <p>Giúp cộng đồng học hỏi từ trải nghiệm của bạn</p>
+        <button class="btn primary" id="create-post-btn">Viết bài mới</button>
+      </div>
     </section>
   </main>
+  
+  <!-- Create Post Modal -->
+  <div class="modal" id="create-post-modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="post-modal-title">
+      <div class="modal-header">
+        <h3 id="post-modal-title">Thêm bài mới</h3>
+        <button class="modal-close" id="close-post-modal" aria-label="Đóng">×</button>
+      </div>
+      <form id="post-form" class="modal-body">
+        <label>
+          Tiêu đề
+          <input type="text" id="post-title" required placeholder="Nhập tiêu đề bài viết" />
+        </label>
+        <label>
+          Danh mục
+          <select id="post-category">
+            <option value="tips">Tips & Tricks</option>
+            <option value="health">Sức khỏe</option>
+            <option value="grooming">Chăm sóc</option>
+            <option value="training">Huấn luyện</option>
+            <option value="food">Thức ăn</option>
+          </select>
+        </label>
+        <label>
+          Tóm tắt
+          <textarea id="post-excerpt" rows="4" required placeholder="Nhập phần tóm tắt ngắn"></textarea>
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn">Đăng bài</button>
+        </div>
+      </form>
+    </div>
+  </div>
 <section class="site-cta">
   <div class="container cta-inner">
     <div class="cta-icons" aria-hidden="true">

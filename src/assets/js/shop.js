@@ -381,8 +381,7 @@ function initWishlistAndCart() {
   updateWishlistButton();
   updateCartButton();
   
-  // Add event listeners for product card buttons
-  initProductCardButtons();
+  // Avoid duplicate bindings; product buttons are initialized once on DOMContentLoaded
 }
 
 // Initialize product card buttons (Buy Now, Cart buttons)
@@ -399,13 +398,9 @@ function initProductCardButtons() {
       const currentPrice = productCard.querySelector('.current-price').textContent;
       const price = parseFloat(currentPrice.replace('$', '').replace(',', ''));
       
-      // Add to cart
+      // Add to cart then go to cart immediately to confirm order
       addToCart(productName, productImage, price);
-      
-      // Navigate to cart page
-      setTimeout(() => {
-        window.location.href = 'cart.html';
-      }, 1000);
+      window.location.href = 'cart.html';
     });
   });
   
@@ -922,4 +917,5 @@ async function loadProductsFromXML() {
     console.error('Error loading products from XML:', error);
   }
 }
+
 

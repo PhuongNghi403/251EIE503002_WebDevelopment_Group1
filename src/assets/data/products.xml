@@ -3,6 +3,7 @@
     <name>SQUEAKY SPORTS BALL SET (BASKETBALL &AMP; FOOTBALL)</name>
     <rating>4.0</rating>
     <sold_count>529</sold_count>
+    <image_url>../images/Shop/Basketball.svg</image_url>
     <original_price currency="USD">306.00</original_price>
     <discounted_price currency="USD">300.00</discounted_price>
     <category>Dog Toy</category>
@@ -22,9 +23,10 @@
   </product>
 
   <product id="2">
-    <name>BONE-SHAPED CHEW TOYS (SET OF 4)</name>
+    <name>BONE-SHAPED PET TOYS (SET OF 4)</name>
     <rating>4.5</rating>
     <sold_count>902</sold_count>
+    <image_url>../images/Shop/BoneShapedPetToys.svg</image_url>
     <original_price currency="USD">770.00</original_price>
     <discounted_price currency="USD">700.00</discounted_price>
     <category>Dog Toy</category>
@@ -48,6 +50,7 @@
     <name>HIGH-GRIP TRAINING BALL</name>
     <rating>3.0</rating>
     <sold_count>12</sold_count>
+    <image_url>../images/Shop/BallForDog.svg</image_url>
     <original_price currency="USD">303.22</original_price>
     <discounted_price currency="USD">300.00</discounted_price>
     <category>Dog Toy</category>
@@ -71,6 +74,7 @@
     <name>KIT CAT FILLET 'O' LAKES</name>
     <rating>5.0</rating>
     <sold_count>1000+</sold_count>
+    <image_url>../images/Shop/FilletOLakes.svg</image_url>
     <original_price currency="USD">200.00</original_price>
     <discounted_price currency="USD">100.00</discounted_price>
     <category>Cat Food (Dry)</category>
@@ -102,6 +106,7 @@
     <name>ENCORE COMPLETE - CAT FOOD</name>
     <rating>4.0</rating>
     <sold_count>329</sold_count>
+    <image_url>../images/Shop/EncoreCatFood.svg</image_url>
     <original_price currency="USD">450.54</original_price>
     <discounted_price currency="USD">400.00</discounted_price>
     <category>Cat Food (Dry)</category>
@@ -132,6 +137,7 @@
     <name>WELLNESS SIGNATURE SELECTS (CHICKEN ENTRÉE)</name>
     <rating>3.0</rating>
     <sold_count>12</sold_count>
+    <image_url>../images/Shop/Wellness.svg</image_url>
     <original_price currency="USD">293.01</original_price>
     <discounted_price currency="USD">200.00</discounted_price>
     <category>Cat Food (Wet)</category>
@@ -164,6 +170,7 @@
     <name>FRISKIES WITH CHICKEN (CANNED)</name>
     <rating>5.0</rating>
     <sold_count>1000+</sold_count>
+    <image_url>../images/Shop/Friskies.svg</image_url>
     <original_price currency="USD">455.54</original_price>
     <discounted_price currency="USD">400.00</discounted_price>
     <category>Cat Food (Wet)</category>
@@ -195,6 +202,7 @@
     <name>CHERIE “THE FINEST” (SHREDDED CHICKEN IN GRAVY)</name>
     <rating>4.0</rating>
     <sold_count>329</sold_count>
+    <image_url>../images/Shop/Therie.svg</image_url>
     <original_price currency="USD">603.13</original_price>
     <discounted_price currency="USD">550.00</discounted_price>
     <category>Cat Food (Wet)</category>
@@ -224,6 +232,7 @@
     <name>PEDIGREE VITAL PROTECTION (ADULT DOG)</name>
     <rating>3.0</rating>
     <sold_count>12</sold_count>
+    <image_url>../images/Shop/Pedigree.svg</image_url>
     <original_price currency="USD">275.43</original_price>
     <discounted_price currency="USD">200.00</discounted_price>
     <category>Dog Food (Dry)</category>
@@ -254,6 +263,7 @@
     <name>STUFFED ANIMALS &AMP; ROPE PLAY SET</name>
     <rating>4.0</rating>
     <sold_count>329</sold_count>
+    <image_url>../images/Shop/StuffedAnimals.svg</image_url>
     <original_price currency="USD">788.00</original_price>
     <discounted_price currency="USD">700.00</discounted_price>
     <category>Dog Toy</category>
@@ -277,6 +287,7 @@
     <name>RAWHIDE BONE CHEW </name>
     <rating>3.0</rating>
     <sold_count>12</sold_count>
+    <image_url>../images/Shop/DogToysRawhide.svg</image_url>
     <original_price currency="USD">200.00</original_price>
     <discounted_price currency="USD">190.00</discounted_price>
     <category>Dog Toy</category>

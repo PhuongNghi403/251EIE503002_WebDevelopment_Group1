@@ -1,41 +1,276 @@
-/* HOT DEALS */
-.home-deals { display: grid; gap: 18px; }
-.home-deals .deals-header { text-align: center; }
-.badge { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 8px 12px; box-shadow: var(--shadow); }
-.badge.light { background: #fff; border: 1px solid #4D2B12; color: var(--text-2); }
-.badge.dark { background: var(--brand-brown); color: #fff; }
-.badge.outline { background: #fff; border: 1px solid var(--border); color: var(--brand-brown); }
-.home-deals .section-title.bagel-fat-one-regular {
-  margin: 0;
-  color: var(--brand-brown);
-  font-size: clamp(36px, 6vw, 56px);
-}
-/* Wrapper nền be (đồng bộ với testimonials) */
-.home-deals .deals-wrapper {
-  background: #f7efe6;
-  border-radius: 24px;
-  padding: clamp(16px, 3vw, 32px);
-  box-shadow: 0 1px 0 rgba(0,0,0,0.02) inset;
-}
 
-/* Header: ảnh 2 bên */
-.deals-header-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(12px, 3vw, 24px);
+.home-deals .deals-wrapper { display:flex; justify-content:center; }
+.deals-header-wrap{
+  display:flex; align-items:center; gap:17px;
+  isolation:isolate;
+  width:min(1268.2px, 92vw);
+  height:277px;
+  margin:0 auto;
+  background:rgba(244,232,218,.30);
+  border-radius:48px;
+  position:relative;
+  overflow:visible;
 }
-.deals-side-img {
+/* Hai cột trái/phải là khung cố định để ảnh bám vào */
+.deals-side{ position: relative; height: 100%; }
+.deals-side.left  { width: 100%; }
+.deals-side.right { width: 100%; }
+
+.deals-side.left{
+ position: relative;
   flex: 0 0 auto;
-  width: clamp(80px, 12vw, 160px);
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.06));
+  width: clamp(160px, 22vw, 300px);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: end;
   transform-origin: center;
   will-change: transform;
+  height: clamp(260px, 32vw, 420px);
+  overflow: visible; /* cho phép pet lòi ra ngoài */
 }
-.deals-side-img.left { transform: scale(2.5) translateY(2px) translateX(-20%); }
-.deals-side-img.right { transform: scale(2) translateY(2px) translateX(20%); }
+.deals-side.left .deal-base{
+  position: absolute;
+  left: 30px; bottom:12%;     /* chạm đáy card */
+  width:350px; height:auto;
+  object-fit: contain;
+  object-position: bottom; 
+  z-index: 1; 
+  transform: translateY(6px); 
+}
+.deals-side.left .deal-pet{
+  position:absolute;
+  left:45px; top:95px;   /* vị trí*/ 
+  width: 290px; height:auto;
+  object-fit:contain;
+  z-index:2;                     /* << luôn ở trên */
+  pointer-events:none;
+   filter:
+    drop-shadow(0 8px 14px rgba(0, 0, 0, 0.18))
+    drop-shadow(0 3px 4px rgba(0, 0, 0, 0.12));
+  transition: filter 0.35s ease, transform 0.35s ease;
+  will-change: filter, transform;
+}
+
+/* Chip “New Arrival */
+.deals-side.left .deal-chip-new{
+  position: absolute;
+  left: 5px; top: 175px;            /* đưa gọn vào trong cột */
+  width: 120px; height: 110px;
+  display: grid; place-items: center;
+  z-index: 3;
+  pointer-events:none;
+}
+
+/* Ngôi sao + viền */
+.deals-side.left .deal-chip-new::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  left:-3%;
+  top:-2%;
+  background: #E02D3C; /* border color */
+  clip-path: polygon(
+    50% 0%, 58% 18%, 70% 6%, 64% 25%, 
+    88% 25%, 70% 38%, 82% 55%, 60% 48%, 
+    50% 70%, 40% 48%, 18% 55%, 30% 38%, 
+    12% 25%, 36% 25%, 30% 6%, 42% 18%
+  );
+  width:150px; height:150px;
+  transform: scale(1);
+   box-shadow:
+    0 2px 4px rgba(0,0,0,0.12),
+    inset 0 1px 3px rgba(255,255,255,0.5),
+    inset 0 -2px 4px rgba(0,0,0,0.08);
+  z-index: 1;
+  
+}
+.deals-side.left .deal-chip-new .star{
+  position:absolute; inset:0;
+  background:#F2E2FF;
+  /* starburst 12 tia */
+  clip-path: polygon(
+    50% 0%, 58% 18%, 70% 6%, 64% 25%, 
+    88% 25%, 70% 38%, 82% 55%, 60% 48%, 
+    50% 70%, 40% 48%, 18% 55%, 30% 38%, 
+    12% 25%, 36% 25%, 30% 6%, 42% 18%
+  );
+  width:140px; height:140px;
+  transform: scale(0.95);
+  transform-origin: center;
+ filter:
+  drop-shadow(0 3px 4px rgba(0,0,0,0.15))
+  drop-shadow(0 1px 0 rgba(255,255,255,0.5));
+  z-index: 2;
+}
+
+
+/* Text trong chip */
+.deals-side.left .deal-chip-new .txt{
+  position:relative;
+  z-index: 3;
+  bottom:8%;
+  left:8%;
+  font-family:"Lexend Deca", sans-serif;
+  font-weight:600;
+  font-size:15px;
+  line-height:16px;
+  color:#E02D3C;
+  text-align:center;
+  
+}
+
+/* ====== MIDDLE ====== */
+.deals-center{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;        /* canh giữa khối center theo chiều dọc */
+  width:372px; height:261px;
+  position:relative;
+  z-index:5;
+  gap:2px;                          /* margin từng block */
+  flex: 0 0 372px;
+  margin-inline: auto;
+}
+
+/* Chip “Limited Time Offer” */
+.deals-center .limited-chip{
+  margin:0 0 8px; 
+  display:flex; align-items:center; justify-content:center;
+  gap:10px; padding:4px 4px;
+  width:206px; height:30px;
+  background:#fff; border:1px solid rgba(77,43,18,.68);
+  border-radius:18px;
+  font-family:"Lexend Deca", sans-serif;
+  font-size:16px; line-height:22px; color:#4D2B12;
+  transform:translateX(43%);
+}
+
+/* Title + Decor block */
+.deals-center .title-wrap {
+  display: flex;
+  flex-direction: column; /* decor nằm dưới title */
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 12px; /* gap title và decor */
+  margin:0 0 16px;
+}
+
+.deals-center .title {
+  font-family: "Bagel Fat One", system-ui;
+  font-size: 36px;
+  line-height: 40px;
+  color: #4D2B12;
+  margin: 0;
+}
+
+.deals-center .title-decor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0; 
+  margin-top: 0; /* dính sát dưới title */
+  transform: translateX(-70%);
+}
+
+/* Dot và line */
+.deals-center .title-decor .dot {
+  width: 8px;
+  height: 8px;
+  background: #FEC7E4;
+  border-radius: 999px;
+}
+.deals-center .title-decor .line {
+  width: 64px;
+  height: 4px;
+  background: #BFD8B8;
+  border-radius: 999px;
+}
+
+/* Description */
+.deals-center .desc{
+  width:372px; height:66px;
+  margin:0 0 16px;
+  font-family:"Lexend Deca", sans-serif;
+  font-size:18px; line-height:22px; color:#4D2B12;
+  transform:translateX(24.5%);
+}
+
+/* Buttons */
+.deals-center .actions{
+  display:flex; align-items:flex-start; gap:8px; width:372px; height:51px;
+  transform:translateX(24%);
+}
+.deals-center .btn-primary{
+  display:flex; justify-content:center; align-items:center;
+  width:147px; height:44px; padding:3px 15px; gap:10px;
+  background:#4D2B12; color:#FFF5E9; border-radius:32px;
+  font-family:"Lexend Deca"; font-weight:700; font-size:14px; line-height:18px;
+  box-shadow:0 4px 4px rgba(0,0,0,.25);
+}
+.deals-center .btn-ghost{
+  display:flex; justify-content:center; align-items:center; white-space: nowrap;
+  width:147px; height:44px; padding:15.2px 33.6px ;
+  background:#FFFEF9; border:1px solid #4D2B12; border-radius:32px;
+  font-family:"Lexend Deca"; font-weight:600; font-size:14px; line-height:16px; color:#4D2B12;
+  box-shadow:0 4px 4px rgba(0,0,0,.25);
+}
+
+/* ====== RIGHT GROUP  ====== */
+.deals-side.right{
+  position:relative;
+  width:361px; height:361px;
+  flex:0 0 auto; 
+}
+.deals-side.right .deal-base{
+  position:absolute;
+  right:20px; bottom:-18px;    
+  height:360px; width:auto;       /* vừa khung */
+  object-fit:contain;
+  z-index:1;
+  
+}
+/* Chip 20% OFF */
+.deals-side.right .deal-chip,
+.deals-side.right .deal-chip.pill{
+  position: absolute;
+  top: 100px;              /* tinh chỉnh theo mắt */
+  right: 10px;            /* dính bên phải của cột */
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  min-width: 101px;
+  height: 35px;
+  white-space: nowrap;
+
+  background: #BFD6F6;
+  border: 1px solid rgba(77,43,18,0.68);
+  border-radius: 18px;
+
+  font: 600 18px/22px "Lexend Deca", system-ui, sans-serif;
+  color: #4D2B12;
+}
+
+/*Shadow cho hai stack*/
+.deals-side.left .deal-base,
+.deals-side.right .deal-base {
+  filter:
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0 2px 3px rgba(0, 0, 0, 0.15));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+/* Subtle bobbing animation để stack sống động */
+@keyframes bob {
+  0%, 100% { transform: translateY(0) }
+  50%      { transform: translateY(-3px) }
+}
+.deal-chip-new  { animation: bob 4s ease-in-out infinite; }
+.deal-chip.pill { animation: bob 4s ease-in-out infinite; }
+
 
 /* Responsive cho header */
 @media (max-width: 900px) {

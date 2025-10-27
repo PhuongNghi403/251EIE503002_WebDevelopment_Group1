@@ -5,6 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pawfect Care — Sign In / Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/base.css" />
   <link rel="stylesheet" href="../assets/css/header.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
@@ -16,7 +19,7 @@
     <section class="auth-hero">
       <!-- Ghi chú (VN): Khối trái theo Figma: tiêu đề lớn, rating badge, user count, đoạn mô tả, CTA -->
       <div class="auth-hero-inner">
-        <h1 class="auth-hero-title">Pawfect Care Pet Shop</h1>
+          <h1 class="auth-hero-title bagel-fat-one-regular">Pawfect Care </h1>
         <div class="auth-hero-badges">
           <span class="badge rating">
             <img class="icon" src="../assets/icons/Login/star_icon.svg" alt="Rating" />
@@ -27,8 +30,9 @@
             <strong>50k+ Users</strong>
           </span>
         </div>
-        <p class="auth-hero-desc">We serve you the best services for your pets</p>
-        <a class="btn cta" href="../index.html">Explore more →</a>
+        <p class="auth-hero-desc">Trusted pet care services — all in one. 
+          Safe. Transparent. Full of love. </p>
+        <a class="btn cta" href="../index.html">Unlock the Pawfect experience →</a>
       </div>
       <img class="auth-hero-image" src="../assets/images/LoginSignup/LoginAnimationDogCat.png" alt="Pets" />
     </section>
@@ -36,22 +40,25 @@
     <!-- RIGHT: Auth panel -->
     <section class="auth-panel">
       <div class="auth-panel-inner">
-        <h2 class="auth-title">Join Us Today!</h2>
-        <p class="auth-subtitle">Create an account to get started</p>
+        <div class="auth-header">
+          <img src="../assets/icons/Logo.svg" alt="Logo" class="auth-logo" />
+          <h2 class="auth-title">Welcome Back!</h2>
+        </div>
+        <p class="auth-subtitle">Sign in to check on your furry friends</p>
 
         <!-- Segmented control -->
         <div class="segmented" role="tablist" aria-label="Auth tabs">
           <button class="segmented-item" data-tab="signin" aria-selected="true">Sign In</button>
           <button class="segmented-item" data-tab="signup">Sign Up</button>
         </div>
-
+        
         <!-- Sign In form -->
         <form id="form-signin" class="auth-form" novalidate>
           <!-- Ghi chú (VN): Focus outline sáng; có validation inline -->
           <label class="input">
             <span class="input-label">Phone Number</span>
             <span class="input-box">
-              <span class="icon"><img src="../assets/icons/Login/icon_phone.svg" alt="" /></span>
+              <span class="icon"><img src="../assets/icons/Login/Phone.svg" alt="" /></span>
               <input id="si-phone" type="tel" inputmode="tel" placeholder="+(84) 123-4567" autocomplete="tel" />
             </span>
             <small class="error" id="si-phone-error"></small>
@@ -60,8 +67,12 @@
           <label class="input">
             <span class="input-label">Password</span>
             <span class="input-box">
-              <span class="icon"><img src="../assets/icons/Login/icon_password.svg" alt="" /></span>
+              <span class="icon"><img src="../assets/icons/Login/Lock.svg" alt="" /></span>
               <input id="si-pass" type="password" placeholder="••••••••" autocomplete="current-password" />
+              <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                <img src="../assets/icons/Login/EyeClosed.svg" alt="" class="eye-icon closed" />
+                <img src="../assets/icons/Login/Eye.svg" alt="" class="eye-icon open" />
+              </button>
             </span>
             <small class="error" id="si-pass-error"></small>
           </label>
@@ -103,7 +114,7 @@
           <label class="input">
             <span class="input-label">Email</span>
             <span class="input-box">
-              <span class="icon"><img src="../assets/icons/Login/icon_phone.svg" alt="" /></span>
+              <span class="icon"><img src="../assets/icons/Login/EnvelopeSimple.svg" alt="" /></span>
               <input id="su-email" type="email" placeholder="pawfect.care@example.com" autocomplete="email" />
             </span>
             <small class="error" id="su-email-error"></small>
@@ -112,7 +123,7 @@
           <label class="input">
             <span class="input-label">Phone Number</span>
             <span class="input-box">
-              <span class="icon"><img src="../assets/icons/Login/icon_phone.svg" alt="" /></span>
+              <span class="icon"><img src="../assets/icons/Login/Phone.svg" alt="" /></span>
               <input id="su-phone" type="tel" inputmode="tel" placeholder="+(84) 123-4567" autocomplete="tel" />
             </span>
             <small class="error" id="su-phone-error"></small>
@@ -121,8 +132,12 @@
           <label class="input">
             <span class="input-label">Password</span>
             <span class="input-box">
-              <span class="icon"><img src="../assets/icons/Login/icon_password.svg" alt="" /></span>
+              <span class="icon"><img src="../assets/icons/Login/Lock.svg" alt="" /></span>
               <input id="su-pass" type="password" placeholder="At least 8 characters" autocomplete="new-password" />
+              <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                <img src="../assets/icons/Login/EyeClosed.svg" alt="" class="eye-icon closed" />
+                <img src="../assets/icons/Login/Eye.svg" alt="" class="eye-icon open" />
+              </button>
             </span>
             <small class="error" id="su-pass-error"></small>
           </label>
@@ -130,8 +145,12 @@
           <label class="input">
             <span class="input-label">Confirmed Password</span>
             <span class="input-box">
-              <span class="icon"><img src="../assets/icons/Login/icon_password.svg" alt="" /></span>
+              <span class="icon"><img src="../assets/icons/Login/Lock.svg" alt="" /></span>
               <input id="su-confirm" type="password" placeholder="Re-enter your password" autocomplete="new-password" />
+              <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                <img src="../assets/icons/Login/EyeClosed.svg" alt="" class="eye-icon closed" />
+                <img src="../assets/icons/Login/Eye.svg" alt="" class="eye-icon open" />
+              </button>
             </span>
             <small class="error" id="su-confirm-error"></small>
           </label>
@@ -142,13 +161,6 @@
           </label>
 
           <button class="btn primary full" id="su-submit" type="submit" disabled>Sign Up</button>
-
-          <div class="auth-divider"><span>Or continue with</span></div>
-          <div class="socials">
-            <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_google.svg" alt="" /> Google</button>
-            <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_facebook.svg" alt="" /> Facebook</button>
-            <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_apple.svg" alt="" /> Apple</button>
-          </div>
         </form>
       </div>
     </section>
@@ -180,10 +192,9 @@
       <div class="footer-col">
         <h4 class="footer-title">Services</h4>
         <ul class="footer-links">
-          <li><a href="services/homestayboarding-service.html">Pet Boarding</a></li>
-          <li><a href="services/services.html">Dog Grooming</a></li>
-          <li><a href="services/services.html">Cat Grooming</a></li>
-          <li><a href="services/services.html">Pet Training</a></li>
+          <li><a href="services/homestayboarding-service.html">Pet Homestay</a></li>
+          <li><a href="services/services.html">Pet Spa</a></li>
+
         </ul>
       </div>
       <div class="footer-col">
@@ -211,8 +222,55 @@
     </div>
   </footer>
 
-  <!-- Cuối body: thay main.js bằng utils + auth.js -->
+  <!-- Social Login SDKs -->
+  <!-- Google OAuth 2.0 -->
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
+  <!-- Facebook SDK -->
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: 'YOUR_FACEBOOK_APP_ID', // Replace with your Facebook App ID
+        cookie: true,
+        xfbml: true,
+        version: 'v18.0'
+      });
+      
+      // Mark FB as ready
+      window.fbReady = true;
+      console.log('Facebook SDK initialized');
+    };
+    
+    // Fallback for development
+    setTimeout(() => {
+      if (!window.fbReady) {
+        console.log('Facebook SDK initialization timeout, will use mock');
+        window.fbReady = false;
+      }
+    }, 5000);
+  </script>
+  
+  <!-- Apple Sign In -->
+  <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+  <script>
+    window.addEventListener('load', function() {
+      if (typeof AppleID !== 'undefined') {
+        AppleID.auth.init({
+          clientId: 'YOUR_APPLE_CLIENT_ID', // Replace with your Apple Client ID
+          scope: 'name email',
+          redirectURI: window.location.origin + '/pages/login-signup.html',
+          state: 'state',
+          usePopup: true
+        });
+      }
+    });
+  </script>
+  
+  <!-- Cuối body: thay main.js bằng utils + api + auth.js -->
   <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/api.js"></script>
   <script src="../assets/js/auth.js"></script>
 </body>
 </html>
