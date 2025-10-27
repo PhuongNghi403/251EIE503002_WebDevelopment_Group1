@@ -3,10 +3,65 @@
 
 (function() {
   document.addEventListener('DOMContentLoaded', () => {
-    initProductDetailFromXML();
+    initProductDetailFromData();
     initProductDetailButtons();
     updateCartButton();
   });
+
+  // Prefer JS data source, fallback to XML/params
+  function initProductDetailFromData() {
+    const params = new URLSearchParams(window.location.search);
+    const idParamRaw = params.get('id');
+    const idParam = idParamRaw ? idParamRaw.trim() : null;
+    const nameParamRaw = params.get('name');
+    const nameParam = nameParamRaw ? nameParamRaw.trim() : null;
+
+    // If no params, use generic fallback
+    if (!idParam && !nameParam) {
+      initProductDetailFromParams();
+      return;
+    }
+
+    const data = Array.isArray(window.PRODUCTS_DATA) ? window.PRODUCTS_DATA : [];
+    if (!data.length) {
+      // No JS data, fallback to XML
+      initProductDetailFromXML();
+      return;
+    }
+
+    const normalize = (s) => (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
+    let item = null;
+    if (idParam) {
+      item = data.find(p => String(p.id).trim() === idParam);
+    }
+    if (!item && nameParam) {
+      const target = normalize(nameParam);
+      item = data.find(p => normalize(p.name) === target);
+    }
+
+    if (!item) {
+      showNotification('Product not found in data. Using defaults.', 'info');
+      initProductDetailFromParams();
+      return;
+    }
+
+    const product = {
+      id: String(item.id || ''),
+      name: item.name || 'Sample Product',
+      rating: Number(item.rating ?? 0),
+      soldCount: String(item.sold_count ?? item.soldCount ?? '0'),
+      originalPrice: Number(item.original_price ?? item.originalPrice ?? item.discounted_price ?? 0),
+      discountedPrice: Number(item.discounted_price ?? item.discountedPrice ?? 0),
+      category: item.category || '',
+      brand: item.brand || '',
+      description: item.description || '',
+      benefits: Array.isArray(item.benefits) ? item.benefits : [],
+      nutrition: item.nutrition || {},
+      image: item.image_url || item.image || guessImageForProduct(item.name || '')
+    };
+
+    populateProductDetail(product);
+  }
 
   async function initProductDetailFromXML() {
     const params = new URLSearchParams(window.location.search);
@@ -233,6 +288,14 @@
     return { name, image, price: isNaN(price) ? 0 : price };
   }
 
+<<<<<<< Updated upstream
+=======
+  // Make functions available globally if needed
+  window.initProductDetailFromXML = initProductDetailFromXML;
+  window.initProductDetailFromParams = initProductDetailFromParams;
+  window.initProductDetailFromData = initProductDetailFromData;
+})();
+>>>>>>> Stashed changes
   // addToCart - mirrors behavior used across pages
   function addToCart(productName, productImage, price = 0) {
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');

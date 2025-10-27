@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize shop functionality
   initShopPage();
   initNavigation();
-  loadProductsFromXML();
+  loadProductsFromData();
   initProductCarousel();
   initProductInteractions();
   initWishlistAndCart();
+  initMarkupWishlistButtons();
+  initCardTitleNavigation();
   initProductCardButtons();
   initGlobalCartListeners();
 });
@@ -101,6 +103,94 @@ function initProductCarousel() {
   // Initialize
   updateActiveCard();
   updateButtons();
+}
+
+// Navigate to product detail when clicking the card title
+function initCardTitleNavigation() {
+  const titles = document.querySelectorAll('.product-card .card-title');
+  if (!titles || titles.length === 0) return;
+
+  titles.forEach(title => {
+    if (title.dataset.navBound === 'true') return;
+    title.dataset.navBound = 'true';
+
+    title.style.cursor = 'pointer';
+    title.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const card = title.closest('.product-card');
+      const name = title.textContent?.trim() || '';
+
+      let idParam = '';
+      try {
+        if (Array.isArray(window.productsData) && window.productsData.length) {
+          const match = window.productsData.find(p => p.element === card || p.name === name);
+          if (match && match.id) idParam = String(match.id);
+        }
+      } catch (_) {}
+
+      // Build navigation URL (same directory as shop.html)
+      let href = 'product_detail.html';
+      if (idParam) {
+        href += `?id=${encodeURIComponent(idParam)}`;
+      } else if (name) {
+        href += `?name=${encodeURIComponent(name)}`;
+      }
+      window.location.href = href;
+    });
+  });
+}
+
+// Bind wishlist buttons that already exist in the shop.html markup
+function initMarkupWishlistButtons() {
+  const buttons = document.querySelectorAll('.product-card .wishlist-btn');
+  if (!buttons || buttons.length === 0) return;
+
+  buttons.forEach(btn => {
+    // Avoid duplicate listeners
+    if (btn.dataset.wishlistBound === 'true') return;
+    btn.dataset.wishlistBound = 'true';
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const card = btn.closest('.product-card');
+      if (!card) return;
+
+      const productName = card.querySelector('.card-title')?.textContent?.trim() || '';
+      const productImage = card.querySelector('img')?.src || '';
+
+      try {
+        // Use the global addToWishlist if available (defined later in this file)
+        if (typeof addToWishlist === 'function') {
+          addToWishlist(productName, productImage);
+        } else {
+          // Fallback local implementation
+          let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+          const existingItem = wishlist.find(item => item.name === productName);
+          if (!existingItem) {
+            wishlist.push({
+              id: Date.now(),
+              name: productName,
+              image: productImage,
+              category: 'General',
+              addedAt: new Date().toISOString()
+            });
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            if (typeof updateWishlistButton === 'function') updateWishlistButton();
+            showNotification(`${productName} added to favorites!`, 'success');
+            window.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist, action: 'add', productName } }));
+          } else {
+            showNotification(`${productName} is already in your favorites!`, 'info');
+          }
+        }
+      } catch (err) {
+        console.error('Wishlist add failed:', err);
+        showNotification('Unable to add to favorites right now.', 'error');
+      }
+    });
+  });
 }
 
 // Product interactions (hover effects, click handlers)
@@ -915,6 +1005,71 @@ async function loadProductsFromXML() {
   console.log('Products loaded from XML successfully');
   } catch (error) {
     console.error('Error loading products from XML:', error);
+  }
+}
+
+// Load products from JS data (window.PRODUCTS_DATA) and update HTML
+function loadProductsFromData() {
+  try {
+    const products = Array.isArray(window.PRODUCTS_DATA) ? window.PRODUCTS_DATA : [];
+    const productCards = document.querySelectorAll('.product-card');
+
+    // Fallback to XML if no JS data available
+    if (!products.length) {
+      console.warn('No PRODUCTS_DATA found; falling back to XML');
+      loadProductsFromXML();
+      return;
+    }
+
+    // Store products data globally for filtering and navigation
+    window.productsData = [];
+
+    products.forEach((p, index) => {
+      if (index < productCards.length) {
+        const card = productCards[index];
+        const cardDetails = card.querySelector('.card-details');
+
+        // Normalize properties
+        const name = p.name || '';
+        const discounted = Number(p.discounted_price ?? p.discountedPrice ?? 0);
+        const original = Number(p.original_price ?? p.originalPrice ?? discounted);
+        const rating = Number(p.rating ?? 0);
+        const soldCount = String(p.sold_count ?? p.soldCount ?? '0');
+        const category = p.category ?? '';
+
+        // Store product data for later filtering and navigation
+        window.productsData.push({
+          id: String(p.id ?? index + 1),
+          name,
+          discountedPrice: discounted,
+          originalPrice: original,
+          rating,
+          soldCount,
+          category,
+          element: card
+        });
+
+        if (cardDetails) {
+          const cardTitle = cardDetails.querySelector('.card-title');
+          if (cardTitle) cardTitle.textContent = name;
+
+          const currentPriceElement = cardDetails.querySelector('.current-price');
+          const originalPriceElement = cardDetails.querySelector('.original-price');
+          if (currentPriceElement) currentPriceElement.textContent = `$${discounted.toFixed(2)}`;
+          if (originalPriceElement) originalPriceElement.textContent = `$${original.toFixed(2)}`;
+
+          const ratingElement = cardDetails.querySelector('.rating');
+          const soldElement = cardDetails.querySelector('.sold');
+          if (ratingElement) ratingElement.textContent = `⭐ (${rating})`;
+          if (soldElement) soldElement.textContent = `${soldCount} Sold`;
+        }
+      }
+    });
+
+    updateResultsCount && updateResultsCount();
+  } catch (err) {
+    console.error('Failed to load products from JS data:', err);
+    loadProductsFromXML();
   }
 }
 
