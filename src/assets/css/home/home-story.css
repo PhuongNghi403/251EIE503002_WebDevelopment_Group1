@@ -13,7 +13,7 @@
   grid-template-columns: 1.05fr 0.95fr; 
   gap: clamp(16px, 6vw, 32px);    
   align-items: start;
-  transition: gap 0.3s ease;
+  transition: gap 0.5s ease;
 }
 
 .home-story .story-title-wrap {
@@ -39,7 +39,8 @@
   .home-story .section-title { text-align: left; margin-left: 0; font-size: clamp(31px, 5.2vw, 47px); }
   .story-block h3 { margin: 10px 0 6px; font-weight: 800; color: var(--brand-brown); font-family: "Fraunces", serif !important; font-weight: 600 !important; }
   .story-block p { color: var(--text-3); }
-.service-cards{
+
+  .service-cards{
   display: grid;
   grid-template-columns: repeat(2, minmax(285px, 1fr));
   gap: 24px;                 /* khoảng giữa 2 card mặc định */
