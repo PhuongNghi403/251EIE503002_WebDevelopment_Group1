@@ -88,7 +88,30 @@
     };
   }
 
-
+  function guessImageForProduct(name) {
+    // Fallback image mapping based on product name
+    const imageMap = {
+      'SQUEAKY SPORTS BALL SET': '../assets/images/Shop/Basketball.svg',
+      'BONE-SHAPED PET TOYS': '../assets/images/Shop/BoneShapedPetToys.svg',
+      'HIGH-GRIP TRAINING BALL': '../assets/images/Shop/BallForDog.svg',
+      'KIT CAT FILLET': '../assets/images/Shop/FilletOLakes.svg',
+      'ENCORE COMPLETE': '../assets/images/Shop/EncoreCatFood.svg',
+      'WELLNESS SIGNATURE': '../assets/images/Shop/Wellness.svg',
+      'FRISKIES': '../assets/images/Shop/Friskies.svg',
+      'CHERIE': '../assets/images/Shop/Therie.svg',
+      'PEDIGREE': '../assets/images/Shop/Pedigree.svg',
+      'STUFFED ANIMALS': '../assets/images/Shop/StuffedAnimals.svg',
+      'RAWHIDE BONE': '../assets/images/Shop/DogToysRawhide.svg'
+    };
+    
+    for (const [key, image] of Object.entries(imageMap)) {
+      if (name.toUpperCase().includes(key)) {
+        return image;
+      }
+    }
+    
+    return '../assets/images/Shop/BoneShapedPetToys.svg'; // Default fallback
+  }
 
   function formatLabel(s) {
     return (s || '').replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim().replace(/\b\w/g, c => c.toUpperCase());
@@ -97,14 +120,23 @@
   function populateProductDetail(product) {
     const titleEl = document.querySelector('.detail-title');
     const priceEl = document.querySelector('.detail-price');
+    const originalPriceEl = document.querySelector('.detail-original-price');
     const imageEl = document.querySelector('.detail-image');
     const ratingEl = document.querySelector('.detail-rating');
+    const soldEl = document.querySelector('.detail-sold');
     const descEl = document.querySelector('.detail-desc');
 
     if (titleEl) titleEl.textContent = product.name || 'Product';
     if (priceEl) priceEl.textContent = `$${(product.discountedPrice ?? 0).toFixed(2)}`;
+    if (originalPriceEl && product.originalPrice !== product.discountedPrice) {
+      originalPriceEl.textContent = `$${(product.originalPrice ?? 0).toFixed(2)}`;
+      originalPriceEl.style.display = 'inline';
+    } else if (originalPriceEl) {
+      originalPriceEl.style.display = 'none';
+    }
     if (imageEl) imageEl.src = product.image;
     if (ratingEl) ratingEl.textContent = `${(product.rating ?? 0).toFixed(1)} ★`;
+    if (soldEl) soldEl.textContent = `${product.soldCount || '0'} sold`;
     if (descEl && product.description) descEl.textContent = product.description;
 
     // Store current price for add-to-cart
@@ -114,8 +146,12 @@
     const categoryValueEl = document.querySelector('.detail-category .category-value');
     if (categoryValueEl) categoryValueEl.textContent = product.category || '';
 
+    // Brand
+    const brandValueEl = document.querySelector('.detail-brand .brand-value');
+    if (brandValueEl) brandValueEl.textContent = product.brand || '';
+
     // Benefits list
-    const benefitsList = document.querySelector('.detail-benefits');
+    const benefitsList = document.querySelector('.benefits-list');
     if (benefitsList) {
       benefitsList.innerHTML = '';
       if (Array.isArray(product.benefits) && product.benefits.length) {
@@ -124,32 +160,27 @@
           li.textContent = b;
           benefitsList.appendChild(li);
         });
+      } else {
+        const li = document.createElement('li');
+        li.textContent = 'No specific benefits listed';
+        benefitsList.appendChild(li);
       }
     }
 
     // Nutrition facts table
-    const nutritionBody = document.querySelector('.detail-nutrition tbody');
-    if (nutritionBody) {
-      nutritionBody.innerHTML = '';
-      const entries = Object.entries(product.nutrition || {});
-      entries.forEach(([key, value]) => {
-        const tr = document.createElement('tr');
-        const th = document.createElement('th');
-        const td = document.createElement('td');
-        th.textContent = formatLabel(key);
-        td.textContent = value;
-        tr.appendChild(th);
-        tr.appendChild(td);
-        nutritionBody.appendChild(tr);
+    const nutritionSection = document.querySelector('.detail-nutrition');
+    if (nutritionSection && product.nutrition && Object.keys(product.nutrition).length > 0) {
+      nutritionSection.style.display = 'block';
+      
+      // Update nutrition values
+      Object.entries(product.nutrition).forEach(([key, value]) => {
+        const valueEl = document.querySelector(`.${key}-value`);
+        if (valueEl) {
+          valueEl.textContent = value;
+        }
       });
-      if (entries.length === 0) {
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 2;
-        td.textContent = 'No nutrition information available.';
-        tr.appendChild(td);
-        nutritionBody.appendChild(tr);
-      }
+    } else if (nutritionSection) {
+      nutritionSection.style.display = 'none';
     }
   }
 
@@ -202,6 +233,10 @@
     return { name, image, price: isNaN(price) ? 0 : price };
   }
 
+  // Make functions available globally if needed
+  window.initProductDetailFromXML = initProductDetailFromXML;
+  window.initProductDetailFromParams = initProductDetailFromParams;
+})();
   // addToCart - mirrors behavior used across pages
   function addToCart(productName, productImage, price = 0) {
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -267,4 +302,8 @@
     if (badge) badge.textContent = count;
     if (badge && count === 0) badge.remove();
   }
+
+  // Make functions available globally if needed
+  window.initProductDetailFromXML = initProductDetailFromXML;
+  window.initProductDetailFromParams = initProductDetailFromParams;
 })();
