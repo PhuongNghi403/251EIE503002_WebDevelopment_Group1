@@ -37,30 +37,157 @@ window.PRODUCTS_DATA = [
   },
   {
     id: '3',
-    name: 'KIT CAT FILLET',
-    discounted_price: 1.99,
-    original_price: 2.49,
-    rating: 4.4,
-    sold_count: 210,
-    category: 'Cat Food',
-    brand: 'Kit Cat',
-    image_url: '../assets/images/Shop/FilletOLakes.svg',
-    description: 'Tasty cat fillet treats with balanced nutrition.',
+    name: 'HIGH-GRIP TRAINING BALL',
+    discounted_price: 300.00,
+    original_price: 303.22,
+    rating: 3.0,
+    sold_count: 12,
+    category: 'Dog Toy',
+    brand: 'Pawfect',
+    image_url: '../assets/images/Shop/BallForDog.svg',
+    description: 'A lightweight, high-grip training ball designed for everyday fetch.'/ 
+      'The smooth outer shell resists dirt, while the responsive core delivers a satisfying bounce that encourages exercise and healthy play routines.'/
+      'Sized for easy carrying without straining the jaw.',
     benefits: ['High protein'],
-    nutrition: { calories: '180 kcal', protein: '12g' }
+    nutrition: {}
   },
   {
     id: '4',
-    name: 'ENCORE COMPLETE',
-    discounted_price: 3.49,
-    original_price: 3.99,
-    rating: 4.1,
-    sold_count: 75,
+    name: 'KIT CAT FILLET O LAKES',
+    discounted_price: 100.00,
+    original_price: 200.00,
+    rating: 5.0,
+    sold_count: '1000+',
+    category: 'Cat Food',
+    brand: 'Kit Cat',
+    image_url: '../assets/images/Shop/FilletOLakes.svg',
+    description: 'Packed with tender chicken breast pieces blended with crunchy'/
+      'biscuit bites and natural vegetables, this complete recipe turns'/
+      'every scoop into a tasty surprise. The formula is enriched with Omega-3 &amp;'/
+      'Omega-6 fatty acids, taurine, and prebiotic vitamins to nourish skin and coat,'/ 
+      'digestion, and overall vitality. Made without pork or lard and crafted for a balanced daily diet,'/ 
+      'it supports your cat\'s heart, eyes, and immune system while keeping mealtime delicious and satisfying.',
+    benefits: ['Vitamins & minerals'],
+    nutrition: { protein: '10g', fat: '10g', fiber: '6%', ash: '12%', moisture: '8%' }
+  },
+  {
+    id: '5',
+    name: 'ENCORE COMPLETE - CAT FOOD',
+    discounted_price: 400.00,
+    original_price: 450.54,
+    rating: 4.0,
+    sold_count: 329,
     category: 'Cat Food',
     brand: 'Encore',
     image_url: '../assets/images/Shop/EncoreCatFood.svg',
-    description: 'Complete cat food with essential vitamins and minerals.',
-    benefits: ['Vitamins & minerals'],
-    nutrition: { calories: '220 kcal', protein: '10g' }
-  }
+    description: 'A complete and balanced meal made with real chicken breast,'/ 
+      'crunchy kibble accents, and garden vegetables. Each serving provides '/
+      'high-quality protein for strong, lean muscles and is fortified with Omega-3 &amp; Omega-6, '/
+      'taurine, and essential vitamins. Free from pork and lard, the recipe is designed to support '/
+      'everyday wellness—from skin and coat to digestion and immune defense—while delivering a flavor cats love.',
+    benefits: ['Glossy coat and skin comfort'],
+    nutrition: { protein: '29g', fat: '11g', fiber: '9%', ash: '10%', moisture: '20%' }
+  },
+  {
+    id: '6',
+    name: 'WELLNESS SIGNATURE SELECTS (CHICKEN ENTRÉE)',
+    discounted_price: 200.00,
+    original_price: 293.01,
+    rating: 3.0,
+    sold_count: 12,
+    category: 'Cat Food',
+    brand: 'Wellness',
+    image_url: '../assets/images/Shop/Wellness.svg',
+    description: 'A premium, protein-rich entrée crafted with real chicken and carefully '/
+      'selected nutrients to support daily vitality. The balanced profile includes Omega-3 &amp; Omega-6 '/
+      'fatty acids, taurine, and antioxidants for whole-body wellness. Gentle on sensitive stomachs '/
+      'and free from pork or lard, this recipe delivers complete nutrition with a succulent, highly palatable'/ 
+      'texture that keeps picky eaters interested.',
+    benefits: ['Vitamin E and minerals aid natural defenses'],
+    nutrition: { protein: '38g', fat: '14g', fiber: '3%', ash: '9%', moisture: '10%' }
+  },
+  {
+    id: '7',
+    name: 'FRISKIES WITH CHICKEN (CANNED)',
+    discounted_price: 400.00,
+    original_price: 450.54,
+    rating: 5.0,
+    sold_count: '1000+',
+    category: 'Cat Food',
+    brand: 'Friskies',
+    image_url: '../assets/images/Shop/Friskies.svg',
+    description: 'Tender chicken in a savory gravy that keeps cats coming back to the bowl. '/
+      'This complete and balanced entrée delivers high-quality protein for lean '/
+      'muscles and includes essential vitamins, taurine, and omegas to support heart,'/ 
+      'vision, skin, and coat. The juicy texture adds extra hydration while the irresistible '/ 
+      'aroma turns mealtime into a treat. Made without pork or lard for everyday feeding.',
+    benefits: ['Taurine helps maintain heart and eye function'],
+    nutrition: { protein: '38g', fat: '14g', fiber: '3%', ash: '9%', moisture: '10%' }
+  },
+  {
+    id: '8',
+    name: 'CHERIE “THE FINEST” (SHREDDED CHICKEN IN GRAVY)',
+    discounted_price: 550.00,
+    original_price: 603.13,
+    rating: 4.0,
+    sold_count: 329,
+    category: 'Cat Food',
+    brand: 'Cherie',
+    image_url: '../assets/images/Shop/Therie.svg',
+    description: 'A gourmet shredded-chicken entrée in silky gravy crafted for discerning felines. '/
+      'Each serving combines real chicken with targeted nutrients—taurine, Omega-3 &amp; Omega-6, '/
+      'and antioxidants—to support heart, vision, skin, coat, and immune health. The highly palatable '/ 
+      'texture is gentle on sensitive stomachs and free from pork or lard.',
+    benefits: ['Omega fatty acids nourish skin and promote a glossy coat'],
+    nutrition: { protein: '38g', fat: '14g', fiber: '3%', ash: '9%', moisture: '10%' }
+  },
+  {
+    id: '9',
+    name: 'PEDIGREE VITAL PROTECTION (ADULT DOG)',
+    discounted_price: 200.00,
+    original_price: 275.43,
+    rating: 3.0,
+    sold_count: 12,
+    category: 'Dog Food',
+    brand: 'Pedigree',
+    image_url: '../assets/images/Shop/Pedigree.svg',
+    description: 'Complete dry food for adult dogs featuring a crunchy kibble texture '/
+      'and a balanced blend of protein, whole-grain carbohydrates, and essential '/
+      'vitamins and minerals. Fortified with Omega-6 fatty acids and zinc to help nourish '/
+      'skin and coat, plus fiber to support healthy digestion. Formulated without pork or lard for everyday feeding.',
+    benefits: ['Crunchy kibble helps keep teeth clean'],
+    nutrition: { protein: '38g', fat: '14g', fiber: '3%', ash: '9%', moisture: '10%' }
+  },
+  {
+    id: '10',
+    name: 'STUFFED ANIMALS & ROPE PLAY SET',
+    discounted_price: 700.00,
+    original_price: 788.00,
+    rating: 4.0,
+    sold_count: 329,
+    category: 'Dog Toy',
+    brand: 'PetStay',
+    image_url: '../assets/images/Shop/StuffedAnimals.svg',
+    description: 'A multi-toy bundle that mixes plush squeakers with a tough rope for tug, '/
+      'fetch, and independent play. The varied shapes, sounds, and textures keep dogs mentally '/ 
+      'stimulated while the rope fibers can help with light flossing as they chew. Ideal for indoor sessions and basic training games.',
+    benefits: ['Rope fibers aid light dental flossing'],
+    nutrition: {}
+  },
+  {
+    id: '11',
+    name: 'RAWHIDE BONE CHEW',
+    discounted_price: 190.00,
+    original_price: 200.00,
+    rating: 3.0,
+    sold_count: 12,
+    category: 'Dog Toy',
+    brand: 'PetStay',
+    image_url: '../assets/images/Shop/StuffedAnimals.svg',
+    description: 'A long-lasting rawhide chew shaped like a classic bone to satisfy a dog natural urge to chew. '/
+      'Helps alleviate boredom and promotes healthy chewing habits. Always supervise your pet while chewing '/
+      'and provide fresh water; this is a chew, not a complete meal.',
+    benefits: ['Encourages healthy chewing away from household items'],
+    nutrition: {}
+  },
 ];

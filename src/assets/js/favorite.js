@@ -3,14 +3,30 @@
 // Global products data cache
 let productsData = [];
 
-// Load products from XML
+// Load products from JS catalog first, fallback to XML if needed
 async function loadProductsData() {
   try {
+    const catalog = Array.isArray(window.PRODUCTS_DATA) ? window.PRODUCTS_DATA : [];
+    if (catalog.length) {
+      productsData = catalog.map(p => ({
+        id: String(p.id ?? ''),
+        name: p.name || '',
+        price: Number(p.discounted_price ?? p.discountedPrice ?? p.original_price ?? p.originalPrice ?? 0),
+        originalPrice: Number(p.original_price ?? p.originalPrice ?? p.discounted_price ?? p.discountedPrice ?? 0),
+        category: p.category || 'General',
+        image: p.image_url || p.image || '',
+        rating: Number(p.rating ?? 0),
+        soldCount: String(p.sold_count ?? p.soldCount ?? '0')
+      }));
+      console.log('Products data loaded from JS:', productsData.length, 'products');
+      return productsData;
+    }
+
+    // Fallback to XML if JS catalog not present
     const response = await fetch('../assets/data/products.xml');
     const xmlText = await response.text();
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-    
     const products = xmlDoc.querySelectorAll('product');
     productsData = Array.from(products).map(product => ({
       id: product.getAttribute('id'),
@@ -22,8 +38,7 @@ async function loadProductsData() {
       rating: parseFloat(product.querySelector('rating')?.textContent || '0'),
       soldCount: product.querySelector('sold_count')?.textContent || '0'
     }));
-    
-    console.log('Products data loaded:', productsData.length, 'products');
+    console.log('Products data loaded from XML:', productsData.length, 'products');
     return productsData;
   } catch (error) {
     console.error('Error loading products data:', error);
@@ -33,11 +48,11 @@ async function loadProductsData() {
 
 // Get product data by name
 function getProductDataByName(productName) {
-  return productsData.find(product => 
-    product.name.toLowerCase() === productName.toLowerCase() ||
-    product.name.toLowerCase().includes(productName.toLowerCase()) ||
-    productName.toLowerCase().includes(product.name.toLowerCase())
-  );
+  const norm = (s) => (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  const target = norm(productName);
+  return productsData.find(p => norm(p.name) === target) ||
+         productsData.find(p => norm(p.name).includes(target)) ||
+         productsData.find(p => target.includes(norm(p.name)));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -99,9 +114,11 @@ function renderFavoriteItems(wishlist) {
 
   favoriteItemsContainer.innerHTML = wishlist.map((item, index) => `
     <tr class="favorite-item" data-item-id="${item.id}">
-      <td class="item-checkbox">
+      <td >
+      <div class="item-checkbox">
         <input type="checkbox" id="favorite${index + 1}">
         <label for="favorite${index + 1}"></label>
+      </div>
       </td>
       <td class="item-info-cell">
         <div class="item-info">
@@ -402,7 +419,7 @@ async function addToWishlist(productName, productImage, category = 'General') {
   const existingItem = wishlist.find(item => item.name === productName);
   
   if (!existingItem) {
-    // Get product data from XML
+    // Get product data from catalog/XML
     const productData = getProductDataByName(productName);
     
     wishlist.push({
@@ -410,8 +427,8 @@ async function addToWishlist(productName, productImage, category = 'General') {
       name: productName,
       image: productImage,
       category: productData ? productData.category : category,
-      price: productData ? productData.price : 0,
-      originalPrice: productData ? productData.originalPrice : 0,
+      price: productData ? Number(productData.price || 0) : 0,
+      originalPrice: productData ? Number(productData.originalPrice || productData.price || 0) : 0,
       addedAt: new Date().toISOString()
     });
     
