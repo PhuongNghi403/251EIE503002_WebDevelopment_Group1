@@ -1,4 +1,3 @@
-/* Community page styles - Premium, clean, on-brand refinements */
 
 /* Color Variables */
 :root {
@@ -48,8 +47,8 @@ body[data-page="community"] {
   margin: 0 auto;
   position: relative;
 }
-.hero--svgframe .ticker--full{ margin-top: 32px; }
-/* Decorative gradient blob behind hero visuals */
+.hero--svgframe .ticker--full{ margin-top: 48px; }
+
 /* ===== HERO — Cloud Frame ===== */
 .hero--svgframe {
   padding: 60px 0 40px;
@@ -93,21 +92,57 @@ body[data-page="community"] {
   margin-bottom: 6px;
 }
 
-.hero-frame-content .hero-title {
-  font-size: clamp(30px, 4.5vw, 46px);
-  line-height: 1.2;
-  margin: 0;
+
+
+/* ===== HERO TITLE (bubble highlight always visible) ===== */
+.hero-title {
+  font-size: clamp(32px, 5vw, 48px);
   font-weight: 800;
-  color: #3B2410;
+  color: #2a1b0f;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
 }
 
-.hero-frame-content .hero-sub {
-  max-width: 640px;
-  margin: 14px auto 20px;
-  color: rgba(32, 34, 37, 0.72);
-  font-size: 16px;
-  line-height: 1.5;
+/* pastel bubble highlight */
+.highlight-bubble {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  color: #4D2B12;
+  padding: 0 .25em;
 }
+
+/* bubble background luôn hiển thị */
+.highlight-bubble::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: radial-gradient(circle at 50% 50%, rgba(254,199,228,.45) 0%, rgba(254,199,228,.25) 60%, rgba(254,199,228,0) 100%);
+  box-shadow: 0 3px 12px rgba(254,199,228,.4);
+  transform: scale(1);
+  opacity: 1;
+  z-index: -1;
+  transition: box-shadow .5s ease, transform .4s ease;
+}
+
+/* khi hover thì bubble sáng lên nhẹ */
+.highlight-bubble:hover::before {
+  box-shadow: 0 5px 18px rgba(254,199,228,.65);
+  transform: scale(1.05);
+}
+
+/* hiệu ứng breathing nhẹ (tùy chọn) */
+@keyframes bubbleGlow {
+  0%, 100% { box-shadow: 0 3px 12px rgba(254,199,228,.4); }
+  50% { box-shadow: 0 5px 18px rgba(254,199,228,.6); }
+}
+.highlight-bubble::before {
+  animation: bubbleGlow 3s ease-in-out infinite;
+}
+
 
 .hero-frame-content .hero-actions {
   display: flex;
