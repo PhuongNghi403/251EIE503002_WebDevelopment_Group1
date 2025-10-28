@@ -9,10 +9,591 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize package selection functionality
   initPackageSelection();
 
-  // Initialize sidebar selections and pricing
-  initSidebarSelections();
-  initQuantityControls(); // bind qty controls for add-ons & treats
+  // Initialize sidebar selections and pricing based on page
+  if (page === 'groomingspa') {
+    initGroomingSpaFunctionality();
+  } else if (page === 'homestayboarding') {
+    initHomestayBoardingFunctionality();
+  }
 });
+
+// Homestay Boarding specific functionality
+function initHomestayBoardingFunctionality() {
+  // State management for homestay boarding
+  let selectedPackage = { name: 'Cozy Room (Basic)', price: 40 };
+  let selectedAddons = new Map(); // addonName -> { price: number, element: HTMLElement }
+  let selectedTreats = new Map(); // treatName -> { price: number, quantity: number, element: HTMLElement }
+
+  // Initialize add-ons event delegation
+  const addonsAccordion = document.querySelector('.accordion-content');
+  if (addonsAccordion) {
+    addonsAccordion.addEventListener('click', (e) => {
+      if (e.target.classList.contains('add-btn')) {
+        e.preventDefault();
+        const addonItem = e.target.closest('.addon-item');
+        const addonName = addonItem.querySelector('.addon-name').textContent.trim();
+        const addonPrice = parseFloat(e.target.dataset.price) || 0;
+
+        if (selectedAddons.has(addonName)) {
+          // Remove addon
+          selectedAddons.delete(addonName);
+          e.target.textContent = '+';
+          e.target.classList.remove('selected');
+        } else {
+          // Add addon
+          selectedAddons.set(addonName, { price: addonPrice, element: addonItem });
+          e.target.textContent = '✓';
+          e.target.classList.add('selected');
+        }
+
+        updateSelectedCounts();
+        updatePriceSummary();
+      }
+    });
+  }
+
+  // Initialize treats event delegation
+  const treatsGrid = document.querySelector('.treats-grid');
+  if (treatsGrid) {
+    treatsGrid.addEventListener('click', (e) => {
+      const addBtn = e.target.closest('.add-btn');
+      const removeBtn = e.target.closest('.remove-btn');
+      if (!addBtn && !removeBtn) return;
+
+      e.preventDefault();
+      const treatItem = (addBtn || removeBtn).closest('.treat-item');
+      if (!treatItem) return;
+
+      const treatName = treatItem.dataset.treatName;
+      const treatPrice = parseFloat((addBtn || removeBtn).dataset.price) || 0;
+
+      if (!treatName) {
+        console.error("Could not find data-treat-name on:", treatItem);
+        return;
+      }
+
+      if (addBtn) {
+        // Increase quantity
+        if (selectedTreats.has(treatName)) {
+          const treatData = selectedTreats.get(treatName);
+          treatData.quantity += 1;
+          selectedTreats.set(treatName, treatData);
+        } else {
+          // Add new treat
+          selectedTreats.set(treatName, { 
+            price: treatPrice, 
+            quantity: 1, 
+            element: treatItem 
+          });
+        }
+      } else if (removeBtn) {
+        // Decrease quantity
+        if (selectedTreats.has(treatName)) {
+          const treatData = selectedTreats.get(treatName);
+          treatData.quantity -= 1;
+
+          if (treatData.quantity <= 0) {
+            // Remove treat entirely
+            selectedTreats.delete(treatName);
+            const nameEl = treatItem.querySelector('.treat-name');
+            const qtySpan = nameEl?.querySelector('.quantity-display');
+            if (qtySpan) qtySpan.remove();
+          } else {
+            selectedTreats.set(treatName, treatData);
+          }
+        }
+      }
+
+      // Update counts and price summary
+      updateSelectedCounts();
+      updatePriceSummary();
+
+      // Only update quantity display if treat still exists
+      if (selectedTreats.has(treatName)) {
+        updateTreatQuantityDisplay(treatName);
+      }
+    });
+  }
+
+  // Update selected counts in accordion headers
+  function updateSelectedCounts() {
+    // Update add-ons count
+    const addonsHeader = document.querySelector('.accordion-section .accordion-header');
+    if (addonsHeader) {
+      const count = selectedAddons.size;
+      const countSpan = addonsHeader.querySelector('.selected-count');
+      if (countSpan) {
+        countSpan.textContent = count > 0 ? `${count} selected` : '0 selected';
+      }
+    }
+
+    // Update treats count
+    const treatsHeaders = document.querySelectorAll('.accordion-section .accordion-header');
+    const treatsHeader = Array.from(treatsHeaders).find(header => 
+      header.textContent.includes('Treats for buddy')
+    );
+    if (treatsHeader) {
+      const totalQuantity = Array.from(selectedTreats.values())
+        .reduce((sum, treat) => sum + treat.quantity, 0);
+      const countSpan = treatsHeader.querySelector('.selected-count');
+      if (countSpan) {
+        countSpan.textContent = totalQuantity > 0 ? `${totalQuantity} selected` : '0 selected';
+      }
+    }
+  }
+
+  // Function to update quantity display for treats
+  function updateTreatQuantityDisplay(treatName) {
+    const treatData = selectedTreats.get(treatName); // Lấy dữ liệu treat từ Map
+    if (!treatData || !treatData.element) {
+      console.error("Treat data or element not found for:", treatName);
+      return; // Thoát nếu không tìm thấy dữ liệu hoặc element
+    }
+
+    const treatItemElement = treatData.element; // Phần tử .treat-item
+    const treatNameElement = treatItemElement.querySelector('.treat-name'); // Tìm span .treat-name bên trong
+
+    if (!treatNameElement) {
+      console.error("Could not find .treat-name element within:", treatItemElement);
+      return; // Thoát nếu không tìm thấy span tên
+    }
+
+    // Cố gắng tìm span hiển thị số lượng đã tồn tại bên trong .treat-name
+    let quantitySpan = treatNameElement.querySelector('.quantity-display');
+
+    if (treatData.quantity > 0) {
+      // Nếu chưa có span số lượng, hãy tạo mới
+      if (!quantitySpan) {
+        quantitySpan = document.createElement('span');
+        quantitySpan.className = 'quantity-display'; // Đặt class để có thể CSS nếu cần
+        quantitySpan.style.color = '#888'; // Màu xám nhạt cho dễ nhìn
+        quantitySpan.style.fontSize = '0.9em'; // Kích thước nhỏ hơn tên chính
+        quantitySpan.style.marginLeft = '4px'; // Khoảng cách nhỏ
+        treatNameElement.appendChild(quantitySpan); // Thêm vào cuối .treat-name
+      }
+      // Cập nhật nội dung text của span (dù mới tạo hay đã có)
+      quantitySpan.textContent = ` x${treatData.quantity}`; // Nội dung là " xN"
+    } else {
+      // Nếu số lượng là 0 hoặc âm, xóa span số lượng đi (nếu nó tồn tại)
+      if (quantitySpan) {
+        quantitySpan.remove();
+      }
+    }
+  }
+
+  // Update price summary
+  function updatePriceSummary() {
+    // Calculate totals with NaN protection
+    const packageRate = isNaN(selectedPackage.price) ? 0 : selectedPackage.price;
+    const addonsTotal = Array.from(selectedAddons.values())
+      .reduce((sum, addon) => sum + (isNaN(addon.price) ? 0 : addon.price), 0);
+    const treatsTotal = Array.from(selectedTreats.values())
+      .reduce((sum, treat) => sum + ((isNaN(treat.price) ? 0 : treat.price) * (isNaN(treat.quantity) ? 0 : treat.quantity)), 0);
+    
+    const total = packageRate + addonsTotal + treatsTotal; // Service fee removed
+
+    // Update display with proper currency formatting
+    const packageRateEl = document.querySelector('.package-rate-value');
+    const addonsEl = document.querySelector('.addons-total-value');
+    const treatsEl = document.querySelector('.treats-total-value');
+    const subtotalEl = document.querySelector('.subtotal-value');
+    const serviceFeeRow = document.querySelector('.price-item.service-fee');
+    const totalEl = document.querySelector('.total-value');
+
+    if (packageRateEl) packageRateEl.textContent = `${packageRate.toFixed(2)}`;
+    if (addonsEl) addonsEl.textContent = `${addonsTotal.toFixed(2)}`;
+    if (treatsEl) treatsEl.textContent = `${treatsTotal.toFixed(2)}`;
+    if (subtotalEl) {
+      const subtotalRow = subtotalEl.closest('.price-item');
+      if (subtotalRow) subtotalRow.style.display = 'none';
+    }
+    if (serviceFeeRow) serviceFeeRow.style.display = 'none'; // Hide service fee row
+    if (totalEl) totalEl.textContent = `${total.toFixed(2)}`;
+  }
+  // Initialize checkout button
+  const checkoutBtn = document.querySelector('.checkout-btn');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', () => {
+      // Store booking details in localStorage
+      const bookingDetails = {
+        service: 'homestay-boarding',
+        package: selectedPackage,
+        addons: Array.from(selectedAddons.entries()).map(([name, data]) => ({
+          name,
+          price: data.price
+        })),
+        treats: Array.from(selectedTreats.entries()).map(([name, data]) => ({
+          name,
+          price: data.price,
+          quantity: data.quantity
+        })),
+        pricing: {
+          packageRate: isNaN(selectedPackage.price) ? 0 : selectedPackage.price,
+          addonsTotal: Array.from(selectedAddons.values()).reduce((sum, addon) => sum + (isNaN(addon.price) ? 0 : addon.price), 0),
+          treatsTotal: Array.from(selectedTreats.values()).reduce((sum, treat) => sum + ((isNaN(treat.price) ? 0 : treat.price) * (isNaN(treat.quantity) ? 0 : treat.quantity)), 0),
+          serviceFee: ((isNaN(selectedPackage.price) ? 0 : selectedPackage.price) + 
+                      Array.from(selectedAddons.values()).reduce((sum, addon) => sum + (isNaN(addon.price) ? 0 : addon.price), 0) +
+                      Array.from(selectedTreats.values()).reduce((sum, treat) => sum + ((isNaN(treat.price) ? 0 : treat.price) * (isNaN(treat.quantity) ? 0 : treat.quantity)), 0)) * 0.15,
+          total: ((isNaN(selectedPackage.price) ? 0 : selectedPackage.price) + 
+                 Array.from(selectedAddons.values()).reduce((sum, addon) => sum + (isNaN(addon.price) ? 0 : addon.price), 0) +
+                 Array.from(selectedTreats.values()).reduce((sum, treat) => sum + ((isNaN(treat.price) ? 0 : treat.price) * (isNaN(treat.quantity) ? 0 : treat.quantity)), 0)) * 1.15
+        }
+      };
+
+      localStorage.setItem('bookingDetails', JSON.stringify(bookingDetails));
+      
+      // Redirect to booking page
+      window.location.href = 'bookinghomestay.html';
+    });
+  }
+
+  // Initialize global selectionState to match sidebar (Luxury Suite)
+  selectionState.package.name = 'Luxury Suite';
+  selectionState.package.price = 75;
+  
+  // Initialize sidebar selections and sync with global state
+  initSidebarSelections();
+}
+
+// Grooming Spa specific functionality
+function initGroomingSpaFunctionality() {
+  // State management for grooming spa
+  let selectedPackage = { name: 'The Polished Pup', price: 45 };
+  let selectedAddons = new Map(); // addonName -> { price: number, element: HTMLElement }
+  let selectedTreats = new Map(); // treatName -> { price: number, quantity: number, element: HTMLElement }
+
+  // Package data with their specific add-ons
+  const packageData = {
+    'The Polished Pup': {
+      price: 45,
+      addons: [
+        { name: 'Dental Care Plus', price: 5 },
+        { name: 'Upgraded Shampoo/Conditioner', price: 10 },
+        { name: 'Pet Taxi', price: 10 },
+        { name: 'Live Camera', price: 12 }
+      ]
+    },
+    'The Zen Paws Experience': {
+      price: 65,
+      addons: [
+        { name: 'Vet Visit', price: 25 },
+        { name: 'Pet Taxi', price: 10 },
+        { name: 'Live Camera', price: 12 }
+      ]
+    }
+  };
+
+  // Initialize package selection from main content
+  initPackageSelectionFromMain();
+
+  // Initialize add-ons event delegation
+  const addonsAccordion = document.querySelector('.accordion-content');
+  if (addonsAccordion) {
+    addonsAccordion.addEventListener('click', (e) => {
+      const addBtn = e.target.closest('.add-btn');
+      if (!addBtn) return;
+
+      const addonItem = addBtn.closest('.addon-item');
+      if (!addonItem) return;
+
+      const addonName = addonItem.querySelector('.addon-name')?.textContent.trim();
+      const addonPrice = parseFloat(addBtn.dataset.price) || 0;
+
+      if (!addonName) return;
+
+      // Toggle addon selection
+      if (selectedAddons.has(addonName)) {
+        // Remove addon
+        selectedAddons.delete(addonName);
+        addBtn.textContent = '+';
+        addBtn.classList.remove('selected');
+        addonItem.classList.remove('selected');
+      } else {
+        // Add addon
+        selectedAddons.set(addonName, { price: addonPrice, element: addonItem });
+        addBtn.textContent = '✓';
+        addBtn.classList.add('selected');
+        addonItem.classList.add('selected');
+      }
+
+      // Update selected count for add-ons
+      updateSelectedCount('Add-ons', selectedAddons.size);
+      
+      // Update price summary
+      updatePriceSummary();
+    });
+  }
+
+  // Initialize treats event delegation
+  const treatsGrid = document.querySelector('.treats-grid');
+  if (treatsGrid) {
+    treatsGrid.addEventListener('click', (e) => {
+      const addBtn = e.target.closest('.add-btn');
+      const removeBtn = e.target.closest('.remove-btn');
+      
+      if (!addBtn && !removeBtn) return;
+
+      const treatItem = (addBtn || removeBtn).closest('.treat-item');
+      if (!treatItem) return;
+
+      // Lấy tên gốc từ data-attribute, KHÔNG dùng textContent
+      const treatName = treatItem.dataset.treatName;
+      const treatPrice = parseFloat((addBtn || removeBtn).dataset.price) || 0;
+
+      if (!treatName) {
+        console.error("Could not find data-treat-name on:", treatItem);
+        return;
+      }
+
+      if (addBtn) {
+        // Increase quantity
+        if (selectedTreats.has(treatName)) {
+          const treatData = selectedTreats.get(treatName);
+          treatData.quantity += 1;
+          selectedTreats.set(treatName, treatData);
+        } else {
+          selectedTreats.set(treatName, { 
+            price: treatPrice, 
+            quantity: 1, 
+            element: treatItem 
+          });
+        }
+      } else if (removeBtn) {
+        // Decrease quantity
+        if (selectedTreats.has(treatName)) {
+          const treatData = selectedTreats.get(treatName);
+          treatData.quantity -= 1;
+          
+          if (treatData.quantity <= 0) {
+            // Remove treat completely if quantity reaches 0
+            selectedTreats.delete(treatName);
+          } else {
+            selectedTreats.set(treatName, treatData);
+          }
+        }
+      }
+
+      // Update quantity display
+      const currentQuantity = selectedTreats.has(treatName) ? selectedTreats.get(treatName).quantity : 0;
+      updateQuantityDisplay(treatItem, currentQuantity);
+
+      // Update selected count for treats
+      const totalTreats = Array.from(selectedTreats.values()).reduce((sum, treat) => sum + treat.quantity, 0);
+      updateSelectedCount('Treats for buddy', totalTreats);
+
+      // Update price summary
+      updatePriceSummary();
+    });
+  }
+
+  // Function to initialize package selection from main content
+  function initPackageSelectionFromMain() {
+    const bookNowButtons = document.querySelectorAll('.pkg-card .btn.primary');
+    
+    bookNowButtons.forEach(button => {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        const pkgCard = this.closest('.pkg-card');
+        if (!pkgCard) return;
+        
+        const packageTitle = pkgCard.querySelector('.pkg-title')?.textContent.trim();
+        const packagePriceText = pkgCard.querySelector('.pkg-price')?.textContent.trim();
+        
+        if (!packageTitle || !packagePriceText) return;
+        
+        // Extract price number
+        const priceMatch = packagePriceText.match(/\$(\d+)/);
+        const packagePrice = priceMatch ? parseInt(priceMatch[1]) : 0;
+        
+        // Update selected package
+        selectedPackage = { name: packageTitle, price: packagePrice };
+        
+        // Clear previous selections
+        selectedAddons.clear();
+        selectedTreats.clear();
+        
+        // Update sidebar
+        updateSidebarForPackage(packageTitle, packagePrice);
+        
+        // Show notification
+        showNotification(`${packageTitle} has been selected!`, 'success');
+      });
+    });
+  }
+
+  // Function to update sidebar for selected package
+  function updateSidebarForPackage(packageName, packagePrice) {
+    // Update selected package display
+    const packageNameEl = document.querySelector('.package-name');
+    const packagePriceEl = document.querySelector('.package-price');
+    
+    if (packageNameEl) packageNameEl.textContent = packageName;
+    if (packagePriceEl) packagePriceEl.textContent = `$${packagePrice.toFixed(2)}`;
+    
+    // Update add-ons based on package
+    updateAddonsForPackage(packageName);
+    
+    // Reset counts
+    updateSelectedCount('Add-ons', 0);
+    updateSelectedCount('Treats for buddy', 0);
+    
+    // Update price summary
+    updatePriceSummary();
+  }
+
+  // Function to update add-ons based on selected package
+  function updateAddonsForPackage(packageName) {
+    const addonsContainer = document.querySelector('.accordion-content');
+    if (!addonsContainer) return;
+    
+    const packageInfo = packageData[packageName];
+    if (!packageInfo) return;
+    
+    // Clear existing add-ons
+    addonsContainer.innerHTML = '';
+    
+    // Create new add-ons based on package
+    packageInfo.addons.forEach(addon => {
+      const addonItem = document.createElement('div');
+      addonItem.className = 'addon-item';
+      addonItem.setAttribute('data-price', addon.price);
+      
+      addonItem.innerHTML = `
+        <div class="addon-info">
+          <div class="addon-header">
+            <span class="addon-name">${addon.name}</span>
+          </div>
+          <div class="addon-price">${addon.price}<span class="unit">per pet</span></div>
+        </div>
+        <button class="add-btn" data-price="${addon.price}">+</button>
+      `;
+      
+      addonsContainer.appendChild(addonItem);
+    });
+  }
+
+  // Function to update selected count in accordion headers
+  function updateSelectedCount(accordionTitle, count) {
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    accordionHeaders.forEach(header => {
+      const titleSpan = header.querySelector('span');
+      if (titleSpan && titleSpan.textContent.trim() === accordionTitle) {
+        const countSpan = header.querySelector('.selected-count');
+        if (countSpan) {
+          countSpan.textContent = `${count} selected`;
+        }
+      }
+    });
+  }
+
+  // Function to update quantity display for treats (Robust Version)
+  function updateQuantityDisplay(treatItem, quantity) {
+    const treatNameElement = treatItem.querySelector('.treat-name'); // Tìm span .treat-name
+    if (!treatNameElement) {
+      console.error("Could not find .treat-name element within:", treatItem);
+      return; // Thoát nếu không tìm thấy span tên
+    }
+
+    // Cố gắng tìm span hiển thị số lượng đã tồn tại bên trong .treat-name
+    let quantitySpan = treatNameElement.querySelector('.quantity-display');
+
+    if (quantity > 0) {
+      // Nếu chưa có span số lượng, hãy tạo mới
+      if (!quantitySpan) {
+        quantitySpan = document.createElement('span');
+        quantitySpan.className = 'quantity-display';
+        quantitySpan.style.color = '#888'; // Màu xám nhạt
+        quantitySpan.style.fontSize = '0.9em'; // Nhỏ hơn
+        quantitySpan.style.marginLeft = '4px'; // Khoảng cách
+        treatNameElement.appendChild(quantitySpan); // Thêm vào cuối .treat-name
+      }
+      // Cập nhật nội dung text của span (dù mới tạo hay đã có)
+      quantitySpan.textContent = ` x${quantity}`;
+    } else {
+      // Nếu số lượng là 0 hoặc âm, xóa span số lượng đi (nếu nó tồn tại)
+      if (quantitySpan) {
+        quantitySpan.remove();
+      }
+    }
+  }
+
+  // Function to update price summary
+  function updatePriceSummary() {
+    // Calculate totals with NaN protection
+    const packageRate = isNaN(selectedPackage.price) ? 0 : selectedPackage.price;
+    
+    // Calculate add-ons total
+    let addonsTotal = 0;
+    selectedAddons.forEach(addon => {
+      addonsTotal += isNaN(addon.price) ? 0 : addon.price;
+    });
+    
+    // Calculate treats total
+    let treatsTotal = 0;
+    selectedTreats.forEach(treat => {
+      const price = isNaN(treat.price) ? 0 : treat.price;
+      const quantity = isNaN(treat.quantity) ? 0 : treat.quantity;
+      treatsTotal += price * quantity;
+    });
+    
+    // Calculate total (no service fee)
+    const total = packageRate + addonsTotal + treatsTotal;
+
+    // Update HTML elements with proper currency formatting
+    const packageRateEl = document.querySelector('.package-rate-value');
+    const addonsEl = document.querySelector('.addons-total-value');
+    const treatsEl = document.querySelector('.treats-total-value');
+    const totalEl = document.querySelector('.total-value');
+
+    if (packageRateEl) packageRateEl.textContent = `${packageRate.toFixed(2)}`;
+    if (addonsEl) addonsEl.textContent = `${addonsTotal.toFixed(2)}`;
+    if (treatsEl) treatsEl.textContent = `${treatsTotal.toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `${total.toFixed(2)}`;
+  }
+
+  // Initialize checkout functionality
+  const checkoutBtn = document.querySelector('.checkout-btn');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      // Prepare booking details
+      const bookingDetails = {
+        package: {
+          name: selectedPackage.name,
+          price: selectedPackage.price
+        },
+        addons: Array.from(selectedAddons.entries()).map(([name, data]) => ({
+          name: name,
+          price: data.price
+        })),
+        treats: Array.from(selectedTreats.entries()).map(([name, data]) => ({
+          name: name,
+          price: data.price,
+          quantity: data.quantity
+        })),
+        totals: {
+          addons: Array.from(selectedAddons.values()).reduce((sum, addon) => sum + (isNaN(addon.price) ? 0 : addon.price), 0),
+          treats: Array.from(selectedTreats.values()).reduce((sum, treat) => sum + ((isNaN(treat.price) ? 0 : treat.price) * (isNaN(treat.quantity) ? 0 : treat.quantity)), 0),
+          serviceFee: 8.25,
+          total: (isNaN(selectedPackage.price) ? 0 : selectedPackage.price) + 
+                Array.from(selectedAddons.values()).reduce((sum, addon) => sum + (isNaN(addon.price) ? 0 : addon.price), 0) +
+                Array.from(selectedTreats.values()).reduce((sum, treat) => sum + ((isNaN(treat.price) ? 0 : treat.price) * (isNaN(treat.quantity) ? 0 : treat.quantity)), 0) + 8.25
+        }
+      };
+
+      // Save to localStorage
+      localStorage.setItem('spaBookingDetails', JSON.stringify(bookingDetails));
+      
+      // Navigate to booking page
+      window.location.href = 'bookingspa.html';
+    });
+  }
+
+  // Initial price summary update
+  updatePriceSummary();
+}
 
 // Update selected package in sidebar
 function updateSelectedPackage(packageName, price) {
@@ -93,6 +674,17 @@ function selectPackage(packageElement) {
   const packagePrice = packageElement.querySelector('.pkg-price').textContent.trim();
   const packageUnit = packageElement.querySelector('.pkg-unit').textContent.trim();
   
+  // Parse price to number
+  const priceValue = parseCurrency(packagePrice);
+  
+  // Update selection state
+  selectionState.package.name = packageTitle;
+  selectionState.package.price = priceValue;
+  
+  // Clear previous add-on and treat selections
+  selectionState.addons.clear();
+  selectionState.treats.clear();
+  
   // Update sidebar content
   const selectedPackage = document.querySelector('.selected-package');
   if (selectedPackage) {
@@ -108,6 +700,12 @@ function selectPackage(packageElement) {
       priceElement.innerHTML = `${packagePrice}<span class="unit">${packageUnit}</span>`;
     }
   }
+  
+  // Render add-ons for the selected package
+  renderSidebarAddonsForPackage(packageTitle);
+  
+  // Update price summary
+  updatePriceSummary();
   
   // Show notification
   showNotification(`${packageTitle} has been selected!`, 'success');
@@ -181,7 +779,7 @@ const packageAddonsData = {
     { name: 'Gourmet Meal Upgrade', price: 5 },
     { name: 'Vet Visit', price: 25 },
     { name: 'Pet Taxi', price: 10 },
-    { name: 'Pet Yoga & Relaxation Session', price: 12 },
+    { name: 'Live Camera', price: 12 },
   ],
 };
 
@@ -275,6 +873,13 @@ function renderSidebarAddonsForPackage(pkgName) {
 }
 
 function bindTreatButtons() {
+  // This function is not needed for groomingspa page as treats are handled in initGroomingSpaFunctionality
+  // Only used for other pages that don't have quantity-based treats
+  const currentPage = document.body.dataset.page;
+  if (currentPage === 'groomingspa') {
+    return; // Skip binding for groomingspa page
+  }
+  
   const treatItems = document.querySelectorAll('.package-sidebar .treat-item');
   treatItems.forEach((item) => {
     const nameEl = item.querySelector('.treat-name');
@@ -372,11 +977,21 @@ function updatePriceSummary() {
     const valueEl = row.children[1];
     if (!label || !valueEl) return;
     if (label === 'Package Rate') {
-      valueEl.textContent = `$${packageRate}/night`;
+      const currentPage = document.body.dataset.page;
+      const formatted = currentPage === 'homestayboarding'
+        ? `${packageRate.toFixed(2)}`
+        : `${packageRate}/night`;
+      valueEl.textContent = formatted;
+    } else if (label === 'Add-ons') {
+      valueEl.textContent = `${addonsTotal.toFixed(2)}`;
+    } else if (label === 'Treats for buddy') {
+      valueEl.textContent = `${treatsTotal.toFixed(2)}`;
+    } else if (label === 'Total') {
+      valueEl.textContent = `${subtotal.toFixed(2)}`;
     } else if (label === 'Subtotal') {
-      valueEl.textContent = `$${subtotal.toFixed(2)}`;
+      valueEl.textContent = `${subtotal.toFixed(2)}`;
     } else if (label === 'Service Fee') {
-      valueEl.textContent = `$${fee.toFixed(2)}`;
+      valueEl.textContent = `${fee.toFixed(2)}`;
     }
   });
 }

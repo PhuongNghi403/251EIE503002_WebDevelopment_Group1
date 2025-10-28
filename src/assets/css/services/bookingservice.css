@@ -626,7 +626,8 @@
   margin-top: 0.25rem !important;
 }
 
-.summary-card .add-btn {
+.summary-card .add-btn,
+.summary-card .remove-btn {
   width: 32px !important;
   height: 32px !important;
   border-radius: 50% !important;
@@ -640,8 +641,20 @@
   font-size: 1.5rem !important;
   line-height: 1 !important;
   flex-shrink: 0 !important;
-  margin-left: 1rem !important;
   padding: 0 !important;
   align-self: unset !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.summary-card .quantity-controls {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  margin-left: 1rem !important;
+}
+
+.summary-card .add-btn:hover,
+.summary-card .remove-btn:hover {
+  background: #3a1f0d !important;
   margin-top: 0 !important;
 }
