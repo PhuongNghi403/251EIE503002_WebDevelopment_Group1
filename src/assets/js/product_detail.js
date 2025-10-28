@@ -288,14 +288,6 @@
     return { name, image, price: isNaN(price) ? 0 : price };
   }
 
-<<<<<<< Updated upstream
-=======
-  // Make functions available globally if needed
-  window.initProductDetailFromXML = initProductDetailFromXML;
-  window.initProductDetailFromParams = initProductDetailFromParams;
-  window.initProductDetailFromData = initProductDetailFromData;
-})();
->>>>>>> Stashed changes
   // addToCart - mirrors behavior used across pages
   function addToCart(productName, productImage, price = 0) {
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -365,4 +357,5 @@
   // Make functions available globally if needed
   window.initProductDetailFromXML = initProductDetailFromXML;
   window.initProductDetailFromParams = initProductDetailFromParams;
+  window.initProductDetailFromData = initProductDetailFromData;
 })();
