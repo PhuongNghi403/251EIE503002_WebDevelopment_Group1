@@ -13,7 +13,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="../index.html">
-        <img class="brand-mark-img" src="../assets/icons/logopawfooter.svg" alt="Pawfect Care" />
+        <img class="brand-mark-img" src="../assets/icons/Logo.svg" alt="Pawfect Care" />
         <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
       </a>
       <nav class="nav">
@@ -39,77 +39,129 @@
 
   <main class="page community">
     <!-- Hero (cat-head masked collage) --> 
-  <section class="hero container"> 
-    <div class="hero-copy"> 
-      <p class="eyebrow">Pawfect WITH PET</p> 
-      <h1 class="hero-title">Sống cùng thú cưng <br/> thật nhẹ nhàng</h1> 
-      <p class="hero-sub">Nơi bạn chia sẻ câu chuyện, feedback, tips tắm – chải – ăn uống, và cùng xây dựng cộng đồng yêu thú cưng.</p> 
-      <div class="hero-actions"> 
-        <button class="btn">Đăng bài của bạn</button> 
-        <button class="btn btn-ghost">Xem hướng dẫn post</button> 
-      </div> 
-    </div> 
- 
-    <div class="cat-mask"> 
-      <!-- Collage inside the cat head --> 
-      <div class="collage"> 
-        <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=1200&auto=format&fit=crop" alt="cat 1"/> 
-        <img src="https://images.unsplash.com/photo-1568572933382-74d440642117?q=80&w=1200&auto=format&fit=crop" alt="cat 2"/> 
-        <img src="https://images.unsplash.com/photo-1558944351-c6ae87f1d417?q=80&w=1200&auto=format&fit=crop" alt="cat 3"/> 
-        <img src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?q=80&w=1200&auto=format&fit=crop" alt="cat 4"/> 
-      </div> 
-      <!-- subtle paw trail --> 
-      <div class="paw-trail" aria-hidden="true">🐾 🐾 🐾</div> 
-    </div> 
-  </section> 
+   <!-- HERO — Cloud Frame (rectangle with cloud blobs around border) -->
+    <section class="hero hero--svgframe">
+      <div class="hero-svgframe container">
+        <div class="hero-frame-wrap">
+          <!-- SVG frame làm border -->
+          <img src="../assets/images/Community/cloud-frame.svg" alt="Cloud Frame" class="hero-frame-svg">
+
+          <!-- Nội dung bên trong -->
+          <div class="hero-frame-content">
+            <p class="eyebrow">Pawfect WITH PET</p>
+            <h1 class="hero-title">Share better pet care — together</h1>
+            <div class="hero-actions">
+              <a href="#" class="c-btn c-btn--solid">Start Posting</a>
+              <a href="#" class="c-btn c-btn--ghost">Browse Tips</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- HERO TICKER / MARQUEE -->
+    <section class="ticker ticker--full" aria-label="Community highlights">
+      <div class="ticker-track">
+        <!-- Line 1 -->
+        <ul class="ticker-line">
+          <li>
+            <span class="ticker-text">KIND &amp; RESPECTFUL COMMUNITY</span>
+            <span class="ticker-sep" aria-hidden="true">
+              <!-- nhỏ xinh: icon cloud -->
+              <svg viewBox="0 0 24 14" width="28" height="16"><path d="M4.5 13.5h13a6 6 0 0 0 0-12c-2 0-3.8 1-4.8 2.6A5.5 5.5 0 0 0 2 9.5a4 4 0 0 0 2.5 4z" fill="currentColor"/></svg>
+            </span>
+          </li>
+          <li><span class="ticker-text">STAFF-VERIFIED TIPS</span><span class="ticker-sep" aria-hidden="true"><svg viewBox="0 0 24 14" width="28" height="16"><path d="M4.5 13.5h13a6 6 0 0 0 0-12c-2 0-3.8 1-4.8 2.6A5.5 5.5 0 0 0 2 9.5a4 4 0 0 0 2.5 4z" fill="currentColor"/></svg></span></li>
+          <li><span class="ticker-text">SAVE &amp; FOLLOW TOPICS</span><span class="ticker-sep" aria-hidden="true"><svg viewBox="0 0 24 14" width="28" height="16"><path d="M4.5 13.5h13a6 6 0 0 0 0-12c-2 0-3.8 1-4.8 2.6A5.5 5.5 0 0 0 2 9.5a4 4 0 0 0 2.5 4z" fill="currentColor"/></svg></span></li>
+          <li><span class="ticker-text">EVENTS &amp; CAMPAIGNS</span><span class="ticker-sep" aria-hidden="true"><svg viewBox="0 0 24 14" width="28" height="16"><path d="M4.5 13.5h13a6 6 0 0 0 0-12c-2 0-3.8 1-4.8 2.6A5.5 5.5 0 0 0 2 9.5a4 4 0 0 0 2.5 4z" fill="currentColor"/></svg></span></li>
+        </ul>
+
+        <!-- Line 2 (duplicate để lặp liền mạch) -->
+        <ul class="ticker-line" aria-hidden="true">
+          <li><span class="ticker-text">KIND &amp; RESPECTFUL COMMUNITY</span><span class="ticker-sep" aria-hidden="true"><svg viewBox="0 0 24 14" width="28" height="16"><path d="M4.5 13.5h13a6 6 0 0 0 0-12c-2 0-3.8 1-4.8 2.6A5.5 5.5 0 0 0 2 9.5a4 4 0 0 0 2.5 4z" fill="currentColor"/></svg></span></li>
+          <li><span class="ticker-text">STAFF-VERIFIED TIPS</span><span class="ticker-sep" aria-hidden="true"><svg viewBox="0 0 24 14" width="28" height="16"><path d="M4.5 13.5h13a6 6 0 0 0 0-12c-2 0-3.8 1-4.8 2.6A5.5 5.5 0 0 0 2 9.5a4 4 0 0 0 2.5 4z" fill="currentColor"/></svg></span></li>
+          <li><span class="ticker-text">SAVE &amp; FOLLOW TOPICS</span><span class="ticker-sep" aria-hidden="true"><svg viewBox="0 0 24 14" width="28" height="16"><path d="M4.5 13.5h13a6 6 0 0 0 0-12c-2 0-3.8 1-4.8 2.6A5.5 5.5 0 0 0 2 9.5a4 4 0 0 0 2.5 4z" fill="currentColor"/></svg></span></li>
+          <li><span class="ticker-text">EVENTS &amp; CAMPAIGNS</span><span class="ticker-sep" aria-hidden="true"><svg viewBox="0 0 24 14" width="28" height="16"><path d="M4.5 13.5h13a6 6 0 0 0 0-12c-2 0-3.8 1-4.8 2.6A5.5 5.5 0 0 0 2 9.5a4 4 0 0 0 2.5 4z" fill="currentColor"/></svg></span></li>
+        </ul>
+      </div>
+    </section>
+
+
  
   <!-- Intro block with arched image + sticker pets --> 
-  <section class="intro container"> 
-    <figure class="arch-photo"> 
-      <img src="https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?q=80&w=1200&auto=format&fit=crop" alt="cat sofa"> 
-    </figure> 
-    <div class="intro-copy"> 
-      <h2>Không gian ấm áp cho cả bạn và boss</h2> 
-      <p>Chúng mình thiết kế cộng đồng để mọi người có thể kể chuyện, hỏi – đáp nhanh và save các mẹo hay. Mỗi bài đều có tag rõ ràng, dễ tìm lại.</p> 
-      <ul class="bullet"> 
-        <li>Filter theo chủ đề: Tắm gội, Dinh dưỡng, Training, Health check.</li> 
-        <li>Reaction thân thiện: ❤️ 💬 🐾, kèm huy hiệu cho bài nổi bật.</li> 
-        <li>Quy tắc cộng đồng ngắn gọn, dễ hiểu, tôn trọng đa dạng giống loài.</li> 
-      </ul> 
-    </div> 
-    <img class="sticker-cat small" src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?q=80&w=600&auto=format&fit=crop" alt="sticker cat"> 
-    <img class="sticker-cat big" src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=600&auto=format&fit=crop" alt="sticker orange cat">
+  <section class="intro-moments">
+    <div class="container">
+      <h2 class="intro-title">Share Your Precious Pet Moments</h2>
+      <p class="intro-sub">
+        Post your sweetest photos or short clips to join our monthly events.
+        Win gift cards, grooming vouchers, and limited Pawfect merch!
+      </p>
+
+      <div class="moments-grid">
+        <!-- Card 1 -->
+        <article class="moment-card">
+          <figure class="moment-media">
+            <img src="https://images.unsplash.com/photo-1558944351-c6ae87f1d417?q=80&w=1200&auto=format&fit=crop" alt="Brand identity & visuals with pets"/>
+          </figure>
+          <!-- sticker badge -->
+          <span class="sticker badge-pink" aria-hidden="true">Candid Moments</span>
+        </article>
+
+        <!-- Card 2 (center) -->
+        <article class="moment-card moment-card--featured">
+          <figure class="moment-media">
+            <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=1200&auto=format&fit=crop" alt="Illustration and patterns"/>
+          </figure>
+          <span class="sticker badge-pink" aria-hidden="true">Precious Shots</span>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="moment-card">
+          <figure class="moment-media">
+            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1200&auto=format&fit=crop" alt="Print and packaging for pets"/>
+          </figure>
+          <span class="sticker badge-pink" aria-hidden="true">Play &amp; Treats</span>
+        </article>
+      </div>
+
+      <p class="intro-note">
+        Tag <strong>#PawfectMoments</strong> in your post or upload directly in Community → Moments.
+      </p>
+
+      <div class="intro-cta">
+        <a href="#" class="c-btn c-btn--solid" aria-label="Enter Precious Moments Contest">Enter Contest</a>
+      </div>
+    </div>
   </section>
 
    <!-- Meet Our Staff Section -->
    <section class="staff-section">
      <div class="staff-container">
-       <h2 class="staff-title">Gặp gỡ đội ngũ của chúng tôi</h2>
+       <h2 class="staff-title">Meet Our Staff</h2>
        <div class="staff-grid">
          <!-- Featured Staff of the Month -->
          <article class="staff-card featured" data-staff>
            <div class="staff-avatar-wrap">
              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1000&auto=format&fit=crop" alt="Nguyễn Thị Minh" class="staff-avatar">
              <span class="badge-month" title="Staff of the Month">🏆 Staff of the Month</span>
-             <button class="staff-hover" type="button" aria-expanded="false">Xem chi tiết</button>
+             <button class="staff-hover" type="button" aria-expanded="false">View Details</button>
            </div>
            <div class="staff-info-min">
-             <h3 class="staff-name">Nguyễn Thị Minh</h3>
+             <h3 class="staff-name">Mary Chen</h3>
              <p class="staff-role">Pet Care Specialist</p>
-             <div class="staff-rating" aria-label="Đánh giá 4.8 trên 5">
+             <div class="staff-rating" aria-label="Rating 4.8 out of 5">
                <span class="stars" data-score="4.8">★★★★★</span>
                <span class="score">4.8</span>
              </div>
-             <p class="staff-desc">Chuyên gia chăm sóc thú cưng với 5+ năm kinh nghiệm, đảm bảo mỗi boss nhận được sự quan tâm đặc biệt.</p>
+             <p class="staff-desc">A gentle and devoted caregiver with over 5 years of experience — every furry guest gets extra love and comfort here.</p>
            </div>
            <div class="staff-details" hidden>
              <div class="staff-banner" style="background-image:url('https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1600&auto=format&fit=crop')"></div>
              <div class="staff-detail-body">
-               <h4>Kinh nghiệm</h4>
+               <h4>Experience</h4>
                <ul>
-                 <li>5+ năm chăm sóc thú cưng (mèo/chó)</li>
-                 <li>Chuyên môn: phục hồi sau phẫu thuật, dinh dưỡng</li>
-                 <li>Chứng chỉ First Aid cho thú cưng</li>
+                 <li>5+ years in dog & cat care</li>
+                 <li>Expertise in nutrition and post-surgery recovery</li>
+                 <li>Certified in Pet First Aid</li>
                </ul>
              </div>
            </div>
@@ -118,25 +170,25 @@
          <article class="staff-card" data-staff>
            <div class="staff-avatar-wrap">
              <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?q=80&w=1000&auto=format&fit=crop" alt="Trần Văn Hùng" class="staff-avatar">
-             <button class="staff-hover" type="button" aria-expanded="false">Xem chi tiết</button>
+             <button class="staff-hover" type="button" aria-expanded="false">View Details</button>
            </div>
            <div class="staff-info-min">
-             <h3 class="staff-name">Trần Văn Hùng</h3>
+             <h3 class="staff-name">Mark Evans</h3>
              <p class="staff-role">Grooming Expert</p>
-             <div class="staff-rating" aria-label="Đánh giá 4.7 trên 5">
+             <div class="staff-rating" aria-label="Rating 4.7 out of 5">
                <span class="stars" data-score="4.7">★★★★★</span>
                <span class="score">4.7</span>
              </div>
-             <p class="staff-desc">Chứng chỉ quốc tế, biến mỗi thú cưng thành ngôi sao thời trang với kỹ thuật grooming chuyên nghiệp.</p>
+             <p class="staff-desc">An internationally certified groomer with a flair for style — turning every pet into a happy, confident star.</p>
            </div>
            <div class="staff-details" hidden>
              <div class="staff-banner" style="background-image:url('https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?q=80&w=1600&auto=format&fit=crop')"></div>
              <div class="staff-detail-body">
-               <h4>Kinh nghiệm</h4>
+               <h4>Experience</h4>
                <ul>
-                 <li>Chứng chỉ Groomer quốc tế (IPG)</li>
-                 <li>3 năm grooming cho giống lông dài</li>
-                 <li>Chuyên tạo kiểu an toàn, ít stress</li>
+                 <li>Certified International Pet Groomer (IPG)</li>
+                 <li>3 years working with long-haired breeds</li>
+                 <li>Expert in stress-free styling</li>
                </ul>
              </div>
            </div>
@@ -145,25 +197,25 @@
          <article class="staff-card" data-staff>
            <div class="staff-avatar-wrap">
              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000&auto=format&fit=crop" alt="Lê Thị Hương" class="staff-avatar">
-             <button class="staff-hover" type="button" aria-expanded="false">Xem chi tiết</button>
+             <button class="staff-hover" type="button" aria-expanded="false">View Details</button>
            </div>
            <div class="staff-info-min">
-             <h3 class="staff-name">Lê Thị Hương</h3>
+             <h3 class="staff-name">Emily Parker</h3>
              <p class="staff-role">Community Manager</p>
-             <div class="staff-rating" aria-label="Đánh giá 4.9 trên 5">
+             <div class="staff-rating" aria-label="Rating 4.9 out of 5">
                <span class="stars" data-score="4.9">★★★★★</span>
                <span class="score">4.9</span>
              </div>
-             <p class="staff-desc">Quản lý cộng đồng Pawfect, đảm bảo mọi thành viên có trải nghiệm tuyệt vời và hỗ trợ kịp thời.</p>
+             <p class="staff-desc">The friendly face of our Pawfect community — making sure every pet parent feels heard, supported, and inspired.</p>
            </div>
            <div class="staff-details" hidden>
              <div class="staff-banner" style="background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1600&auto=format&fit=crop')"></div>
              <div class="staff-detail-body">
-               <h4>Kinh nghiệm</h4>
+               <h4>Experience</h4>
                <ul>
-                 <li>4 năm quản trị cộng đồng thú cưng</li>
-                 <li>Xây dựng guideline và xử lý khủng hoảng</li>
-                 <li>Tổ chức 20+ workshop/offline</li>
+                 <li>4 years managing pet lover communities</li>
+                 <li>Expert in communication & engagement</li>
+                 <li>Hosted 20+ events & workshops</li>
                </ul>
              </div>
            </div>
@@ -172,25 +224,25 @@
          <article class="staff-card" data-staff>
            <div class="staff-avatar-wrap">
              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000&auto=format&fit=crop" alt="Phạm Minh Tuấn" class="staff-avatar">
-             <button class="staff-hover" type="button" aria-expanded="false">Xem chi tiết</button>
+             <button class="staff-hover" type="button" aria-expanded="false">View Details</button>
            </div>
            <div class="staff-info-min">
-             <h3 class="staff-name">Phạm Minh Tuấn</h3>
+             <h3 class="staff-name">Dr. James Miller</h3>
              <p class="staff-role">Veterinary Consultant</p>
-             <div class="staff-rating" aria-label="Đánh giá 5.0 trên 5">
+             <div class="staff-rating" aria-label="Rating 5.0 out of 5">
                <span class="stars" data-score="5.0">★★★★★</span>
                <span class="score">5.0</span>
              </div>
-             <p class="staff-desc">Bác sĩ thú y tư vấn về sức khỏe, đảm bảo mọi dịch vụ an toàn và hiệu quả cho thú cưng.</p>
+             <p class="staff-desc">Our in-house vet — passionate about keeping every pet safe, healthy, and full of joy. Health first, always.</p>
            </div>
            <div class="staff-details" hidden>
              <div class="staff-banner" style="background-image:url('https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1600&auto=format&fit=crop')"></div>
              <div class="staff-detail-body">
-               <h4>Kinh nghiệm</h4>
+               <h4>Experience</h4>
                <ul>
-                 <li>Bác sĩ thú y 7+ năm kinh nghiệm</li>
-                 <li>Chuyên khoa nội, dinh dưỡng lâm sàng</li>
-                 <li>Tham vấn 2000+ ca trong cộng đồng</li>
+                 <li>7+ years as a veterinary consultant</li>
+                 <li>Specialist in clinical nutrition & internal medicine</li>
+                 <li>Over 2,000 successful consultations</li>
                </ul>
              </div>
            </div>
@@ -217,7 +269,7 @@
       </div>
     </section>
 
-    <!-- Community Blog (moved up) -->
+    <!-- Community Blog -->
     <section class="container community-blog">
       <div class="blog-header">
         <h2 class="section-title">Community Blog</h2>
@@ -227,6 +279,39 @@
         <!-- Blog Post Items will be rendered here by JS -->
       </div>
       <button class="load-more-btn" id="load-more">Xem thêm bài viết</button>
+    </section>
+
+    <!-- Campaigns & Events Carousel -->
+    <section class="community-campaigns-carousel">
+      <div class="container">
+        <header class="campaigns-header">
+          <div>
+            <h2 class="section-title" id="community-campaigns-title">Campaigns & Events</h2>
+            <p class="campaigns-subtitle">Workshops, adoption days, and brand experiences that connect pet lovers.</p>
+          </div>
+        </header>
+
+        <!-- Carousel container -->
+        <div class="carousel-wrapper">
+          <!-- Left arrow -->
+          <button class="carousel-nav carousel-prev" aria-label="Previous slide">‹</button>
+
+          <!-- Slides container -->
+          <div class="carousel-container">
+            <div class="carousel-slides" id="carousel-slides">
+              <!-- Slides injected by JS -->
+            </div>
+          </div>
+
+          <!-- Right arrow -->
+          <button class="carousel-nav carousel-next" aria-label="Next slide">›</button>
+        </div>
+
+        <!-- Dot indicators -->
+        <div class="carousel-dots" id="carousel-dots">
+          <!-- Dots injected by JS -->
+        </div>
+      </div>
     </section>
 
     <!-- Share Post Section -->
@@ -239,6 +324,17 @@
     </section>
   </main>
   
+  <!-- Blog Detail Modal -->
+  <div class="modal" id="blog-detail-modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog blog-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="blog-detail-title">
+      <button class="modal-close" id="close-blog-detail" aria-label="Đóng">×</button>
+      <div class="blog-detail-content" id="blog-detail-content">
+        <!-- Blog detail injected by JS -->
+      </div>
+    </div>
+  </div>
+
   <!-- Create Post Modal -->
   <div class="modal" id="create-post-modal" aria-hidden="true">
     <div class="modal-backdrop"></div>
@@ -265,6 +361,13 @@
         <label>
           Tóm tắt
           <textarea id="post-excerpt" rows="4" required placeholder="Nhập phần tóm tắt ngắn"></textarea>
+        </label>
+        <label>
+          Ảnh bài viết
+          <div class="image-upload-wrapper">
+            <input type="file" id="post-image" accept="image/*" />
+            <div class="image-preview" id="image-preview"></div>
+          </div>
         </label>
         <div class="modal-actions">
           <button type="submit" class="btn">Đăng bài</button>

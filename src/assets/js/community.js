@@ -2,6 +2,7 @@
   'use strict';
 
   // Mock blog posts data
+  // Posts can be type: 'user' or 'campaign'
   const blogPosts = [
     {
       id: 1,
@@ -98,7 +99,109 @@
       comments: 22,
       views: 410,
       image: "url('../assets/images/HomestayDetail/ShowerDog.png')"
-    }
+    },
+    // From Community & Staff Pick samples
+    {
+      id: 9,
+      title: "Tự Làm Đồ Chơi Cho Mèo Từ Vải Vụn",
+      excerpt: "Mình vừa tái chế vải vụn thành đồ chơi catnip cho mèo, rẻ mà vẫn bền...",
+      category: "from-community",
+      author: "Hoa Dang",
+      date: "4 ngày trước",
+      likes: 23,
+      comments: 6,
+      views: 180,
+      image: "url('../assets/images/HomestayDetail/GreenDog.png')"
+    },
+    {
+      id: 10,
+      title: "Staff Pick: Top 5 Dòng Thức Ăn Hạt Cho Mèo Nhạy Cảm",
+      excerpt: "Tổng hợp các dòng hạt được team thử nghiệm, phù hợp mèo nhạy cảm tiêu hóa...",
+      category: "staff-pick",
+      author: "Pawfect Staff",
+      date: "1 ngày trước",
+      likes: 64,
+      comments: 12,
+      views: 510,
+      image: "url('../assets/images/HomestayDetail/Food1.png')"
+    },
+    {
+      id: 11,
+      title: "Chia Sẻ: Lịch Grooming Mùa Hè Cho Chó Akita",
+      excerpt: "Kinh nghiệm cá nhân giữ lông mượt và mát cho Akita vào mùa nóng...",
+      category: "from-community",
+      author: "Quang Tran",
+      date: "6 ngày trước",
+      likes: 17,
+      comments: 5,
+      views: 150,
+      image: "url('../assets/images/HomestayDetail/CuttingFur.png')"
+    },
+    {
+      id: 12,
+      title: "Staff Pick: 3 Mẹo Giảm Stress Khi Tắm Cho Mèo",
+      excerpt: "Team gợi ý 3 mẹo nhỏ giúp mèo ít căng thẳng khi tắm lần đầu...",
+      category: "staff-pick",
+      author: "Pawfect Staff",
+      date: "Hôm qua",
+      likes: 71,
+      comments: 19,
+      views: 620,
+      image: "url('../assets/images/HomestayDetail/ShowerDog.png')"
+    },
+    // Campaign samples
+    {
+      id: 101,
+      type: 'campaign',
+      title: "Adopt Don't Shop — Tháng Yêu Thương Thú Cưng",
+      excerpt: "Tham gia chiến dịch nhận nuôi thú cưng cùng Pawfect. Ưu đãi tiêm phòng, tắm/grooming cho thú đã nhận nuôi.",
+      category: 'campaign',
+      author: 'Pawfect Team',
+      date: 'Mar 10–20',
+      likes: 320,
+      comments: 58,
+      views: 2100,
+      banner: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1600&auto=format&fit=crop',
+    },
+    {
+      id: 102,
+      type: 'campaign',
+      title: 'PawRun 5K — Chạy Bộ Cùng Boss',
+      excerpt: 'Sự kiện chạy bộ gây quỹ với phần thưởng cho các cặp chủ–pet nhanh nhất.',
+      category: 'event',
+      author: 'Pawfect Team',
+      date: 'Apr 6',
+      likes: 145,
+      comments: 22,
+      views: 980,
+      banner: 'https://images.unsplash.com/photo-1558944351-c6ae87f1d417?q=80&w=1600&auto=format&fit=crop',
+    },
+    {
+      id: 103,
+      type: 'campaign',
+      title: 'Workshop: Chăm Sóc Da & Lông Cho Chó Mùa Hè',
+      excerpt: 'Buổi hướng dẫn thực hành cùng chuyên gia grooming của Pawfect.',
+      category: 'workshop',
+      author: 'Pawfect Academy',
+      date: 'May 18',
+      likes: 52,
+      comments: 8,
+      views: 340,
+      banner: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=1600&auto=format&fit=crop',
+    },
+    {
+      id: 104,
+      type: 'campaign',
+      title: 'Charity Bake Sale for Stray Cats',
+      excerpt: 'Gây quỹ thức ăn cho mèo hoang với gian hàng bánh homemade.',
+      category: 'event',
+      author: 'Pawfect Community',
+      date: 'Jun 2',
+      likes: 80,
+      comments: 14,
+      views: 430,
+      banner: 'https://images.unsplash.com/photo-1494256997604-768d1f608cac?q=80&w=1600&auto=format&fit=crop',
+    },
   ];
 
   // Category labels
@@ -108,7 +211,8 @@
     health: "Sức khỏe",
     grooming: "Chăm sóc",
     training: "Huấn luyện",
-    food: "Thức ăn"
+    food: "Thức ăn",
+    campaign: "Campaign"
   };
 
   let currentFilter = 'all';
@@ -128,20 +232,23 @@
 
     // Setup event listeners
     setupSearch();
-    setupCategoryFilter();
+    setupBlogTabsFilter();
+    setupCampaignTabsFilter();
     setupLoadMore();
     setupCreatePost();
     setupStaffToggle();
+    setupBlogCardClick();
 
     // Render initial posts
+    renderCarousel();
     renderPosts();
     renderLatestStories();
 
-    // After initial render, highlight the centered staff card
+    // After initial render, compute center item in viewport
     highlightCenterStaff();
     const grid = document.querySelector('.staff-grid');
     if (grid) {
-      grid.addEventListener('scroll', throttle(highlightCenterStaff, 100));
+      grid.addEventListener('scroll', throttle(highlightCenterStaff, 80));
       window.addEventListener('resize', highlightCenterStaff);
     }
   }
@@ -185,18 +292,33 @@
   }
 
   // Setup category filter
-  function setupCategoryFilter() {
-    const categoryBtns = document.querySelectorAll('.category-btn');
-    categoryBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Update active state
-        categoryBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        // Update filter
-        currentFilter = btn.dataset.category;
-        displayedPosts = 6; // Reset to initial
+  // New Blog Tabs filter
+  function setupBlogTabsFilter() {
+    const tabs = document.querySelectorAll('.blog-tabs .tab');
+    if (!tabs.length) return;
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.dataset.category;
+        displayedPosts = 6;
         renderPosts();
+      });
+    });
+  }
+
+  // Campaign tabs filter (strip)
+  function setupCampaignTabsFilter() {
+    const tabs = document.querySelectorAll('.campaign-tabs .tab');
+    const strip = document.getElementById('campaigns-strip');
+    if (!tabs.length || !strip) return;
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const kind = tab.dataset.camp; // all | campaign | event | workshop
+        const items = blogPosts.filter(p => p.type === 'campaign' && (kind === 'all' ? true : p.category === kind));
+        strip.innerHTML = items.map(createCampaignStripItem).join('');
       });
     });
   }
@@ -274,19 +396,20 @@
 
   // Filter posts based on current filter and search
   function getFilteredPosts() {
-    let filtered = blogPosts;
+    // Separate user posts vs campaign
+    let filtered = blogPosts.filter(p => p.type !== 'campaign');
 
-    // Apply category filter
-    if (currentFilter !== 'all') {
+    // Category filter for user posts
+    if (currentFilter !== 'all' && currentFilter !== 'campaign') {
       filtered = filtered.filter(post => post.category === currentFilter);
     }
 
-    // Apply search filter
+    // Search filter
     if (currentSearch) {
-      filtered = filtered.filter(post => 
-        post.title.toLowerCase().includes(currentSearch) ||
-        post.excerpt.toLowerCase().includes(currentSearch) ||
-        post.author.toLowerCase().includes(currentSearch)
+      filtered = filtered.filter(post =>
+        (post.title || '').toLowerCase().includes(currentSearch) ||
+        (post.excerpt || '').toLowerCase().includes(currentSearch) ||
+        (post.author || '').toLowerCase().includes(currentSearch)
       );
     }
 
@@ -297,6 +420,15 @@
   function renderPosts() {
     const grid = document.getElementById('blog-grid');
     if (!grid) return;
+
+    if (currentFilter === 'campaign') {
+      // Render campaigns as cards in the grid
+      const campaigns = blogPosts.filter(p => p.type === 'campaign');
+      grid.innerHTML = campaigns.map(createCampaignCard).join('');
+      const loadMoreBtn = document.getElementById('load-more');
+      if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+      return;
+    }
 
     const filteredPosts = getFilteredPosts();
     const postsToDisplay = filteredPosts.slice(0, displayedPosts);
@@ -317,6 +449,270 @@
         </div>
       `;
     }
+  }
+
+  // Carousel for campaigns & events
+  let currentSlide = 0;
+  
+  function renderCarousel() {
+    const slidesContainer = document.getElementById('carousel-slides');
+    const dotsContainer = document.getElementById('carousel-dots');
+    if (!slidesContainer || !dotsContainer) return;
+
+    const campaigns = blogPosts.filter(p => p.type === 'campaign');
+    
+    // Render slides
+    slidesContainer.innerHTML = campaigns.map((item, idx) => createCarouselSlide(item, idx)).join('');
+    
+    // Render dots
+    dotsContainer.innerHTML = campaigns.map((_, idx) => 
+      `<button class="carousel-dot ${idx === 0 ? 'active' : ''}" data-slide="${idx}" aria-label="Go to slide ${idx + 1}"></button>`
+    ).join('');
+
+    // Setup navigation
+    setupCarouselNav(campaigns.length);
+    updateCarouselPosition();
+  }
+
+  function createCarouselSlide(item, idx) {
+    const dateStr = item.date || '';
+    const dateParts = dateStr.match(/([A-Za-z]+)\s+([\d–\-]+)/);
+    let dayStr = '01', monStr = 'JAN';
+    if (dateParts) {
+      monStr = dateParts[1].toUpperCase().substring(0, 3);
+      dayStr = dateParts[2].padStart(2, '0');
+    }
+
+    const categoryLabel = item.category === 'campaign' ? 'Campaign' : item.category === 'event' ? 'Event' : 'Workshop';
+    
+    return `
+      <div class="carousel-slide" data-slide="${idx}">
+        <div class="slide-image-wrapper">
+          <img src="${item.banner || ''}" alt="${item.title}" class="slide-image" />
+          <div class="slide-date-badge">
+            <div class="badge-day">${dayStr}</div>
+            <div class="badge-mon">${monStr}</div>
+          </div>
+        </div>
+        <div class="slide-content">
+          <span class="slide-category">${categoryLabel}</span>
+          <h3 class="slide-title">${item.title}</h3>
+          <p class="slide-description">${item.excerpt || ''}</p>
+          <button class="btn btn-learn-more">Learn more →</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function setupCarouselNav(totalSlides) {
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    const dots = document.querySelectorAll('.carousel-dot');
+
+    if (prevBtn) {
+      prevBtn.onclick = () => {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateCarouselPosition();
+        updateDots();
+      };
+    }
+
+    if (nextBtn) {
+      nextBtn.onclick = () => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateCarouselPosition();
+        updateDots();
+      };
+    }
+
+    dots.forEach(dot => {
+      dot.onclick = () => {
+        currentSlide = parseInt(dot.dataset.slide);
+        updateCarouselPosition();
+        updateDots();
+      };
+    });
+  }
+
+  function updateCarouselPosition() {
+    const slidesContainer = document.getElementById('carousel-slides');
+    if (!slidesContainer) return;
+    const offset = -currentSlide * 100;
+    slidesContainer.style.transform = `translateX(${offset}%)`;
+  }
+
+  function updateDots() {
+    const dots = document.querySelectorAll('.carousel-dot');
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === currentSlide);
+    });
+  }
+
+  // Blog detail modal
+  function setupBlogCardClick() {
+    const modal = document.getElementById('blog-detail-modal');
+    const closeBtn = document.getElementById('close-blog-detail');
+    const backdrop = modal ? modal.querySelector('.modal-backdrop') : null;
+
+    if (!modal) return;
+
+    // Close modal
+    const closeBlogDetail = () => {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+
+    closeBtn && closeBtn.addEventListener('click', closeBlogDetail);
+    backdrop && backdrop.addEventListener('click', closeBlogDetail);
+
+    // Keyboard close (Escape)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        closeBlogDetail();
+      }
+    });
+
+    // Click on blog cards to navigate to detail page
+    document.addEventListener('click', (e) => {
+      const card = e.target.closest('.blog-card');
+      if (!card) return;
+
+      // Find the post data
+      const grid = document.getElementById('blog-grid');
+      const cards = Array.from(grid.querySelectorAll('.blog-card'));
+      const cardIndex = cards.indexOf(card);
+
+      // Get filtered posts
+      let posts = blogPosts.filter(p => p.type !== 'campaign');
+      if (currentFilter !== 'all' && currentFilter !== 'campaign') {
+        posts = posts.filter(p => p.category === currentFilter);
+      }
+
+      const post = posts[cardIndex];
+      if (!post) return;
+
+      // Navigate to blog detail page
+      window.location.href = `blog-detail.html?id=${post.id}`;
+    });
+  }
+
+  function renderBlogDetail(post) {
+    const contentDiv = document.getElementById('blog-detail-content');
+    if (!contentDiv) return;
+
+    const categoryLabel = categoryLabels[post.category] || post.category;
+    const authorInitial = post.author.charAt(0);
+
+    // Generate full content (mock - in real app, fetch from server)
+    const fullContent = `
+      ${post.excerpt}
+      
+      Đây là nội dung chi tiết của bài viết. Trong thực tế, nội dung đầy đủ sẽ được tải từ server hoặc cơ sở dữ liệu.
+      
+      Bài viết này cung cấp những thông tin hữu ích và thực tiễn giúp bạn chăm sóc thú cưng tốt hơn.
+    `;
+
+    contentDiv.innerHTML = `
+      <article class="blog-detail-article">
+        <div class="blog-detail-header">
+          <h1 class="blog-detail-title" id="blog-detail-title">${post.title}</h1>
+          <div class="blog-detail-meta">
+            <div class="blog-detail-author">
+              <div class="author-avatar">${authorInitial}</div>
+              <div class="author-info">
+                <p class="author-name">${post.author}</p>
+                <p class="author-date">${post.date}</p>
+              </div>
+            </div>
+            <span class="blog-detail-category">${categoryLabel}</span>
+          </div>
+        </div>
+
+        <div class="blog-detail-image" style="background: ${post.image}; background-size: cover; background-position: center;"></div>
+
+        <div class="blog-detail-body">
+          <p class="blog-detail-excerpt">${post.excerpt}</p>
+          
+          <div class="blog-detail-content-text">
+            ${fullContent.split('\n').map(line => line.trim() ? `<p>${line}</p>` : '').join('')}
+          </div>
+
+          <div class="blog-detail-stats">
+            <div class="stat-item">
+              <span class="stat-label">Lượt xem</span>
+              <span class="stat-value">${post.views}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Lượt thích</span>
+              <span class="stat-value">${post.likes}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Bình luận</span>
+              <span class="stat-value">${post.comments}</span>
+            </div>
+          </div>
+
+          <div class="blog-detail-actions">
+            <button class="btn btn-like">❤️ Thích (${post.likes})</button>
+            <button class="btn btn-comment">💬 Bình luận (${post.comments})</button>
+            <button class="btn btn-share">🔗 Chia sẻ</button>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function createCampaignStripItem(item) {
+    // Parse date: "Apr 6" -> "06 APR", "Mar 10–20" -> "10–20 MAR"
+    const dateStr = item.date || '';
+    const dateParts = dateStr.match(/([A-Za-z]+)\s+([\d–\-]+)/);
+    let dayStr = '01', monStr = 'JAN';
+    if (dateParts) {
+      monStr = dateParts[1].toUpperCase().substring(0, 3);
+      dayStr = dateParts[2].padStart(2, '0');
+    }
+    
+    const chipClass = item.category === 'campaign' ? 'campaign' : item.category === 'event' ? 'event' : 'workshop';
+    const chipLabel = item.category === 'campaign' ? 'Campaign' : item.category === 'event' ? 'Event' : 'Workshop';
+    
+    return `
+      <article class="campaign-pill" title="${item.title}">
+        <div class="date-badge">
+          <div class="day">${dayStr}</div>
+          <div class="mon">${monStr}</div>
+        </div>
+        <div class="campaign-body">
+          <h3 class="campaign-title">${item.title}</h3>
+          <p class="campaign-excerpt">${item.excerpt || ''}</p>
+          <div class="campaign-tags">
+            <span class="chip ${chipClass}">${chipLabel}</span>
+          </div>
+        </div>
+        <div class="campaign-cta">
+          <button class="btn btn-ghost">RSVP →</button>
+        </div>
+      </article>
+    `;
+  }
+
+  function createCampaignCard(item) {
+    return `
+      <article class="blog-card">
+        <div class="blog-card-image" style="background-image:url('${item.banner || ''}'); background-size: cover; background-position: center;"></div>
+        <div class="blog-card-content">
+          <span class="blog-card-category">Campaign</span>
+          <h3 class="blog-card-title">${item.title}</h3>
+          <p class="blog-card-excerpt">${item.excerpt || ''}</p>
+          <div class="blog-card-footer">
+            <div class="blog-card-author">
+              <div class="author-avatar">P</div>
+              <span class="author-name">${item.author || 'Pawfect'}</span>
+            </div>
+            <span class="blog-card-date">${item.date || ''}</span>
+          </div>
+        </div>
+      </article>
+    `;
   }
 
   // Create post card HTML
@@ -390,12 +786,20 @@
 
       btn.addEventListener('click', toggle);
       
-      // Click card to center it
-      card.addEventListener('click', (e) => {
-        if (e.target === btn || e.target.closest('.staff-hover')) return;
-        // Scroll card to center
-        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      });
+      // Click/hover: if not center, scroll it to center; if center, perform flip
+      const onInteract = () => {
+        const grid = document.querySelector('.staff-grid');
+        if (!grid) return;
+        if (!card.classList.contains('is-center')) {
+          card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        } else {
+          // re-apply class to trigger flip CSS
+          card.classList.remove('is-center');
+          requestAnimationFrame(() => card.classList.add('is-center'));
+        }
+      };
+      card.addEventListener('mouseenter', onInteract);
+      card.addEventListener('click', onInteract);
     });
   }
 
@@ -416,27 +820,32 @@
     const cards = Array.from(grid.querySelectorAll('.staff-card'));
     if (!cards.length) return;
 
-    const gridRect = grid.getBoundingClientRect();
-    const centerX = gridRect.left + gridRect.width / 2;
+    const rect = grid.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
 
     let bestCard = null;
     let bestDist = Infinity;
 
     cards.forEach(card => {
-      const rect = card.getBoundingClientRect();
-      const cardCenter = rect.left + rect.width / 2;
+      const r = card.getBoundingClientRect();
+      const cardCenter = r.left + r.width / 2;
       const dist = Math.abs(centerX - cardCenter);
-      if (dist < bestDist) {
-        bestDist = dist;
-        bestCard = card;
-      }
+      if (dist < bestDist) { bestDist = dist; bestCard = card; }
     });
 
-    cards.forEach(c => c.classList.remove('is-center'));
-    if (bestCard) bestCard.classList.add('is-center');
+    cards.forEach(c => {
+      c.classList.remove('is-center', 'side');
+      if (bestCard) {
+        const idx = cards.indexOf(bestCard);
+        const cidx = cards.indexOf(c);
+        if (c === bestCard) c.classList.add('is-center');
+        else if (cidx === idx - 1 || cidx === idx + 1) c.classList.add('side');
+      }
+    });
   }
 
   // Initialize on DOM ready
   document.addEventListener('DOMContentLoaded', initCommunity);
 
 })();
+
