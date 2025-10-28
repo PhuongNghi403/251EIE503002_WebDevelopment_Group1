@@ -86,38 +86,115 @@
      <div class="staff-container">
        <h2 class="staff-title">Gặp gỡ đội ngũ của chúng tôi</h2>
        <div class="staff-grid">
-         <div class="staff-card">
-           <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1000&auto=format&fit=crop" alt="Staff member" class="staff-image">
-           <div class="staff-info">
+         <!-- Featured Staff of the Month -->
+         <article class="staff-card featured" data-staff>
+           <div class="staff-avatar-wrap">
+             <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1000&auto=format&fit=crop" alt="Nguyễn Thị Minh" class="staff-avatar">
+             <span class="badge-month" title="Staff of the Month">🏆 Staff of the Month</span>
+             <button class="staff-hover" type="button" aria-expanded="false">Xem chi tiết</button>
+           </div>
+           <div class="staff-info-min">
              <h3 class="staff-name">Nguyễn Thị Minh</h3>
              <p class="staff-role">Pet Care Specialist</p>
-             <p class="staff-bio">Với 5 năm kinh nghiệm chăm sóc thú cưng, Minh luôn đảm bảo mỗi boss đều nhận được sự quan tâm đặc biệt.</p>
+             <div class="staff-rating" aria-label="Đánh giá 4.8 trên 5">
+               <span class="stars" data-score="4.8">★★★★★</span>
+               <span class="score">4.8</span>
+             </div>
+             <p class="staff-desc">Chuyên gia chăm sóc thú cưng với 5+ năm kinh nghiệm, đảm bảo mỗi boss nhận được sự quan tâm đặc biệt.</p>
            </div>
-         </div>
-         <div class="staff-card">
-           <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?q=80&w=1000&auto=format&fit=crop" alt="Staff member" class="staff-image">
-           <div class="staff-info">
+           <div class="staff-details" hidden>
+             <div class="staff-banner" style="background-image:url('https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1600&auto=format&fit=crop')"></div>
+             <div class="staff-detail-body">
+               <h4>Kinh nghiệm</h4>
+               <ul>
+                 <li>5+ năm chăm sóc thú cưng (mèo/chó)</li>
+                 <li>Chuyên môn: phục hồi sau phẫu thuật, dinh dưỡng</li>
+                 <li>Chứng chỉ First Aid cho thú cưng</li>
+               </ul>
+             </div>
+           </div>
+         </article>
+
+         <article class="staff-card" data-staff>
+           <div class="staff-avatar-wrap">
+             <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?q=80&w=1000&auto=format&fit=crop" alt="Trần Văn Hùng" class="staff-avatar">
+             <button class="staff-hover" type="button" aria-expanded="false">Xem chi tiết</button>
+           </div>
+           <div class="staff-info-min">
              <h3 class="staff-name">Trần Văn Hùng</h3>
              <p class="staff-role">Grooming Expert</p>
-             <p class="staff-bio">Hùng có chứng chỉ quốc tế về grooming và đam mê biến mỗi thú cưng thành ngôi sao thời trang.</p>
+             <div class="staff-rating" aria-label="Đánh giá 4.7 trên 5">
+               <span class="stars" data-score="4.7">★★★★★</span>
+               <span class="score">4.7</span>
+             </div>
+             <p class="staff-desc">Chứng chỉ quốc tế, biến mỗi thú cưng thành ngôi sao thời trang với kỹ thuật grooming chuyên nghiệp.</p>
            </div>
-         </div>
-         <div class="staff-card">
-           <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000&auto=format&fit=crop" alt="Staff member" class="staff-image">
-           <div class="staff-info">
+           <div class="staff-details" hidden>
+             <div class="staff-banner" style="background-image:url('https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?q=80&w=1600&auto=format&fit=crop')"></div>
+             <div class="staff-detail-body">
+               <h4>Kinh nghiệm</h4>
+               <ul>
+                 <li>Chứng chỉ Groomer quốc tế (IPG)</li>
+                 <li>3 năm grooming cho giống lông dài</li>
+                 <li>Chuyên tạo kiểu an toàn, ít stress</li>
+               </ul>
+             </div>
+           </div>
+         </article>
+
+         <article class="staff-card" data-staff>
+           <div class="staff-avatar-wrap">
+             <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000&auto=format&fit=crop" alt="Lê Thị Hương" class="staff-avatar">
+             <button class="staff-hover" type="button" aria-expanded="false">Xem chi tiết</button>
+           </div>
+           <div class="staff-info-min">
              <h3 class="staff-name">Lê Thị Hương</h3>
              <p class="staff-role">Community Manager</p>
-             <p class="staff-bio">Hương quản lý cộng đồng Pawfect, đảm bảo mọi thành viên đều có trải nghiệm tuyệt vời và hỗ trợ kịp thời.</p>
+             <div class="staff-rating" aria-label="Đánh giá 4.9 trên 5">
+               <span class="stars" data-score="4.9">★★★★★</span>
+               <span class="score">4.9</span>
+             </div>
+             <p class="staff-desc">Quản lý cộng đồng Pawfect, đảm bảo mọi thành viên có trải nghiệm tuyệt vời và hỗ trợ kịp thời.</p>
            </div>
-         </div>
-         <div class="staff-card">
-           <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000&auto=format&fit=crop" alt="Staff member" class="staff-image">
-           <div class="staff-info">
+           <div class="staff-details" hidden>
+             <div class="staff-banner" style="background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1600&auto=format&fit=crop')"></div>
+             <div class="staff-detail-body">
+               <h4>Kinh nghiệm</h4>
+               <ul>
+                 <li>4 năm quản trị cộng đồng thú cưng</li>
+                 <li>Xây dựng guideline và xử lý khủng hoảng</li>
+                 <li>Tổ chức 20+ workshop/offline</li>
+               </ul>
+             </div>
+           </div>
+         </article>
+
+         <article class="staff-card" data-staff>
+           <div class="staff-avatar-wrap">
+             <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000&auto=format&fit=crop" alt="Phạm Minh Tuấn" class="staff-avatar">
+             <button class="staff-hover" type="button" aria-expanded="false">Xem chi tiết</button>
+           </div>
+           <div class="staff-info-min">
              <h3 class="staff-name">Phạm Minh Tuấn</h3>
              <p class="staff-role">Veterinary Consultant</p>
-             <p class="staff-bio">Bác sĩ Tuấn tư vấn về sức khỏe thú cưng và đảm bảo mọi dịch vụ của chúng tôi đều an toàn cho thú cưng.</p>
+             <div class="staff-rating" aria-label="Đánh giá 5.0 trên 5">
+               <span class="stars" data-score="5.0">★★★★★</span>
+               <span class="score">5.0</span>
+             </div>
+             <p class="staff-desc">Bác sĩ thú y tư vấn về sức khỏe, đảm bảo mọi dịch vụ an toàn và hiệu quả cho thú cưng.</p>
            </div>
-         </div>
+           <div class="staff-details" hidden>
+             <div class="staff-banner" style="background-image:url('https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1600&auto=format&fit=crop')"></div>
+             <div class="staff-detail-body">
+               <h4>Kinh nghiệm</h4>
+               <ul>
+                 <li>Bác sĩ thú y 7+ năm kinh nghiệm</li>
+                 <li>Chuyên khoa nội, dinh dưỡng lâm sàng</li>
+                 <li>Tham vấn 2000+ ca trong cộng đồng</li>
+               </ul>
+             </div>
+           </div>
+         </article>
        </div>
      </div>
    </section>
@@ -220,8 +297,10 @@
     <div class="footer-col">
       <h4 class="footer-title">Services</h4>
       <ul class="footer-links">
-        <li><a href="services/bookinghomestay.html">Pet Boarding</a></li>
-        <li><a href="services/groomingspa-service.html">Pet Spa</a></li>
+        <li><a href="services/homestayboarding-service.html">Pet Boarding</a></li>
+        <li><a href="services/services.html">Dog Grooming</a></li>
+        <li><a href="services/services.html">Cat Grooming</a></li>
+        <li><a href="services/services.html">Pet Training</a></li>
       </ul>
     </div>
     <div class="footer-col">

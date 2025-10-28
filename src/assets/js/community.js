@@ -131,10 +131,19 @@
     setupCategoryFilter();
     setupLoadMore();
     setupCreatePost();
+    setupStaffToggle();
 
     // Render initial posts
     renderPosts();
     renderLatestStories();
+
+    // After initial render, highlight the centered staff card
+    highlightCenterStaff();
+    const grid = document.querySelector('.staff-grid');
+    if (grid) {
+      grid.addEventListener('scroll', throttle(highlightCenterStaff, 100));
+      window.addEventListener('resize', highlightCenterStaff);
+    }
   }
 
   // Render latest stories
@@ -346,6 +355,85 @@
         </div>
       </article>
     `;
+  }
+
+  // Toggle staff details
+  function setupStaffToggle() {
+    const cards = document.querySelectorAll('.staff-card[data-staff]');
+    const grid = document.querySelector('.staff-grid');
+    if (!cards.length || !grid) return;
+
+    const closeOthers = (except) => {
+      cards.forEach(c => {
+        if (c !== except) {
+          c.classList.remove('open');
+          const btn = c.querySelector('.staff-hover');
+          const details = c.querySelector('.staff-details');
+          if (btn) btn.setAttribute('aria-expanded', 'false');
+          if (details) details.hidden = true;
+        }
+      });
+    };
+
+    cards.forEach((card, index) => {
+      const btn = card.querySelector('.staff-hover');
+      const details = card.querySelector('.staff-details');
+      if (!btn || !details) return;
+
+      const toggle = () => {
+        const willOpen = !card.classList.contains('open');
+        closeOthers(willOpen ? card : null);
+        card.classList.toggle('open');
+        details.hidden = !willOpen;
+        btn.setAttribute('aria-expanded', String(willOpen));
+      };
+
+      btn.addEventListener('click', toggle);
+      
+      // Click card to center it
+      card.addEventListener('click', (e) => {
+        if (e.target === btn || e.target.closest('.staff-hover')) return;
+        // Scroll card to center
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      });
+    });
+  }
+
+  function throttle(fn, wait) {
+    let t = 0;
+    return function() {
+      const now = Date.now();
+      if (now - t > wait) {
+        t = now;
+        fn();
+      }
+    };
+  }
+
+  function highlightCenterStaff() {
+    const grid = document.querySelector('.staff-grid');
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll('.staff-card'));
+    if (!cards.length) return;
+
+    const gridRect = grid.getBoundingClientRect();
+    const centerX = gridRect.left + gridRect.width / 2;
+
+    let bestCard = null;
+    let bestDist = Infinity;
+
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const cardCenter = rect.left + rect.width / 2;
+      const dist = Math.abs(centerX - cardCenter);
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestCard = card;
+      }
+    });
+
+    cards.forEach(c => c.classList.remove('is-center'));
+    if (bestCard) bestCard.classList.add('is-center');
   }
 
   // Initialize on DOM ready
