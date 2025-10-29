@@ -1,8 +1,8 @@
-(function() {
+(function () {
   'use strict';
 
-  // Mock blog posts data
-  // Posts can be type: 'user' or 'campaign'
+  /** ===================== DỮ LIỆU MẪU ===================== **/
+  // Posts có type: undefined (user/staff) hoặc 'campaign'
   const blogPosts = [
     {
       id: 1,
@@ -204,7 +204,6 @@
     },
   ];
 
-  // Category labels
   const categoryLabels = {
     all: "Tất cả",
     tips: "Tips & Tricks",
@@ -212,61 +211,102 @@
     grooming: "Chăm sóc",
     training: "Huấn luyện",
     food: "Thức ăn",
-    campaign: "Campaign"
+    campaign: "Campaign",
+    "from-community": "From community",
+    "staff-pick": "Staff Pick"
   };
 
   let currentFilter = 'all';
   let currentSearch = '';
   let displayedPosts = 6;
+  // (tuỳ chọn) sort: 'newest' | 'views' | 'likes' | 'comments'
+  let currentSort = 'newest';
 
-  // Initialize
+  /** ===================== INIT TRANG ===================== **/
   function initCommunity() {
     if (document.body.dataset.page !== 'community') return;
 
-    // Set active nav link
-    document.querySelectorAll('.nav .nav-link').forEach((link) => {
+    // Active nav
+    document.querySelectorAll('.nav .nav-link').forEach(link => {
       if (link.textContent.trim().toLowerCase() === 'community') {
         link.classList.add('active');
       }
     });
 
-    // Setup event listeners
-    setupSearch();
-    setupBlogTabsFilter();
-    setupCampaignTabsFilter();
+    // Toolbar: search + category buttons (+ sort nếu có)
+    setupSearchBox();
+    setupCategoryButtons();
+    setupSorter(); // nếu không có #sort-select thì tự bỏ qua
+
+    // Blog/Campaign/Modal
+    setupBlogTabsFilter();      // nếu bạn có .blog-tabs (giữ tương thích)
+    setupCampaignTabsFilter();  // nếu bạn có .campaign-tabs (giữ tương thích)
     setupLoadMore();
     setupCreatePost();
-    setupStaffToggle();
     setupBlogCardClick();
 
-    // Render initial posts
+    // Staff strip
+    setupStaffToggle();         // giữ nguyên API cũ + gọi center
+    bindStaffStripCentering();  // đảm bảo center khi scroll/resize
+
+    // Render
     renderCarousel();
     renderPosts();
     renderLatestStories();
-
-    // After initial render, compute center item in viewport
-    highlightCenterStaff();
-    const grid = document.querySelector('.staff-grid');
-    if (grid) {
-      grid.addEventListener('scroll', throttle(highlightCenterStaff, 80));
-      window.addEventListener('resize', highlightCenterStaff);
-    }
   }
 
-  // Render latest stories
+  /** ===================== TOOLBAR (SEARCH + CATEGORY + SORT) ===================== **/
+  function setupSearchBox() {
+    const input = document.getElementById('search-input');
+    if (!input) return;
+    input.addEventListener('input', (e) => {
+      currentSearch = e.target.value.trim().toLowerCase();
+      displayedPosts = 6;
+      renderPosts();
+    });
+  }
+
+  function setupCategoryButtons() {
+    const btns = document.querySelectorAll('.category-filter .category-btn');
+    if (!btns.length) return;
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        currentFilter = btn.dataset.category || 'all';
+        displayedPosts = 6;
+        renderPosts();
+      });
+    });
+  }
+
+  function setupSorter() {
+    // tuỳ chọn: nếu bạn có <select id="sort-select"> trong toolbar
+    const sel = document.getElementById('sort-select');
+    if (!sel) return;
+    sel.addEventListener('change', () => {
+      currentSort = sel.value;
+      displayedPosts = 6;
+      renderPosts();
+    });
+  }
+
+  /** ===================== LATEST STORIES (HORIZONTAL) ===================== **/
   function renderLatestStories() {
     const storiesContainer = document.getElementById('latest-stories');
     if (!storiesContainer) return;
-
-    const latestPosts = blogPosts.slice(0, 4); // Show first 4 posts
-    
+    const latestPosts = blogPosts.slice(0, 4);
     storiesContainer.innerHTML = latestPosts.map(post => createStoryCard(post)).join('');
   }
 
-  // Create story card HTML (horizontal)
   function createStoryCard(post) {
-    const categoryLabel = categoryLabels[post.category] || post.category;
-
+    const categoryLabel = categoryLabels[post.category] || post.category || 'Story';
     return `
       <article class="story-card">
         <div class="story-image" style="background: ${post.image}; background-size: cover; background-position: center;"></div>
@@ -279,20 +319,7 @@
     `;
   }
 
-  // Setup search functionality
-  function setupSearch() {
-    const searchInput = document.getElementById('search-input');
-    if (!searchInput) return;
-
-    searchInput.addEventListener('input', (e) => {
-      currentSearch = e.target.value.toLowerCase();
-      displayedPosts = 6; // Reset to initial
-      renderPosts();
-    });
-  }
-
-  // Setup category filter
-  // New Blog Tabs filter
+  /** ===================== BLOG FILTERS (tabs cũ nếu có) ===================== **/
   function setupBlogTabsFilter() {
     const tabs = document.querySelectorAll('.blog-tabs .tab');
     if (!tabs.length) return;
@@ -300,129 +327,74 @@
       tab.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        currentFilter = tab.dataset.category;
+        currentFilter = tab.dataset.category || 'all';
         displayedPosts = 6;
         renderPosts();
       });
     });
   }
 
-  // Campaign tabs filter (strip)
   function setupCampaignTabsFilter() {
     const tabs = document.querySelectorAll('.campaign-tabs .tab');
     const strip = document.getElementById('campaigns-strip');
     if (!tabs.length || !strip) return;
+
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         const kind = tab.dataset.camp; // all | campaign | event | workshop
-        const items = blogPosts.filter(p => p.type === 'campaign' && (kind === 'all' ? true : p.category === kind));
+        const items = blogPosts.filter(
+          p => p.type === 'campaign' && (kind === 'all' ? true : p.category === kind)
+        );
         strip.innerHTML = items.map(createCampaignStripItem).join('');
       });
     });
   }
 
-  // Setup load more button
+  /** ===================== BLOG RENDER & LOAD MORE ===================== **/
   function setupLoadMore() {
     const loadMoreBtn = document.getElementById('load-more');
     if (!loadMoreBtn) return;
-
     loadMoreBtn.addEventListener('click', () => {
       displayedPosts += 6;
       renderPosts();
     });
   }
 
-  // Setup create post button
-  function setupCreatePost() {
-    const modal = document.getElementById('create-post-modal');
-    const form = document.getElementById('post-form');
-    const closeBtn = document.getElementById('close-post-modal');
-    const createBtns = document.querySelectorAll('#create-post-btn');
-
-    const openCreateModal = () => {
-      if (!modal) return;
-      modal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    };
-
-    const closeCreateModal = () => {
-      if (!modal) return;
-      modal.classList.remove('open');
-      document.body.style.overflow = '';
-      if (form) form.reset();
-    };
-
-    // Open on any "create" button click
-    createBtns.forEach(btn => btn.addEventListener('click', openCreateModal));
-
-    // Close actions
-    closeBtn && closeBtn.addEventListener('click', closeCreateModal);
-    modal && modal.addEventListener('click', (e) => {
-      if (e.target.classList && e.target.classList.contains('modal-backdrop')) {
-        closeCreateModal();
-      }
-    });
-
-    // Submit form to create a new post (mock local add)
-    form && form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const title = document.getElementById('post-title').value.trim();
-      const category = document.getElementById('post-category').value;
-      const excerpt = document.getElementById('post-excerpt').value.trim();
-
-      if (!title || !excerpt) return;
-
-      const newPost = {
-        id: Date.now(),
-        title,
-        excerpt,
-        category,
-        author: 'Bạn',
-        date: 'Vừa xong',
-        likes: 0,
-        comments: 0,
-        views: 0,
-        image: "url('../assets/images/HomestayDetail/StandingCatHome.png')"
-      };
-
-      blogPosts.unshift(newPost);
-      displayedPosts = Math.max(6, displayedPosts); // keep at least one page
-      renderPosts();
-      closeCreateModal();
-    });
-  }
-
-  // Filter posts based on current filter and search
   function getFilteredPosts() {
-    // Separate user posts vs campaign
+    // bỏ campaign
     let filtered = blogPosts.filter(p => p.type !== 'campaign');
 
-    // Category filter for user posts
-    if (currentFilter !== 'all' && currentFilter !== 'campaign') {
+    // filter theo category
+    if (currentFilter && currentFilter !== 'all' && currentFilter !== 'campaign') {
       filtered = filtered.filter(post => post.category === currentFilter);
     }
 
-    // Search filter
+    // search theo title/excerpt/author
     if (currentSearch) {
+      const q = currentSearch;
       filtered = filtered.filter(post =>
-        (post.title || '').toLowerCase().includes(currentSearch) ||
-        (post.excerpt || '').toLowerCase().includes(currentSearch) ||
-        (post.author || '').toLowerCase().includes(currentSearch)
+        (post.title || '').toLowerCase().includes(q) ||
+        (post.excerpt || '').toLowerCase().includes(q) ||
+        (post.author || '').toLowerCase().includes(q)
       );
     }
+
+    // sort tuỳ chọn (nếu có sorter)
+    if (currentSort === 'views') filtered = filtered.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
+    else if (currentSort === 'likes') filtered = filtered.slice().sort((a, b) => (b.likes || 0) - (a.likes || 0));
+    else if (currentSort === 'comments') filtered = filtered.slice().sort((a, b) => (b.comments || 0) - (a.comments || 0));
+    // 'newest' -> giữ nguyên thứ tự mẫu
 
     return filtered;
   }
 
-  // Render blog posts
   function renderPosts() {
     const grid = document.getElementById('blog-grid');
     if (!grid) return;
 
     if (currentFilter === 'campaign') {
-      // Render campaigns as cards in the grid
       const campaigns = blogPosts.filter(p => p.type === 'campaign');
       grid.innerHTML = campaigns.map(createCampaignCard).join('');
       const loadMoreBtn = document.getElementById('load-more');
@@ -435,41 +407,62 @@
 
     grid.innerHTML = postsToDisplay.map(post => createPostCard(post)).join('');
 
-    // Toggle load more button
     const loadMoreBtn = document.getElementById('load-more');
     if (loadMoreBtn) {
       loadMoreBtn.style.display = displayedPosts >= filteredPosts.length ? 'none' : 'block';
     }
 
-    // Show message if no posts found
     if (postsToDisplay.length === 0) {
       grid.innerHTML = `
-        <div class="no-posts" style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: luck-out">
+        <div class="no-posts" style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
           <p style="font-size: 18px; color: var(--text-3)">Không tìm thấy bài viết nào</p>
         </div>
       `;
     }
   }
 
-  // Carousel for campaigns & events
+  function createPostCard(post) {
+    const categoryLabel = categoryLabels[post.category] || post.category || 'Post';
+    const authorInitial = (post.author || 'U').charAt(0);
+    return `
+      <article class="blog-card">
+        <div class="blog-card-image" style="background: ${post.image}; background-size: cover; background-position: center;"></div>
+        <div class="blog-card-content">
+          <span class="blog-card-category">${categoryLabel}</span>
+          <h3 class="blog-card-title">${post.title}</h3>
+          <p class="blog-card-excerpt">${post.excerpt}</p>
+          <div class="blog-card-footer">
+            <div class="blog-card-author">
+              <div class="author-avatar">${authorInitial}</div>
+              <span class="author-name">${post.author}</span>
+            </div>
+            <span class="blog-card-date">${post.date}</span>
+          </div>
+          <div class="blog-card-stats">
+            <div class="blog-stat"><img src="../assets/icons/Login/star_icon.svg" alt="Views" /><span>${post.views}</span></div>
+            <div class="blog-stat"><img src="../assets/icons/Login/Group useramount_icon.svg" alt="Likes" /><span>${post.likes}</span></div>
+            <div class="blog-stat"><img src="../assets/icons/HomestayDetail/profile_icon.svg" alt="Comments" /><span>${post.comments}</span></div>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  /** ===================== CAMPAIGN CAROUSEL ===================== **/
   let currentSlide = 0;
-  
+
   function renderCarousel() {
     const slidesContainer = document.getElementById('carousel-slides');
     const dotsContainer = document.getElementById('carousel-dots');
     if (!slidesContainer || !dotsContainer) return;
 
     const campaigns = blogPosts.filter(p => p.type === 'campaign');
-    
-    // Render slides
+
     slidesContainer.innerHTML = campaigns.map((item, idx) => createCarouselSlide(item, idx)).join('');
-    
-    // Render dots
-    dotsContainer.innerHTML = campaigns.map((_, idx) => 
+    dotsContainer.innerHTML = campaigns.map((_, idx) =>
       `<button class="carousel-dot ${idx === 0 ? 'active' : ''}" data-slide="${idx}" aria-label="Go to slide ${idx + 1}"></button>`
     ).join('');
 
-    // Setup navigation
     setupCarouselNav(campaigns.length);
     updateCarouselPosition();
   }
@@ -482,9 +475,8 @@
       monStr = dateParts[1].toUpperCase().substring(0, 3);
       dayStr = dateParts[2].padStart(2, '0');
     }
-
     const categoryLabel = item.category === 'campaign' ? 'Campaign' : item.category === 'event' ? 'Event' : 'Workshop';
-    
+
     return `
       <div class="carousel-slide" data-slide="${idx}">
         <div class="slide-image-wrapper">
@@ -509,27 +501,19 @@
     const nextBtn = document.querySelector('.carousel-next');
     const dots = document.querySelectorAll('.carousel-dot');
 
-    if (prevBtn) {
-      prevBtn.onclick = () => {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        updateCarouselPosition();
-        updateDots();
-      };
-    }
-
-    if (nextBtn) {
-      nextBtn.onclick = () => {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        updateCarouselPosition();
-        updateDots();
-      };
-    }
+    if (prevBtn) prevBtn.onclick = () => {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateCarouselPosition(); updateDots();
+    };
+    if (nextBtn) nextBtn.onclick = () => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarouselPosition(); updateDots();
+    };
 
     dots.forEach(dot => {
       dot.onclick = () => {
-        currentSlide = parseInt(dot.dataset.slide);
-        updateCarouselPosition();
-        updateDots();
+        currentSlide = parseInt(dot.dataset.slide, 10);
+        updateCarouselPosition(); updateDots();
       };
     });
   }
@@ -543,55 +527,56 @@
 
   function updateDots() {
     const dots = document.querySelectorAll('.carousel-dot');
-    dots.forEach((dot, idx) => {
-      dot.classList.toggle('active', idx === currentSlide);
-    });
+    dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentSlide));
   }
 
-  // Blog detail modal
+  /** ===================== BLOG DETAIL ===================== **/
   function setupBlogCardClick() {
     const modal = document.getElementById('blog-detail-modal');
     const closeBtn = document.getElementById('close-blog-detail');
     const backdrop = modal ? modal.querySelector('.modal-backdrop') : null;
-
     if (!modal) return;
 
-    // Close modal
     const closeBlogDetail = () => {
       modal.classList.remove('open');
       document.body.style.overflow = '';
     };
-
     closeBtn && closeBtn.addEventListener('click', closeBlogDetail);
     backdrop && backdrop.addEventListener('click', closeBlogDetail);
 
-    // Keyboard close (Escape)
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('open')) {
-        closeBlogDetail();
-      }
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeBlogDetail();
     });
 
-    // Click on blog cards to navigate to detail page
     document.addEventListener('click', (e) => {
       const card = e.target.closest('.blog-card');
       if (!card) return;
 
-      // Find the post data
       const grid = document.getElementById('blog-grid');
       const cards = Array.from(grid.querySelectorAll('.blog-card'));
       const cardIndex = cards.indexOf(card);
 
-      // Get filtered posts
       let posts = blogPosts.filter(p => p.type !== 'campaign');
       if (currentFilter !== 'all' && currentFilter !== 'campaign') {
         posts = posts.filter(p => p.category === currentFilter);
       }
+      // apply same search & sort to map index đúng
+      if (currentSearch) {
+        const q = currentSearch;
+        posts = posts.filter(p =>
+          (p.title || '').toLowerCase().includes(q) ||
+          (p.excerpt || '').toLowerCase().includes(q) ||
+          (p.author || '').toLowerCase().includes(q)
+        );
+      }
+      if (currentSort === 'views') posts = posts.slice().sort((a,b)=> (b.views||0)-(a.views||0));
+      else if (currentSort === 'likes') posts = posts.slice().sort((a,b)=> (b.likes||0)-(a.likes||0));
+      else if (currentSort === 'comments') posts = posts.slice().sort((a,b)=> (b.comments||0)-(a.comments||0));
 
       const post = posts[cardIndex];
       if (!post) return;
 
-      // Navigate to blog detail page
+      // Điều hướng tới trang chi tiết (mock)
       window.location.href = `blog-detail.html?id=${post.id}`;
     });
   }
@@ -603,12 +588,11 @@
     const categoryLabel = categoryLabels[post.category] || post.category;
     const authorInitial = post.author.charAt(0);
 
-    // Generate full content (mock - in real app, fetch from server)
     const fullContent = `
       ${post.excerpt}
-      
+
       Đây là nội dung chi tiết của bài viết. Trong thực tế, nội dung đầy đủ sẽ được tải từ server hoặc cơ sở dữ liệu.
-      
+
       Bài viết này cung cấp những thông tin hữu ích và thực tiễn giúp bạn chăm sóc thú cưng tốt hơn.
     `;
 
@@ -632,24 +616,15 @@
 
         <div class="blog-detail-body">
           <p class="blog-detail-excerpt">${post.excerpt}</p>
-          
+
           <div class="blog-detail-content-text">
             ${fullContent.split('\n').map(line => line.trim() ? `<p>${line}</p>` : '').join('')}
           </div>
 
           <div class="blog-detail-stats">
-            <div class="stat-item">
-              <span class="stat-label">Lượt xem</span>
-              <span class="stat-value">${post.views}</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">Lượt thích</span>
-              <span class="stat-value">${post.likes}</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">Bình luận</span>
-              <span class="stat-value">${post.comments}</span>
-            </div>
+            <div class="stat-item"><span class="stat-label">Lượt xem</span><span class="stat-value">${post.views}</span></div>
+            <div class="stat-item"><span class="stat-label">Lượt thích</span><span class="stat-value">${post.likes}</span></div>
+            <div class="stat-item"><span class="stat-label">Bình luận</span><span class="stat-value">${post.comments}</span></div>
           </div>
 
           <div class="blog-detail-actions">
@@ -662,8 +637,8 @@
     `;
   }
 
+  /** ===================== CAMPAIGN STRIP (PILLS) ===================== **/
   function createCampaignStripItem(item) {
-    // Parse date: "Apr 6" -> "06 APR", "Mar 10–20" -> "10–20 MAR"
     const dateStr = item.date || '';
     const dateParts = dateStr.match(/([A-Za-z]+)\s+([\d–\-]+)/);
     let dayStr = '01', monStr = 'JAN';
@@ -671,10 +646,10 @@
       monStr = dateParts[1].toUpperCase().substring(0, 3);
       dayStr = dateParts[2].padStart(2, '0');
     }
-    
+
     const chipClass = item.category === 'campaign' ? 'campaign' : item.category === 'event' ? 'event' : 'workshop';
     const chipLabel = item.category === 'campaign' ? 'Campaign' : item.category === 'event' ? 'Event' : 'Workshop';
-    
+
     return `
       <article class="campaign-pill" title="${item.title}">
         <div class="date-badge">
@@ -715,45 +690,8 @@
     `;
   }
 
-  // Create post card HTML
-  function createPostCard(post) {
-    const categoryLabel = categoryLabels[post.category] || post.category;
-    const authorInitial = post.author.charAt(0);
-
-    return `
-      <article class="blog-card">
-        <div class="blog-card-image" style="background: ${post.image}; background-size: cover; background-position: center;"></div>
-        <div class="blog-card-content">
-          <span class="blog-card-category">${categoryLabel}</span>
-          <h3 class="blog-card-title">${post.title}</h3>
-          <p class="blog-card-excerpt">${post.excerpt}</p>
-          <div class="blog-card-footer">
-            <div class="blog-card-author">
-              <div class="author-avatar">${authorInitial}</div>
-              <span class="author-name">${post.author}</span>
-            </div>
-            <span class="blog-card-date">${post.date}</span>
-          </div>
-          <div class="blog-card-stats">
-            <div class="blog-stat">
-              <img src="../assets/icons/Login/star_icon.svg" alt="Views" />
-              <span>${post.views}</span>
-            </div>
-            <div class="blog-stat">
-              <img src="../assets/icons/Login/Group useramount_icon.svg" alt="Likes" />
-              <span>${post.likes}</span>
-            </div>
-            <div class="blog-stat">
-              <img src="../assets/icons/HomestayDetail/profile_icon.svg" alt="Comments" />
-              <span>${post.comments}</span>
-            </div>
-          </div>
-        </div>
-      </article>
-    `;
-  }
-
-  // Toggle staff details
+  /** ===================== STAFF STRIP (CLICK-TO-CENTER) ===================== **/
+  // Giữ API cũ + thêm center khi click
   function setupStaffToggle() {
     const cards = document.querySelectorAll('.staff-card[data-staff]');
     const grid = document.querySelector('.staff-grid');
@@ -771,82 +709,170 @@
       });
     };
 
-    cards.forEach((card, index) => {
+    cards.forEach((card) => {
       const btn = card.querySelector('.staff-hover');
       const details = card.querySelector('.staff-details');
-      if (!btn || !details) return;
 
       const toggle = () => {
-        const willOpen = !card.classList.contains('open');
-        closeOthers(willOpen ? card : null);
-        card.classList.toggle('open');
-        details.hidden = !willOpen;
-        btn.setAttribute('aria-expanded', String(willOpen));
+        if (btn && details) {
+          const willOpen = !card.classList.contains('open');
+          closeOthers(willOpen ? card : null);
+          card.classList.toggle('open');
+          details.hidden = !willOpen;
+          btn.setAttribute('aria-expanded', String(willOpen));
+        }
+        // luôn center
+        scrollCardToCenter(grid, card);
       };
 
-      btn.addEventListener('click', toggle);
-      
-      // Click/hover: if not center, scroll it to center; if center, perform flip
-      const onInteract = () => {
-        const grid = document.querySelector('.staff-grid');
-        if (!grid) return;
-        if (!card.classList.contains('is-center')) {
-          card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        } else {
-          // re-apply class to trigger flip CSS
-          card.classList.remove('is-center');
-          requestAnimationFrame(() => card.classList.add('is-center'));
+      card.addEventListener('click', toggle);
+
+      // keyboard
+      if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle();
         }
-      };
-      card.addEventListener('mouseenter', onInteract);
-      card.addEventListener('click', onInteract);
+      });
     });
   }
 
-  function throttle(fn, wait) {
-    let t = 0;
-    return function() {
-      const now = Date.now();
-      if (now - t > wait) {
-        t = now;
-        fn();
-      }
-    };
-  }
-
-  function highlightCenterStaff() {
+  // Bind tracking center theo scroll/resize + click để center tuyệt đối
+  function bindStaffStripCentering() {
     const grid = document.querySelector('.staff-grid');
     if (!grid) return;
     const cards = Array.from(grid.querySelectorAll('.staff-card'));
     if (!cards.length) return;
 
-    const rect = grid.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
+    const doSetCenter = () => setCenterByScroll(grid, cards);
+    doSetCenter();
+    grid.addEventListener('scroll', () => requestAnimationFrame(doSetCenter));
+    window.addEventListener('resize', doSetCenter);
 
-    let bestCard = null;
-    let bestDist = Infinity;
-
+    // đảm bảo click/keyboard → center (backup cho setupStaffToggle)
     cards.forEach(card => {
-      const r = card.getBoundingClientRect();
-      const cardCenter = r.left + r.width / 2;
-      const dist = Math.abs(centerX - cardCenter);
-      if (dist < bestDist) { bestDist = dist; bestCard = card; }
-    });
-
-    cards.forEach(c => {
-      c.classList.remove('is-center', 'side');
-      if (bestCard) {
-        const idx = cards.indexOf(bestCard);
-        const cidx = cards.indexOf(c);
-        if (c === bestCard) c.classList.add('is-center');
-        else if (cidx === idx - 1 || cidx === idx + 1) c.classList.add('side');
-      }
+      if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
+      card.addEventListener('click', () => scrollCardToCenter(grid, card));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          scrollCardToCenter(grid, card);
+        }
+      });
     });
   }
 
-  // Initialize on DOM ready
+  // Helper: set .is-center cho card có tâm gần giữa viewport nhất
+  function setCenterByScroll(grid, cards) {
+    const mid = grid.scrollLeft + grid.clientWidth / 2;
+    let best = null, bestDist = Infinity;
+    cards.forEach(c => {
+      const cx = c.offsetLeft + c.offsetWidth / 2;
+      const d = Math.abs(cx - mid);
+      if (d < bestDist) { bestDist = d; best = c; }
+    });
+    cards.forEach(c => c.classList.remove('is-center', 'side'));
+    cards.forEach(c => c.classList.add('side'));
+    best && best.classList.add('is-center');
+  }
+
+  // Helper: cuộn để card đứng giữa tuyệt đối (clamp biên)
+  function scrollCardToCenter(grid, card) {
+    const target = card.offsetLeft - (grid.clientWidth - card.clientWidth) / 2;
+    const maxScroll = grid.scrollWidth - grid.clientWidth;
+    const clamped = Math.max(0, Math.min(target, maxScroll));
+    grid.scrollTo({ left: clamped, behavior: 'smooth' });
+
+    const cards = grid.querySelectorAll('.staff-card');
+    cards.forEach(c => c.classList.remove('is-center', 'side'));
+    cards.forEach(c => c.classList.add('side'));
+    card.classList.add('is-center');
+  }
+
+  /** ===================== CREATE POST (MODAL) ===================== **/
+  function setupCreatePost() {
+    const modal = document.getElementById('create-post-modal');
+    const form = document.getElementById('post-form');
+    const closeBtn = document.getElementById('close-post-modal');
+    const createBtns = document.querySelectorAll('#create-post-btn');
+
+    const openCreateModal = () => {
+      if (!modal) return;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeCreateModal = () => {
+      if (!modal) return;
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (form) form.reset();
+    };
+
+    createBtns.forEach(btn => btn.addEventListener('click', openCreateModal));
+    closeBtn && closeBtn.addEventListener('click', closeCreateModal);
+    modal && modal.addEventListener('click', (e) => {
+      if (e.target.classList && e.target.classList.contains('modal-backdrop')) {
+        closeCreateModal();
+      }
+    });
+
+    form && form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('post-title').value.trim();
+      const category = document.getElementById('post-category').value;
+      const excerpt = document.getElementById('post-excerpt').value.trim();
+      if (!title || !excerpt) return;
+
+      const newPost = {
+        id: Date.now(),
+        title,
+        excerpt,
+        category,
+        author: 'Bạn',
+        date: 'Vừa xong',
+        likes: 0,
+        comments: 0,
+        views: 0,
+        image: "url('../assets/images/HomestayDetail/StandingCatHome.png')"
+      };
+
+      blogPosts.unshift(newPost);
+      displayedPosts = Math.max(6, displayedPosts);
+      renderPosts();
+      closeCreateModal();
+    });
+  }
+
+  /** ===================== DOM READY ===================== **/
   document.addEventListener('DOMContentLoaded', initCommunity);
 
 })();
 
+/** ===================== REVEAL ON SCROLL (INTRO MOMENTS) ===================== **/
+document.addEventListener('DOMContentLoaded', () => {
+  const section = document.querySelector('.intro-moments.reveal-on-scroll');
+  const items = document.querySelectorAll('.intro-moments .reveal-item');
+  if (!section || !items.length) return;
 
+  const obsSection = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        section.classList.add('is-visible');
+        obsSection.unobserve(section);
+      }
+    });
+  }, { threshold: 0.15 });
+  obsSection.observe(section);
+
+  const obsItems = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        obsItems.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+
+  items.forEach(i => obsItems.observe(i));
+});

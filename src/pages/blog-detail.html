@@ -1,355 +1,129 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Blog Detail — Pawfect Care</title>
-  <link rel="stylesheet" href="../assets/css/base.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pawfect Blog — Chi tiết</title>
+<link rel="stylesheet" href="../assets/css/base.css" />
   <link rel="stylesheet" href="../assets/css/header.css" />
   <link rel="stylesheet" href="../assets/css/community.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
-  <style>
-    /* Blog Detail Page Styles */
-    .blog-detail-page {
-      background: #FFFDFB;
-      min-height: 100vh;
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Bagel+Fat+One&display=swap" rel="stylesheet" />
 
-    .breadcrumb {
-      padding: 16px 0;
-      margin-bottom: 32px;
-      border-bottom: 1px solid var(--border);
-    }
+<!-- ====== STYLE (clean như mockup) ====== -->
+<style>
+:root{
+  --bg:#fafafa;
+  --card:#ffffff;
+  --ink:#1f1f1f;
+  --muted:#70757a;
+  --line:#ececec;
+  --brand:#0b5fff;
+  --chip:#f2f4f7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif}
 
-    .breadcrumb-list {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      font-size: 14px;
-    }
+/* container */
+.bd-container{max-width:1180px;margin:0 auto;padding:0 24px}
 
-    .breadcrumb-item {
-      color: var(--text-2);
-    }
+/* Breadcrumb */
+.bd-breadcrumb-wrap{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
+.bd-breadcrumb{display:flex;gap:8px;align-items:center;height:56px}
+.bd-breadcrumb a{color:var(--muted);text-decoration:none}
+.bd-breadcrumb a:hover{color:var(--ink)}
+.bd-breadcrumb .sep{color:#c8c8c8}
+.bd-breadcrumb .current{color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-    .breadcrumb-item a {
-      color: var(--brown);
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s ease;
-    }
+/* Hero image */
+.bd-hero{padding:32px 0 0}
+.bd-hero .hero-media{
+  width:100%; aspect-ratio: 16/9;
+  background:#ddd center/cover no-repeat;
+  border-radius:10px;
+  border:1px solid var(--line);
+}
 
-    .breadcrumb-item a:hover {
-      color: var(--mint);
-    }
+/* layout grid */
+.bd-wrap{display:grid;grid-template-columns: 1fr 320px;gap:40px;padding:28px 0 64px}
 
-    .breadcrumb-separator {
-      color: var(--text-3);
-      margin: 0 4px;
-    }
+/* Article */
+.bd-article{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:28px}
+.bd-chip{display:inline-block;background:var(--chip);border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:12px;color:var(--muted);margin-bottom:10px}
+.bd-title{font-size:28px;line-height:1.25;margin:6px 0 8px}
+.bd-meta{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;margin-bottom:18px}
+.bd-meta .avt{width:28px;height:28px;border-radius:50%;background:#ece7e2;color:#6b5b4a;display:grid;place-items:center;font-weight:700}
+.bd-excerpt{font-size:16px;color:#3a3a3a;background:#fcfcfc;border:1px dashed var(--line);padding:16px 18px;border-radius:8px;margin:8px 0 20px}
+.bd-body h2{font-size:20px;margin:24px 0 8px}
+.bd-body p{margin:0 0 12px}
 
-    .breadcrumb-item.active {
-      color: var(--brown);
-      font-weight: 700;
-    }
+/* stats & actions */
+.bd-actions{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin:18px 0}
+.bd-stats{display:flex;gap:18px;font-size:13px;color:var(--muted)}
+.bd-stats b{color:var(--ink)}
+.bd-cta{display:flex;gap:10px}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;height:36px;padding:0 14px;cursor:pointer}
+.btn:hover{border-color:#d8d8d8}
+.btn.brand{background:var(--ink);color:#fff;border-color:transparent}
+#pc-like.is-liked{background:#ffe7ea;border-color:#ffd0d7}
 
-    /* Blog Detail Layout */
-    .blog-detail-layout {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 40px;
-      margin-bottom: 60px;
-    }
+/* tags */
+.bd-tags{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bd-tags .tag{background:var(--chip);border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
 
-    .blog-detail-main {
-      max-width: 720px;
-    }
+/* Comments */
+.bd-comments{margin-top:20px}
+.c-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.c-head h3{font-size:18px;margin:0}
+.c-compose{display:grid;gap:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px}
+.c-compose .row{display:flex;gap:8px;justify-content:flex-end}
+.c-compose textarea{width:100%;min-height:96px;border:1px solid var(--line);border-radius:8px;padding:10px;resize:vertical;font:14px/1.5 inherit}
+.c-list{list-style:none;margin:14px 0 0;padding:0}
+.citem{display:grid;grid-template-columns:36px 1fr;gap:10px;padding:12px;border-bottom:1px solid var(--line);background:#fff;border-radius:8px;align-items:flex-start}
+.citem .avatar{width:36px;height:36px;border-radius:50%;background:#ece7e2;display:grid;place-items:center;font-weight:700;color:#6b5b4a}
+.cmeta{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted)}
+.ctext{margin-top:4px}
 
-    .blog-detail-hero {
-      width: 100%;
-      height: 480px;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-bottom: 40px;
-      box-shadow: 0 12px 40px rgba(20, 16, 12, 0.12);
-      background-size: cover;
-      background-position: center;
-    }
+/* Sidebar */
+.bd-side{display:grid;gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px}
+.card h4{margin:0 0 14px;font-size:14px;letter-spacing:.02em;color:#333}
+.bd-search{position:relative}
+.bd-search input{width:100%;height:38px;border:1px solid var(--line);border-radius:8px;padding:0 36px 0 12px}
+.bd-search svg{position:absolute;right:10px;top:50%;transform:translateY(-50%);opacity:.5}
+.cat-list, .top-list{list-style:none;margin:0;padding:0}
+.cat-list li{padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;color:#444}
+.top-list li{display:grid;grid-template-columns:18px 1fr;gap:10px;padding:8px 0;color:#444}
+.top-list li .idx{color:#aaa}
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ig-grid div{aspect-ratio:1/1;background:#eee;border-radius:6px}
 
-    .blog-detail-header {
-      margin-bottom: 32px;
-    }
+/* Related posts block (dùng cho top posts ở dưới article) */
+.rel{display:grid;gap:10px}
+.rel__item{border:1px solid var(--line);border-radius:8px;padding:10px;background:#fff;cursor:pointer}
+.rel__item:hover{border-color:#ddd}
 
-    .blog-detail-title {
-      font-size: 40px;
-      font-weight: 800;
-      color: var(--brown);
-      margin: 0 0 16px;
-      line-height: 1.2;
-    }
+/* Toast */
+#pc-toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) scale(.98);
+  background:#222;color:#fff;padding:10px 14px;border-radius:8px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;
+}
+#pc-toast.show{opacity:1;transform:translateX(-50%) scale(1)}
 
-    .blog-detail-meta-row {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .blog-detail-author-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .blog-detail-author-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--mint) 0%, var(--pink) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      color: var(--brown);
-      font-size: 18px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .blog-detail-author-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .blog-detail-author-name {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--brown);
-      margin: 0;
-    }
-
-    .blog-detail-author-date {
-      font-size: 12px;
-      color: var(--text-3);
-      margin: 0;
-    }
-
-    .blog-detail-category-badge {
-      display: inline-block;
-      padding: 6px 14px;
-      background: var(--mint);
-      color: var(--brown);
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .blog-detail-content {
-      font-size: 16px;
-      color: var(--text-2);
-      line-height: 1.9;
-      margin-bottom: 40px;
-    }
-
-    .blog-detail-content p {
-      margin: 0 0 20px;
-    }
-
-    .blog-detail-content h2 {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--brown);
-      margin: 40px 0 16px;
-      line-height: 1.3;
-    }
-
-    .blog-detail-content h3 {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--brown);
-      margin: 32px 0 12px;
-    }
-
-    .blog-detail-content ul, .blog-detail-content ol {
-      margin: 0 0 20px 20px;
-      padding-left: 20px;
-    }
-
-    .blog-detail-content li {
-      margin-bottom: 8px;
-    }
-
-    .blog-detail-stats {
-      display: flex;
-      gap: 32px;
-      padding: 24px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 32px;
-    }
-
-    .blog-detail-stat {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .blog-detail-stat-label {
-      font-size: 12px;
-      color: var(--text-3);
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    .blog-detail-stat-value {
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--brown);
-    }
-
-    .blog-detail-actions {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 40px;
-    }
-
-    .blog-detail-actions .btn {
-      flex: 1;
-      padding: 12px 16px;
-      background: var(--mint);
-      color: var(--brown);
-      border: none;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .blog-detail-actions .btn:hover {
-      background: var(--brown);
-      color: #fff;
-      transform: translateY(-2px);
-    }
-
-    /* Sidebar */
-    .blog-detail-sidebar {
-      position: sticky;
-      top: 100px;
-      height: fit-content;
-    }
-
-    .sidebar-section {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .sidebar-title {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--brown);
-      margin: 0 0 16px;
-    }
-
-    .related-posts {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .related-post-item {
-      padding: 12px;
-      border-radius: 12px;
-      background: var(--beige);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .related-post-item:hover {
-      background: var(--mint);
-      transform: translateX(4px);
-    }
-
-    .related-post-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--brown);
-      margin: 0 0 4px;
-      line-height: 1.4;
-    }
-
-    .related-post-date {
-      font-size: 11px;
-      color: var(--text-3);
-      margin: 0;
-    }
-
-    .sidebar-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .tag {
-      padding: 6px 12px;
-      background: var(--beige);
-      color: var(--brown);
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .tag:hover {
-      background: var(--mint);
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .blog-detail-layout {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-
-      .blog-detail-sidebar {
-        position: static;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .blog-detail-title {
-        font-size: 28px;
-      }
-
-      .blog-detail-hero {
-        height: 300px;
-      }
-
-      .blog-detail-meta-row {
-        gap: 12px;
-      }
-
-      .blog-detail-actions {
-        flex-direction: column;
-      }
-    }
-  </style>
+/* Responsive */
+@media (max-width: 1024px){
+  .bd-wrap{grid-template-columns:1fr}
+  .bd-side{order:2}
+}
+</style>
 </head>
-<body data-page="blog-detail">
+<body>
+<body data-page="community">
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="../index.html">
-        <img class="brand-mark-img" src="../assets/icons/logopawfooter.svg" alt="Pawfect Care" />
+        <img class="brand-mark-img" src="../assets/icons/Logo.svg" alt="Pawfect Care" />
         <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
       </a>
       <nav class="nav">
@@ -361,8 +135,8 @@
       </nav>
       <div class="header-actions">
         <a class="icon-btn" href="favorite.html" aria-label="Wishlist">
-          <img src="../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
-        </a>
+              <img src="../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+            </a>
         <a class="icon-btn" href="cart.html" aria-label="Cart">
           <img src="../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
         </a>
@@ -373,150 +147,190 @@
     </div>
   </header>
 
-  <main class="blog-detail-page">
-    <div class="container">
-      <!-- Breadcrumb -->
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <ol class="breadcrumb-list">
-          <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
-          <li class="breadcrumb-separator">/</li>
-          <li class="breadcrumb-item"><a href="community.html">Community</a></li>
-          <li class="breadcrumb-separator">/</li>
-          <li class="breadcrumb-item active" id="breadcrumb-title">Blog Post</li>
-        </ol>
-      </nav>
+<!-- ===== BREADCRUMB ===== -->
+<div class="bd-breadcrumb-wrap">
+  <div class="bd-container bd-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a><span class="sep">/</span>
+    <a href="./community.html">Community</a><span class="sep">/</span>
+    <span class="current" id="pc-bc-title">Blog Detail</span>
+  </div>
+</div>
 
-      <!-- Blog Detail Layout -->
-      <div class="blog-detail-layout">
-        <!-- Main Content -->
-        <article class="blog-detail-main">
-          <!-- Hero Image -->
-          <div class="blog-detail-hero" id="blog-hero"></div>
+<!-- ===== HERO ===== -->
+<section class="bd-hero">
+  <div class="bd-container">
+    <div id="pc-hero-media" class="hero-media" aria-label="Hero image"></div>
+  </div>
+</section>
 
-          <!-- Header -->
-          <div class="blog-detail-header">
-            <h1 class="blog-detail-title" id="blog-title">Blog Title</h1>
-            <div class="blog-detail-meta-row">
-              <div class="blog-detail-author-info">
-                <div class="blog-detail-author-avatar" id="blog-author-avatar">M</div>
-                <div class="blog-detail-author-text">
-                  <p class="blog-detail-author-name" id="blog-author-name">Author Name</p>
-                  <p class="blog-detail-author-date" id="blog-author-date">Date</p>
-                </div>
-              </div>
-              <span class="blog-detail-category-badge" id="blog-category">Category</span>
-            </div>
-          </div>
+<!-- ===== MAIN GRID ===== -->
+<main class="bd-container bd-wrap">
+  <!-- ARTICLE -->
+  <article class="bd-article">
+    <span id="pc-chip" class="bd-chip">Category</span>
+    <h1 id="pc-title" class="bd-title">Tiêu đề bài viết</h1>
 
-          <!-- Content -->
-          <div class="blog-detail-content" id="blog-content">
-            <!-- Content injected by JS -->
-          </div>
+    <div class="bd-meta">
+      <div id="pc-author-avatar" class="avt">U</div>
+      <div><strong id="pc-author">Tác giả</strong></div>
+      <div>·</div>
+      <time id="pc-date" datetime="">Hôm nay</time>
+    </div>
 
-          <!-- Stats -->
-          <div class="blog-detail-stats">
-            <div class="blog-detail-stat">
-              <span class="blog-detail-stat-label">Lượt xem</span>
-              <span class="blog-detail-stat-value" id="blog-views">0</span>
-            </div>
-            <div class="blog-detail-stat">
-              <span class="blog-detail-stat-label">Lượt thích</span>
-              <span class="blog-detail-stat-value" id="blog-likes">0</span>
-            </div>
-            <div class="blog-detail-stat">
-              <span class="blog-detail-stat-label">Bình luận</span>
-              <span class="blog-detail-stat-value" id="blog-comments">0</span>
-            </div>
-          </div>
+    <p id="pc-excerpt" class="bd-excerpt">
+      Đoạn tóm tắt của bài viết…
+    </p>
 
-          <!-- Actions -->
-          <div class="blog-detail-actions">
-            <button class="btn">❤️ Thích</button>
-            <button class="btn">💬 Bình luận</button>
-            <button class="btn">🔗 Chia sẻ</button>
-          </div>
-        </article>
+    <div id="pc-body" class="bd-body">
+      <!-- Nội dung đầy đủ sẽ được JS render -->
+    </div>
 
-        <!-- Sidebar -->
-        <aside class="blog-detail-sidebar">
-          <!-- Related Posts -->
-          <div class="sidebar-section">
-            <h3 class="sidebar-title">Bài viết liên quan</h3>
-            <div class="related-posts" id="related-posts">
-              <!-- Related posts injected by JS -->
-            </div>
-          </div>
-
-          <!-- Tags -->
-          <div class="sidebar-section">
-            <h3 class="sidebar-title">Tags</h3>
-            <div class="sidebar-tags" id="sidebar-tags">
-              <!-- Tags injected by JS -->
-            </div>
-          </div>
-        </aside>
+    <div class="bd-actions">
+      <div class="bd-stats">
+        <span>👁 <b id="pc-views">0</b> views</span>
+        <span>❤️ <b id="pc-likes">0</b> likes</span>
+        <span>💬 <b id="pc-comments">0</b> comments</span>
+      </div>
+      <div class="bd-cta">
+        <button id="pc-jump-comment" class="btn">Viết bình luận</button>
+        <button id="pc-share" class="btn">Chia sẻ</button>
+        <button id="pc-like" class="btn brand" aria-pressed="false">❤️ Thích</button>
       </div>
     </div>
-  </main>
 
-  <section class="site-cta">
-    <div class="container cta-inner">
-      <div class="cta-icons" aria-hidden="true">
-        <img class="cta-pattern" src="../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
-      </div>
-      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
-      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
-      <div class="cta-actions">
-        <a href="services/services.html" class="btn primary">Book Now</a>
-        <a href="community.html" class="btn ghost">Contact Us</a>
-      </div>
+    <div class="bd-tags" id="pc-tags">
+      <!-- tags by JS -->
     </div>
-  </section>
 
-  <footer class="site-footer">
-    <div class="container footer-columns">
-      <div class="footer-col">
-        <div class="footer-brand">
-          <img class="brand-foot-img" src="../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
-          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
-        </div>
-        <p>Your trusted partner in pet care since 2020.</p>
+    <!-- COMMENTS -->
+    <section class="bd-comments">
+      <div class="c-head">
+        <h3>Bình luận</h3>
       </div>
-      <div class="footer-col">
-        <h4 class="footer-title">Services</h4>
-        <ul class="footer-links">
-          <li><a href="services/homestayboarding-service.html">Pet Boarding</a></li>
-          <li><a href="services/services.html">Dog Grooming</a></li>
-          <li><a href="services/services.html">Cat Grooming</a></li>
-          <li><a href="services/services.html">Pet Training</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4 class="footer-title">Company</h4>
-        <ul class="footer-links">
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4 class="footer-title">Follow Us</h4>
-        <div class="socials">
-          <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
-          <a href="https://www.instagram.com/" aria-label="Instagram"></a>
-          <a href="https://x.com/" aria-label="Twitter"></a>
+
+      <div class="c-compose">
+        <textarea id="pc-cinput" placeholder="Viết điều gì đó dễ thương về pet của bạn…"></textarea>
+        <div class="row">
+          <button id="pc-ccancel" class="btn">Huỷ</button>
+          <button id="pc-csubmit" class="btn brand">Gửi bình luận</button>
         </div>
       </div>
+
+      <ul id="pc-clist" class="c-list">
+        <!-- comments by JS -->
+      </ul>
+    </section>
+
+    <h3 style="margin:22px 0 10px">Top posts cùng chuyên mục</h3>
+    <div id="pc-related" class="rel"></div>
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="bd-side" aria-label="Sidebar">
+    <div class="card">
+      <h4>Categories</h4>
+      <ul class="cat-list">
+        <li>Appetizers</li>
+        <li>Main Course</li>
+        <li>Desserts</li>
+        <li>Drinks</li>
+        <li>Coffees</li>
+        <li>Teas</li>
+      </ul>
     </div>
-    <div class="footer-bottom">
-      <div class="container" align="center" style="color: #000000;">
-        © 2025 Pawfect Care. All rights reserved.
+
+    <div class="card">
+      <h4>Search</h4>
+      <div class="bd-search">
+        <input type="text" placeholder="Search…" />
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#888" stroke-width="2" stroke-linecap="round"/>
+        </svg>
       </div>
     </div>
-  </footer>
 
-  <script src="../assets/js/utils.js"></script>
-  <script src="../assets/js/blog-detail.js"></script>
+    <div class="card">
+      <h4>Top Posts</h4>
+      <ol class="top-list" id="pc-top">
+        <li><span class="idx">1</span><span>Ancena mattis tortor ac sapien congue molestie.</span></li>
+        <li><span class="idx">2</span><span>Vestibulum ante ipsum primis in faucibus orci.</span></li>
+        <li><span class="idx">3</span><span>Sapien atám odio posuere vitae bibendum vitae.</span></li>
+        <li><span class="idx">4</span><span>Etiam eu odio in sapien posuere vitae bibendum.</span></li>
+        <li><span class="idx">5</span><span>Morbi eget leo a tellus gravida sagittis nec.</span></li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h4>Instagram</h4>
+      <div class="ig-grid">
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="site-cta">
+  <div class="container cta-inner">
+    <div class="cta-icons" aria-hidden="true">
+      <img class="cta-pattern" src="../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+    </div>
+    <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+    <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+    <div class="cta-actions">
+      <a href="services/services.html" class="btn primary">Book Now</a>
+      <a href="community.html" class="btn ghost">Contact Us</a>
+    </div>
+  </div>
+</section>
+<footer class="site-footer">
+  <div class="container footer-columns">
+    <div class="footer-col">
+      <div class="footer-brand">
+        <img class="brand-foot-img" src="../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
+        <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+      </div>
+      <p>Your trusted partner in pet care since 2020.</p>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title">Services</h4>
+      <ul class="footer-links">
+        <li><a href="services/homestayboarding-service.html">Pet Boarding</a></li>
+        <li><a href="services/services.html">Dog Grooming</a></li>
+        <li><a href="services/services.html">Cat Grooming</a></li>
+        <li><a href="services/services.html">Pet Training</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title">Company</h4>
+      <ul class="footer-links">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title">Follow Us</h4>
+      <div class="socials">
+        <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+        <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+        <a href="https://x.com/" aria-label="Twitter"></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container" align="center" style="color: #000000;">
+      © 2025 Pawfect Care. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- Toast copy-link -->
+<div id="pc-toast" role="status" aria-live="polite">Đã sao chép liên kết</div>
+
+<!-- JS logic (giữ file của bạn) -->
+<script src="../assets/js/blog-detail.js"></script>
 </body>
 </html>

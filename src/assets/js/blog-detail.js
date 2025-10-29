@@ -1,194 +1,189 @@
-(function() {
+(function () {
   'use strict';
 
-  // Get blog post ID from URL
-  function getBlogIdFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('id');
-  }
-
-  // Mock blog posts data (same as community.js)
-  const blogPosts = [
-    {
-      id: 1,
-      title: "5 Tips Huấn Luyện Chó Cơ Bản Cho Người Mới Bắt Đầu",
-      excerpt: "Huấn luyện chó không khó như bạn nghĩ. Hãy cùng khám phá 5 mẹo đơn giản giúp chó cưng của bạn biết nghe lời và ngoan ngoãn hơn...",
-      category: "training",
-      author: "Minh Nguyen",
-      date: "2 ngày trước",
-      likes: 45,
-      comments: 12,
-      views: 230,
-      image: "url('../assets/images/HomestayDetail/StandingWhiteDog.svg')",
-      content: `
-        <p>Huấn luyện chó là một quá trình quan trọng giúp chó cưng của bạn trở nên ngoan ngoãn, an toàn và hạnh phúc. Dưới đây là 5 mẹo cơ bản mà bất kỳ người nuôi chó mới nào cũng nên biết.</p>
-
-        <h2>1. Bắt đầu từ sớm</h2>
-        <p>Càng sớm bạn bắt đầu huấn luyện chó, càng dễ dàng để hình thành những thói quen tốt. Chó con thường dễ học hơn chó trưởng thành, vì vậy hãy bắt đầu ngay khi chó của bạn còn nhỏ.</p>
-
-        <h2>2. Sử dụng phương pháp tích cực</h2>
-        <p>Phương pháp tích cực, như thưởng khi chó làm đúng, hiệu quả hơn nhiều so với phạt. Hãy chuẩn bị những phần thưởng nhỏ (bánh thưởng, lời khen) để tạo động lực cho chó.</p>
-
-        <h2>3. Kiên nhẫn và nhất quán</h2>
-        <p>Huấn luyện chó đòi hỏi kiên nhẫn và sự nhất quán. Hãy lặp lại các lệnh cơ bản hàng ngày và đảm bảo tất cả các thành viên trong gia đình sử dụng cùng một phương pháp.</p>
-
-        <h2>4. Giữ các buổi huấn luyện ngắn</h2>
-        <p>Chó có thời gian tập trung hạn chế, vì vậy hãy giữ các buổi huấn luyện khoảng 5-10 phút. Nhiều buổi ngắn hiệu quả hơn một buổi dài.</p>
-
-        <h2>5. Tìm kiếm sự giúp đỡ chuyên nghiệp</h2>
-        <p>Nếu bạn gặp khó khăn, đừng ngần ngại tìm kiếm sự giúp đỡ từ một huấn luyện viên chó chuyên nghiệp. Họ có thể cung cấp hướng dẫn cá nhân h��a cho chó của bạn.</p>
-
-        <p>Nhớ rằng, mỗi chó là duy nhất và có thể cần thời gian khác nhau để học. Hãy kiên nhẫn, tích cực và yêu thương chó cưng của bạn trong quá trình huấn luyện.</p>
-      `
-    },
-    {
-      id: 2,
-      title: "Chế Độ Dinh Dưỡng Hoàn Hảo Cho Mèo Theo Từng Độ Tuổi",
-      excerpt: "Mèo ở mỗi giai đoạn phát triển cần chế độ dinh dưỡng khác nhau. Tìm hiểu cách chọn thức ăn phù hợp cho mèo con, mèo trưởng thành và mèo già...",
-      category: "food",
-      author: "Lan Tran",
-      date: "5 ngày trước",
-      likes: 67,
-      comments: 20,
-      views: 450,
-      image: "url('../assets/images/HomestayDetail/StandingCatHome.png')",
-      content: `
-        <p>Dinh dưỡng là yếu tố quan trọng nhất để giữ cho mèo của bạn khỏe mạnh và hạnh phúc. Tuy nhiên, nhu cầu dinh dưỡng của mèo thay đổi theo độ tuổi.</p>
-
-        <h2>Mèo con (0-1 tuổi)</h2>
-        <p>Mèo con cần nhiều protein và calo để hỗ trợ sự phát triển nhanh chóng. Hãy chọn thức ăn được ghi nhãn "cho mèo con" và cho ăn 3-4 lần mỗi ngày.</p>
-
-        <h2>Mèo trưởng thành (1-7 tuổi)</h2>
-        <p>Mèo trưởng thành cần một ch��� độ cân bằng với protein, chất béo và các chất dinh dưỡng thiết yếu khác. Cho ăn 1-2 lần mỗi ngày là đủ.</p>
-
-        <h2>Mèo già (7+ tuổi)</h2>
-        <p>Mèo già có nhu cầu calo thấp hơn nhưng cần nhiều protein để duy trì khối lượng cơ. Hãy chọn thức ăn được ghi nhãn "cho mèo già" và theo dõi cân nặng của chúng.</p>
-
-        <p>Luôn tham khảo ý kiến bác sĩ thú y để chọn thức ăn tốt nhất cho mèo của bạn.</p>
-      `
-    },
-    {
-      id: 3,
-      title: "Dấu Hiệu Thú Cưng Cần Đi Khám Bác Sĩ Thú Y",
-      excerpt: "Nhận biết sớm các dấu hiệu bất thường ở thú cưng giúp điều trị kịp thời. Bài viết này liệt kê những triệu chứng cần chú ý...",
-      category: "health",
-      author: "Dr. Long",
-      date: "1 tuần trước",
-      likes: 89,
-      comments: 34,
-      views: 620,
-      image: "url('../assets/images/HomestayDetail/BlueCat.png')",
-      content: `
-        <p>Sức khỏe của thú cưng là ưu tiên hàng đầu của mỗi chủ nhân. Dưới đây là những dấu hiệu cảnh báo mà bạn nên chú ý.</p>
-
-        <h2>Thay đổi trong ăn uống</h2>
-        <p>Nếu thú cưng của bạn đột ngột ăn ít hơn hoặc uống nhiều nước hơn bình thường, đó có thể là dấu hiệu của bệnh tật.</p>
-
-        <h2>Thay đổi trong hành vi</h2>
-        <p>Sự thay đổi đột ngột trong hành vi, như trở nên lười biếng hoặc hung hăng, cũng cần được chú ý.</p>
-
-        <h2>Vấn đề về da và lông</h2>
-        <p>Rụng lông quá mức, ngứa, hoặc các vết loét trên da có thể chỉ ra các vấn đề sức khỏe.</p>
-
-        <h2>Vấn đề tiêu hóa</h2>
-        <p>Tiêu chảy, táo bón, hoặc nôn liên tục là những dấu hiệu cần được kiểm tra bởi bác sĩ thú y.</p>
-
-        <p>Nếu bạn nhận thấy bất kỳ dấu hiệu nào trong số này, hãy liên hệ với bác sĩ thú y của bạn ngay lập tức.</p>
-      `
-    }
-  ];
-
-  const categoryLabels = {
-    training: "Huấn luyện",
-    food: "Thức ăn",
-    health: "Sức khỏe",
-    grooming: "Chăm sóc",
-    tips: "Tips & Tricks"
+  /** ===== DỮ LIỆU GIẢ LẬP ===== */
+  const POST_DETAIL = {
+    id: 1,
+    title: "5 Tips Huấn Luyện Chó Cơ Bản Cho Người Mới Bắt Đầu",
+    excerpt: "Huấn luyện chó không khó như bạn nghĩ. Hãy cùng khám phá 5 mẹo đơn giản giúp chó cưng của bạn biết nghe lời và ngoan ngoãn hơn...",
+    content: `
+      <h2>Giới thiệu</h2>
+      <p>Huấn luyện chó là một phần quan trọng trong việc nuôi dưỡng thú cưng. Dưới đây là 5 tips cơ bản cho người mới bắt đầu:</p>
+      <ol>
+        <li><strong>Sử dụng phần thưởng tích cực:</strong> Thưởng cho chó khi chúng làm đúng để khuyến khích hành vi tốt.</li>
+        <li><strong>Luyện tập ngắn gọn:</strong> Giữ phiên luyện tập dưới 10 phút để chó không mệt mỏi.</li>
+        <li><strong>Sử dụng lệnh rõ ràng:</strong> Dùng từ đơn giản như "Ngồi" hoặc "Nằm" và lặp lại nhất quán.</li>
+        <li><strong>Kiên nhẫn và kiên trì:</strong> Đừng nản lòng nếu chó không học ngay lập tức.</li>
+        <li><strong>Tìm sự giúp đỡ chuyên nghiệp:</strong> Nếu cần, tham khảo huấn luyện viên chuyên nghiệp.</li>
+      </ol>
+      <p>Hãy áp dụng những tips này và bạn sẽ thấy sự tiến bộ rõ rệt!</p>
+    `,
+    category: "training",
+    author: "Minh Nguyen",
+    date: "2 ngày trước",
+    likes: 45,
+    comments: 12,
+    views: 230,
+    image: "../assets/images/HomestayDetail/StandingWhiteDog.svg",
+    tags: ["huấn luyện chó", "thú cưng", "tips"],
+    related: [
+      { title: "Cách chọn thức ăn cho chó", id: 2 },
+      { title: "Dấu hiệu chó bị bệnh", id: 3 }
+    ],
+    topPosts: [
+      { title: "Ancena mattis tortor ac sapien congue molestie.", idx: 1 },
+      { title: "Vestibulum ante ipsum primis in faucibus orci.", idx: 2 },
+      { title: "Sapien atám odio posuere vitae bibendum vitae.", idx: 3 },
+      { title: "Etiam eu odio in sapien posuere vitae bibendum.", idx: 4 },
+      { title: "Morbi eget leo a tellus gravida sagittis nec.", idx: 5 }
+    ]
   };
 
-  function initBlogDetail() {
-    const blogId = parseInt(getBlogIdFromUrl());
-    if (!blogId) {
-      window.location.href = 'community.html';
-      return;
-    }
+  let COMMENTS = [
+    { id: 1, author: "User1", avatar: "U1", text: "Bài viết rất hữu ích! Cảm ơn bạn.", date: "1 ngày trước" },
+    { id: 2, author: "User2", avatar: "U2", text: "Tôi đã thử tip 1 và chó nhà mình tiến bộ nhanh chóng.", date: "2 ngày trước" },
+    { id: 3, author: "User3", avatar: "U3", text: "Có thể chia sẻ thêm về lệnh 'Ngồi' không?", date: "3 ngày trước" }
+  ];
 
-    const post = blogPosts.find(p => p.id === blogId);
-    if (!post) {
-      window.location.href = 'community.html';
-      return;
-    }
+  /** ===== HÀM HỖ TRỢ ===== */
+  function saveToStorage(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+  function getFromStorage(key) { return JSON.parse(localStorage.getItem(key) || '[]'); }
 
-    renderBlogDetail(post);
-    renderRelatedPosts(post);
-    renderTags(post);
+  function showToast(message) {
+    const toast = document.getElementById('pc-toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
-  function renderBlogDetail(post) {
-    const authorInitial = post.author.charAt(0);
-    const categoryLabel = categoryLabels[post.category] || post.category;
+  function renderPostDetail() {
+    const post = POST_DETAIL;
+    document.getElementById('pc-bc-title').textContent = post.title; // Breadcrumb
+    document.getElementById('pc-hero-media').style.backgroundImage = `url(${post.image})`;
+    document.getElementById('pc-chip').textContent = post.category;
+    document.getElementById('pc-title').textContent = post.title;
+    document.getElementById('pc-author-avatar').textContent = post.author.charAt(0).toUpperCase();
+    document.getElementById('pc-author').textContent = post.author;
+    document.getElementById('pc-date').textContent = post.date;
+    document.getElementById('pc-views').textContent = post.views;
+    document.getElementById('pc-likes').textContent = post.likes;
+    document.getElementById('pc-comments').textContent = post.comments;
+    document.getElementById('pc-excerpt').textContent = post.excerpt;
+    document.getElementById('pc-body').innerHTML = post.content;
 
-    // Update breadcrumb
-    document.getElementById('breadcrumb-title').textContent = post.title;
+    // Tags
+    const tagsEl = document.getElementById('pc-tags');
+    tagsEl.innerHTML = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
 
-    // Update hero image
-    const heroEl = document.getElementById('blog-hero');
-    if (post.image) {
-      heroEl.style.backgroundImage = post.image;
-    }
+    // Related
+    const relatedEl = document.getElementById('pc-related');
+    relatedEl.innerHTML = post.related.map(rel => `<div class="rel__item">${rel.title}</div>`).join('');
 
-    // Update title
-    document.getElementById('blog-title').textContent = post.title;
-
-    // Update author info
-    document.getElementById('blog-author-avatar').textContent = authorInitial;
-    document.getElementById('blog-author-name').textContent = post.author;
-    document.getElementById('blog-author-date').textContent = post.date;
-
-    // Update category
-    document.getElementById('blog-category').textContent = categoryLabel;
-
-    // Update content
-    document.getElementById('blog-content').innerHTML = post.content || post.excerpt;
-
-    // Update stats
-    document.getElementById('blog-views').textContent = post.views;
-    document.getElementById('blog-likes').textContent = post.likes;
-    document.getElementById('blog-comments').textContent = post.comments;
-
-    // Update page title
-    document.title = `${post.title} — Pawfect Care`;
+    // Top posts (sidebar)
+    const topEl = document.getElementById('pc-top');
+    topEl.innerHTML = post.topPosts.map(tp => `<li><span class="idx">${tp.idx}</span><span>${tp.title}</span></li>`).join('');
   }
 
-  function renderRelatedPosts(currentPost) {
-    const relatedPostsEl = document.getElementById('related-posts');
-    const related = blogPosts
-      .filter(p => p.id !== currentPost.id && p.category === currentPost.category)
-      .slice(0, 3);
-
-    relatedPostsEl.innerHTML = related.map(post => `
-      <div class="related-post-item" onclick="window.location.href='blog-detail.html?id=${post.id}'">
-        <h4 class="related-post-title">${post.title}</h4>
-        <p class="related-post-date">${post.date}</p>
-      </div>
+  function renderComments() {
+    const clist = document.getElementById('pc-clist');
+    clist.innerHTML = COMMENTS.map(comment => `
+      <li class="citem">
+        <div class="avatar">${comment.avatar}</div>
+        <div>
+          <div class="cmeta">
+            <strong class="cauthor">${comment.author}</strong>
+            <span>${comment.date}</span>
+          </div>
+          <div class="ctext">${comment.text}</div>
+        </div>
+      </li>
     `).join('');
+    document.getElementById('pc-comments').textContent = COMMENTS.length;
   }
 
-  function renderTags(post) {
-    const tagsEl = document.getElementById('sidebar-tags');
-    const tags = [
-      post.category,
-      'Pawfect Care',
-      'Pet Care',
-      'Community'
-    ];
+  function bindLikeButton() {
+    const likeBtn = document.getElementById('pc-like');
+    const likesEl = document.getElementById('pc-likes');
+    const postId = POST_DETAIL.id;
+    let likedPosts = getFromStorage('liked_posts');
+    const isLiked = likedPosts.includes(postId);
+    if (isLiked) {
+      likeBtn.classList.add('is-liked');
+      likeBtn.setAttribute('aria-pressed', 'true');
+      likesEl.textContent = POST_DETAIL.likes + 1;
+    }
 
-    tagsEl.innerHTML = tags.map(tag => `
-      <span class="tag">${tag}</span>
-    `).join('');
+    likeBtn.addEventListener('click', () => {
+      const currentlyLiked = likeBtn.classList.contains('is-liked');
+      if (currentlyLiked) {
+        likedPosts = likedPosts.filter(id => id !== postId);
+        likeBtn.classList.remove('is-liked');
+        likeBtn.setAttribute('aria-pressed', 'false');
+        likesEl.textContent = POST_DETAIL.likes;
+        showToast('Đã bỏ thích bài viết.');
+      } else {
+        likedPosts.push(postId);
+        likeBtn.classList.add('is-liked');
+        likeBtn.setAttribute('aria-pressed', 'true');
+        likesEl.textContent = POST_DETAIL.likes + 1;
+        showToast('Đã thích bài viết!');
+      }
+      saveToStorage('liked_posts', likedPosts);
+    });
   }
 
-  // Initialize on DOM ready
-  document.addEventListener('DOMContentLoaded', initBlogDetail);
+  function bindCommentForm() {
+    const input = document.getElementById('pc-cinput');
+    const submitBtn = document.getElementById('pc-csubmit');
+    const cancelBtn = document.getElementById('pc-ccancel');
+
+    submitBtn.addEventListener('click', () => {
+      const text = input.value.trim();
+      if (text) {
+        const newComment = {
+          id: Date.now(),
+          author: 'Bạn',
+          avatar: 'B',
+          text,
+          date: 'Vừa xong'
+        };
+        COMMENTS.push(newComment);
+        input.value = '';
+        renderComments();
+        showToast('Bình luận đã được đăng!');
+      } else {
+        showToast('Vui lòng nhập bình luận.');
+      }
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      input.value = '';
+    });
+  }
+
+  function bindOtherActions() {
+    // Jump to comment
+    document.getElementById('pc-jump-comment').addEventListener('click', () => {
+      document.querySelector('.bd-comments').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Share
+    document.getElementById('pc-share').addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showToast('Đã sao chép liên kết!');
+      }).catch(() => {
+        showToast('Không thể sao chép liên kết.');
+      });
+    });
+  }
+
+  /** ===== KHỞI TẠO ===== */
+  document.addEventListener('DOMContentLoaded', () => {
+    renderPostDetail();
+    renderComments();
+    bindLikeButton();
+    bindCommentForm();
+    bindOtherActions();
+  });
 
 })();
