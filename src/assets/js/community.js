@@ -1,3 +1,9 @@
+/* ===========================
+ *  Pawfect Community – Listing
+ *  Filters + Search + Load More + Collapse
+ *  (giữ nguyên core code, chỉ bổ sung collapse + cải tiến nút)
+ * =========================== */
+
 (function () {
   'use strict';
 
@@ -216,9 +222,11 @@
     "staff-pick": "Staff Pick"
   };
 
+  // ===== STATE =====
+  const PAGE_SIZE = 6;
   let currentFilter = 'all';
   let currentSearch = '';
-  let displayedPosts = 6;
+  let displayedPosts = PAGE_SIZE;
   // (tuỳ chọn) sort: 'newest' | 'views' | 'likes' | 'comments'
   let currentSort = 'newest';
 
@@ -233,21 +241,21 @@
       }
     });
 
-    // Toolbar: search + category buttons (+ sort nếu có)
+    // Toolbar: search + category + sort (nếu có)
     setupSearchBox();
     setupCategoryButtons();
-    setupSorter(); // nếu không có #sort-select thì tự bỏ qua
+    setupSorter();
 
     // Blog/Campaign/Modal
-    setupBlogTabsFilter();      // nếu bạn có .blog-tabs (giữ tương thích)
-    setupCampaignTabsFilter();  // nếu bạn có .campaign-tabs (giữ tương thích)
-    setupLoadMore();
+    setupBlogTabsFilter();
+    setupCampaignTabsFilter();
+    setupLoadControls();       // ⬅️ gắn cả "Xem thêm" & "Thu gọn"
     setupCreatePost();
     setupBlogCardClick();
 
-    // Staff strip
-    setupStaffToggle();         // giữ nguyên API cũ + gọi center
-    bindStaffStripCentering();  // đảm bảo center khi scroll/resize
+    // Staff strip (center on scroll/click)
+    setupStaffToggle();
+    bindStaffStripCentering();
 
     // Render
     renderCarousel();
@@ -261,7 +269,7 @@
     if (!input) return;
     input.addEventListener('input', (e) => {
       currentSearch = e.target.value.trim().toLowerCase();
-      displayedPosts = 6;
+      displayedPosts = PAGE_SIZE;
       renderPosts();
     });
   }
@@ -280,19 +288,18 @@
         btn.setAttribute('aria-pressed', 'true');
 
         currentFilter = btn.dataset.category || 'all';
-        displayedPosts = 6;
+        displayedPosts = PAGE_SIZE;
         renderPosts();
       });
     });
   }
 
   function setupSorter() {
-    // tuỳ chọn: nếu bạn có <select id="sort-select"> trong toolbar
     const sel = document.getElementById('sort-select');
     if (!sel) return;
     sel.addEventListener('change', () => {
       currentSort = sel.value;
-      displayedPosts = 6;
+      displayedPosts = PAGE_SIZE;
       renderPosts();
     });
   }
@@ -319,7 +326,7 @@
     `;
   }
 
-  /** ===================== BLOG FILTERS (tabs cũ nếu có) ===================== **/
+  /** ===================== BLOG FILTER TABS (tuỳ tồn tại) ===================== **/
   function setupBlogTabsFilter() {
     const tabs = document.querySelectorAll('.blog-tabs .tab');
     if (!tabs.length) return;
@@ -328,7 +335,7 @@
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         currentFilter = tab.dataset.category || 'all';
-        displayedPosts = 6;
+        displayedPosts = PAGE_SIZE;
         renderPosts();
       });
     });
@@ -352,16 +359,7 @@
     });
   }
 
-  /** ===================== BLOG RENDER & LOAD MORE ===================== **/
-  function setupLoadMore() {
-    const loadMoreBtn = document.getElementById('load-more');
-    if (!loadMoreBtn) return;
-    loadMoreBtn.addEventListener('click', () => {
-      displayedPosts += 6;
-      renderPosts();
-    });
-  }
-
+  /** ===================== BLOG RENDER ===================== **/
   function getFilteredPosts() {
     // bỏ campaign
     let filtered = blogPosts.filter(p => p.type !== 'campaign');
@@ -381,7 +379,7 @@
       );
     }
 
-    // sort tuỳ chọn (nếu có sorter)
+    // sort tuỳ chọn
     if (currentSort === 'views') filtered = filtered.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
     else if (currentSort === 'likes') filtered = filtered.slice().sort((a, b) => (b.likes || 0) - (a.likes || 0));
     else if (currentSort === 'comments') filtered = filtered.slice().sort((a, b) => (b.comments || 0) - (a.comments || 0));
@@ -390,42 +388,11 @@
     return filtered;
   }
 
-  function renderPosts() {
-    const grid = document.getElementById('blog-grid');
-    if (!grid) return;
-
-    if (currentFilter === 'campaign') {
-      const campaigns = blogPosts.filter(p => p.type === 'campaign');
-      grid.innerHTML = campaigns.map(createCampaignCard).join('');
-      const loadMoreBtn = document.getElementById('load-more');
-      if (loadMoreBtn) loadMoreBtn.style.display = 'none';
-      return;
-    }
-
-    const filteredPosts = getFilteredPosts();
-    const postsToDisplay = filteredPosts.slice(0, displayedPosts);
-
-    grid.innerHTML = postsToDisplay.map(post => createPostCard(post)).join('');
-
-    const loadMoreBtn = document.getElementById('load-more');
-    if (loadMoreBtn) {
-      loadMoreBtn.style.display = displayedPosts >= filteredPosts.length ? 'none' : 'block';
-    }
-
-    if (postsToDisplay.length === 0) {
-      grid.innerHTML = `
-        <div class="no-posts" style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
-          <p style="font-size: 18px; color: var(--text-3)">Không tìm thấy bài viết nào</p>
-        </div>
-      `;
-    }
-  }
-
   function createPostCard(post) {
     const categoryLabel = categoryLabels[post.category] || post.category || 'Post';
     const authorInitial = (post.author || 'U').charAt(0);
     return `
-      <article class="blog-card">
+      <article class="blog-card" data-id="${post.id}">
         <div class="blog-card-image" style="background: ${post.image}; background-size: cover; background-position: center;"></div>
         <div class="blog-card-content">
           <span class="blog-card-category">${categoryLabel}</span>
@@ -446,6 +413,84 @@
         </div>
       </article>
     `;
+  }
+
+  function renderPosts() {
+    const grid = document.getElementById('blog-grid');
+    if (!grid) return;
+
+    if (currentFilter === 'campaign') {
+      const campaigns = blogPosts.filter(p => p.type === 'campaign');
+      grid.innerHTML = campaigns.map(createCampaignCard).join('');
+      updateLoadButtons(0); // ẩn controls khi là campaign
+      attachCardNavigation();
+      return;
+    }
+
+    const filteredPosts = getFilteredPosts();
+    const postsToDisplay = filteredPosts.slice(0, displayedPosts);
+
+    grid.innerHTML = postsToDisplay.map(post => createPostCard(post)).join('');
+
+    // Thông báo rỗng
+    if (postsToDisplay.length === 0) {
+      grid.innerHTML = `
+        <div class="no-posts" style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
+          <p style="font-size: 18px; color: var(--text-3)">Không tìm thấy bài viết nào</p>
+        </div>
+      `;
+    }
+
+    updateLoadButtons(filteredPosts.length);
+    attachCardNavigation();
+  }
+
+  function attachCardNavigation() {
+    document.querySelectorAll('.blog-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const id = card.getAttribute('data-id');
+        if (!id) return;
+        window.location.href = `blog-detail.html?id=${id}`;
+      });
+    });
+  }
+
+  /** ===================== LOAD MORE + COLLAPSE ===================== **/
+  function setupLoadControls() {
+    const btnMore = document.getElementById('load-more');
+    const btnCol  = document.getElementById('collapse');
+    if (btnMore) {
+      btnMore.addEventListener('click', () => {
+        const total = getFilteredPosts().length;
+        displayedPosts = Math.min(displayedPosts + PAGE_SIZE, total);
+        renderPosts();
+        updateLoadButtons(total);
+      });
+    }
+    if (btnCol) {
+      btnCol.addEventListener('click', () => {
+        displayedPosts = PAGE_SIZE;
+        renderPosts();
+        updateLoadButtons(getFilteredPosts().length);
+        // scroll về đầu grid cho gọn
+        const grid = document.getElementById('blog-grid');
+        if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }
+
+  function updateLoadButtons(totalCount) {
+    const btnMore = document.getElementById('load-more');
+    const btnCol  = document.getElementById('collapse');
+    if (!btnMore || !btnCol) return;
+
+    // Hiển thị "Xem thêm" nếu còn bài
+    const hasMore = displayedPosts < totalCount;
+    btnMore.style.display = hasMore ? 'inline-flex' : 'none';
+
+    // Hiển thị "Thu gọn" nếu đã mở rộng hơn 1 trang
+    const canCollapse = displayedPosts > PAGE_SIZE;
+    btnCol.style.display = canCollapse ? 'inline-flex' : 'none';
   }
 
   /** ===================== CAMPAIGN CAROUSEL ===================== **/
@@ -530,7 +575,7 @@
     dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentSlide));
   }
 
-  /** ===================== BLOG DETAIL ===================== **/
+  /** ===================== BLOG DETAIL (giữ để tương thích) ===================== **/
   function setupBlogCardClick() {
     const modal = document.getElementById('blog-detail-modal');
     const closeBtn = document.getElementById('close-blog-detail');
@@ -552,32 +597,11 @@
       const card = e.target.closest('.blog-card');
       if (!card) return;
 
-      const grid = document.getElementById('blog-grid');
-      const cards = Array.from(grid.querySelectorAll('.blog-card'));
-      const cardIndex = cards.indexOf(card);
-
-      let posts = blogPosts.filter(p => p.type !== 'campaign');
-      if (currentFilter !== 'all' && currentFilter !== 'campaign') {
-        posts = posts.filter(p => p.category === currentFilter);
-      }
-      // apply same search & sort to map index đúng
-      if (currentSearch) {
-        const q = currentSearch;
-        posts = posts.filter(p =>
-          (p.title || '').toLowerCase().includes(q) ||
-          (p.excerpt || '').toLowerCase().includes(q) ||
-          (p.author || '').toLowerCase().includes(q)
-        );
-      }
-      if (currentSort === 'views') posts = posts.slice().sort((a,b)=> (b.views||0)-(a.views||0));
-      else if (currentSort === 'likes') posts = posts.slice().sort((a,b)=> (b.likes||0)-(a.likes||0));
-      else if (currentSort === 'comments') posts = posts.slice().sort((a,b)=> (b.comments||0)-(a.comments||0));
-
-      const post = posts[cardIndex];
-      if (!post) return;
+      const id = card.getAttribute('data-id');
+      if (!id) return;
 
       // Điều hướng tới trang chi tiết (mock)
-      window.location.href = `blog-detail.html?id=${post.id}`;
+      window.location.href = `blog-detail.html?id=${id}`;
     });
   }
 
@@ -618,7 +642,7 @@
           <p class="blog-detail-excerpt">${post.excerpt}</p>
 
           <div class="blog-detail-content-text">
-            ${fullContent.split('\n').map(line => line.trim() ? `<p>${line}</p>` : '').join('')}
+            ${fullContent.split('\\n').map(line => line.trim() ? `<p>${line}</p>` : '').join('')}
           </div>
 
           <div class="blog-detail-stats">
@@ -640,7 +664,7 @@
   /** ===================== CAMPAIGN STRIP (PILLS) ===================== **/
   function createCampaignStripItem(item) {
     const dateStr = item.date || '';
-    const dateParts = dateStr.match(/([A-Za-z]+)\s+([\d–\-]+)/);
+    const dateParts = dateStr.match(/([A-Za-z]+)\\s+([\\d–\\-]+)/);
     let dayStr = '01', monStr = 'JAN';
     if (dateParts) {
       monStr = dateParts[1].toUpperCase().substring(0, 3);
@@ -691,7 +715,6 @@
   }
 
   /** ===================== STAFF STRIP (CLICK-TO-CENTER) ===================== **/
-  // Giữ API cũ + thêm center khi click
   function setupStaffToggle() {
     const cards = document.querySelectorAll('.staff-card[data-staff]');
     const grid = document.querySelector('.staff-grid');
@@ -738,7 +761,6 @@
     });
   }
 
-  // Bind tracking center theo scroll/resize + click để center tuyệt đối
   function bindStaffStripCentering() {
     const grid = document.querySelector('.staff-grid');
     if (!grid) return;
@@ -750,7 +772,6 @@
     grid.addEventListener('scroll', () => requestAnimationFrame(doSetCenter));
     window.addEventListener('resize', doSetCenter);
 
-    // đảm bảo click/keyboard → center (backup cho setupStaffToggle)
     cards.forEach(card => {
       if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
       card.addEventListener('click', () => scrollCardToCenter(grid, card));
@@ -763,7 +784,6 @@
     });
   }
 
-  // Helper: set .is-center cho card có tâm gần giữa viewport nhất
   function setCenterByScroll(grid, cards) {
     const mid = grid.scrollLeft + grid.clientWidth / 2;
     let best = null, bestDist = Infinity;
@@ -777,7 +797,6 @@
     best && best.classList.add('is-center');
   }
 
-  // Helper: cuộn để card đứng giữa tuyệt đối (clamp biên)
   function scrollCardToCenter(grid, card) {
     const target = card.offsetLeft - (grid.clientWidth - card.clientWidth) / 2;
     const maxScroll = grid.scrollWidth - grid.clientWidth;
@@ -838,7 +857,7 @@
       };
 
       blogPosts.unshift(newPost);
-      displayedPosts = Math.max(6, displayedPosts);
+      displayedPosts = Math.max(PAGE_SIZE, displayedPosts);
       renderPosts();
       closeCreateModal();
     });
