@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFavoriteEventListeners();
   initGlobalFavoriteListeners();
   initFavoriteSelectionListeners();
+  initItemTitleNavigation();
 });
 
 async function initFavoritePage() {
@@ -152,6 +153,12 @@ function renderFavoriteItems(wishlist) {
   
   // Bind add-to-cart listeners after rendering
   initAddToCartListeners();
+
+  // Make product titles look clickable
+  favoriteItemsContainer.querySelectorAll('.item-name').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.title = 'View product details';
+  });
 }
 
 function getSelectedFavoriteItems(wishlist) {
@@ -406,6 +413,41 @@ function initFavoriteEventListeners() {
       });
     });
   }
+}
+
+// Navigate to product detail when clicking a product title in favorites
+function initItemTitleNavigation() {
+  // Avoid duplicate bindings
+  if (document.body.dataset.favoriteTitleNavBound === 'true') return;
+  document.body.dataset.favoriteTitleNavBound = 'true';
+
+  document.addEventListener('click', async (e) => {
+    // Only handle on favorite page
+    if (document.body.dataset.page !== 'favorite') return;
+
+    const titleEl = e.target.closest('.item-name');
+    if (!titleEl) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const name = (titleEl.textContent || '').trim();
+    if (!name) return;
+
+    // Ensure products data is available
+    if (!Array.isArray(productsData) || productsData.length === 0) {
+      await loadProductsData();
+    }
+
+    const product = getProductDataByName(name);
+    let href = 'product_detail.html';
+    if (product && product.id) {
+      href += `?id=${encodeURIComponent(String(product.id))}`;
+    } else {
+      href += `?name=${encodeURIComponent(name)}`;
+    }
+    window.location.href = href;
+  });
 }
 
 // Add to wishlist function (global)

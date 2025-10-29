@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawfect Care — Checkout (Pickup)</title>
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/header.css" />
+  <link rel="stylesheet" href="../../assets/css/footer.css" />
+  <link rel="stylesheet" href="../../assets/css/shop_checkout/shop_checkout_pickup.css" />
+</head>
+<body data-page="shop-checkout-pickup">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../index.html">
+        <img class="brand-mark-img" src="../../assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+        <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+      </a>
+      <nav class="nav">
+        <a class="nav-link" href="../../index.html">Home</a>
+        <a class="nav-link" href="../services/services.html">Services</a>
+        <a class="nav-link" href="../shop.html">Shop</a>
+        <a class="nav-link" href="../community.html">Community</a>
+        <a class="nav-link" href="../profile.html">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-btn" href="../favorite.html" aria-label="Wishlist">
+          <img src="../../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="../cart.html" aria-label="Cart">
+          <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="../login-signup.html" aria-label="Account">
+          <img src="../../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page checkout">
+    <div class="container">
+      <div class="checkout-header">
+        <h1 class="checkout-title">Checkout — Pickup</h1>
+      </div>
+
+      <div class="checkout-layout">
+        <!-- Left column: shipping + payment -->
+        <section class="checkout-main">
+          <!-- Shipping Method -->
+          <div class="checkout-section">
+            <h2 class="section-title">Shipping Method</h2>
+            <style>
+              /* pointer cursor on hover for Standard Delivery card */
+              .method-card[data-method="standard"]:hover { cursor: pointer; }
+            </style>
+            <div class="method-options" role="radiogroup" aria-label="Shipping Method">
+              <label class="method-card active" data-method="pickup">
+                <input type="radio" name="shippingMethod" value="pickup" checked hidden />
+                <div class="method-icon">
+                  <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="Store Pickup" />
+                </div>
+                <div class="method-info">
+                  <div class="method-name">Store Pickup</div>
+                  <div class="method-note">Ready in 2 hours</div>
+                </div>
+                <span class="method-badge">Free</span>
+              </label>
+
+              <label class="method-card" data-method="standard">
+                <input type="radio" name="shippingMethod" value="standard" hidden />
+                <div class="method-icon">
+                  <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="Standard Delivery" />
+                </div>
+                <div class="method-info">
+                  <div class="method-name">Standard Delivery</div>
+                  <div class="method-note">3–5 business days</div>
+                </div>
+                <span class="method-badge">$5.00</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="checkout-section">
+            <h2 class="section-title">Payment Method</h2>
+            <div class="pay-tabs" role="tablist">
+              <button class="pay-tab active" role="tab" aria-selected="true">Credit/Debit Card</button>
+              <button class="pay-tab" role="tab" aria-selected="false">QR Code</button>
+            </div>
+
+            <div class="saved-cards">
+              <div class="card-row selected">
+                <div class="card-left">
+                  <span class="card-brand">VISA</span>
+                  <span class="card-number">•••• •••• •••• 4242</span>
+                  <span class="card-meta">Expires 12/25 · Tran Duy Thanh</span>
+                </div>
+                <button class="btn ghost">Edit</button>
+              </div>
+
+              <button class="btn add-card">Add New Card</button>
+            </div>
+          </div>
+
+          <!-- Payment Details -->
+          <div class="checkout-section">
+            <h2 class="section-title">Payment Details</h2>
+            <form class="payment-form" action="#" onsubmit="return false;">
+              <div class="form-row">
+                <label for="cardNumber">Card Number</label>
+                <input id="cardNumber" type="text" placeholder="1234 5678 9012 3456" required />
+              </div>
+              <div class="form-row">
+                <label for="cardName">Cardholder Name</label>
+                <input id="cardName" type="text" placeholder="TRAN DUY THANH" required />
+              </div>
+              <div class="form-row two-col">
+                <div class="col">
+                  <label for="expiry">Expiry Date</label>
+                  <input id="expiry" type="text" placeholder="MM/YY" required/>
+                </div>
+                <div class="col">
+                  <label for="cvv">CVV</label>
+                  <input id="cvv" type="text" placeholder="123" required />
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="terms">
+            <label>
+              <input type="checkbox" aria-label="Agree to terms" required />
+              I agree to the <a href="#">Term &amp; Conditions</a> and <a href="#">Cancellation Policy</a>. I understand that cancellations made less than 48 hours before check-in are non-refundable.
+            </label>
+          </div>
+        </section>
+
+        <!-- Right column: order summary -->
+        <aside class="checkout-summary">
+          <div class="order-card">
+            <h3 class="order-title">Order Summary</h3>
+            <div class="order-items">
+              <div class="order-item">
+                <img class="order-thumb" src="" alt="Product" />
+                <div class="order-info">
+                  <div class="order-name"></div>
+                  <div class="order-meta"></div>
+                </div>
+                <div class="order-price"></div>
+              </div>
+              
+            </div>
+
+            <div class="discount">
+              <label for="discountCode">Discount Code</label>
+              <div class="discount-row">
+                <input id="discountCode" type="text" placeholder="Enter code" />
+                <button class="btn apply">Apply</button>
+              </div>
+            </div>
+
+            <div class="totals">
+              <div class="row"><span>Subtotal:</span><span></span></div>
+              <div class="row discount"><span>Discount:</span><span></span></div>
+              <div class="row shipping"><span>Shipping:</span><span></span></div>
+              <div class="row total"><span>Total:</span><span></span></div>
+            </div>
+
+            <button class="btn pay">Pay Now</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Site CTA -->
+  <section class="site-cta">
+  <div class="container cta-inner">
+    <div class="cta-icons" aria-hidden="true">
+      <img class="cta-pattern" src="../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+    </div>
+    <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+    <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+    <div class="cta-actions">
+      <a href="services/services.html" class="btn primary">Book Now</a>
+      <a href="community.html" class="btn ghost">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img class="brand-foot-img" src="../../assets/icons/logopawfooter.svg" alt="Paw" />
+          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+        </div>
+        <p>Your trusted partner in pet care since 2020.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="../services/bookinghomestay.html">Pet Boarding</a></li>
+          <li><a href="../services/groomingspa-service.html">Pet Spa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Follow Us</h4>
+        <div class="socials">
+          <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+          <a href="https://x.com/" aria-label="Twitter"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" align="center" style="color: #000000;">
+        © 2025 Pawfect Care. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/utils.js"></script>
+  <script src="../../assets/js/shop_checkout/shop_checkout_pickup.js"></script>
+</body>
+</html>

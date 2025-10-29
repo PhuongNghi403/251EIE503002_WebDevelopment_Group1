@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCartPage();
   initCartEventListeners();
   initGlobalCartListeners();
+  initItemTitleNavigation();
 });
 
 function initCartPage() {
@@ -81,6 +82,12 @@ function renderCartItems(cart) {
 
   // Bind selection listeners after rendering
   initCartSelectionListeners();
+
+  // Make product titles look clickable
+  cartItemsContainer.querySelectorAll('.item-name').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.title = 'View product details';
+  });
 }
 
 function getSelectedCartItems(cart) {
@@ -113,6 +120,45 @@ function initCartSelectionListeners() {
   });
 }
 
+// Navigate to product detail when clicking a product title in cart
+function initItemTitleNavigation() {
+  // Avoid duplicate bindings
+  if (document.body.dataset.cartTitleNavBound === 'true') return;
+  document.body.dataset.cartTitleNavBound = 'true';
+
+  document.addEventListener('click', (e) => {
+    if (document.body.dataset.page !== 'cart') return;
+    const titleEl = e.target.closest('.item-name');
+    if (!titleEl) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const name = (titleEl.textContent || '').trim();
+    if (!name) return;
+
+    // Try to resolve product id from window.PRODUCTS_DATA
+    let idParam = '';
+    try {
+      const catalog = Array.isArray(window.PRODUCTS_DATA) ? window.PRODUCTS_DATA : [];
+      const norm = (s) => (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
+      const target = norm(name);
+      const match = catalog.find(p => norm(p.name) === target) ||
+                    catalog.find(p => norm(p.name).includes(target)) ||
+                    catalog.find(p => target.includes(norm(p.name)));
+      if (match && match.id) idParam = String(match.id);
+    } catch (_) {}
+
+    let href = 'product_detail.html';
+    if (idParam) {
+      href += `?id=${encodeURIComponent(idParam)}`;
+    } else {
+      href += `?name=${encodeURIComponent(name)}`;
+    }
+    window.location.href = href;
+  });
+}
+
 function renderCartSummary(cart) {
   const selectedItemsSpan = document.querySelector('.selected-items');
   const subtotalSpan = document.querySelector('.price-row .price-value');
@@ -130,7 +176,7 @@ function renderCartSummary(cart) {
 
   const selectedCart = getSelectedCartItems(cart);
   const subtotal = selectedCart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const discount = selectedCart.length > 0 ? 20 : 0; // Fixed discount for demo when items selected
+  const discount = selectedCart.length > 0 ? 0 : 0; // Fixed discount for demo when items selected
   const total = subtotal - discount;
 
   if (selectedItemsSpan) {
@@ -154,17 +200,14 @@ function checkout() {
     alert('Please select at least one item to proceed to payment.');
     return;
   }
-  // Check if user is logged in
-  const isLoggedIn = localStorage.getItem('user') !== null;
-  
-  if (!isLoggedIn) {
-    alert('Please login or sign up to proceed with checkout.');
-    window.location.href = 'login-signup.html';
-    return;
+  // Persist selected items for checkout summary
+  try {
+    localStorage.setItem('checkoutItems', JSON.stringify(selectedCart));
+  } catch (e) {
+    console.warn('Failed to store checkout items:', e);
   }
-  
-  alert('Redirecting to payment page with selected items...');
-  // window.location.href = 'checkout.html';
+  // Redirect directly to pickup checkout page (no login required)
+  window.location.href = 'shop_checkout/shop_checkout_pickup.html';
 }
 
 function updateQuantity(itemId, change) {
@@ -211,18 +254,20 @@ function removeItem(itemId) {
 }
 
 function checkout() {
-  // Check if user is logged in
-  const isLoggedIn = localStorage.getItem('user') !== null;
-  
-  if (!isLoggedIn) {
-    alert('Please login or sign up to proceed with checkout.');
-    window.location.href = 'login-signup.html';
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const selectedCart = getSelectedCartItems(cart);
+  if (selectedCart.length === 0) {
+    alert('Please select at least one item to proceed to payment.');
     return;
   }
-  
-  // Proceed with checkout
-  alert('Redirecting to payment page...');
-  // window.location.href = 'checkout.html';
+  // Persist selected items for checkout summary
+  try {
+    localStorage.setItem('checkoutItems', JSON.stringify(selectedCart));
+  } catch (e) {
+    console.warn('Failed to store checkout items:', e);
+  }
+  // Redirect directly to pickup checkout page (no login required)
+  window.location.href = 'shop_checkout/shop_checkout_pickup.html';
 }
 
 function updateCartButton() {
