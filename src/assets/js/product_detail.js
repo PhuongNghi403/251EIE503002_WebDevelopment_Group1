@@ -264,8 +264,21 @@
         e.preventDefault();
         e.stopPropagation();
         const { name, image, price } = getCurrentProduct();
-        addToCart(name, image, price);
-        window.location.href = 'cart.html';
+        
+        // Persist only the selected product for checkout summary on pickup page
+        try {
+          const checkoutItem = [{
+            id: Date.now(),
+            name,
+            image,
+            price,
+            quantity: 1
+          }];
+          localStorage.setItem('checkoutItems', JSON.stringify(checkoutItem));
+        } catch (err) {
+          console.warn('Failed to persist checkout item from product_detail:', err);
+        }
+        window.location.href = '../pages/shop_checkout/shop_checkout_pickup.html';
       });
     });
 
