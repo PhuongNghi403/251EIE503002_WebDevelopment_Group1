@@ -400,9 +400,19 @@ body[data-page="community"] {
 }
 
 /* Center/Featured state (larger, popped): container size stays fixed; only avatar grows */
-.staff-card.is-center {
-  z-index: 3;
-  filter: drop-shadow(0 10px 28px rgba(0,0,0,.12)) drop-shadow(0 0 18px rgba(191,214,246,.35));
+.staff-avatar,
+.staff-avatar-alt {
+  transform: none !important;
+  opacity: 1 !important;
+  transition: none !important;
+}
+.staff-card.is-center .staff-avatar,
+.staff-card.is-center .staff-avatar-alt {
+  transform: none !important;
+  opacity: 1 !important;
+}
+.staff-hover {
+  display: none !important; /* ẩn nút “View Details” */
 }
 
 /* Avatar: perfect circle with pastel ring and soft shadow */
@@ -1333,8 +1343,7 @@ body[data-page="community"] {
   opacity: 0.5;
 }
 
-/* Load More Button */
-/* --- Load more / Collapse row --- */
+/* --- Load more / Collapse Btn --- */
 .blog-actions {
   display: flex;
   gap: 12px;
@@ -1350,8 +1359,8 @@ body[data-page="community"] {
   background: #fff;
   color: var(--brown, #4D2B12);
   font-weight: 700;
-  height: 40px;
-  padding: 0 18px;
+  height: auto;
+  padding: 16px 16px;
   border-radius: 999px;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,.05);
@@ -1378,11 +1387,12 @@ body[data-page="community"] {
 
 .share-box {
   background: linear-gradient(135deg, var(--mint) 0%, var(--pink) 100%);
-  padding: 64px 48px;
+  padding: 64px 64px;
   border-radius: var(--radius-lg);
   text-align: center;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border);
+  width: 100%;
 }
 
 .share-box h3 {

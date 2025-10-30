@@ -10,216 +10,137 @@
   /** ===================== DỮ LIỆU MẪU ===================== **/
   // Posts có type: undefined (user/staff) hoặc 'campaign'
   const blogPosts = [
-    {
-      id: 1,
-      title: "5 Tips Huấn Luyện Chó Cơ Bản Cho Người Mới Bắt Đầu",
-      excerpt: "Huấn luyện chó không khó như bạn nghĩ. Hãy cùng khám phá 5 mẹo đơn giản giúp chó cưng của bạn biết nghe lời và ngoan ngoãn hơn...",
-      category: "training",
-      author: "Minh Nguyen",
-      date: "2 ngày trước",
-      likes: 45,
-      comments: 12,
-      views: 230,
-      image: "url('../assets/images/HomestayDetail/StandingWhiteDog.svg')"
-    },
-    {
-      id: 2,
-      title: "Chế Độ Dinh Dưỡng Hoàn Hảo Cho Mèo Theo Từng Độ Tuổi",
-      excerpt: "Mèo ở mỗi giai đoạn phát triển cần chế độ dinh dưỡng khác nhau. Tìm hiểu cách chọn thức ăn phù hợp cho mèo con, mèo trưởng thành và mèo già...",
-      category: "food",
-      author: "Lan Tran",
-      date: "5 ngày trước",
-      likes: 67,
-      comments: 20,
-      views: 450,
-      image: "url('../assets/images/HomestayDetail/StandingCatHome.png')"
-    },
-    {
-      id: 3,
-      title: "Dấu Hiệu Thú Cưng Cần Đi Khám Bác Sĩ Thú Y",
-      excerpt: "Nhận biết sớm các dấu hiệu bất thường ở thú cưng giúp điều trị kịp thời. Bài viết này liệt kê những triệu chứng cần chú ý...",
-      category: "health",
-      author: "Dr. Long",
-      date: "1 tuần trước",
-      likes: 89,
-      comments: 34,
-      views: 620,
-      image: "url('../assets/images/HomestayDetail/BlueCat.png')"
-    },
-    {
-      id: 4,
-      title: "Cách Tắm Cho Chó Đúng Cách - Giữ Lông Mượt Mà",
-      excerpt: "Tắm cho chó không chỉ về việc làm sạch mà còn là khoảng thời gian gắn kết. Học cách tắm đúng kỹ thuật để chó cảm thấy thoải mái...",
-      category: "grooming",
-      author: "Hoa Le",
-      date: "1 tuần trước",
-      likes: 52,
-      comments: 18,
-      views: 380,
-      image: "url('../assets/images/HomestayDetail/CuttingFur.png')"
-    },
-    {
-      id: 5,
-      title: "10 Điều Người Nuôi Mèo Mới Cần Biết",
-      excerpt: "Nuôi mèo lần đầu? Đừng lo lắng! Bài viết này sẽ hướng dẫn bạn những điều cơ bản nhất để chào đón thành viên mới vào gia đình...",
-      category: "tips",
-      author: "Anna Pham",
-      date: "2 tuần trước",
-      likes: 102,
-      comments: 45,
-      views: 850,
-      image: "url('../assets/images/HomestayDetail/WomanHoldCat.png')"
-    },
-    {
-      id: 6,
-      title: "Chăm Sóc Răng Miệng Cho Thú Cưng: Hướng Dẫn Chi Tiết",
-      excerpt: "Sức khỏe răng miệng ảnh hưởng lớn đến sức khỏe tổng thể. Tìm hiểu cách đánh răng, lựa chọn bàn chải và thức ăn phù hợp...",
-      category: "health",
-      author: "Dr. Mai",
-      date: "2 tuần trước",
-      likes: 76,
-      comments: 28,
-      views: 540,
-      image: "url('../assets/images/HomestayDetail/CutNailCat.png')"
-    },
-    {
-      id: 7,
-      title: "Tạo Không Gian Vui Chơi An Toàn Cho Chó Trong Nhà",
-      excerpt: "Chó cần vận động và vui chơi để phát triển khỏe mạnh. Thiết kế khu vực vui chơi an toàn, thú vị ngay trong nhà bạn...",
-      category: "tips",
-      author: "Binh Vo",
-      date: "3 tuần trước",
-      likes: 41,
-      comments: 15,
-      views: 290,
-      image: "url('../assets/images/HomestayDetail/DogToysRawhide.svg')"
-    },
-    {
-      id: 8,
-      title: "Làm Sao Để Chó Không Sợ Cắt Móng? 7 Mẹo Hiệu Quả",
-      excerpt: "Cắt móng cho chó luôn là thử thách với nhiều người. Áp dụng 7 mẹo này để quá trình trở nên nhẹ nhàng và không căng thẳng...",
-      category: "grooming",
-      author: "Thuy Nguyen",
-      date: "3 tuần trước",
-      likes: 58,
-      comments: 22,
-      views: 410,
-      image: "url('../assets/images/HomestayDetail/ShowerDog.png')"
-    },
-    // From Community & Staff Pick samples
-    {
-      id: 9,
-      title: "Tự Làm Đồ Chơi Cho Mèo Từ Vải Vụn",
-      excerpt: "Mình vừa tái chế vải vụn thành đồ chơi catnip cho mèo, rẻ mà vẫn bền...",
-      category: "from-community",
-      author: "Hoa Dang",
-      date: "4 ngày trước",
-      likes: 23,
-      comments: 6,
-      views: 180,
-      image: "url('../assets/images/HomestayDetail/GreenDog.png')"
-    },
-    {
-      id: 10,
-      title: "Staff Pick: Top 5 Dòng Thức Ăn Hạt Cho Mèo Nhạy Cảm",
-      excerpt: "Tổng hợp các dòng hạt được team thử nghiệm, phù hợp mèo nhạy cảm tiêu hóa...",
-      category: "staff-pick",
-      author: "Pawfect Staff",
-      date: "1 ngày trước",
-      likes: 64,
-      comments: 12,
-      views: 510,
-      image: "url('../assets/images/HomestayDetail/Food1.png')"
-    },
-    {
-      id: 11,
-      title: "Chia Sẻ: Lịch Grooming Mùa Hè Cho Chó Akita",
-      excerpt: "Kinh nghiệm cá nhân giữ lông mượt và mát cho Akita vào mùa nóng...",
-      category: "from-community",
-      author: "Quang Tran",
-      date: "6 ngày trước",
-      likes: 17,
-      comments: 5,
-      views: 150,
-      image: "url('../assets/images/HomestayDetail/CuttingFur.png')"
-    },
-    {
-      id: 12,
-      title: "Staff Pick: 3 Mẹo Giảm Stress Khi Tắm Cho Mèo",
-      excerpt: "Team gợi ý 3 mẹo nhỏ giúp mèo ít căng thẳng khi tắm lần đầu...",
-      category: "staff-pick",
-      author: "Pawfect Staff",
-      date: "Hôm qua",
-      likes: 71,
-      comments: 19,
-      views: 620,
-      image: "url('../assets/images/HomestayDetail/ShowerDog.png')"
-    },
-    // Campaign samples
-    {
-      id: 101,
-      type: 'campaign',
-      title: "Adopt Don't Shop — Tháng Yêu Thương Thú Cưng",
-      excerpt: "Tham gia chiến dịch nhận nuôi thú cưng cùng Pawfect. Ưu đãi tiêm phòng, tắm/grooming cho thú đã nhận nuôi.",
-      category: 'campaign',
-      author: 'Pawfect Team',
-      date: 'Mar 10–20',
-      likes: 320,
-      comments: 58,
-      views: 2100,
-      banner: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1600&auto=format&fit=crop',
-    },
-    {
-      id: 102,
-      type: 'campaign',
-      title: 'PawRun 5K — Chạy Bộ Cùng Boss',
-      excerpt: 'Sự kiện chạy bộ gây quỹ với phần thưởng cho các cặp chủ–pet nhanh nhất.',
-      category: 'event',
-      author: 'Pawfect Team',
-      date: 'Apr 6',
-      likes: 145,
-      comments: 22,
-      views: 980,
-      banner: 'https://images.unsplash.com/photo-1558944351-c6ae87f1d417?q=80&w=1600&auto=format&fit=crop',
-    },
-    {
-      id: 103,
-      type: 'campaign',
-      title: 'Workshop: Chăm Sóc Da & Lông Cho Chó Mùa Hè',
-      excerpt: 'Buổi hướng dẫn thực hành cùng chuyên gia grooming của Pawfect.',
-      category: 'workshop',
-      author: 'Pawfect Academy',
-      date: 'May 18',
-      likes: 52,
-      comments: 8,
-      views: 340,
-      banner: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=1600&auto=format&fit=crop',
-    },
-    {
-      id: 104,
-      type: 'campaign',
-      title: 'Charity Bake Sale for Stray Cats',
-      excerpt: 'Gây quỹ thức ăn cho mèo hoang với gian hàng bánh homemade.',
-      category: 'event',
-      author: 'Pawfect Community',
-      date: 'Jun 2',
-      likes: 80,
-      comments: 14,
-      views: 430,
-      banner: 'https://images.unsplash.com/photo-1494256997604-768d1f608cac?q=80&w=1600&auto=format&fit=crop',
-    },
-  ];
+  {
+    id: 101,
+    title: "10 Easy Puppy Training Tips to Build Good Habits in a Week",
+    excerpt: "Start early and train smart! Discover 10 simple methods to help your little pup learn commands, stay calm, and have fun doing it.",
+    category: "Training",
+    author: "Mary Chen",
+    date: "2 days ago",
+    likes: 78,
+    comments: 22,
+    views: 560,
+    image: "url('https://images.unsplash.com/photo-1560807707-8cc77767d783?q=80&w=1200&auto=format&fit=crop')"
+  },
+  {
+    id: 102,
+    title: "Homemade Sweet Potato Dog Treats Recipe",
+    excerpt: "Soft, tasty, and budget-friendly — these sweet potato treats are easy to make in just 20 minutes and perfect for sensitive tummies.",
+    category: "Health",
+    author: "Lan Tran",
+    date: "3 days ago",
+    likes: 52,
+    comments: 17,
+    views: 480,
+    image: "url('https://images.unsplash.com/photo-1626337110633-95bbf1c3f5f7?q=80&w=1200&auto=format&fit=crop')"
+  },
+  {
+    id: 103,
+    title: "5 Signs Your Pet Is Stressed (and How to Help Them Relax)",
+    excerpt: "Pets feel emotions just like humans. Learn the 5 most common signs of stress and how to bring your furry friend back to a happy mood.",
+    category: "Health",
+    author: "Dr. James Miller",
+    date: "4 days ago",
+    likes: 91,
+    comments: 28,
+    views: 630,
+    image: "url('https://images.unsplash.com/photo-1575202330052-3b2d74b56e83?q=80&w=1200&auto=format&fit=crop')"
+  },
+  {
+    id: 104,
+    title: "Beginner’s Guide to Trimming Your Dog’s Nails Safely",
+    excerpt: "Trimming keeps paws healthy and prevents injuries. Here’s a step-by-step guide from our grooming expert at Pawfect Care.",
+    category: "Stories ",
+    author: "Mark Evans",
+    date: "5 days ago",
+    likes: 66,
+    comments: 19,
+    views: 520,
+    image: "url('https://images.unsplash.com/photo-1601758123927-197cf4a43c33?q=80&w=1200&auto=format&fit=crop')"
+  },
+  {
+    id: 105,
+    title: "Do Cats Really Need Baths? The Answer Might Surprise You",
+    excerpt: "Cats are known for grooming themselves — but when is it actually time for a bath? Find out the safe products and timing for your feline.",
+    category: "Tips",
+    author: "Anna Pham",
+    date: "1 week ago",
+    likes: 104,
+    comments: 37,
+    views: 910,
+    image: "url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=1200&auto=format&fit=crop')"
+  },
+  {
+    id: 106,
+    title: "DIY Catnip Toys: Fun Crafts Using Fabric Scraps",
+    excerpt: "With just a few scraps of fabric and a pinch of creativity, you can make irresistible catnip toys that’ll keep your kitty entertained all day!",
+    category: "Tips",
+    author: "Hoa Dang",
+    date: "1 week ago",
+    likes: 38,
+    comments: 11,
+    views: 320,
+    image: "url('https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=1200&auto=format&fit=crop')"
+  },
+  {
+    id: 107,
+    title: "Top 5 Vet-Approved Cat Foods for Sensitive Tummies",
+    excerpt: "Sensitive cats need gentle, nutrient-rich food. Here are five high-quality kibbles tested and approved by the Pawfect Care team.",
+    category: "Reviews",
+    author: "Pawfect Staff",
+    date: "8 days ago",
+    likes: 74,
+    comments: 18,
+    views: 540,
+    image: "url('https://images.unsplash.com/photo-1592194996308-7b43878e84a6?q=80&w=1200&auto=format&fit=crop')"
+  },
+  {
+    id: 108,
+    title: "Decoding Your Pet’s Sounds: What Their Meows and Woofs Mean",
+    excerpt: "Meow, growl, chirp — what are they really saying? Learn how to interpret your pet’s emotions and needs through their sounds.",
+    category: "Tips",
+    author: "Binh Vo",
+    date: "9 days ago",
+    likes: 57,
+    comments: 14,
+    views: 470,
+    image: "url('https://images.unsplash.com/photo-1593134257782-e89567b7718e?q=80&w=1200&auto=format&fit=crop')"
+  },
+  {
+    id: 109,
+    title: "Workshop: Summer Skin & Coat Care for Dogs",
+    excerpt: "Join our free workshop at the Pawfect Center to learn proper coat care and prevent shedding and skin irritation during hot months.",
+    category: "Stories ",
+    author: "Pawfect Academy",
+    date: "May 18",
+    likes: 132,
+    comments: 30,
+    views: 1020,
+    banner: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1600&auto=format&fit=crop"
+  },
+  {
+    id: 110,
+    title: "Adopt Don’t Shop — Month of Love for Pets",
+    excerpt: "This month, Pawfect Care promotes adoption with free grooming for adopted pets. Every rescued friend deserves a second chance.",
+    category: "Rescue",
+    author: "Pawfect Team",
+    date: "Mar 10–20",
+    likes: 210,
+    comments: 47,
+    views: 1800,
+    banner: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=1600&auto=format&fit=crop"
+  }
+];
+window.blogPosts = blogPosts;
 
   const categoryLabels = {
-    all: "Tất cả",
-    tips: "Tips & Tricks",
-    health: "Sức khỏe",
-    grooming: "Chăm sóc",
-    training: "Huấn luyện",
-    food: "Thức ăn",
-    campaign: "Campaign",
-    "from-community": "From community",
-    "staff-pick": "Staff Pick"
+    All: "All",
+    Tips: "Pet Care Tips",
+    Health: "Health & Nutrition",
+    Training: "Training & Behavior",
+    Stories: "Stories & Community",
+    Rescue: "Adoption & Rescue",
+    Reviews: "Products & Reviews"
   };
 
   // ===== STATE =====
@@ -249,7 +170,7 @@
     // Blog/Campaign/Modal
     setupBlogTabsFilter();
     setupCampaignTabsFilter();
-    setupLoadControls();       // ⬅️ gắn cả "Xem thêm" & "Thu gọn"
+    setupLoadControls();       
     setupCreatePost();
     setupBlogCardClick();
 
@@ -733,32 +654,37 @@
     };
 
     cards.forEach((card) => {
-      const btn = card.querySelector('.staff-hover');
-      const details = card.querySelector('.staff-details');
+  // Không còn dùng button/details để toggle gì hết
+  const btn = card.querySelector('.staff-hover');
+  const details = card.querySelector('.staff-details');
 
-      const toggle = () => {
-        if (btn && details) {
-          const willOpen = !card.classList.contains('open');
-          closeOthers(willOpen ? card : null);
-          card.classList.toggle('open');
-          details.hidden = !willOpen;
-          btn.setAttribute('aria-expanded', String(willOpen));
-        }
-        // luôn center
-        scrollCardToCenter(grid, card);
-      };
+  // Ẩn/khóa mọi thứ liên quan “mở chi tiết / hover”
+  if (btn) {
+    btn.setAttribute('aria-hidden', 'true');
+    btn.setAttribute('tabindex', '-1');
+    // optional: chặn tương tác + ẩn mờ
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = '0';
+  }
+  if (details) {
+    details.hidden = true;
+  }
 
-      card.addEventListener('click', toggle);
+  // Click vào card -> luôn center card này, KHÔNG toggle gì hết
+  card.addEventListener('click', () => {
+    scrollCardToCenter(grid, card);
+  });
 
-      // keyboard
-      if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          toggle();
-        }
-      });
-    });
+  // Hỗ trợ bàn phím
+  if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      scrollCardToCenter(grid, card);
+    }
+  });
+});
+
   }
 
   function bindStaffStripCentering() {

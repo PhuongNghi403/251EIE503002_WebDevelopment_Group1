@@ -1,189 +1,336 @@
+// blog-detail.js — Pawfect Blog Detail 
 (function () {
   'use strict';
 
-  /** ===== DỮ LIỆU GIẢ LẬP ===== */
-  const POST_DETAIL = {
-    id: 1,
-    title: "5 Tips Huấn Luyện Chó Cơ Bản Cho Người Mới Bắt Đầu",
-    excerpt: "Huấn luyện chó không khó như bạn nghĩ. Hãy cùng khám phá 5 mẹo đơn giản giúp chó cưng của bạn biết nghe lời và ngoan ngoãn hơn...",
-    content: `
-      <h2>Giới thiệu</h2>
-      <p>Huấn luyện chó là một phần quan trọng trong việc nuôi dưỡng thú cưng. Dưới đây là 5 tips cơ bản cho người mới bắt đầu:</p>
-      <ol>
-        <li><strong>Sử dụng phần thưởng tích cực:</strong> Thưởng cho chó khi chúng làm đúng để khuyến khích hành vi tốt.</li>
-        <li><strong>Luyện tập ngắn gọn:</strong> Giữ phiên luyện tập dưới 10 phút để chó không mệt mỏi.</li>
-        <li><strong>Sử dụng lệnh rõ ràng:</strong> Dùng từ đơn giản như "Ngồi" hoặc "Nằm" và lặp lại nhất quán.</li>
-        <li><strong>Kiên nhẫn và kiên trì:</strong> Đừng nản lòng nếu chó không học ngay lập tức.</li>
-        <li><strong>Tìm sự giúp đỡ chuyên nghiệp:</strong> Nếu cần, tham khảo huấn luyện viên chuyên nghiệp.</li>
-      </ol>
-      <p>Hãy áp dụng những tips này và bạn sẽ thấy sự tiến bộ rõ rệt!</p>
-    `,
-    category: "training",
-    author: "Minh Nguyen",
-    date: "2 ngày trước",
-    likes: 45,
-    comments: 12,
-    views: 230,
-    image: "../assets/images/HomestayDetail/StandingWhiteDog.svg",
-    tags: ["huấn luyện chó", "thú cưng", "tips"],
-    related: [
-      { title: "Cách chọn thức ăn cho chó", id: 2 },
-      { title: "Dấu hiệu chó bị bệnh", id: 3 }
-    ],
-    topPosts: [
-      { title: "Ancena mattis tortor ac sapien congue molestie.", idx: 1 },
-      { title: "Vestibulum ante ipsum primis in faucibus orci.", idx: 2 },
-      { title: "Sapien atám odio posuere vitae bibendum vitae.", idx: 3 },
-      { title: "Etiam eu odio in sapien posuere vitae bibendum.", idx: 4 },
-      { title: "Morbi eget leo a tellus gravida sagittis nec.", idx: 5 }
-    ]
-  };
+  /** ========= DATA ========= **/
+ // Lấy từ community.js
+const POSTS = (() => {
+  const src = (window.blogPosts || []).map(p => {
+    let img = p.image || p.banner || "";
+    if (typeof img === "string" && /^url\(/.test(img)) {
+      img = img.replace(/^url\(["']?/, "").replace(/["']?\)$/, "");
+    }
+    return {
+      id: Number(p.id),
+      title: p.title || "Blog Title",
+      excerpt: p.excerpt || "",
+      category: (p.category || "blog").toLowerCase(),
+      author: p.author || "Pawfect Team",
+      date: p.date || "",
+      likes: Number(p.likes || 0),
+      comments: Number(p.comments || 0),
+      views: Number(p.views || 0),
+      image: img
+    };
+  });
+  return src.length ? src : [{
+    id: 999,
+    title: "Welcome to Pawfect Care Blog",
+    excerpt: "Tips, grooming, training, and more — made for loving pet parents.",
+    category: "Tips",
+    author: "Pawfect Team",
+    date: "today",
+    likes: 0, comments: 0, views: 1,
+    image: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=1200&auto=format&fit=crop"
+  }];
+})();
 
-  let COMMENTS = [
-    { id: 1, author: "User1", avatar: "U1", text: "Bài viết rất hữu ích! Cảm ơn bạn.", date: "1 ngày trước" },
-    { id: 2, author: "User2", avatar: "U2", text: "Tôi đã thử tip 1 và chó nhà mình tiến bộ nhanh chóng.", date: "2 ngày trước" },
-    { id: 3, author: "User3", avatar: "U3", text: "Có thể chia sẻ thêm về lệnh 'Ngồi' không?", date: "3 ngày trước" }
+  const CATEGORY_LABEL = {
+    All: "All",
+    Tips: "Pet Care Tips",
+    Health: "Health & Nutrition",
+    Training: "Training & Behavior",
+    Stories: "Stories & Community",
+    Rescue: "Adoption & Rescue",
+    Reviews: "Products & Reviews",
+
+  };
+  
+  /** ========= UTILS ========= **/
+  const qs = (s, r=document)=>r.querySelector(s);
+  const qsa = (s, r=document)=>Array.from(r.querySelectorAll(s));
+  const getParam = (k)=> new URLSearchParams(location.search).get(k);
+  const esc = (s)=> (s||"").replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  const keyLikes    = id => `pc_like_${id}`;
+  const keyLiked    = id => `pc_liked_${id}`;
+  const keyComments = id => `pc_comments_${id}`;
+  const keyViews    = id => `pc_views_${id}`;
+  const fmt = n => (n||0).toLocaleString('vi-VN');
+
+  function copyToClipboard(text){
+    if(navigator.clipboard?.writeText) return navigator.clipboard.writeText(text);
+    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); document.body.removeChild(ta); return Promise.resolve();
+  }
+
+  function normalizeImage(src){
+    if(/^url\(/.test(src||'')) return src.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+    return src;
+  }
+
+  /** ========= BODY MẪU ========= **/
+  function buildBody(post) {
+  const tipsByCat = {
+    Training: [
+      "Start with simple commands and reward immediately when your pet gets it right.",
+      "Keep training sessions short (5–10 minutes) to avoid boredom.",
+      "Stay consistent — everyone in the house should use the same rules and cues.",
+      "Combine playtime with training to build trust and confidence.",
+      "End each session on a positive note to keep your pup motivated."
+    ],
+    Health: [
+      "Transition to new food gradually over 7 days to protect digestion.",
+      "Check ingredient labels — clear protein sources are always better.",
+      "Add omega-3 rich treats for coat and skin health.",
+      "Keep clean water available at all times.",
+      "Avoid feeding human snacks that contain salt or sugar."
+    ],
+    Tips: [
+      "Watch for changes in appetite, energy, or bathroom habits — early signs of stress or illness.",
+      "Schedule vet check-ups every 6–12 months for routine care.",
+      "Brush teeth regularly to prevent dental issues.",
+      "Keep your vaccination and parasite prevention schedule updated.",
+      "Create a calm, quiet space for recovery if your pet feels unwell."
+    ],
+    Stories: [
+      "Trim nails safely — avoid cutting too close to the quick.",
+      "Brush before bathing to detangle and reduce shedding.",
+      "Use lukewarm water and gentle, pet-safe shampoo.",
+      "Reward with a treat after grooming to make it a positive experience.",
+      "Schedule professional grooming every 4–6 weeks for long-haired breeds."
+    ],
+    Rescue: [
+      "Respect your pet’s body language — they tell you what feels safe.",
+      "Give them personal space and gentle touch when introducing new experiences.",
+      "Create a steady routine for meals, play, and bedtime.",
+      "Rotate toys regularly to keep things exciting.",
+      "Bond with your pet through shared quiet time — not just playtime."
+    ],
+    
+    Reviews: [
+      "Join Pawfect Care’s monthly campaign to promote adoption and responsible pet care.",
+      "Enjoy free grooming for adopted pets this month.",
+      "Every adoption helps give a second chance to a rescued friend.",
+      "Follow our social channels for more heartwarming stories."
+    ]
+  }[post.category] || [
+    "Be kind and patient — progress takes time.",
+    "Celebrate small wins with extra cuddles and treats.",
+    "Reach out to Pawfect Staff or your vet for personalized advice."
   ];
 
-  /** ===== HÀM HỖ TRỢ ===== */
-  function saveToStorage(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
-  function getFromStorage(key) { return JSON.parse(localStorage.getItem(key) || '[]'); }
+  return `
+    <p>${post.excerpt}</p>
+    <h2>Key Takeaways</h2>
+    <ul>${tipsByCat.map(t => `<li>${t}</li>`).join('')}</ul>
+    <p>Share your own experience in the comments below — the Pawfect community loves hearing from fellow pet lovers 🐾</p>
+  `;
+}
 
-  function showToast(message) {
-    const toast = document.getElementById('pc-toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
+
+  function seedComments(post){
+    const base = [
+      {name:"Mai", text:"Wow! Amazing! Significant! Magneficent! World Class", time:"Just now"},
+      {name:"Nghi", text:"Can you share more informations? My Zalo 0987654321", time:"1 hour ago"},
+    ];
+    if(post.category==='Training') base.push({name:"Phuc", text:"Bonus Tips: Use Clicker really boost up the process .", time:"Yesterday"});
+    if(post.category==='Health') base.push({name:"Ha", text:"Cut off nail could help release stress for your pet.", time:"2 days ago"});
+    return base;
   }
 
-  function renderPostDetail() {
-    const post = POST_DETAIL;
-    document.getElementById('pc-bc-title').textContent = post.title; // Breadcrumb
-    document.getElementById('pc-hero-media').style.backgroundImage = `url(${post.image})`;
-    document.getElementById('pc-chip').textContent = post.category;
-    document.getElementById('pc-title').textContent = post.title;
-    document.getElementById('pc-author-avatar').textContent = post.author.charAt(0).toUpperCase();
-    document.getElementById('pc-author').textContent = post.author;
-    document.getElementById('pc-date').textContent = post.date;
-    document.getElementById('pc-views').textContent = post.views;
-    document.getElementById('pc-likes').textContent = post.likes;
-    document.getElementById('pc-comments').textContent = post.comments;
-    document.getElementById('pc-excerpt').textContent = post.excerpt;
-    document.getElementById('pc-body').innerHTML = post.content;
-
-    // Tags
-    const tagsEl = document.getElementById('pc-tags');
-    tagsEl.innerHTML = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-
-    // Related
-    const relatedEl = document.getElementById('pc-related');
-    relatedEl.innerHTML = post.related.map(rel => `<div class="rel__item">${rel.title}</div>`).join('');
-
-    // Top posts (sidebar)
-    const topEl = document.getElementById('pc-top');
-    topEl.innerHTML = post.topPosts.map(tp => `<li><span class="idx">${tp.idx}</span><span>${tp.title}</span></li>`).join('');
-  }
-
-  function renderComments() {
-    const clist = document.getElementById('pc-clist');
-    clist.innerHTML = COMMENTS.map(comment => `
+  function renderComment(c){
+    return `
       <li class="citem">
-        <div class="avatar">${comment.avatar}</div>
+        <div class="avatar">${esc(c.name?.charAt(0) || 'U')}</div>
         <div>
-          <div class="cmeta">
-            <strong class="cauthor">${comment.author}</strong>
-            <span>${comment.date}</span>
-          </div>
-          <div class="ctext">${comment.text}</div>
+          <div class="cmeta"><strong>${esc(c.name||'User')}</strong><span>•</span><span>${esc(c.time||'Just now')}</span></div>
+          <div class="ctext">${esc(c.text||'')}</div>
         </div>
       </li>
-    `).join('');
-    document.getElementById('pc-comments').textContent = COMMENTS.length;
+    `;
   }
 
-  function bindLikeButton() {
-    const likeBtn = document.getElementById('pc-like');
-    const likesEl = document.getElementById('pc-likes');
-    const postId = POST_DETAIL.id;
-    let likedPosts = getFromStorage('liked_posts');
-    const isLiked = likedPosts.includes(postId);
-    if (isLiked) {
-      likeBtn.classList.add('is-liked');
-      likeBtn.setAttribute('aria-pressed', 'true');
-      likesEl.textContent = POST_DETAIL.likes + 1;
+  function renderRelated(current){
+    const related = POSTS.filter(p=>p.id!==current.id && p.category===current.category).slice(0,4);
+    return related.map(p=>`
+      <div class="rel__item" data-id="${p.id}" role="button" tabindex="0">
+        <div style="font-weight:700;margin-bottom:4px">${esc(p.title)}</div>
+        <div style="font-size:13px;color:#6b5a4a">${esc(p.excerpt)}</div>
+      </div>
+    `).join('');
+  }
+
+  /** ========= MAIN RENDER ========= **/
+  function render(post){
+    // elements (khớp blog-detail.html)
+    const hero     = qs('#pc-hero-media');
+    const chip     = qs('#pc-chip');
+    const title    = qs('#pc-title');
+    const author   = qs('#pc-author');
+    const authorAv = qs('#pc-author-avatar');
+    const dateEl   = qs('#pc-date');
+    const excerpt  = qs('#pc-excerpt');
+    const body     = qs('#pc-body');
+    const bcTitle  = qs('#pc-bc-title');
+
+    const viewsEl  = qs('#pc-views');
+    const likesEl  = qs('#pc-likes');
+    const cmtsEl   = qs('#pc-comments');
+
+    const likeBtn  = qs('#pc-like');
+    const shareBtn = qs('#pc-share');
+    const jumpBtn  = qs('#pc-jump-comment');
+    const tagsWrap = qs('#pc-tags');
+    const relWrap  = qs('#pc-related');
+
+    const cForm    = qs('#pc-cform');
+    const cInput   = qs('#pc-cinput');
+    const cSubmit  = qs('#pc-csubmit');
+    const cCancel  = qs('#pc-ccancel');
+    const cList    = qs('#pc-clist');
+
+    const toast    = qs('#pc-toast');
+
+    // normalize image & stats from localStorage
+    const imgSrc = normalizeImage(post.image);
+    const catLabel = CATEGORY_LABEL[post.category] || post.category || 'Blog';
+
+    let views = Number(localStorage.getItem(keyViews(post.id)) || post.views || 0) + 1;
+    localStorage.setItem(keyViews(post.id), String(views));
+
+    let baseLikes = Number(localStorage.getItem(keyLikes(post.id)) || post.likes || 0);
+    let isLiked   = localStorage.getItem(keyLiked(post.id)) === '1';
+    let likeCount = baseLikes + (isLiked ? 1 : 0);
+
+    let savedComments = JSON.parse(localStorage.getItem(keyComments(post.id)) || 'null');
+    if(!savedComments){
+      savedComments = seedComments(post);
+      localStorage.setItem(keyComments(post.id), JSON.stringify(savedComments));
     }
 
-    likeBtn.addEventListener('click', () => {
-      const currentlyLiked = likeBtn.classList.contains('is-liked');
-      if (currentlyLiked) {
-        likedPosts = likedPosts.filter(id => id !== postId);
-        likeBtn.classList.remove('is-liked');
-        likeBtn.setAttribute('aria-pressed', 'false');
-        likesEl.textContent = POST_DETAIL.likes;
-        showToast('Đã bỏ thích bài viết.');
-      } else {
-        likedPosts.push(postId);
-        likeBtn.classList.add('is-liked');
-        likeBtn.setAttribute('aria-pressed', 'true');
-        likesEl.textContent = POST_DETAIL.likes + 1;
-        showToast('Đã thích bài viết!');
-      }
-      saveToStorage('liked_posts', likedPosts);
-    });
-  }
+    // inject to DOM
+    if(hero) hero.style.backgroundImage = `url("${imgSrc}")`;
+    if(chip) chip.textContent = catLabel;
+    if(title) title.textContent = post.title || 'Blog detail';
+    if(author) author.textContent = post.author || 'Pawfect';
+    if(authorAv) authorAv.textContent = (post.author||'U').charAt(0).toUpperCase();
+    if(dateEl) dateEl.textContent = post.date || '';
+    if(excerpt) excerpt.textContent = post.excerpt || '';
+    if(body) body.innerHTML = buildBody(post);
+    if(bcTitle) bcTitle.textContent = post.title || 'Blog Detail';
 
-  function bindCommentForm() {
-    const input = document.getElementById('pc-cinput');
-    const submitBtn = document.getElementById('pc-csubmit');
-    const cancelBtn = document.getElementById('pc-ccancel');
-
-    submitBtn.addEventListener('click', () => {
-      const text = input.value.trim();
-      if (text) {
-        const newComment = {
-          id: Date.now(),
-          author: 'Bạn',
-          avatar: 'B',
-          text,
-          date: 'Vừa xong'
-        };
-        COMMENTS.push(newComment);
-        input.value = '';
-        renderComments();
-        showToast('Bình luận đã được đăng!');
-      } else {
-        showToast('Vui lòng nhập bình luận.');
-      }
-    });
-
-    cancelBtn.addEventListener('click', () => {
-      input.value = '';
-    });
-  }
-
-  function bindOtherActions() {
-    // Jump to comment
-    document.getElementById('pc-jump-comment').addEventListener('click', () => {
-      document.querySelector('.bd-comments').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // Share
-    document.getElementById('pc-share').addEventListener('click', () => {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        showToast('Đã sao chép liên kết!');
-      }).catch(() => {
-        showToast('Không thể sao chép liên kết.');
+    if(viewsEl) viewsEl.textContent = fmt(views);
+    if(likesEl) likesEl.textContent = fmt(likeCount);
+    if(cmtsEl) cmtsEl.textContent = fmt(savedComments.length);
+    if(tagsWrap){
+      tagsWrap.innerHTML = `
+        <span class="tag">#${(post.category||'blog').replace(/\s+/g,'-')}</span>
+        <span class="tag">#pawfect</span>
+        <span class="tag">#petcare</span>
+      `;
+    }
+    if(relWrap) {
+      relWrap.innerHTML = renderRelated(post);
+      relWrap.addEventListener('click', (e)=>{
+        const item = e.target.closest('.rel__item');
+        if(!item) return;
+        const id = item.getAttribute('data-id');
+        if(id) location.href = `blog-detail.html?id=${id}`;
       });
-    });
+      relWrap.addEventListener('keydown', (e)=>{
+        if(e.key==='Enter' || e.key===' ') {
+          const item = e.target.closest('.rel__item');
+          if(!item) return;
+          const id = item.getAttribute('data-id');
+          if(id) location.href = `blog-detail.html?id=${id}`;
+        }
+      });
+    }
+
+    // render comments
+    if(cList){
+      cList.innerHTML = savedComments.map(renderComment).join('');
+    }
+
+    // like
+    if(likeBtn){
+      likeBtn.classList.toggle('is-liked', isLiked);
+      likeBtn.setAttribute('aria-pressed', isLiked ? 'true' : 'false');
+      likeBtn.addEventListener('click', () => {
+        isLiked = !isLiked;
+        likeBtn.classList.toggle('is-liked', isLiked);
+        likeBtn.setAttribute('aria-pressed', isLiked ? 'true' : 'false');
+        likeCount = Number(localStorage.getItem(keyLikes(post.id)) || baseLikes);
+        if(isLiked) likeCount += 1;
+        else if(likeCount > 0) likeCount -= 1;
+        localStorage.setItem(keyLiked(post.id), isLiked ? '1' : '0');
+        localStorage.setItem(keyLikes(post.id), String(likeCount));
+        if(likesEl) likesEl.textContent = fmt(likeCount);
+      });
+    }
+
+    // share
+    if(shareBtn){
+      shareBtn.addEventListener('click', async () => {
+        try {
+          await copyToClipboard(location.href);
+          if(toast){
+            toast.textContent = 'Copied link to clipboard.';
+            toast.classList.add('show');
+            setTimeout(()=>toast.classList.remove('show'), 1200);
+          } else {
+            alert('Copied link to clipboard');
+          }
+        } catch (e) {
+          alert('Copy failed. ');
+        }
+      });
+    }
+
+    // jump to comment
+    if(jumpBtn && cForm){
+      jumpBtn.addEventListener('click', () => {
+        cForm.scrollIntoView({behavior:'smooth', block:'start'});
+        cInput?.focus();
+      });
+    }
+
+    // comment submit/cancel
+    if(cForm){
+      const submit = () => {
+        const text = (cInput?.value || '').trim();
+        if(!text) return;
+
+        const name = 'You';
+        const now = new Date();
+        const time = now.toLocaleString('vi-VN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'});
+
+        const item = { name, text, time };
+        const arr = JSON.parse(localStorage.getItem(keyComments(post.id)) || '[]');
+        arr.unshift(item);
+        localStorage.setItem(keyComments(post.id), JSON.stringify(arr));
+
+        if(cList) cList.insertAdjacentHTML('afterbegin', renderComment(item));
+        if(cmtsEl) cmtsEl.textContent = fmt(arr.length);
+        if(cInput) cInput.value = '';
+      };
+
+      cForm.addEventListener('submit', (e)=>{ e.preventDefault(); submit(); });
+      cSubmit?.addEventListener('click', submit);
+      cCancel?.addEventListener('click', ()=> { if(cInput) cInput.value=''; });
+    }
   }
 
-  /** ===== KHỞI TẠO ===== */
+  /** ========= INIT ========= **/
   document.addEventListener('DOMContentLoaded', () => {
-    renderPostDetail();
-    renderComments();
-    bindLikeButton();
-    bindCommentForm();
-    bindOtherActions();
-  });
+    const id = Number(getParam('id'));
+    const post = POSTS.find(p=>p.id===id) || POSTS[0];
+    if(!post){ console.warn('Post not found'); return; }
 
+    if(post.image && !/^https?:\/\//.test(post.image)){
+    
+    }
+
+    render(post);
+  });
 })();

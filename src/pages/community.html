@@ -261,12 +261,13 @@
           <input type="text" placeholder="Tìm kiếm bài viết..." id="search-input" />
         </div>
         <div class="category-filter">
-          <button class="category-btn active" data-category="all">Tất cả</button>
-          <button class="category-btn" data-category="tips">Tips & Tricks</button>
-          <button class="category-btn" data-category="health">Sức khỏe</button>
-          <button class="category-btn" data-category="grooming">Chăm sóc</button>
-          <button class="category-btn" data-category="training">Huấn luyện</button>
-          <button class="category-btn" data-category="food">Thức ăn</button>
+          <button class="category-btn active" data-category="all">All</button>
+          <button class="category-btn" data-category="tips">Pet Care Tips</button>
+          <button class="category-btn" data-category="health">Health & Nutrition</button>
+          <button class="category-btn" data-category="training">Training & Behavior</button>
+          <button class="category-btn" data-category="stories">Stories & Community</button>
+          <button class="category-btn" data-category="rescue">Adoption & Rescue</button>
+          <button class="category-btn" data-category="reviews">Products & Reviews</button>
         </div>
       </div>
     </section>
@@ -323,9 +324,9 @@
     <!-- Share Post Section -->
     <section class="share-section container">
       <div class="share-box">
-        <h3>Chia sẻ kinh nghiệm của bạn</h3>
-        <p>Giúp cộng đồng học hỏi từ trải nghiệm của bạn</p>
-        <button class="btn primary" id="create-post-btn">Viết bài mới</button>
+        <h3>Share your experiences here</h3>
+        <p>Help community learn form your experiences</p>
+        <button class="btn primary" id="create-post-btn">Add new post</button>
       </div>
     </section>
   </main>
@@ -334,7 +335,7 @@
   <div class="modal" id="blog-detail-modal" aria-hidden="true">
     <div class="modal-backdrop"></div>
     <div class="modal-dialog blog-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="blog-detail-title">
-      <button class="modal-close" id="close-blog-detail" aria-label="Đóng">×</button>
+      <button class="modal-close" id="close-blog-detail" aria-label="Close">×</button>
       <div class="blog-detail-content" id="blog-detail-content">
         <!-- Blog detail injected by JS -->
       </div>
@@ -346,37 +347,38 @@
     <div class="modal-backdrop"></div>
     <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="post-modal-title">
       <div class="modal-header">
-        <h3 id="post-modal-title">Thêm bài mới</h3>
-        <button class="modal-close" id="close-post-modal" aria-label="Đóng">×</button>
+        <h3 id="post-modal-title">Add new post</h3>
+        <button class="modal-close" id="close-post-modal" aria-label="Close">×</button>
       </div>
       <form id="post-form" class="modal-body">
         <label>
-          Tiêu đề
-          <input type="text" id="post-title" required placeholder="Nhập tiêu đề bài viết" />
+          Title
+          <input type="text" id="post-title" required placeholder="Enter title" />
         </label>
         <label>
-          Danh mục
+          Categories
           <select id="post-category">
-            <option value="tips">Tips & Tricks</option>
-            <option value="health">Sức khỏe</option>
-            <option value="grooming">Chăm sóc</option>
-            <option value="training">Huấn luyện</option>
-            <option value="food">Thức ăn</option>
+            <option value="Tips">Pet Care Tips</option>
+            <option value="Health">Health & Nutrition</option>
+            <option value="Training">Training & Behavior</option>
+            <option value="Stories">Stories & Community</option>
+            <option value="Rescue">Adoption & Rescue</option>
+            <option value="Reviews">Products & Reviews</option>
           </select>
         </label>
         <label>
-          Tóm tắt
-          <textarea id="post-excerpt" rows="4" required placeholder="Nhập phần tóm tắt ngắn"></textarea>
+          Summary
+          <textarea id="post-excerpt" rows="4" required placeholder="Enter a short summary"></textarea>
         </label>
         <label>
-          Ảnh bài viết
+          Attachment
           <div class="image-upload-wrapper">
             <input type="file" id="post-image" accept="image/*" />
             <div class="image-preview" id="image-preview"></div>
           </div>
         </label>
         <div class="modal-actions">
-          <button type="submit" class="btn">Đăng bài</button>
+          <button type="submit" class="btn">Post</button>
         </div>
       </form>
     </div>
