@@ -80,13 +80,17 @@
   margin: 0; 
   flex-shrink: 0;
   align-self: flex-end;
+  width: 520px;              /* cố định “khung” ảnh hero */
+  max-width: 100%;
 }
 
 .hero-figure img { 
   display: block; 
-  width: min(500px, 100%); 
-  height: auto; 
   filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+  width: 100% !important;    /* ép mọi ảnh fill khung */
+  height: auto;
+  object-fit: contain;       /* không méo hình */
+  transition: opacity .4s ease;
 }
 
 .hero-figure .shadow {

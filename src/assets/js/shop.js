@@ -51,19 +51,29 @@ function initProductCarousel() {
   ];
   
   function updateActiveCard() {
-    // Remove active class from all cards
-    cards.forEach(card => card.classList.remove('active'));
-    
-    // Add active class to current card
-    if (cards[currentIndex]) {
-      cards[currentIndex].classList.add('active');
-    }
-    
-    // Update title
-    if (productData[currentIndex]) {
-      productTitle.textContent = productData[currentIndex].title;
-    }
+  cards.forEach(c => c.classList.remove('active'));
+  if (cards[currentIndex]) cards[currentIndex].classList.add('active');
+
+  if (productData[currentIndex]) {
+    productTitle.textContent = productData[currentIndex].title;
   }
+
+  // Update hero-right image to match the active card
+  const heroImg = document.querySelector('.hero-right .hero-figure img');
+  const activeCard = cards[currentIndex];
+  if (heroImg && activeCard) {
+    const cardImg = activeCard.querySelector('img');
+    // fade
+    heroImg.style.opacity = '0';
+    setTimeout(() => {
+      heroImg.src = cardImg.src;
+      heroImg.alt = cardImg.alt || productTitle.textContent;
+      heroImg.style.opacity = '1';
+    }, 150);
+  }
+}
+
+
   
   function updateButtons() {
     prevBtn.disabled = currentIndex === 0;
