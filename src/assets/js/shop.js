@@ -51,6 +51,14 @@ function initProductCarousel() {
   ];
   
   function updateActiveCard() {
+  // Cho phép click vào card để cập nhật hero-right và hero-bone
+  cards.forEach((card, index) => {
+  card.addEventListener('click', () => {
+    currentIndex = index;
+    updateActiveCard();   // cập nhật hero image
+    updateButtons();      // cập nhật nút prev/next nếu có
+  });
+});
   cards.forEach(c => c.classList.remove('active'));
   if (cards[currentIndex]) cards[currentIndex].classList.add('active');
 
@@ -70,6 +78,52 @@ function initProductCarousel() {
       heroImg.alt = cardImg.alt || productTitle.textContent;
       heroImg.style.opacity = '1';
     }, 150);
+  }
+  const heroBoneImg = document.querySelector('.hero-bone img');
+  const heroBoneTitle = document.querySelector('.hero-bone .hero-btitle');
+  const heroBoneDesc = document.querySelector('.hero-bone .hero-bdesc');
+
+  const boneData = [
+  {
+    img: "../assets/images/Shop/royal-canin.png",
+    title: "Kit Cat",
+    desc: "Rich in protein and vitamins to help your cat grow strong and healthy every day."
+  },
+  {
+    img: "../assets/images/Shop/royal-canin.png",
+    title: "Encore Natural",
+    desc: "All-natural dry food with no preservatives, perfect for sensitive pets."
+  },
+  {
+    img: "../assets/icons/Shop/pet-accessory-isolated 1.svg",
+    title: "Drools Puppy Wet Food",
+    desc: "Balanced formula designed to support digestion and energy for active puppies."
+  },
+  {
+    img: "../assets/images/Shop/royal-canin.png",
+    title: "Royal Canin Digest",
+    desc: "Specially made for dogs with delicate digestion, enriched with probiotics."
+  },
+  {
+    img: "../assets/images/Shop/royal-canin.png",
+    title: "Royal Canin Care",
+    desc: "Moist food that boosts immunity and keeps coats shiny and soft."
+  }
+];
+
+  if (heroBoneImg && heroBoneTitle && heroBoneDesc && boneData[currentIndex]) {
+    const { img, title, desc } = boneData[currentIndex];
+    heroBoneImg.style.opacity = '0';
+    heroBoneTitle.style.opacity = '0';
+    heroBoneDesc.style.opacity = '0';
+    setTimeout(() => {
+      heroBoneImg.src = img;
+      heroBoneTitle.textContent = title;
+      heroBoneDesc.textContent = desc;
+      heroBoneImg.style.opacity = '1';
+      heroBoneTitle.style.opacity = '1';
+      heroBoneDesc.style.opacity = '1';
+    }, 200);
   }
 }
 
