@@ -85,12 +85,12 @@ function initProductCarousel() {
 
   const boneData = [
   {
-    img: "../assets/images/Shop/royal-canin.png",
+    img: "../assets/images/Shop/kit-cat-1.png",
     title: "Kit Cat",
     desc: "Rich in protein and vitamins to help your cat grow strong and healthy every day."
   },
   {
-    img: "../assets/images/Shop/royal-canin.png",
+    img: "../assets/images/Shop/cat-food-1.png",
     title: "Encore Natural",
     desc: "All-natural dry food with no preservatives, perfect for sensitive pets."
   },
@@ -829,6 +829,7 @@ function initProductFiltering() {
   // Price range filtering
   if (priceSlider) {
     priceSlider.addEventListener('input', updatePriceDisplay);
+    paintPriceSlider();
     priceSlider.addEventListener('input', applyFilters);
   }
 }
@@ -836,14 +837,21 @@ function initProductFiltering() {
 // Update price display
 function updatePriceDisplay() {
   const slider = document.getElementById('priceSlider');
-  const priceDisplay = document.getElementById('currentPriceRange');
-  
-  if (slider && priceDisplay) {
-    const value = parseInt(slider.value);
-    const priceRanges = ['$0', '$100', '$200', '$300', '$400', '>$500'];
-    priceDisplay.textContent = priceRanges[value];
-  }
+  if (!slider) return;
+  const maxIdx = 5; // 0..5
+  const val = parseInt(slider.value || "5", 10);
+  const pct = (val / maxIdx) * 100;
+  // dùng background-size để control linear-gradient layer đầu
+  slider.style.backgroundSize = pct + "% 100%";
 }
+
+// augment existing handlers
+const _origUpdatePriceDisplay = updatePriceDisplay;
+window.updatePriceDisplay = function(){
+  _origUpdatePriceDisplay();
+  paintPriceSlider();
+};
+
 
 // Apply filters to products
 function applyFilters() {
