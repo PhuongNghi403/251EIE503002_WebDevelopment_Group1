@@ -77,7 +77,7 @@
   font-size: initial;           
 }
 .flip-card:hover .flip-inner,
-.flip-card:focus-within .flip-inner { transform: rotateY(180deg); }
+.flip-card:focus-within .flip-inner { transform: none; }
 
 /* Card lớn giữ nguyên */
 .flip-card.big { 
