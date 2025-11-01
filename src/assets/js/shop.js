@@ -837,20 +837,34 @@ function initProductFiltering() {
 // Update price display
 function updatePriceDisplay() {
   const slider = document.getElementById('priceSlider');
-  if (!slider) return;
-  const maxIdx = 5; // 0..5
-  const val = parseInt(slider.value || "5", 10);
-  const pct = (val / maxIdx) * 100;
-  // dùng background-size để control linear-gradient layer đầu
-  slider.style.backgroundSize = pct + "% 100%";
+  const display = document.getElementById('currentPriceRange');
+
+  if (!slider || !display) return;
+
+  const prices = ["$0", "$100", "$200", "$300", "$400", ">$500"];
+
+  const updateSlider = () => {
+    const value = parseInt(slider.value);
+    const percent = (value / slider.max) * 100;
+
+    // tô màu phần bên trái của slider
+    slider.style.background = `linear-gradient(to right, #BFD6F6 ${percent}%, #E5E5E5 ${percent}%)`;
+    slider.style.setProperty('--thumb-color', percent > 80 ? '#88BAFF' : '#BFD6F6');
+    display.textContent = prices[value];
+  };
+
+  // gắn event lắng nghe
+  slider.addEventListener('input', updateSlider);
+
+  // gọi 1 lần khi mới load
+  updateSlider();
 }
 
-// augment existing handlers
-const _origUpdatePriceDisplay = updatePriceDisplay;
-window.updatePriceDisplay = function(){
-  _origUpdatePriceDisplay();
-  paintPriceSlider();
-};
+// chạy khi DOM sẵn sàng
+document.addEventListener('DOMContentLoaded', updatePriceDisplay);
+
+
+
 
 
 // Apply filters to products

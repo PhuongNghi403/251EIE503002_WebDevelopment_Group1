@@ -1040,7 +1040,6 @@
   background:#fff;
 }
 
-/* Title "Filters" + icon vuông 18px bên trái như figma */
 /* FILTER title with left icon */
 .filter-title{
   position: relative;
@@ -1065,6 +1064,11 @@
 }
 
 /* Group block spacing */
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* tất cả filter-group cách nhau 16px */
+}
 .filter-group{
   display: flex;
   flex-direction: column;
@@ -1077,48 +1081,153 @@
 }
 
 /* Label + Checkbox custom */
-.filter-options{ display:flex; flex-direction:column; gap:12px; }
-.filter-options label{
-  display:flex; align-items:center; gap:10px;
-  cursor:pointer; color:#4D2B12;
-  font:500 16px/24px "Lexend Deca",sans-serif;
-}
-.filter-options input[type="checkbox"]{
-  appearance:none; -webkit-appearance:none; outline:none;
-  width:13px; height:13px; border-radius:2px;
-  background:#fff; border:.5px solid #4A4035; position:relative;
-}
-.filter-options input[type="checkbox"]:checked{
-  background:#BFD6F6; border-color:#BFD6F6;
-}
-.filter-options input[type="checkbox"]:checked::after{
-  content:""; position:absolute; inset:2px;
-  border:2px solid #fff; border-top:none;border-left:none;
-  transform:rotate(45deg);
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* khoảng cách giữa từng dòng */
 }
 
+/* Label hàng ngang, căn giữa */
+.filter-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Lexend Deca", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #4D2B12;
+}
+
+/* Style cho checkbox */
+.filter-options input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #4A4035;
+  border-radius: 2px;
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+  background: #fff;
+}
+
+/* Khi được chọn: hiện dấu check */
+.filter-options input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 6px;
+  height: 10px;
+  border-right: 2px solid #4D2B12;
+  border-bottom: 2px solid #4D2B12;
+  transform: rotate(45deg);
+}
 /* Price slider like figma: track + filled part + thumb 18px */
-.price-slider{ position:relative; }
-.price-slider .slider{
-  width:100%; height:8px; border-radius:9999px; outline:none;
-  background:
-    linear-gradient(#BFD6F6,#BFD6F6) 0/0% 100% no-repeat, /* filled */
-    #E5E5E5; /* base */
-  appearance:none; -webkit-appearance:none;
-  border:.5px solid #B7B5B5;
-}
-.price-slider .slider::-webkit-slider-thumb{
-  -webkit-appearance:none; appearance:none;
-  width:18px;height:18px;border-radius:50%;
-  background:#BFD6F6; border:3px solid #fff; box-shadow:0 0 0 1px #B7B5B5;
-  margin-top:-5px;
-}
-.price-values{
-  display:flex; justify-content:space-between; margin-top:10px;
-  font:400 14px "Lexend Deca",sans-serif; color:#4D2B12;
+/* --- PRICE SLIDER (CROSS-BROWSER) --- */
+.price-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
+/* Track nền – mình để xám nhạt, JS sẽ đổ gradient phần đã kéo */
+.price-slider .slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 9999px;
+  background: #E5E5E5;
+  outline: none;
+  cursor: pointer;
 
+  /* tắt style mặc định từng engine */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* WebKit track (để trong suốt cho gradient inline từ JS nhìn thấy) */
+.price-slider .slider::-webkit-slider-runnable-track {
+  height: 8px;
+  background: transparent;
+  border-radius: 9999px;
+}
+
+/* WebKit thumb */
+.price-slider .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #BFD6F6;             /* MÀU THUMB */
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px #B7B5B5;
+  margin-top: -5px;                 /* canh thumb nằm giữa track */
+  cursor: pointer;
+}
+
+/* Firefox track */
+.price-slider .slider::-moz-range-track {
+  height: 8px;
+  background: transparent;
+  border: none;
+  border-radius: 9999px;
+}
+
+/* Firefox filled phần đã kéo (FF chia làm 2 phần track) */
+.price-slider .slider::-moz-range-progress {
+  height: 8px;
+  background: #BFD6F6;
+  border-radius: 9999px 0 0 9999px;
+}
+
+/* Firefox phần chưa kéo */
+.price-slider .slider::-moz-range-track {
+  background: #E5E5E5;
+}
+
+/* Firefox thumb */
+.price-slider .slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #BFD6F6;             /* MÀU THUMB */
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px #B7B5B5;
+  cursor: pointer;
+}
+
+/* Edge/IE cũ (an toàn) */
+.price-slider .slider::-ms-track {
+  height: 8px;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+.price-slider .slider::-ms-fill-lower { background: #BFD6F6; border-radius: 9999px; }
+.price-slider .slider::-ms-fill-upper { background: #E5E5E5; border-radius: 9999px; }
+.price-slider .slider::-ms-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #BFD6F6;             /* MÀU THUMB */
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px #B7B5B5;
+  cursor: pointer;
+}
+
+/* Nhãn dưới slider */
+.price-values {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 14px;
+  color: #4D2B12;
+}
+.price-display {
+  text-align: right;
+  font-weight: 600;
+  color: #4D2B12;
+}
 
 /* --- Products Grid --- */
 .products-grid-wrapper {
