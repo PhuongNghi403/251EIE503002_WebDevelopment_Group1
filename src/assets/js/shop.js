@@ -85,12 +85,12 @@ function initProductCarousel() {
 
   const boneData = [
   {
-    img: "../assets/images/Shop/royal-canin.png",
+    img: "../assets/images/Shop/kit-cat-1.png",
     title: "Kit Cat",
     desc: "Rich in protein and vitamins to help your cat grow strong and healthy every day."
   },
   {
-    img: "../assets/images/Shop/royal-canin.png",
+    img: "../assets/images/Shop/cat-food-1.png",
     title: "Encore Natural",
     desc: "All-natural dry food with no preservatives, perfect for sensitive pets."
   },
@@ -829,6 +829,7 @@ function initProductFiltering() {
   // Price range filtering
   if (priceSlider) {
     priceSlider.addEventListener('input', updatePriceDisplay);
+    paintPriceSlider();
     priceSlider.addEventListener('input', applyFilters);
   }
 }
@@ -836,14 +837,35 @@ function initProductFiltering() {
 // Update price display
 function updatePriceDisplay() {
   const slider = document.getElementById('priceSlider');
-  const priceDisplay = document.getElementById('currentPriceRange');
-  
-  if (slider && priceDisplay) {
+  const display = document.getElementById('currentPriceRange');
+
+  if (!slider || !display) return;
+
+  const prices = ["$0", "$100", "$200", "$300", "$400", ">$500"];
+
+  const updateSlider = () => {
     const value = parseInt(slider.value);
-    const priceRanges = ['$0', '$100', '$200', '$300', '$400', '>$500'];
-    priceDisplay.textContent = priceRanges[value];
-  }
+    const percent = (value / slider.max) * 100;
+
+    // tô màu phần bên trái của slider
+    slider.style.background = `linear-gradient(to right, #BFD6F6 ${percent}%, #E5E5E5 ${percent}%)`;
+    slider.style.setProperty('--thumb-color', percent > 80 ? '#88BAFF' : '#BFD6F6');
+    display.textContent = prices[value];
+  };
+
+  // gắn event lắng nghe
+  slider.addEventListener('input', updateSlider);
+
+  // gọi 1 lần khi mới load
+  updateSlider();
 }
+
+// chạy khi DOM sẵn sàng
+document.addEventListener('DOMContentLoaded', updatePriceDisplay);
+
+
+
+
 
 // Apply filters to products
 function applyFilters() {

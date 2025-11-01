@@ -50,8 +50,18 @@
           <div class="checkout-section">
             <h2 class="section-title">Shipping Method</h2>
             <style>
-              /* pointer cursor on hover for Standard Delivery card */
               .method-card[data-method="standard"]:hover { cursor: pointer; }
+              .method-card[data-method="pickup"]:hover { cursor: pointer; }
+              /* Make Pickup option visually darker than Standard Delivery */
+              .method-options .method-card[data-method="pickup"] { background-color: #efe5d4; }
+              .method-options .method-card[data-method="standard"] { background-color: #f9f5ee; }
+              /* Keep contrast when active */
+              .method-options .method-card[data-method="pickup"].active { background-color: #e8dcc7; }
+              .method-options .method-card[data-method="standard"].active { background-color: #f2eadf; }
+              /* Hover colors and smooth transition */
+              .method-options .method-card { transition: background-color 0.2s ease; }
+              .method-options .method-card[data-method="pickup"]:hover { background-color: #e4d4bd; }
+              .method-options .method-card[data-method="standard"]:hover { background-color: #f0e9df; }
             </style>
             <div class="method-options" role="radiogroup" aria-label="Shipping Method">
               <label class="method-card active" data-method="pickup">

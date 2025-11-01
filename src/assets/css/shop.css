@@ -524,53 +524,66 @@
 
 /* Sale Section */
 .sale-section {
-  background: #F4E8DA;
-  padding: 80px 0;
+  background: #FFFEF9;
+  padding: 0;
   position: relative;
+  overflow: visible;
 }
-
+/*Beige bar*/
+.sale-section::before{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  top:145px;                 
+  height:208px;
+  background:rgba(244,232,218,.72);
+  z-index:0;
+}
 .sale-content {
+  position: relative;
   display: flex;
+  z-index:1;
   align-items: center;
-  justify-content: center; /* bring side blocks closer to center */
-  gap: 24px; /* tighter spacing */
+  justify-content: space-between; /* bring side blocks closer to center */
+  gap: 16px; /* tighter spacing */
   min-height: 300px;
 }
 
-.sale-left {
-  flex: 0 0 auto; /* don't force extra width */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.sale-left{
+  transform: translateX(30%);
+}
+.sale-left .sale-text{
+  display:block;
+  margin:0;
+  font:400 36px/40px 'Bagel Fat One', system-ui;
+  letter-spacing:.5px;
+  text-align:left;
 }
 
 .sale-badge {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   gap: 8px;
+  transform: translateY(8px);
 }
 
 .sale-text {
-  font: 400 24px/1.2 'Bagel Fat One';
   color: #88BAFF;
   text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
 .sale-percentage {
-  font: 400 32px/1.2 'Bagel Fat One';
-  color: #4D2B12;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  display:block;
+  margin:0;
+  font:400 36px/40px 'Bagel Fat One', system-ui;
+  color:#4D2B12;
+  letter-spacing:.5px;
+  text-align:center;
 }
 
 .sale-center {
-  flex: 0 0 auto; /* prevent stretching so sides sit near product */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  display:flex; align-items:center; justify-content:center; flex:0 0 auto;
 }
 
 .product-showcase {
@@ -579,8 +592,7 @@
   justify-content: center;
   gap: 20px;
   position: relative;
-  max-width: 320px; /* allow larger single product */
-  width: auto;
+  width: 450px;
 }
 
 .product-item {
@@ -589,10 +601,10 @@
 }
 
 .product-item img {
-  width: 250px; /* larger single product image */
+  width: 100%; /* larger single product image */
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
   transition: all 0.3s ease;
 }
 
@@ -611,70 +623,94 @@
   flex: 0 0 auto; /* don't force extra width */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  gap: 20px;
+  gap: 16px;
+  transform: translateY(12%);
 }
 
 .pricing-info {
-  text-align: center;
+  text-align: left;
   position: relative;
+  display:flex;
+  align-items: flex-end;
 }
 
 .price-range {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
 
-.price-label {
-  font: 400 16px/1.2 'Lexend Deca';
-  color: #666;
+
+/* Dòng 1: "from $20" (2 span nằm 1 hàng) */
+.price-from {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+  color: rgba(77, 43, 18, 0.77);
   text-transform: lowercase;
 }
 
-.price-from {
-  font: 700 24px/1.2 'Lexend Deca';
+.price-from p {
+  margin: 0;
+  font-family: 'Lexend Deca', ui-sans-serif, system-ui;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 40px;
   color: #4D2B12;
 }
-
-.price-to {
-  font: 400 18px/1.2 'Lexend Deca';
-  color: #4D2B12;
+/* Dòng 2: "to $50" (span thứ 3 xuống dòng) */
+.price-to{
+  position:relative;
+  display:inline-block;             /* ép xuống dòng */
+  font-family:"Fraunces",serif;
+  font-weight: 600;
+  font-size: 24px;
+  padding-left:90px;
+  line-height:40px;
+  color:#4D2B12;
+}
+.price-to a{
+  font-family:"Lexend Deca",serif;
+  font-size:36px;
+  font-weight:400;
+}
+/*gạch xanh*/
+.price-to::before{
+  content:"";
+  position:absolute;
+  left: 0;
+  top: 50%;
+  width: 79px;
+  height: 4px;
+  background:#BFD6F6;
+  border-radius: 9999px;
+  transform: translateY(-50%); /* căn giữa theo dòng “to $50” */
 }
 
-.price-underline {
-  width: 60px;
-  height: 2px;
-  background: #88BAFF;
-  margin: 8px auto 0;
-  border-radius: 1px;
+/* CTA */
+.buy-now-btn{
+  background:#4D2B12;
+  color:#F4E8DA;
+  width:180px;
+  border:none;
+  border-radius:32px;
+  padding:10px 30px;
+  font:600 18px/22px 'Lexend Deca', ui-sans-serif;
+  letter-spacing:.3px;
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+  box-shadow:0 6px 16px rgba(77,43,18,.25);
 }
-
-.buy-now-btn {
-  background: #4D2B12;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 14px 32px;
-  font: 600 16px/1.2 'Lexend Deca';
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(77, 43, 18, 0.2);
-}
-
-.buy-now-btn:hover {
-  background: #3A2110;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(77, 43, 18, 0.3);
-}
-
-.buy-now-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(77, 43, 18, 0.2);
+.buy-now-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(77,43,18,.32);
+  background:#3A2110;
 }
 
 /* CTA Section */
@@ -993,93 +1029,205 @@
 }
 
 /* --- Filter Sidebar --- */
-.products-filters {
-  flex: 0 0 260px; /* Sidebar width */
+/* === FILTER SIDEBAR — FIGMA TUNE === */
+.products-filters{ flex:0 0 256px; }
+.products-filters .filter-box{
+  box-sizing:border-box;
+  padding:25px;
+  gap:24px;
+  border:1px solid #E5E5E5;
+  border-radius:16px;
+  background:#fff;
 }
 
-.filter-box {
-  background: #FFFFFF;
-  border: 1px solid #E5E5E5;
-  border-radius: 16px;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
-.filter-title {
-  font-family: 'Lexend Deca', sans-serif;
+/* FILTER title with left icon */
+.filter-title{
+  position: relative;
+  padding-left: 30px;              /* chừa chỗ icon */
+  margin: 0;
+  border-bottom: 1px solid #E5E5E5;
+  font-family: "Lexend Deca", sans-serif;
   font-weight: 600;
   font-size: 18px;
   color: #4D2B12;
-  margin: 0;
   padding-bottom: 15px;
-  border-bottom: 1px solid #E5E5E5;
+}
+.filter-title::before{
+  content: "";
+  position: absolute;
+  left: 0; top: 2px;
+  width: 18px; height: 18px;
+  background: #4D2B12;             /* màu icon */
+  /* dùng mask để tô màu svg */
+  -webkit-mask: url("data:image/svg+xml;utf8,\<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\<path d='M3 5h18v2l-7 7v4l-4 2v-6L3 7V5z'/></svg>") no-repeat center / contain;
+  mask: url("data:image/svg+xml;utf8,\<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\<path d='M3 5h18v2l-7 7v4l-4 2v-6L3 7V5z'/></svg>") no-repeat center / contain;
 }
 
-.filter-group h4 {
-  font-family: 'Lexend Deca', sans-serif;
-  font-weight: 500;
-  font-size: 16px;
+/* Group block spacing */
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* tất cả filter-group cách nhau 16px */
+}
+.filter-group{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;  /* h4 <-> .filter-options */
+}
+.filter-group h4{
+  margin: 0;               /* để gap điều khiển khoảng cách */
+  font: 500 16px/24px "Lexend Deca", sans-serif;
   color: #4D2B12;
-  margin: 0 0 15px 0;
 }
 
+/* Label + Checkbox custom */
 .filter-options {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px; /* khoảng cách giữa từng dòng */
 }
 
+/* Label hàng ngang, căn giữa */
 .filter-options label {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: 'Lexend Deca', sans-serif;
+  gap: 8px;
+  font-family: "Lexend Deca", sans-serif;
   font-size: 16px;
+  line-height: 24px;
   color: #4D2B12;
-  cursor: pointer;
 }
 
+/* Style cho checkbox */
 .filter-options input[type="checkbox"] {
-  width: 15px;
-  height: 15px;
-  accent-color: #4D2B12;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #4A4035;
+  border-radius: 2px;
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+  background: #fff;
 }
 
-/* --- Price Slider --- */
-.price-slider {
-  position: relative;
+/* Khi được chọn: hiện dấu check */
+.filter-options input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 6px;
+  height: 10px;
+  border-right: 2px solid #4D2B12;
+  border-bottom: 2px solid #4D2B12;
+  transform: rotate(45deg);
 }
+/* Price slider like figma: track + filled part + thumb 18px */
+/* --- PRICE SLIDER (CROSS-BROWSER) --- */
+.price-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Track nền – mình để xám nhạt, JS sẽ đổ gradient phần đã kéo */
 .price-slider .slider {
   width: 100%;
+  height: 8px;
+  border-radius: 9999px;
+  background: #E5E5E5;
+  outline: none;
+  cursor: pointer;
+
+  /* tắt style mặc định từng engine */
   -webkit-appearance: none;
   appearance: none;
-  height: 8px;
-  background: #E5E5E5;
-  border-radius: 9999px;
-  outline: none;
 }
+
+/* WebKit track (để trong suốt cho gradient inline từ JS nhìn thấy) */
+.price-slider .slider::-webkit-slider-runnable-track {
+  height: 8px;
+  background: transparent;
+  border-radius: 9999px;
+}
+
+/* WebKit thumb */
 .price-slider .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 18px;
   height: 18px;
-  background: #BFD6F6;
   border-radius: 50%;
-  cursor: pointer;
-  border: 3px solid white;
+  background: #BFD6F6;             /* MÀU THUMB */
+  border: 3px solid #fff;
   box-shadow: 0 0 0 1px #B7B5B5;
+  margin-top: -5px;                 /* canh thumb nằm giữa track */
+  cursor: pointer;
 }
+
+/* Firefox track */
+.price-slider .slider::-moz-range-track {
+  height: 8px;
+  background: transparent;
+  border: none;
+  border-radius: 9999px;
+}
+
+/* Firefox filled phần đã kéo (FF chia làm 2 phần track) */
+.price-slider .slider::-moz-range-progress {
+  height: 8px;
+  background: #BFD6F6;
+  border-radius: 9999px 0 0 9999px;
+}
+
+/* Firefox phần chưa kéo */
+.price-slider .slider::-moz-range-track {
+  background: #E5E5E5;
+}
+
+/* Firefox thumb */
+.price-slider .slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #BFD6F6;             /* MÀU THUMB */
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px #B7B5B5;
+  cursor: pointer;
+}
+
+/* Edge/IE cũ (an toàn) */
+.price-slider .slider::-ms-track {
+  height: 8px;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+.price-slider .slider::-ms-fill-lower { background: #BFD6F6; border-radius: 9999px; }
+.price-slider .slider::-ms-fill-upper { background: #E5E5E5; border-radius: 9999px; }
+.price-slider .slider::-ms-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #BFD6F6;             /* MÀU THUMB */
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px #B7B5B5;
+  cursor: pointer;
+}
+
+/* Nhãn dưới slider */
 .price-values {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
   font-family: 'Lexend Deca', sans-serif;
   font-size: 14px;
   color: #4D2B12;
 }
-
+.price-display {
+  text-align: right;
+  font-weight: 600;
+  color: #4D2B12;
+}
 
 /* --- Products Grid --- */
 .products-grid-wrapper {
