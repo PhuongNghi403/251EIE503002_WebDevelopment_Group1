@@ -783,7 +783,13 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
+.sale-section {
+  margin-bottom: -60px; /* tạo khoảng cách 16px bên dưới */
+}
 
+.products-section {
+  margin-top: 0; /* tránh cộng dồn thêm khoảng cách */
+}
 /* --- Product Grid Section --- */
 .products-section {
   padding: 80px 0;
@@ -1036,7 +1042,7 @@
 
 /* --- Product Card --- */
 .product-card {
-  width: 250px;
+  width: 256px;
   height: 450px;
   background: #FFFFFF;
   border-radius: 10px;
@@ -1156,26 +1162,37 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 20px;
+  padding: 16px;
   border: 1.5px solid #FEC7E4;
   border-top: 0;
   border-radius: 0 0 16px 16px;
   background: #fff;
+  height:216px;
 }
 
 .card-title{
-  margin:0;
-  line-height:1.25;
-  font-size:20px;
-  min-height:3.2em;                /* ~2–3 dòng */
+  font-family: 'Bagel Fat One', system-ui;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #252525;
+  margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  padding-top: 4px;
+  height: calc(1.3em * 2);     /* tương ứng với 2 dòng */
+  
 }
 
-/* ẩn Category như yêu cầu */
 .product-card .item-weight{ display:none; }
 
-/* meta & giá không làm “giật” chiều cao */
-.card-meta{ min-height:22px; }
-.card-price{ margin-top:6px; }
+.card-meta{ min-height:22px;margin-bottom:auto; }
+
 
 /* đẩy cụm nút xuống đáy và canh đều */
 .card-actions{
@@ -1187,18 +1204,23 @@
 
 .card-meta {
   display: flex;
-  gap: 15px;
-  align-items: center;
+  align-items: center;     /* canh giữa icon và text theo chiều dọc */
+  gap: 8px;                /* khoảng cách giữa sao, rating, sold */
   font-family: 'Lexend Deca', sans-serif;
   font-size: 16px;
-  color: #595959;
+  color: #6B6B6B;
+  line-height: 1;          /* bỏ khoảng dư thừa bên dưới text */
+  margin: 0;
+  padding: 0;
+  height: auto; 
 }
 
 .card-price {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: auto; /* Pushes price and actions to bottom */
+  line-height: 1; 
+  margin-top: 10px; /* Pushes price and actions to bottom */
 }
 
 .card-price .current-price {
