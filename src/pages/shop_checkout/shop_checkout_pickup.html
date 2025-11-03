@@ -67,7 +67,7 @@
               <label class="method-card active" data-method="pickup">
                 <input type="radio" name="shippingMethod" value="pickup" checked hidden />
                 <div class="method-icon">
-                  <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="Store Pickup" />
+                  <img src="../../assets/icons/Shop_Checkout/ic_pickup.svg" alt="Store Pickup" />
                 </div>
                 <div class="method-info">
                   <div class="method-name">Store Pickup</div>
@@ -79,7 +79,7 @@
               <label class="method-card" data-method="standard">
                 <input type="radio" name="shippingMethod" value="standard" hidden />
                 <div class="method-icon">
-                  <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="Standard Delivery" />
+                  <img src="../../assets/icons/Shop_Checkout/Truck.svg" alt="Standard Delivery" />
                 </div>
                 <div class="method-info">
                   <div class="method-name">Standard Delivery</div>
@@ -94,8 +94,8 @@
           <div class="checkout-section">
             <h2 class="section-title">Payment Method</h2>
             <div class="pay-tabs" role="tablist">
-              <button class="pay-tab active" role="tab" aria-selected="true">Credit/Debit Card</button>
-              <button class="pay-tab" role="tab" aria-selected="false">QR Code</button>
+              <button class="pay-tab active" role="tab" aria-selected="true"><img src="../../assets/icons/Shop_Checkout/ic_card.svg" alt="" aria-hidden="true" />Credit/Debit Card</button>
+              <button class="pay-tab" role="tab" aria-selected="false"><img src="../../assets/icons/Shop_Checkout/ic_qrcode.svg" alt="" aria-hidden="true" />QR Code</button>
             </div>
 
             <div class="saved-cards">
@@ -105,10 +105,14 @@
                   <span class="card-number">•••• •••• •••• 4242</span>
                   <span class="card-meta">Expires 12/25 · Tran Duy Thanh</span>
                 </div>
-                <button class="btn ghost">Edit</button>
+                <button class="btn ghost edit">Edit</button>
+                <button class="btn ghost delete">Delete</button>
               </div>
 
-              <button class="btn add-card">Add New Card</button>
+              <div class="actions">
+                <button class="btn add-card">Add New Card</button>
+                <button class="btn update-card">Update Card</button>
+              </div>
             </div>
           </div>
 
@@ -239,7 +243,26 @@
     </div>
   </footer>
 
+  <!-- QR Payment Modal -->
+  <div class="qr-modal" aria-hidden="true" role="dialog" aria-label="QR Payment">
+    <div class="qr-dialog">
+      <button class="qr-close" aria-label="Close">×</button>
+      <h3 class="qr-title">Pay by QR Code</h3>
+      <div class="qr-body">
+        <canvas id="qrCanvas" class="qr-image" aria-label="QR Code"></canvas>
+        <div class="qr-info">
+          <div class="qr-row"><span>Amount:</span> <strong id="qrAmount">$0.00</strong></div>
+          <div class="qr-row"><span>Bank:</span> <strong>Vietcombank</strong></div>
+          <div class="qr-row"><span>Account:</span> <strong>0123456789</strong></div>
+          <div class="qr-row"><span>Branch:</span> <strong>Hanoi</strong></div>
+          <div class="qr-row"><span>Customer:</span> <strong id="qrCustomer">Guest</strong></div>
+        </div>
+      </div>
+      <p class="qr-note">Scan with your banking app. QR updates if total changes.</p>
+    </div>
+  </div>
   <script src="../../assets/js/utils.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   <script src="../../assets/js/shop_checkout/shop_checkout_pickup.js"></script>
 </body>
 </html>
