@@ -129,7 +129,37 @@
     comments: 47,
     views: 1800,
     banner: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=1600&auto=format&fit=crop"
-  }
+  },
+  {
+  id: 111,
+  type: 'campaign',
+  title: "Adopt Don’t Shop — Pawfect Love Month",
+  excerpt: "Join us this February for a heartwarming pet adoption event! Meet adorable dogs & cats waiting for their forever home.",
+  category: "Campaign",
+  author: "Pawfect Team",
+  date: "Feb 10–25",
+  banner: "https://images.unsplash.com/photo-1601758124510-52d5b81d6821?q=80&w=1600&auto=format&fit=crop"
+},
+{
+  id: 112,
+  type: 'campaign',
+  title: "Summer Pet Fair 2025",
+  excerpt: "A fun-filled festival with workshops, free grooming booths, and pet nutrition consultations.",
+  category: "Event",
+  author: "Pawfect Care",
+  date: "Jun 15–17",
+  banner: "https://images.unsplash.com/photo-1583511655903-5fee6a20fbd4?q=80&w=1600&auto=format&fit=crop"
+},
+{
+  id: 113,
+  type: 'campaign',
+  title: "Pawfect Rescue Week",
+  excerpt: "Support local shelters and help rehome rescued animals. Every purchase donates to partner shelters.",
+  category: "Community",
+  author: "Pawfect Rescue",
+  date: "Jul 3–10",
+  banner: "https://images.unsplash.com/photo-1612832021027-95362d11d0c1?q=80&w=1600&auto=format&fit=crop"
+}
 ];
 window.blogPosts = blogPosts;
 
@@ -142,7 +172,7 @@ window.blogPosts = blogPosts;
     Rescue: "Adoption & Rescue",
     Reviews: "Products & Reviews"
   };
-
+  
   // ===== STATE =====
   const PAGE_SIZE = 6;
   let currentFilter = 'all';
@@ -431,7 +461,23 @@ window.blogPosts = blogPosts;
 
     setupCarouselNav(campaigns.length);
     updateCarouselPosition();
+     // Thêm sự kiện cho nút Learn more
+  const learnBtns = document.querySelectorAll('.btn-learn-more');
+  learnBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      const campaigns = blogPosts.filter(p => p.type === 'campaign');
+      const campaign = campaigns[index];
+      if (!campaign) return;
+
+      // Lưu dữ liệu vào sessionStorage để trang detail đọc
+      sessionStorage.setItem("CAMPAIGNS_DATA", JSON.stringify(campaigns));
+
+      // Chuyển sang trang chi tiết
+      window.location.href = `workshop_detail.html?id=${campaign.id}`;
+    });
+  });
   }
+
 
   function createCarouselSlide(item, idx) {
     const dateStr = item.date || '';
@@ -495,6 +541,7 @@ window.blogPosts = blogPosts;
     const dots = document.querySelectorAll('.carousel-dot');
     dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentSlide));
   }
+  
 
   /** ===================== BLOG DETAIL (giữ để tương thích) ===================== **/
   function setupBlogCardClick() {
@@ -821,3 +868,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   items.forEach(i => obsItems.observe(i));
 });
+

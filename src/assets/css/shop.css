@@ -375,14 +375,6 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-.wishlist-btn {
-  color: #ff4757;
-}
-
-.wishlist-btn:hover {
-  background: #ff4757;
-  color: white;
-}
 
 .cart-btn {
   color: #88BAFF;
@@ -791,209 +783,12 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
-
-/* Responsive Design */
-@media (max-width: 1200px) { 
-  .product-row { 
-    grid-template-columns: repeat(3, 1fr); 
-  } 
-  
-  .hero-title {
-    font-size: 56px;
-  }
-  
-  .hero-figure img {
-    width: min(400px, 100%);
-  }
+.sale-section {
+  margin-bottom: -60px; /* tạo khoảng cách 16px bên dưới */
 }
 
-@media (max-width: 768px) {
-  .hero-inner { 
-    flex-direction: column; 
-    gap: 40px;
-    text-align: center;
-  }
-  
-  .hero-title { 
-    font-size: 48px; 
-  }
-  
-  .hero-title .sub {
-    font-size: 24px;
-  }
-  
-  .hero-desc {
-    font-size: 18px;
-  }
-  
-  .product-row { 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 20px;
-  }
-  
-  .popular-title {
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .popular-title h2 {
-    font-weight: 700;
-    font: 'Bagel Fat One';
-    font-size: 24px;
-  }
-  
-  .cta-title {
-    font-size: 28px;
-  }
-  
-  .cta-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .star {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .nutrition-features {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  
-  .feature-block {
-    padding: 30px 20px;
-  }
-  
-  .title-main {
-    font-size: 28px;
-  }
-  
-  .title-sub {
-    font-size: 20px;
-  }
-
-  .sale-content {
-    flex-direction: column;
-    gap: 30px;
-    text-align: center;
-  }
-  
-  .sale-left,
-  .sale-right {
-    flex: none;
-  }
-  
-  .product-showcase {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-  }
-  
-  /* scale single product on tablets */
-  .sale-section .product-item img {
-    width: 180px;
-  }
-  
-  .sale-text {
-    font-size: 20px;
-  }
-  
-  .sale-percentage {
-    font-size: 28px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 16px;
-  }
-  
-  .hero-title {
-    font-size: 40px;
-  }
-  
-  .hero-title .sub {
-    font-size: 20px;
-  }
-  
-  .product-row {
-    grid-template-columns: 1fr;
-  }
-  
-  .card {
-    padding: 20px 15px;
-  }
-  
-  .card img {
-    width: 100px;
-  }
-  
-  .tailored-nutrition {
-    padding: 60px 0;
-  }
-  
-  .nutrition-header {
-    margin-bottom: 40px;
-  }
-  
-  .feature-block {
-    padding: 25px 15px;
-  }
-  
-  .feature-icon {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 20px;
-  }
-  
-  .feature-icon svg {
-    width: 30px;
-    height: 30px;
-  }
-  
-  .feature-title {
-    font-size: 18px;
-  }
-  
-  .feature-desc {
-    font-size: 14px;
-  }
-  
-  .sale-section {
-    padding: 60px 0;
-  }
-  
-  .sale-content {
-    gap: 25px;
-  }
-  
-  /* scale single product on phones */
-  .sale-section .product-item img {
-    width: 140px;
-  }
-  
-  .sale-text {
-    font-size: 18px;
-  }
-  
-  .sale-percentage {
-    font-size: 24px;
-  }
-  
-  .price-from {
-    font-size: 20px;
-  }
-  
-  .price-to {
-    font-size: 16px;
-  }
-  
-  .buy-now-btn {
-    padding: 12px 24px;
-    font-size: 14px;
-  }
+.products-section {
+  margin-top: 0; /* tránh cộng dồn thêm khoảng cách */
 }
 /* --- Product Grid Section --- */
 .products-section {
@@ -1029,7 +824,6 @@
 }
 
 /* --- Filter Sidebar --- */
-/* === FILTER SIDEBAR — FIGMA TUNE === */
 .products-filters{ flex:0 0 256px; }
 .products-filters .filter-box{
   box-sizing:border-box;
@@ -1040,7 +834,7 @@
   background:#fff;
 }
 
-/* FILTER title with left icon */
+/* FILTER title */
 .filter-title{
   position: relative;
   padding-left: 30px;              /* chừa chỗ icon */
@@ -1122,7 +916,7 @@
   border-bottom: 2px solid #4D2B12;
   transform: rotate(45deg);
 }
-/* Price slider like figma: track + filled part + thumb 18px */
+
 /* --- PRICE SLIDER (CROSS-BROWSER) --- */
 .price-slider {
   display: flex;
@@ -1238,10 +1032,18 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  align-items: stretch; 
+}
+.products-grid > .product-card{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* --- Product Card --- */
 .product-card {
+  width: 256px;
+  height: 450px;
   background: #FFFFFF;
   border-radius: 10px;
   overflow: hidden;
@@ -1260,7 +1062,7 @@
   position: relative;
   background: #F1F1F1;
   padding: 20px;
-  height: 280px;
+  height: 260px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1272,43 +1074,103 @@
   object-fit: contain;
 }
 
+/* --- Wishlist Heart --- */
 .wishlist-btn {
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
-  background: #FFFFFF;
-  border: 1px solid #E0E0E0;
-  border-radius: 50%;
-  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
   padding: 0;
-  color: #8C8C8C;
-  font-size: 18px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-  transition: all 0.2s ease;
+  color: #595959; /* màu outline mặc định */
+  cursor: pointer;
+  transition: transform 0.15s ease, color 0.2s ease;
 }
 
-.wishlist-btn.active,
-.wishlist-btn:hover {
-  border-color: #FF6B6B;
-  color: #FF6B6B;
+.wishlist-btn svg {
+  width: 22px;
+  height: 22px;
+  display: block;
 }
 
-.card-details {
-  padding: 20px;
+
+.wishlist-btn svg path {
+  fill: transparent !important;
+  stroke: #595959 !important;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill 0.25s ease, stroke 0.25s ease;
+}
+
+/* hover */
+.wishlist-btn::after{
+  content:"";
+  position:absolute; inset:6px;
+  border-radius:999px;
+  background:
+    radial-gradient(120% 120% at 20% 20%,
+      rgba(255,255,255,.6) 0%,
+      rgba(255,255,255,.25) 20%,
+      rgba(255,255,255,0) 55%);
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .25s ease;
+  mix-blend-mode:screen;
+}
+
+/* Hover*/
+.wishlist-btn:hover{ color:#ffd1f5; }
+.wishlist-btn:hover::after{ opacity:.6; }
+
+/* Active*/
+.wishlist-btn.active{ color:#FF4F5A; }
+.wishlist-btn.active svg path{
+  fill:currentColor;
+  stroke:currentColor;
+}
+
+/* Tôn trọng người dùng giảm chuyển động */
+@media (prefers-reduced-motion: reduce){
+  .wishlist-btn,
+  .wishlist-btn::after,
+  .wishlist-btn svg path{ transition:none; }
+}
+
+/* khi active (đã thích): fill hồng, viền hồng */
+.wishlist-btn.active svg path {
+  fill: #FF6B6B !important;
+  stroke: #FF6B6B !important;
+}
+
+.wishlist-btn.active {
+  animation: likePop 0.25s ease;
+}
+
+@keyframes likePop {
+  0% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.card-details{
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid #FEC7E4;
-  border-top: none;
-  border-radius: 0 0 10px 10px;
-  flex-grow: 1; /* Makes all cards equal height */
+  padding: 16px;
+  border: 1.5px solid #FEC7E4;
+  border-top: 0;
+  border-radius: 0 0 16px 16px;
+  background: #fff;
+  height:216px;
 }
 
-.card-title {
+.card-title{
   font-family: 'Bagel Fat One', system-ui;
   font-size: 20px;
   font-weight: 400;
@@ -1316,30 +1178,49 @@
   color: #252525;
   margin: 0;
   line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  padding-top: 4px;
+  height: calc(1.3em * 2);     /* tương ứng với 2 dòng */
+  
+}
+
+.product-card .item-weight{ display:none; }
+
+.card-meta{ min-height:22px;margin-bottom:auto; }
+
+
+/* đẩy cụm nút xuống đáy và canh đều */
+.card-actions{
+  margin-top:auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .card-meta {
   display: flex;
-  gap: 15px;
-  align-items: center;
+  align-items: center;     /* canh giữa icon và text theo chiều dọc */
+  gap: 8px;                /* khoảng cách giữa sao, rating, sold */
   font-family: 'Lexend Deca', sans-serif;
   font-size: 16px;
-  color: #595959;
-}
-
-.item-weight {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 8px;
-  font-weight: 500;
-  font-family: 'Lexend Deca', sans-serif;
+  color: #6B6B6B;
+  line-height: 1;          /* bỏ khoảng dư thừa bên dưới text */
+  margin: 0;
+  padding: 0;
+  height: auto; 
 }
 
 .card-price {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: auto; /* Pushes price and actions to bottom */
+  line-height: 1; 
+  margin-top: 10px; /* Pushes price and actions to bottom */
 }
 
 .card-price .current-price {

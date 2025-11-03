@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="../../assets/css/base.css" />
   <link rel="stylesheet" href="../../assets/css/header.css" />
   <link rel="stylesheet" href="../../assets/css/footer.css" />
+  <link rel="stylesheet" href="../../assets/css/shop_checkout/shop_checkout_ship.css" />
 </head>
 <body data-page="shop-checkout-ship">
   <header class="site-header">
@@ -41,7 +42,147 @@
       <div class="checkout-header">
         <h1 class="checkout-title">Checkout — Shipping</h1>
       </div>
-      <!-- Shipping content goes here -->
+
+      <div class="checkout-layout">
+        <!-- Left column: shipping + payment -->
+        <section class="checkout-main">
+          <!-- Shipping Method -->
+          <div class="checkout-section">
+            <h2 class="section-title">Shipping Method</h2>
+            <div class="method-options" role="radiogroup" aria-label="Shipping Method">
+              <label class="method-card" data-method="pickup">
+                <input type="radio" name="shippingMethod" value="pickup" hidden />
+                <div class="method-icon">
+                  <img src="../../assets/icons/Shop_Checkout/ic_pickup.svg" alt="Store Pickup" />
+                </div>
+                <div class="method-info">
+                  <div class="method-name">Store Pickup</div>
+                  <div class="method-note">Ready in 2 hours</div>
+                </div>
+                <span class="method-badge">Free</span>
+              </label>
+
+              <label class="method-card active" data-method="standard">
+                <input type="radio" name="shippingMethod" value="standard" checked hidden />
+                <div class="method-icon">
+                  <img src="../../assets/icons/Shop_Checkout/Truck.svg" alt="Standard Delivery" />
+                </div>
+                <div class="method-info">
+                  <div class="method-name">Standard Delivery</div>
+                  <div class="method-note">3–5 business days</div>
+                </div>
+                <span class="method-badge">$5.00</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Shipping Address -->
+          <div class="checkout-section">
+            <h2 class="section-title">Shipping Address</h2>
+            <div class="address-empty" style="background:#FAF4EC;border:1px solid #E9E4DC;border-radius:12px;padding:16px;display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;">
+              <div style="width:36px;height:36px;border-radius:10px;background:#FFF;border:1px solid #EEE2D4;display:flex;align-items:center;justify-content:center;color:#7B5E47;">📍</div>
+              <div>
+                <div style="font:600 14px/1.2 'Lexend Deca';color:#4D2B12;">No saved addresses yet</div>
+                <div style="font:400 12px/1.2 'Lexend Deca';color:#7B5E47;">Please add your address to continue</div>
+              </div>
+              <button class="btn" style="background:#FFF;">+ Add Shipping Address</button>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="checkout-section">
+            <h2 class="section-title">Payment Method</h2>
+            <div class="pay-tabs" role="tablist">
+              <button class="pay-tab active" role="tab" aria-selected="true"><img src="../../assets/icons/Shop_Checkout/ic_card.svg" alt="" aria-hidden="true" />Credit/Debit Card</button>
+              <button class="pay-tab" role="tab" aria-selected="false"><img src="../../assets/icons/Shop_Checkout/ic_qrcode.svg" alt="" aria-hidden="true" />QR Code</button>
+            </div>
+
+            <div class="saved-cards">
+              <div class="card-row selected">
+                <div class="card-left">
+                  <span class="card-brand">VISA</span>
+                  <span class="card-number">•••• •••• •••• 4242</span>
+                  <span class="card-meta">Expires 12/25 · Chu Viet Cam</span>
+                </div>
+                <button class="btn ghost edit">Edit</button>
+                <button class="btn ghost delete">Delete</button>
+              </div>
+
+              <div class="actions">
+                <button class="btn add-card">Add New Card</button>
+                <button class="btn update-card">Update Card</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Details -->
+          <div class="checkout-section">
+            <h2 class="section-title">Payment Details</h2>
+            <form class="payment-form" action="#" onsubmit="return false;">
+              <div class="form-row">
+                <label for="cardNumber">Card Number</label>
+                <input id="cardNumber" type="text" placeholder="1234 5678 9012 3456" required />
+              </div>
+              <div class="form-row">
+                <label for="cardName">Cardholder Name</label>
+                <input id="cardName" type="text" placeholder="NGUYEN VAN A" required />
+              </div>
+              <div class="form-row two-col">
+                <div class="col">
+                  <label for="expiry">Expiry Date</label>
+                  <input id="expiry" type="text" placeholder="MM/YY" required/>
+                </div>
+                <div class="col">
+                  <label for="cvv">CVV</label>
+                  <input id="cvv" type="text" placeholder="123" required />
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="terms">
+            <label>
+              <input type="checkbox" aria-label="Agree to terms" required />
+              I agree to the <a href="#">Term &amp; Conditions</a> and <a href="#">Cancellation Policy</a>. I understand that cancellations made less than 48 hours before check-in are non-refundable.
+            </label>
+          </div>
+        </section>
+
+        <!-- Right column: order summary -->
+        <aside class="checkout-summary">
+          <div class="order-card">
+            <h3 class="order-title">Order Summary</h3>
+            <div class="order-items">
+              <div class="order-item">
+                <img class="order-thumb" src="" alt="Product" />
+                <div class="order-info">
+                  <div class="order-name"></div>
+                  <div class="order-meta"></div>
+                </div>
+                <div class="order-price"></div>
+              </div>
+              
+            </div>
+
+            <div class="discount">
+              <label for="discountCode">Discount Code</label>
+              <div class="discount-row">
+                <input id="discountCode" type="text" placeholder="Enter code" />
+                <button class="btn apply">Apply</button>
+              </div>
+            </div>
+
+            <div class="totals">
+              <div class="row"><span>Subtotal:</span><span></span></div>
+              <div class="row discount"><span>Discount:</span><span></span></div>
+              <div class="row shipping"><span>Shipping:</span><span></span></div>
+              <div class="row total"><span>Total:</span><span></span></div>
+            </div>
+
+            <button class="btn pay">Pay Now</button>
+          </div>
+        </aside>
+      </div>
     </div>
   </main>
 
@@ -101,6 +242,26 @@
     </div>
   </footer>
 
+  <!-- QR Payment Modal -->
+  <div class="qr-modal" aria-hidden="true" role="dialog" aria-label="QR Payment">
+    <div class="qr-dialog">
+      <button class="qr-close" aria-label="Close">×</button>
+      <h3 class="qr-title">Pay by QR Code</h3>
+      <div class="qr-body">
+        <canvas id="qrCanvas" class="qr-image" aria-label="QR Code"></canvas>
+        <div class="qr-info">
+          <div class="qr-row"><span>Amount:</span> <strong id="qrAmount">$0.00</strong></div>
+          <div class="qr-row"><span>Bank:</span> <strong>Vietcombank</strong></div>
+          <div class="qr-row"><span>Account:</span> <strong>0123456789</strong></div>
+          <div class="qr-row"><span>Branch:</span> <strong>Hanoi</strong></div>
+          <div class="qr-row"><span>Customer:</span> <strong id="qrCustomer">Guest</strong></div>
+        </div>
+      </div>
+      <p class="qr-note">Scan with your banking app. QR updates if total changes.</p>
+    </div>
+  </div>
   <script src="../../assets/js/utils.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script src="../../assets/js/shop_checkout/shop_checkout_ship.js"></script>
 </body>
 </html>

@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Workshop Detail – Pawfect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta id="seo-title" name="title" content="Workshop – Pawfect" />
+  <meta id="seo-desc" name="description" content="Workshop at Pawfect." />
+  <link id="seo-canonical" rel="canonical" href="" />
+  <meta property="og:type" content="article" />
+  <meta id="og-title" property="og:title" content="Workshop – Pawfect" />
+  <meta id="og-desc" property="og:description" content="Workshop at Pawfect." />
+  <meta id="og-image" property="og:image" content="" />
+  <meta id="og-url" property="og:url" content="" />
+
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Lexend+Deca:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/workshop-detail.css" />
+  <script id="event-jsonld" type="application/ld+json">{}</script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../index.html">
+        <img class="brand-mark-img" src="../assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+        <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+      </a>
+      <nav class="nav">
+        <a class="nav-link" href="../index.html">Home</a>
+        <a class="nav-link" href="services/services.html">Services</a>
+        <a class="nav-link" href="shop.html">Shop</a>
+        <a class="nav-link" href="community.html">Community</a>
+        <a class="nav-link" href="profile.html">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-btn" href="favorite.html" aria-label="Wishlist">
+          <img src="../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="cart.html" aria-label="Cart">
+          <img src="../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="login-signup.html" aria-label="Account">
+          <img src="../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Workshop / Campaign Detail -->
+<section class="ws-hero">
+  <div class="container">
+    <!-- Breadcrumbs (optional) -->
+    <nav class="ws-breadcrumbs">Community / Camapign</nav>
+    <button class="btn-back" onclick="history.back()">
+      <svg viewBox="0 0 24 24" class="icon">
+        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Campaigns
+    </button>
+    <!-- Hero card: banner + info -->
+    <div class="ws-hero-card">
+      <!-- Banner / main media -->
+      <figure class="ws-hero-media">
+        <!-- đổi src theo campaign -->
+        <img id="ws-hero-img" src="../assets/images/Community/workshop1.jpeg" alt="Campaign banner">
+      </figure>
+
+      <!-- Right info -->
+      <div class="ws-hero-info">
+        <h1 id="ws-title" class="ws-title">Workshop / Campaign Title</h1>
+        <p id="ws-excerpt" class="ws-excerpt">
+          A short and catchy description for this event goes here.
+        </p>
+
+        <!-- Meta rows -->
+        <div class="ws-meta">
+          <div class="meta-item">
+            <span class="meta-icon"> <svg viewBox="0 0 24 24" class="icon"><path d="M3 8h18v12H3V8zm16-5v2H5V3H3v4h18V3h-2z" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></span>
+            <div>
+              <span class="meta-label">Date</span>
+              <span id="ws-date" class="meta-value">TBA</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <span class="meta-icon"><svg viewBox="0 0 24 24" class="icon"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8V22h19.2v-2.8c0-3.2-6.4-4.8-9.6-4.8z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></span>
+            <div>
+              <span class="meta-label">Host</span>
+              <span id="ws-host" class="meta-value">Pawfect Team</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <span class="meta-icon"><svg viewBox="0 0 24 24" class="icon"><path d="M12 2C8.7 2 6 4.7 6 8c0 4.5 6 13 6 13s6-8.5 6-13c0-3.3-2.7-6-6-6zm0 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" stroke="currentColor" stroke-width="1.3" fill="none"/></svg></span>
+            <div>
+              <span class="meta-label">Venue</span>
+              <span id="ws-venue" class="meta-value">Pawfect Hub</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Register row -->
+        <div class="ws-register-row">
+          <button id="ws-register" class="btn-primary"
+                  aria-disabled="false" data-status="upcoming">
+            Register
+          </button>
+          <button class="btn-ghost" onclick="history.back()">Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main content: description + agenda + gallery + follow-up -->
+<main class="ws-main container">
+  <article class="ws-content">
+    <!-- Long description -->
+    <section class="ws-section">
+      <h2 class="ws-section-title">Overview</h2>
+      <div id="ws-body">
+        <!-- Viết mô tả dài ở đây; có thể dùng <p>, <h3>, <ul>... -->
+        <p>Full description of the campaign/workshop. What to expect,
+           who should join, materials provided, and key takeaways.</p>
+      </div>
+    </section>
+
+    <!-- Agenda (optional) -->
+    <section class="ws-section">
+      <h2 class="ws-section-title">Agenda</h2>
+      <ul id="ws-agenda" class="ws-agenda">
+        <!-- ví dụ:
+        <li>09:00 – Check-in</li>
+        <li>09:30 – Intro & Ice-breaker</li>
+        <li>10:00 – Main session</li>
+        <li>11:30 – Q&A</li>
+        -->
+      </ul>
+    </section>
+
+    <!-- Gallery: luôn có chỗ để display ảnh -->
+    <!-- Nếu chưa có ảnh thì để trống, còn event đã qua thì bạn cứ nhét <img> vào đây -->
+    <section id="ws-gallery" class="ws-gallery">
+      <h2 class="ws-section-title">Gallery</h2>
+      <div class="ws-gallery-grid" id="ws-gallery-grid">
+        <!-- ví dụ:
+        <img src="img1.jpg" alt="Highlight 1">
+        <img src="img2.jpg" alt="Highlight 2">
+        <img src="img3.jpg" alt="Highlight 3">
+        -->
+      </div>
+    </section>
+
+    <!-- Follow-up for past events: form nhận email -->
+    <section id="ws-followup" class="ws-followup">
+      <h2 class="ws-section-title">Missed this workshop?</h2>
+      <p>Enter your email to get notified for future events.</p>
+      <form id="ws-email-form" class="email-form" novalidate>
+        <input id="ws-email" type="email" placeholder="you@example.com" required>
+        <button type="submit" class="btn-primary">Notify me</button>
+        <small id="ws-email-msg" class="email-msg"></small>
+      </form>
+    </section>
+  </article>
+
+  <!-- Sidebar summary -->
+  <aside class="ws-side">
+    <section class="ws-summary">
+      <h3 class="ws-section-title">Summary</h3>
+      <div><strong>When:</strong> <span id="sum-when">TBA</span></div>
+      <div><strong>Where:</strong> <span id="sum-where">Pawfect Hub</span></div>
+      <div><strong>Duration:</strong> <span id="sum-duration">–</span></div>
+    </section>
+  </aside>
+</main>
+
+
+ <section class="site-cta">
+  <div class="container cta-inner">
+    <div class="cta-icons" aria-hidden="true">
+      <img class="cta-pattern" src="../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+    </div>
+    <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+    <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+    <div class="cta-actions">
+      <a href="services/services.html" class="btn primary">Book Now</a>
+      <a href="community.html" class="btn ghost">Contact Us</a>
+    </div>
+  </div>
+</section>
+<footer class="site-footer">
+  <div class="container footer-columns">
+    <div class="footer-col">
+      <div class="footer-brand">
+        <img class="brand-foot-img" src="../assets/icons/logopawfooter.svg" alt="Paw" />
+        <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+      </div>
+      <p>Your trusted partner in pet care since 2020.</p>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title">Services</h4>
+      <ul class="footer-links">
+        <li><a href="services/bookinghomestay.html">Pet Boarding</a></li>
+        <li><a href="services/groomingspa-service.html">Pet Spa</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title">Company</h4>
+      <ul class="footer-links">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title">Follow Us</h4>
+      <div class="socials">
+        <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+        <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+        <a href="https://x.com/" aria-label="Twitter"></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container" align="center" style="color: #000000;">
+      © 2025 Pawfect Care. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+  <script src="../assets/js/workshop-details.js"></script>
+</body>
+</html>

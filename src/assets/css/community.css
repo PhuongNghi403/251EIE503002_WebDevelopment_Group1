@@ -24,7 +24,7 @@
 
 /* Center layout */
 .container {
-  max-width: 1200px;
+  
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -244,6 +244,7 @@ body[data-page="community"] {
     radial-gradient(800px 280px at 50% 0%, rgba(254,199,228,.22), transparent 65%);
   position: relative;
   overflow: hidden;
+  
 }
 
 .intro-moments .container{ text-align:center; }
@@ -301,8 +302,24 @@ body[data-page="community"] {
 
 /* text + CTA */
 .intro-note{ margin:18px auto 10px; color:rgba(32,34,37,.7); font-family: "Lexend Deca",serif; }
-.intro-cta{ margin-top:6px; }
-.intro-cta .c-btn{ padding:12px 22px; }
+.intro-cta {
+  background-color: #4D2B12;      /* nâu chủ đạo */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  margin-top: 32px;
+  padding: 12px 28px;
+  font: 600 18px "Lexend Deca", sans-serif;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.intro-cta:hover {
+  background-color: #b89d8c;      /* nâu sáng hơn khi hover */
+  box-shadow: 0 6px 18px rgba(122, 68, 32, 0.5);
+  transform: translateY(-2px);
+}
 
 /* Ẩn ban đầu */
 .reveal-on-scroll { opacity: 0; transform: translateY(24px); }
@@ -337,7 +354,7 @@ body[data-page="community"] {
     radial-gradient(800px 200px at 50% -10%, rgba(191,214,246,0.18), transparent 60%),
     radial-gradient(800px 200px at 50% 110%, rgba(246,194,223,0.18), transparent 60%),
     var(--beige);
-  margin: 64px 0;
+  margin: 0;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -1382,7 +1399,10 @@ body[data-page="community"] {
 
 /* Share Section */
 .share-section {
-  margin: 80px 0;
+  margin: 0;
+  align-items: center;
+  width: 100vw;
+  display: flex;
 }
 
 .share-box {
@@ -1392,7 +1412,8 @@ body[data-page="community"] {
   text-align: center;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border);
-  width: 100%;
+  width: 100vw;
+  align-items: center;
 }
 
 .share-box h3 {
@@ -1421,6 +1442,7 @@ body[data-page="community"] {
   position: fixed;
   inset: 0;
   display: none;
+  font-family: "Lexend Deca", sans-serif;
 }
 .modal.open { display: block; }
 .modal-backdrop {

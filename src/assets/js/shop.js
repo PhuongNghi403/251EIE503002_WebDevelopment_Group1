@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCardTitleNavigation();
   initProductCardButtons();
   initGlobalCartListeners();
+  initProductFiltering();
 });
 
 // Initialize shop page
@@ -809,30 +810,69 @@ function initGlobalCartListeners() {
     updateWishlistButton();
   });
 }
+// Toggle wishlist heart color when clicked
+document.addEventListener('DOMContentLoaded', () => {
+  const hearts = document.querySelectorAll('.product-card .wishlist-btn');
+  hearts.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // tránh click lan ra card
+      e.preventDefault();
+
+      // toggle class active
+      btn.classList.toggle('active');
+
+      // tùy chọn: hiện thông báo nhỏ khi add/remove
+      const title = btn.closest('.product-card')?.querySelector('.card-title')?.textContent?.trim() || '';
+      if (btn.classList.contains('active')) {
+        showNotification(`${title} added to favorites!`, 'success');
+      } else {
+        showNotification(`${title} removed from favorites.`, 'info');
+      }
+    });
+  });
+});
 
 // Initialize product filtering
 function initProductFiltering() {
-  const categoryFilters = document.querySelectorAll('input[name="category"]');
-  const petTypeFilters = document.querySelectorAll('input[name="pet_type"]');
+  // Event listeners for category filters
+  const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
+  categoryCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', applyFilters);
+  });
+  
+  // Event listeners for pet type filters
+  const petTypeCheckboxes = document.querySelectorAll('input[name="pet_type"]');
+  petTypeCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', applyFilters);
+  });
+  
+  // Event listener for price slider
   const priceSlider = document.getElementById('priceSlider');
-  
-  // Category filtering
-  categoryFilters.forEach(filter => {
-    filter.addEventListener('change', applyFilters);
-  });
-  
-  // Pet type filtering
-  petTypeFilters.forEach(filter => {
-    filter.addEventListener('change', applyFilters);
-  });
-  
-  // Price range filtering
   if (priceSlider) {
-    priceSlider.addEventListener('input', updatePriceDisplay);
-    paintPriceSlider();
-    priceSlider.addEventListener('input', applyFilters);
+    priceSlider.addEventListener('input', () => {
+      updatePriceSlider();  // Update label on slider change
+      applyFilters();       // Apply filters on slider change
+    });
+  }
+  
+  // Initial update for price slider label
+  updatePriceSlider();
+  
+  // Apply initial filters (show all if no filters selected)
+  applyFilters();
+}
+
+// Function to update price slider label (define if not already present)
+function updatePriceSlider() {
+  const priceSlider = document.getElementById('priceSlider');
+  const priceLabel = document.getElementById('priceLabel');
+  if (priceSlider && priceLabel) {
+    const value = parseInt(priceSlider.value);
+    const priceRanges = ['$0', '$100', '$200', '$300', '$400', '>$500'];
+    priceLabel.textContent = priceRanges[value] || '>$500';
   }
 }
+
 
 // Update price display
 function updatePriceDisplay() {
@@ -885,9 +925,14 @@ function applyFilters() {
   productCards.forEach(card => {
     let shouldShow = true;
     
-    // Get product data
-    const cardCategory = card.getAttribute('data-category') || '';
-    const cardPrice = parseFloat(card.getAttribute('data-price') || 0);
+    // Get product data from DOM (since no data attributes in HTML)
+    const itemWeightEl = card.querySelector('.item-weight');
+    const cardCategory = itemWeightEl ? itemWeightEl.textContent.replace('Category: ', '').trim() : '';
+    const currentPriceEl = card.querySelector('.current-price');
+    const cardPrice = currentPriceEl ? parseFloat(currentPriceEl.textContent.replace('$', '').replace(',', '')) : 0;
+    
+    // Normalize category for exact match (lowercase, replace spaces with hyphens, remove parentheses if any)
+    const normalizedCardCategory = cardCategory.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
     
     // If no filters are selected, show all items (only apply price filter)
     if (selectedCategories.length === 0 && selectedPetTypes.length === 0) {
@@ -901,20 +946,10 @@ function applyFilters() {
         }
       }
     } else {
-      // Apply category filter if any categories are selected
+      // Apply category filter if any categories are selected (exact match after normalize)
       if (selectedCategories.length > 0) {
         const categoryMatch = selectedCategories.some(selectedCat => {
-          // Direct word matching for categories
-          if (selectedCat === 'dog-toy') {
-            return cardCategory.toLowerCase().includes('dog') && cardCategory.toLowerCase().includes('toy');
-          } else if (selectedCat === 'cat-food-dry') {
-            return cardCategory.toLowerCase().includes('cat') && cardCategory.toLowerCase().includes('food') && cardCategory.toLowerCase().includes('dry');
-          } else if (selectedCat === 'cat-food-wet') {
-            return cardCategory.toLowerCase().includes('cat') && cardCategory.toLowerCase().includes('food') && cardCategory.toLowerCase().includes('wet');
-          } else if (selectedCat === 'dog-food-dry') {
-            return cardCategory.toLowerCase().includes('dog') && cardCategory.toLowerCase().includes('food') && cardCategory.toLowerCase().includes('dry');
-          }
-          return false;
+          return normalizedCardCategory === selectedCat;  // Exact match
         });
         
         if (!categoryMatch) {
@@ -959,6 +994,7 @@ function applyFilters() {
   // Update results count
   updateResultsCount();
 }
+
 
 // Update results count
 function updateResultsCount() {
