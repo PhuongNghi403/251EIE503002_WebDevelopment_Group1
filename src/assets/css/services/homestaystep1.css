@@ -25,12 +25,17 @@
 }
 .back-link .icon { width: 18px; height: 18px; }
 
-/* Steps */
+/* Steps (ĐÃ SỬA THEO YÊU CẦU) */
 .steps-indicator {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 24px;
+  
+  /* Yêu cầu: Thu ngắn */
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .steps-indicator .step {
   display: grid;
@@ -86,7 +91,10 @@
   border: 1px solid rgba(122, 91, 72, 0.08);
 }
 .booking-card { padding: 24px; }
-.summary-card { padding: 16px; }
+.summary-card { 
+  padding: 16px; 
+  position: relative; /* Quan trọng: Thêm để định vị modal */
+}
 
 /* Titles */
 .booking-card h2 {
@@ -160,7 +168,7 @@
   place-items: center;
   font-weight: 600;
 }
-.day:hover { border-color: #e2d3c8; background: #f7f2ec; }
+.day:hover:not(:disabled) { border-color: #e2d3c8; background: #f7f2ec; }
 .day.selected {
   background: #7a5b48;
   color: #fff;
@@ -171,6 +179,7 @@
   color: #c1afa2;
   background: #fff;
   border-color: #f0e6dd;
+  cursor: not-allowed;
 }
 
 /* Time grid */
@@ -180,12 +189,21 @@
   gap: 10px;
 }
 .time {
-  height: 38px;
+  padding: 10px;
   border-radius: 12px;
   border: 1px solid #efe6de;
   background: #fcfaf8;
   color: #5a3d2b;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.time .icon {
+  width: 18px;
+  height: 18px;
+  color: #9a8576;
 }
 .time:hover { border-color: #e2d3c8; background: #f7f2ec; }
 .time.selected {
@@ -194,6 +212,10 @@
   border-color: #7a5b48;
   box-shadow: 0 8px 18px rgba(122, 91, 72, 0.35);
 }
+.time.selected .icon {
+  color: #fff;
+}
+
 
 /* Actions */
 .actions {
@@ -358,7 +380,7 @@
   font-weight: 600;
 }
 
-/* Price summary */
+/* Price summary (ĐÃ SỬA THEO YÊU CẦU FONT) */
 .price-summary {
   border: 1px solid #eee3da;
   border-radius: 16px;
@@ -371,14 +393,43 @@
   align-items: center;
   padding: 6px 0;
   color: #3b2a1f;
+  font-size: 15px; /* Size chữ cơ bản */
 }
-.price-summary .row.total {
+.price-summary .row .value { color: #6b4f3d; }
+.price-summary .row .strong { font-weight: 700; }
+
+.price-summary .row.subtotal {
+  padding-top: 10px;
   border-top: 1px dashed #efe6de;
+  font-weight: 700;
+  font-size: 17px; /* Yêu cầu: To hơn một chút */
+}
+
+/* Yêu cầu: Giữ nguyên size cơ bản (15px) */
+.price-summary .row.treats,
+.price-summary .row.addons {
+  font-size: inherit; 
+  color: #6b4f3d;
+}
+.price-summary .row.discount {
+  font-size: inherit;
+  color: #2E8B57; 
+}
+.price-summary .row.discount .value {
+  color: #2E8B57;
+}
+
+.price-summary .row.total {
   margin-top: 6px;
   padding-top: 10px;
-  font-size: 16px;
+  font-size: 19px; /* Yêu cầu: To hơn subtotal */
+  font-weight: 800;
 }
-.price-summary .value { color: #6b4f3d; }
+.price-summary .row.total .value {
+  color: #3b2a1f;
+  font-size: 22px; /* Yêu cầu: To nhất */
+}
+
 
 /* Pay now */
 .btn.pay-now {
@@ -391,7 +442,12 @@
 }
 .btn.pay-now:hover { filter: brightness(1.02); }
 
-/* Duration Section (Booking Summary) */
+/* ==========================================================================
+BẮT ĐẦU PHẦN SỬA LỖI
+==========================================================================
+*/
+
+/* BƯỚC 1: THAY THẾ CODE CSS CHO DURATION */
 .duration-section {
   border: 1px solid #eee3da;
   border-radius: 16px;
@@ -400,62 +456,78 @@
   background: #fff;
 }
 .duration-title {
-  font-weight: 800;
-  color: #4D2B12;
+  font-weight: 700;
+  color: #3b2a1f;
   margin: 0 0 8px;
+  text-align: center;
 }
 .duration-hr {
-  border: none;
-  border-top: 2px solid #D1C7BC;
-  margin: 4px 0 16px;
+  display: none;
 }
 .date-range {
   display: flex;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
-.date-col { flex: 1; }
+.date-col { flex: 1; text-align: center; }
 .date-label {
-  color: #8A8A8A;
-  font-size: 20px;
-  margin: 0 0 6px;
+  color: #8b7465;
+  font-size: 0.8rem;
+  margin: 0 0 2px;
+  font-weight: 500;
 }
 .date-value {
-  color: #000;
-  font-size: 24px;
-  font-weight: 800;
+  color: #3b2a1f;
+  font-size: 0.9rem;
+  font-weight: 600;
   margin: 0;
 }
+
 .day-counter {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding-top: 8px;
+  gap: 16px;
+  background-color: #fcfaf8;
+  border-radius: 12px;
+  padding: 8px;
+  margin-top: 12px;
 }
 .counter-btn {
-  width: 60px;
-  height: 60px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  border: 3px solid #4D2B12;
-  background: transparent;
-  color: #4D2B12;
-  font-size: 32px;
+  border: 1px solid #eee3da;
+  background: #fff;
+  color: #7a5b48;
+  font-size: 1.25rem;
+  font-weight: 400;
   line-height: 1;
   display: grid;
   place-items: center;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   transition: background 160ms ease, color 160ms ease;
 }
-.counter-btn:hover,
-.counter-btn:focus {
-  background: #F5EEE6;
-  color: #3a2110;
+.counter-btn:hover:not(:disabled) {
+  background: #f7f2ec;
+  color: #3b2a1f;
   outline: none;
 }
+.counter-btn:disabled {
+  background-color: #fcfaf8;
+  color: #c1afa2;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .day-count {
-  font-size: 40px;
-  color: #4D2B12;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #6b4f3d;
+  min-width: 60px;
+  text-align: center;
 }
 
 /* Summary list (name — qty — price) */
@@ -473,19 +545,10 @@
   border-bottom: 1px dashed #E8E3DD;
 }
 .summary-item:last-child { border-bottom: none; }
-.summary-item .item-name { flex: 1; color: #3b2a1f; font-weight: 600; }
-.summary-item .item-qty { min-width: 56px; text-align: center; color: #7a5b48; font-weight: 700; }
-.summary-item .item-price { min-width: 80px; text-align: right; font-weight: 800; color: #4D2B12; }
+.summary-item .item-name { flex: 1; color: #3b2a1f; font-weight: 600; font-size: 0.9em; }
+.summary-item .item-qty { min-width: 56px; text-align: center; color: #7a5b48; font-weight: 700; font-size: 0.9em; }
+.summary-item .item-price { min-width: 80px; text-align: right; font-weight: 800; color: #4D2B12; font-size: 0.9em; }
 
-/* Center the Continue button (already present) */
-.actions { justify-content: center; }
-.btn.primary { background: #b8956a; color: #fff; }
-.btn.primary:hover,
-.btn.primary:focus,
-.btn.primary:active {
-  background: #7a5b48;
-  box-shadow: 0 6px 16px rgba(122, 91, 72, 0.35);
-}
 
 /* Discount Code (new UI) */
 .discount-section {
@@ -589,72 +652,99 @@
   to { transform: translateY(-50%) rotate(360deg); }
 }
 
-/* Sidebar specific styles for addon items */
-.summary-card .addon-item {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  padding: 1rem 0 !important;
-  border-bottom: 1px solid #f3f4f6 !important;
-  flex-direction: row !important;
-  background: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  border: none !important;
-  border-bottom: 1px solid #f3f4f6 !important;
+/* Bỏ qua CSS !important cũ */
+.summary-card .addon-item { display: none !important; }
+
+/* ==========================================================================
+BƯỚC 2: THÊM CODE CSS CHO MODAL
+==========================================================================
+*/
+
+.package-modal {
+  position: absolute;
+  top: 130px; 
+  left: 16px;
+  right: 16px;
+  background: #fff;
+  border-radius: 16px; 
+  border: 1px solid #eee3da; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 16px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.2s ease-in-out;
 }
 
-.summary-card .addon-info {
-  flex: 1 !important;
-  margin-right: 1rem !important;
-  text-align: left !important;
+.package-modal.visible {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.summary-card .addon-price {
-  font-size: 1.2rem !important;
-  font-weight: 700 !important;
-  color: #7b470b !important;
-  display: block !important;
+.package-modal h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3b2a1f;
 }
 
-.summary-card .addon-price .unit {
-  display: block !important;
-  font-size: 0.75rem !important;
-  color: #6b5e56 !important;
-  font-weight: 400 !important;
-  margin-left: 0 !important;
-  margin-top: 0.25rem !important;
+.package-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #eee3da;
+  border-radius: 16px;
+  cursor: pointer;
 }
 
-.summary-card .add-btn,
-.summary-card .remove-btn {
-  width: 32px !important;
-  height: 32px !important;
-  border-radius: 50% !important;
-  background: #4D2B12 !important;
-  color: white !important;
-  border: none !important;
-  cursor: pointer !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-size: 1.5rem !important;
-  line-height: 1 !important;
-  flex-shrink: 0 !important;
-  padding: 0 !important;
-  align-self: unset !important;
-  transition: background-color 0.2s ease !important;
+.package-option:has(input:checked) {
+  border-color: #7a5b48; 
+  background-color: #fcfaf8; 
 }
 
-.summary-card .quantity-controls {
-  display: flex !important;
-  gap: 8px !important;
-  align-items: center !important;
-  margin-left: 1rem !important;
+.package-option .name {
+  font-weight: 600;
+  display: block;
+  color: #3b2a1f;
 }
 
-.summary-card .add-btn:hover,
-.summary-card .remove-btn:hover {
-  background: #3a1f0d !important;
-  margin-top: 0 !important;
+.package-option .price {
+  font-size: 0.875rem;
+  color: #7a5b48;
+}
+
+.package-option input[type="radio"] {
+  display: none; 
+}
+
+.radio-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #eee3da;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.radio-custom::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: #7a5b48;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.2s ease;
+}
+
+.package-option input[type="radio"]:checked + .radio-custom {
+  border-color: #7a5b48;
+}
+
+.package-option input[type="radio"]:checked + .radio-custom::after {
+  transform: scale(1);
 }
