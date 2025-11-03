@@ -287,8 +287,7 @@ function initHomestayBoardingFunctionality() {
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      // (Bạn có thể thêm logic lưu vào localStorage ở đây nếu muốn)
-      window.location.href = 'bookinghomestay.html';
+      window.location.href = 'homestaystep1.html';
     });
   }
 
