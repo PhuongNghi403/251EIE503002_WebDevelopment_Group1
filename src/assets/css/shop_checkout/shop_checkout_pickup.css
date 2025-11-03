@@ -234,7 +234,27 @@ body[data-page="shop-checkout-pickup"] {
 .qr-info { display: grid; gap: 8px; align-content: start; }
 .qr-row { display: flex; align-items: center; justify-content: space-between; font: 500 14px 'Lexend Deca'; color: #4D2B12; }
 .qr-note { padding: 0 20px 20px; margin: 0; font: 400 12px 'Lexend Deca'; color: #7B5E47; }
+.qr-actions { display: flex; justify-content: space-between; align-items: center; padding: 0 20px 12px; gap: 12px; }
+.qr-countdown { font: 600 14px 'Lexend Deca'; color: #4D2B12; }
+.qr-buttons { display: flex; gap: 8px; }
+.qr-image.hidden { display: none; }
+.qr-dialog .btn[disabled] { opacity: 0.6; cursor: not-allowed; }
 .qr-close { position: absolute; right: 12px; top: 12px; width: 28px; height: 28px; border-radius: 50%; border: 1px solid #EEE2D4; background: #FFF; color: #4D2B12; font-size: 18px; cursor: pointer; }
+
+/* Done Confirmation Modal */
+.done-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 1001; }
+.done-modal.show { display: flex; }
+.done-dialog { background: #FFF; border: 1px solid #E9E4DC; border-radius: 12px; width: 520px; max-width: calc(100% - 32px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); position: relative; }
+.done-close { position: absolute; right: 12px; top: 12px; width: 28px; height: 28px; border-radius: 50%; border: 1px solid #EEE2D4; background: #FFF; color: #4D2B12; font-size: 18px; cursor: pointer; }
+.done-content { padding: 24px; text-align: center; }
+.done-icon { width: 48px; height: 48px; border-radius: 50%; background: #E7F5EA; color: #2E7D32; display: inline-flex; align-items: center; justify-content: center; font: 700 24px 'Lexend Deca'; margin-bottom: 10px; border: 1px solid #CFE8D3; }
+.done-title { margin: 0 0 6px; font: 700 18px 'Lexend Deca'; color: #4D2B12; }
+.done-text { margin: 0 0 14px; font: 400 13px 'Lexend Deca'; color: #7B5E47; }
+.done-details { display: grid; gap: 8px; text-align: left; margin: 0 6px 14px; }
+.detail-row { display: flex; justify-content: space-between; font: 500 13px 'Lexend Deca'; color: #4D2B12; }
+.detail-row.total { font-weight: 700; }
+.done-actions { display: flex; justify-content: center; gap: 10px; }
+.done-support { margin: 12px 0 0; font: 400 12px 'Lexend Deca'; color: #7B5E47; text-align: center; }
 
 /* Responsive */
 @media (max-width: 980px) {
