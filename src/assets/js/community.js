@@ -461,7 +461,23 @@ window.blogPosts = blogPosts;
 
     setupCarouselNav(campaigns.length);
     updateCarouselPosition();
+     // Thêm sự kiện cho nút Learn more
+  const learnBtns = document.querySelectorAll('.btn-learn-more');
+  learnBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      const campaigns = blogPosts.filter(p => p.type === 'campaign');
+      const campaign = campaigns[index];
+      if (!campaign) return;
+
+      // Lưu dữ liệu vào sessionStorage để trang detail đọc
+      sessionStorage.setItem("CAMPAIGNS_DATA", JSON.stringify(campaigns));
+
+      // Chuyển sang trang chi tiết
+      window.location.href = `workshop_detail.html?id=${campaign.id}`;
+    });
+  });
   }
+
 
   function createCarouselSlide(item, idx) {
     const dateStr = item.date || '';
@@ -525,6 +541,7 @@ window.blogPosts = blogPosts;
     const dots = document.querySelectorAll('.carousel-dot');
     dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentSlide));
   }
+  
 
   /** ===================== BLOG DETAIL (giữ để tương thích) ===================== **/
   function setupBlogCardClick() {

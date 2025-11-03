@@ -41,11 +41,20 @@
         </a>
       </div>
     </div>
+    <div class="back-header">
+      <button class="btn-plain back-btn" onclick="history.back()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg><span>Back to Shop</span>
+      </button>
+      </div>
   </header>
 
   <!-- Main Content -->
   <main class="page product-detail">
     <div class="container">
+      
+        
       <nav class="breadcrumbs">
         <a href="shop.html">Shop</a>
         <span>/</span>
@@ -53,69 +62,509 @@
       </nav>
 
       <section class="detail-grid">
+        <!-- MEDIA / GALLERY -->
         <div class="detail-media">
-          <img class="detail-image" src="../assets/images/Shop/BoneShapedPetToys.svg" alt="Product" />
+          <div class="main-image">
+            <img src="https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?q=80&w=1200&auto=format&fit=crop" alt="Daebak Dog Food – Chicken & Veggie Crunch">
+          </div>
+
+          <div class="thumbs">
+            <button class="thumb-nav prev" type="button" aria-label="Previous">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l6-6M9 12l6 6"/></svg>
+            </button>
+            <div class="thumbs-track">
+              <button class="thumb is-active" aria-label="image 1">
+                <img src="https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?q=80&w=300&auto=format&fit=crop" alt="">
+              </button>
+              <button class="thumb" aria-label="image 2">
+                <img src="https://images.unsplash.com/photo-1525253086316-d0c936c814f8?q=80&w=300&auto=format&fit=crop" alt="">
+              </button>
+              <button class="thumb" aria-label="image 3">
+                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=300&auto=format&fit=crop" alt="">
+              </button>
+              <button class="thumb" aria-label="image 4">
+                <img src="https://images.unsplash.com/photo-1558944351-cf0400a1129b?q=80&w=300&auto=format&fit=crop" alt="">
+              </button>
+            </div>
+            <button class="thumb-nav next" type="button" aria-label="Next">
+              <!-- chevron -->
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l6-6M9 12l6 6"/></svg>
+            </button>
+          </div>
         </div>
+
+        <!-- PRODUCT INFO -->
         <div class="detail-info">
-          <h1 class="detail-title">Product Name</h1>
-          <div class="detail-meta">
-            <span class="detail-price">$0.00</span>
-            <span class="detail-original-price">$0.00</span>
-            <span class="detail-rating">★★★★☆</span>
-            <span class="detail-sold">0 sold</span>
-          </div>
-          <div class="detail-category">Category: <span class="category-value">Loading...</span></div>
-          <div class="detail-brand">Brand: <span class="brand-value">Loading...</span></div>
-          
-          <div class="detail-description">
-            <h3>Description</h3>
-            <p class="detail-desc">This is a placeholder description for the product. It will be replaced dynamically via product_detail.js.</p>
+          <h1 class="title">Daebak Dog Food – Chicken &amp; Veggie Crunch</h1>
+
+          <p class="subtitle">
+            Wholesome meal with baked chicken cubes and soft snack bites inside
+            
+          </p>
+
+          <div class="rating">
+            <div class="rating-stars" aria-label="rating 4.5">
+              <!-- 4 full stars -->
+              <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.1l2.91 6.1 6.73.98-4.82 4.7 1.14 6.65L12 17.9 6.04 20.5l1.14-6.65-4.82-4.7 6.73-.98L12 2.1z"/></svg>
+              <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.1l2.91 6.1 6.73.98-4.82 4.7 1.14 6.65L12 17.9 6.04 20.5l1.14-6.65-4.82-4.7 6.73-.98L12 2.1z"/></svg>
+              <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.1l2.91 6.1 6.73.98-4.82 4.7 1.14 6.65L12 17.9 6.04 20.5l1.14-6.65-4.82-4.7 6.73-.98L12 2.1z"/></svg>
+              <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.1l2.91 6.1 6.73.98-4.82 4.7 1.14 6.65L12 17.9 6.04 20.5l1.14-6.65-4.82-4.7 6.73-.98L12 2.1z"/></svg>
+              <!-- half star -->
+              <svg class="star half" viewBox="0 0 24 24" aria-hidden="true">
+                <defs>
+                  <clipPath id="half">
+                    <rect x="0" y="0" width="12" height="24"></rect>
+                  </clipPath>
+                </defs>
+                <path d="M12 2.1l2.91 6.1 6.73.98-4.82 4.7 1.14 6.65L12 17.9 6.04 20.5l1.14-6.65-4.82-4.7 6.73-.98L12 2.1z" clip-path="url(#half)"></path>
+                <path d="M12 2.1l2.91 6.1 6.73.98-4.82 4.7 1.14 6.65L12 17.9 6.04 20.5l1.14-6.65-4.82-4.7 6.73-.98L12 2.1z" class="star-outline"></path>
+              </svg>
+            </div>
+            <span class="rating-score">(4.5)</span>
           </div>
 
-          <div class="detail-benefits">
-            <h3>Benefits</h3>
-            <ul class="benefits-list">
-              <li>Loading benefits...</li>
-            </ul>
+          <div class="price">
+            <span class="price-current">$100.00</span>
+            <span class="price-old">$200.00</span>
           </div>
 
-          <div class="detail-nutrition" style="display: none;">
-            <h3>Nutrition Facts</h3>
-            <div class="nutrition-grid">
-              <div class="nutrition-item">
-                <span class="nutrition-label">Protein:</span>
-                <span class="nutrition-value protein-value">-</span>
-              </div>
-              <div class="nutrition-item">
-                <span class="nutrition-label">Fat:</span>
-                <span class="nutrition-value fat-value">-</span>
-              </div>
-              <div class="nutrition-item">
-                <span class="nutrition-label">Fiber:</span>
-                <span class="nutrition-value fiber-value">-</span>
-              </div>
-              <div class="nutrition-item">
-                <span class="nutrition-label">Ash:</span>
-                <span class="nutrition-value ash-value">-</span>
-              </div>
-              <div class="nutrition-item">
-                <span class="nutrition-label">Moisture:</span>
-                <span class="nutrition-value moisture-value">-</span>
-              </div>
+          <!-- COLOR -->
+          <div class="option-group">
+            <div class="option-label">Color:</div>
+            <div class="options">
+              <button class="option is-active" type="button">Yellow</button>
+              <button class="option" type="button">Red</button>
             </div>
           </div>
 
+          <!-- SIZE / WEIGHT -->
+          <div class="option-group">
+            <div class="option-label">Quantitative:</div>
+            <div class="options">
+              <button class="option is-active" type="button">2.5kg</button>
+              <button class="option" type="button">50kg</button>
+            </div>
+          </div>
+
+          <!-- QUANTITY -->
+          <div class="quantity-row">
+            <div class="quantity-control" role="group" aria-label="Quantity">
+              <button class="minus" type="button" aria-label="Decrease">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5h14v-1H5z"/></svg>
+              </button>
+              <input type="text" value="1" inputmode="numeric" aria-live="polite" aria-label="Quantity input">
+              <button class="plus" type="button" aria-label="Increase">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5v6H5v2h6v6h2v-6h6v-2h-6V5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="sold-count">900 Sold</div>
+
+          <!-- ACTIONS -->
           <div class="detail-actions">
-            <button class="btn primary btn-cart">Add to Cart</button>
-            <button class="btn dark btn-buy">Buy Now</button>
-            <button class="btn ghost add-to-wishlist-btn">♡ Add to Wishlist</button>
+            <button class="btn buy-now" type="button">Buy now</button>
+
+            <!-- heart (SVG PATH) -->
+            <button class="btn outline" type="button" aria-label="Add to wishlist">
+              <svg class="icon-heart" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                        C2 5.42 4.42 3 7.5 3
+                        c1.74 0 3.41.81 4.5 2.09
+                        C13.09 3.81 14.76 3 16.5 3
+                        C19.58 3 22 5.42 22 8.5
+                        c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </button>
+
+            <!-- cart -->
+            <button class="btn outline" type="button" aria-label="Add to cart">
+              <svg class="icon-cart" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6h15l-1.5 7.5a2 2 0 0 1-2 1.5H8.5a2 2 0 0 1-2-1.5L4 3H2" />
+                <circle cx="9" cy="20" r="1.5"/>
+                <circle cx="18" cy="20" r="1.5"/>
+              </svg>
+            </button>
           </div>
         </div>
       </section>
 
-      
+      <!-- PRODUCT DETAILS -->
+      <section class="detail-bottom" id="detail-bottom">
+        <!-- Tabs -->
+        <div class="detail-tabs" role="tablist" aria-label="Product detail tabs">
+          <button class="tab is-active"
+                  id="tab-details"
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="panel-details">
+            <!-- icon box optional -->
+            <span>Product Details</span>
+          </button>
+          <button class="tab"
+                  id="tab-review"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="panel-review">
+            <!-- icon users optional -->
+            <span>Review</span>
+          </button>
+        </div>
+
+        <!-- Panels -->
+        <div class="detail-panels">
+          <!-- Panel: Product Details -->
+          <section id="panel-details"
+                  class="panel panel-details"
+                  role="tabpanel"
+                  aria-labelledby="tab-details">
+            <section class="details">
+              <aside class="facts">
+                <h4>Nutrition Facts</h4>
+                <ul>
+                  <li><span>Protein</span><strong>35%</strong></li>
+                  <li><span>Fat</span><strong>12%</strong></li>
+                  <li><span>Fiber</span><strong>3%</strong></li>
+                  <li><span>Ash</span><strong>8%</strong></li>
+                  <li><span>Moisture</span><strong>10%</strong></li>
+                </ul>
+              </aside>
+
+              <div class="detail-col">
+                <div class="detail-block">
+                  <h4>Information</h4>
+                  <p class="info-lines">
+                    <span><strong>Category:</strong> Dog Food</span>
+                    <span><strong>Brand:</strong> Daebak</span>
+                  </p>
+
+                </div>
+
+                <div class="detail-block">
+                  <h4>Product description</h4>
+                  <p>
+                    Packed with tender chicken breast, crunchy biscuit bites, and natural veggies — this
+                    complete meal hides surprise snack chunks inside every scoop. Enriched with Omega-3,
+                    Omega-6, taurine, prebiotic vitamins, and free from pork or lard.
+                  </p>
+                </div>
+
+                <div class="detail-block">
+                  <h4>Benefits</h4>
+                  <p>
+                    • Fatty acids support shiny fur and skin. <br>
+                    • Real chicken protein boosts vitality. <br>
+                    • Glucosamine, calcium and vitamin E for active joints. <br>
+                    • Crunchy texture helps clean teeth while keeping a silky coat.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </section>
+
+          <!-- Panel: Review -->
+          <section id="panel-review"
+                  class="panel panel-review"
+                  role="tabpanel"
+                  aria-labelledby="tab-review"
+                  hidden>
+            <div class="review-grid">
+              <aside class="reviewer-summary">
+                <div class="summary-head">
+                  <div class="summary-score">4.5</div>
+                  <div class="summary-right">
+                    <div class="summary-stars">
+                      <span class="star full"></span>
+                      <span class="star full"></span>
+                      <span class="star full"></span>
+                      <span class="star full"></span>
+                      <span class="star half"></span>
+                    </div>
+                    <div class="summary-count">233 Review</div>
+                  </div>
+                </div>
+                  <ul class="summary-bars" id="summaryBars">
+                    <li class="bar-row" data-rating="5" data-count="100" data-plus="true">
+                      <span class="label">5 <span class="icon-star sm"></span></span>
+                      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="bar-fill"></div>
+                      </div>
+                      <span class="qty">100</span>
+                    </li>
+
+                    <li class="bar-row" data-rating="4" data-count="20">
+                      <span class="label">4 <span class="icon-star sm"></span></span>
+                      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="bar-fill"></div>
+                      </div>
+                      <span class="qty">20</span>
+                    </li>
+
+                    <li class="bar-row" data-rating="3" data-count="2">
+                      <span class="label">3 <span class="icon-star sm"></span></span>
+                      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="bar-fill"></div>
+                      </div>
+                      <span class="qty">2</span>
+                    </li>
+
+                    <li class="bar-row" data-rating="2" data-count="2">
+                      <span class="label">2 <span class="icon-star sm"></span></span>
+                      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="bar-fill"></div>
+                      </div>
+                      <span class="qty">2</span>
+                    </li>
+
+                    <li class="bar-row" data-rating="1" data-count="1">
+                      <span class="label">1 <span class="icon-star sm"></span></span>
+                      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="bar-fill"></div>
+                      </div>
+                      <span class="qty">1</span>
+                    </li>
+                  </ul>
+
+                <div class="write-review">
+                  <h4 class="write-title">Write Your Review</h4>
+                  <p class="write-desc">
+                    Love this product? Share your experience by leaving a review and help other pet parents
+                    make the best choice for their furry friends!
+                  </p>
+                  <button class="btn btn-brown">Write review</button>
+                </div>
+              </aside>
+
+              <div class="review-list">
+                <!-- item 1 -->
+                <article class="review-card">
+                  <header class="review-head">
+                    <img class="avatar" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?crop=faces&fit=crop&w=300&h=300" alt="avatar female 1">
+                    <div class="meta">
+                      <h5 class="name">Dianne Russell</h5>
+                      <div class="stars">
+                        <span class="star full"></span>
+                        <span class="star full"></span>
+                        <span class="star full"></span>
+                        <span class="star full"></span>
+                        <span class="star half"></span>
+                      </div>
+                    </div>
+                  </header>
+                  <p class="review-text">Great vaule for money. Rock on.</p>
+                </article>
+
+                <!-- item 2 -->
+                <article class="review-card">
+                  <header class="review-head">
+                    <img class="avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=faces&fit=crop&w=300&h=300" alt="avatar male 1">
+                    <div class="meta">
+                      <h5 class="name">Darlene Robertson</h5>
+                      <div class="stars">
+                        <span class="star full"></span>
+                        <span class="star full"></span>
+                        <span class="star full"></span>
+                        <span class="star full"></span>
+                        <span class="star half"></span>
+                      </div>
+                    </div>
+                  </header>
+                  <p class="review-text">Definitely bang for your buck!</p>
+                </article>
+
+                <!-- item 3 -->
+                <article class="review-card">
+                  <header class="review-head">
+                    <img class="avatar" src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?crop=faces&fit=crop&w=300&h=300" alt="avatar female 3">
+                    <div class="meta">
+                      <h5 class="name">Jane Cooper</h5>
+                      <div class="stars">
+                        <span class="star full"></span>
+                        <span class="star full"></span>
+                        <span class="star full"></span>
+                        <span class="star full"></span>
+                        <span class="star half"></span>
+                      </div>
+                    </div>
+                  </header>
+                  <p class="review-text">Product is great! as described. 5 Star.</p>
+                </article>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
     </div>
   </main>
+
+  <!--RECOMMENDATION-->
+  <section class="container related">
+    <h3>Other products you may like</h3>
+    <div class="cards">
+    <!-- Card 1 -->
+      <article class="p-card" style="width:285px; height:450px;">
+      <!-- top image box -->
+      <div class="p-card__img" style="height:280px; background:#F1F1F1; position:relative;">
+        <!-- sản phẩm -->
+        <img src="assets/cat/kitcat-flakes.png" alt="FILLET ‘O’ LAKES - KIT CAT" style="width:210px; height:auto;">
+        <!-- heart -->
+        <button class="p-card__fav" aria-label="Add to wishlist" title="Add to wishlist">
+           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
+      </div>
+
+      <!-- Bottom content -->
+      <div class="p-card__body" style="padding:20px; border:1px solid #E5C4FF; border-top:none; border-radius:0 0 10px 10px;">
+        <!-- Title -->
+        <h3 class="p-card__name" style="font-family:'Bagel Fat One', system-ui; font-size:20px; line-height:26px; letter-spacing:.03em; text-transform:uppercase; color:#252525; margin:0 0 6px;">
+          FILLET ‘O’ LAKES - KI…
+        </h3>
+
+        <!-- Rating + sold -->
+        <div class="p-card__meta" style="display:flex; align-items:center; gap:5px; color:#595959; margin-bottom:6px;">
+          <img src="assets/star-yellow.svg" alt="" style="width:18px; height:18px;">
+          <span>(5.0)</span>
+          <span>1000+ Sold</span>
+        </div>
+
+        <!-- Price -->
+        <div class="p-card__price" style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+          <span style="font-family:'Lexend Deca', system-ui; font-size:18px; line-height:22px; color:#4D2B12;">$100.00</span>
+          <s style="font-family:'Assistant', system-ui; font-weight:600; font-size:16px; line-height:21px; color:#595959;">$200.00</s>
+        </div>
+
+        <!-- CTA -->
+        <div class="p-card__cta" style="display:flex; gap:5px;">
+          <button class="btn btn--small btn--primary" style="flex:1; height:30px; border-radius:32px;">Buy Now</button>
+          <button class="btn btn--small btn--outline" aria-label="Add to cart"
+                  style="width:30px; height:30px; padding:5px; border-radius:32px;">
+            <svg class="icon-cart" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6h15l-1.5 7.5a2 2 0 0 1-2 1.5H8.5a2 2 0 0 1-2-1.5L4 3H2" />
+                <circle cx="9" cy="20" r="1.5"/>
+                <circle cx="18" cy="20" r="1.5"/>
+              </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+      <article class="p-card" style="width:285px; height:450px;">
+      <div class="p-card__img" style="height:280px; background:#F1F1F1; position:relative;">
+        <img src="assets/cat/kitcat-flakes.png" alt="FILLET ‘O’ LAKES - KIT CAT" style="width:210px; height:auto;">
+        <button class="p-card__fav" aria-label="Add to wishlist" title="Add to wishlist">
+           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
+      </div>
+
+      <div class="p-card__body" style="padding:20px; border:1px solid #E5C4FF; border-top:none; border-radius:0 0 10px 10px;">
+        <h3 class="p-card__name" style="font-family:'Bagel Fat One', system-ui; font-size:20px; line-height:26px; letter-spacing:.03em; text-transform:uppercase; color:#252525; margin:0 0 6px;">
+          FILLET ‘O’ LAKES - KI…
+        </h3>
+        <div class="p-card__meta" style="display:flex; align-items:center; gap:5px; color:#595959; margin-bottom:6px;">
+          <img src="assets/star-yellow.svg" alt="" style="width:18px; height:18px;">
+          <span>(5.0)</span>
+          <span>1000+ Sold</span>
+        </div>
+        <div class="p-card__price" style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+          <span style="font-family:'Lexend Deca', system-ui; font-size:18px; line-height:22px; color:#4D2B12;">$100.00</span>
+          <s style="font-family:'Assistant', system-ui; font-weight:600; font-size:16px; line-height:21px; color:#595959;">$200.00</s>
+        </div>
+
+        <div class="p-card__cta" style="display:flex; gap:5px;">
+          <button class="btn btn--small btn--primary" style="flex:1; height:30px; border-radius:32px;">Buy Now</button>
+          <button class="btn btn--small btn--outline" aria-label="Add to cart"
+                  style="width:30px; height:30px; padding:5px; border-radius:32px;">
+            <svg class="icon-cart" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6h15l-1.5 7.5a2 2 0 0 1-2 1.5H8.5a2 2 0 0 1-2-1.5L4 3H2" />
+                <circle cx="9" cy="20" r="1.5"/>
+                <circle cx="18" cy="20" r="1.5"/>
+              </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+      <article class="p-card" style="width:285px; height:450px;">
+      <div class="p-card__img" style="height:280px; background:#F1F1F1; position:relative;">
+        <img src="assets/cat/kitcat-flakes.png" alt="FILLET ‘O’ LAKES - KIT CAT" style="width:210px; height:auto;">
+        <button class="p-card__fav" aria-label="Add to wishlist" title="Add to wishlist">
+           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
+      </div>
+
+      <div class="p-card__body" style="padding:20px; border:1px solid #E5C4FF; border-top:none; border-radius:0 0 10px 10px;">
+        <h3 class="p-card__name" style="font-family:'Bagel Fat One', system-ui; font-size:20px; line-height:26px; letter-spacing:.03em; text-transform:uppercase; color:#252525; margin:0 0 6px;">
+          FILLET ‘O’ LAKES - KI…
+        </h3>
+
+        <div class="p-card__meta" style="display:flex; align-items:center; gap:5px; color:#595959; margin-bottom:6px;">
+          <img src="assets/star-yellow.svg" alt="" style="width:18px; height:18px;">
+          <span>(5.0)</span>
+          <span>1000+ Sold</span>
+        </div>
+
+        <div class="p-card__price" style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+          <span style="font-family:'Lexend Deca', system-ui; font-size:18px; line-height:22px; color:#4D2B12;">$100.00</span>
+          <s style="font-family:'Assistant', system-ui; font-weight:600; font-size:16px; line-height:21px; color:#595959;">$200.00</s>
+        </div>
+
+        <div class="p-card__cta" style="display:flex; gap:5px;">
+          <button class="btn btn--small btn--primary" style="flex:1; height:30px; border-radius:32px;">Buy Now</button>
+          <button class="btn btn--small btn--outline" aria-label="Add to cart"
+                  style="width:30px; height:30px; padding:5px; border-radius:32px;">
+            <svg class="icon-cart" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6h15l-1.5 7.5a2 2 0 0 1-2 1.5H8.5a2 2 0 0 1-2-1.5L4 3H2" />
+                <circle cx="9" cy="20" r="1.5"/>
+                <circle cx="18" cy="20" r="1.5"/>
+              </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 4 -->
+      <article class="p-card" style="width:285px; height:450px;">
+      <div class="p-card__img" style="height:280px; background:#F1F1F1; position:relative;">
+        <img src="assets/cat/kitcat-flakes.png" alt="FILLET ‘O’ LAKES - KIT CAT" style="width:210px; height:auto;">
+        <button class="p-card__fav" aria-label="Add to wishlist" title="Add to wishlist">
+           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
+      </div>
+
+      <div class="p-card__body" style="padding:20px; border:1px solid #E5C4FF; border-top:none; border-radius:0 0 10px 10px;">
+        <h3 class="p-card__name" style="font-family:'Bagel Fat One', system-ui; font-size:20px; line-height:26px; letter-spacing:.03em; text-transform:uppercase; color:#252525; margin:0 0 6px;">
+          FILLET ‘O’ LAKES - KI…
+        </h3>
+
+        <div class="p-card__meta" style="display:flex; align-items:center; gap:5px; color:#595959; margin-bottom:6px;">
+          <img src="assets/star-yellow.svg" alt="" style="width:18px; height:18px;">
+          <span>(5.0)</span>
+          <span>1000+ Sold</span>
+        </div>
+
+        <div class="p-card__price" style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+          <span style="font-family:'Lexend Deca', system-ui; font-size:18px; line-height:22px; color:#4D2B12;">$100.00</span>
+          <s style="font-family:'Assistant', system-ui; font-weight:600; font-size:16px; line-height:21px; color:#595959;">$200.00</s>
+        </div>
+
+        <div class="p-card__cta" style="display:flex; gap:5px;">
+          <button class="btn btn--small btn--primary" style="flex:1; height:30px; border-radius:32px;">Buy Now</button>
+          <button class="btn btn--small btn--outline" aria-label="Add to cart"
+                  style="width:30px; height:30px; padding:5px; border-radius:32px;">
+            <svg class="icon-cart" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6h15l-1.5 7.5a2 2 0 0 1-2 1.5H8.5a2 2 0 0 1-2-1.5L4 3H2" />
+                <circle cx="9" cy="20" r="1.5"/>
+                <circle cx="18" cy="20" r="1.5"/>
+              </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+    </div>
+  </section>
+  
 
   <!-- Site CTA -->
   <section class="site-cta">
