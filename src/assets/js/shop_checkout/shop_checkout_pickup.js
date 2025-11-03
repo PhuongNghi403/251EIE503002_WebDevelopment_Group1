@@ -114,10 +114,78 @@ function initQrPayment() {
   const amountEl = document.getElementById('qrAmount');
   const customerEl = document.getElementById('qrCustomer');
   const closeBtn = document.querySelector('.qr-close');
+  const timerEl = document.getElementById('qrTimer');
+  const doneBtn = document.querySelector('.done-qr');
+  const cancelBtn = document.querySelector('.cancel-qr');
+  const noteEl = modal ? modal.querySelector('.qr-note') : null;
+  const doneModal = document.querySelector('.done-modal');
+  const doneOk = document.querySelector('.done-ok');
+  const doneClose = document.querySelector('.done-close');
+  const doneView = document.querySelector('.done-view');
+
+  function fireCuteConfetti() {
+    const conf = window.confetti;
+    if (!conf) return;
+    const base = {
+      particleCount: 90,
+      spread: 70,
+      startVelocity: 50,
+      ticks: 200,
+      scalar: 0.9,
+      gravity: 0.8,
+      origin: { y: 0.2 },
+      zIndex: 1002,
+      colors: ['#FFD1DC','#FFC3A0','#CDE7BE','#C6DEF1','#FAD2E1','#FDE3A7','#EFD3D7']
+    };
+    conf(Object.assign({}, base, { origin: { x: 0.2, y: 0.2 } }));
+    conf(Object.assign({}, base, { origin: { x: 0.5, y: 0.2 } }));
+    conf(Object.assign({}, base, { origin: { x: 0.8, y: 0.2 } }));
+  }
 
   if (!qrTab || !modal || !canvas || !amountEl || !customerEl) return;
 
   let qrInstance = null;
+  let countdownId = null;
+
+  function formatTime(ms) {
+    const totalSec = Math.max(0, Math.floor(ms / 1000));
+    const m = String(Math.floor(totalSec / 60)).padStart(2, '0');
+    const s = String(totalSec % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function startCountdown() {
+    if (!timerEl) return;
+    let remaining = 5 * 60 * 1000;
+    timerEl.textContent = formatTime(remaining);
+    canvas && canvas.classList.remove('hidden');
+    if (doneBtn) doneBtn.disabled = false;
+    if (noteEl) noteEl.textContent = 'Scan with your banking app. QR updates if total changes.';
+    if (countdownId) clearInterval(countdownId);
+    countdownId = setInterval(() => {
+      remaining -= 1000;
+      timerEl.textContent = formatTime(remaining);
+      if (remaining <= 0) {
+        clearInterval(countdownId);
+        countdownId = null;
+        timerEl.textContent = '00:00';
+        canvas && canvas.classList.add('hidden');
+        if (noteEl) noteEl.textContent = 'QR expired. Reopen QR payment to generate a new code.';
+        if (doneBtn) doneBtn.disabled = true;
+      }
+    }, 1000);
+  }
+
+  function stopCountdown(reset = true) {
+    if (countdownId) {
+      clearInterval(countdownId);
+      countdownId = null;
+    }
+    if (reset && timerEl) timerEl.textContent = '05:00';
+    canvas && canvas.classList.remove('hidden');
+    if (doneBtn) doneBtn.disabled = false;
+    if (noteEl && reset) noteEl.textContent = 'Scan with your banking app. QR updates if total changes.';
+  }
 
   function getCustomerName() {
     const meta = document.querySelector('.saved-cards .selected .card-meta');
@@ -159,17 +227,74 @@ function initQrPayment() {
     updateQr();
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
+    startCountdown();
   });
 
   closeBtn && closeBtn.addEventListener('click', () => {
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden', 'true');
+    stopCountdown(true);
   });
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
       modal.classList.remove('show');
       modal.setAttribute('aria-hidden', 'true');
+      stopCountdown(true);
     }
+  });
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+      alert('Payment canceled');
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      stopCountdown(true);
+    });
+  }
+
+  if (doneBtn) {
+    doneBtn.addEventListener('click', () => {
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      stopCountdown(true);
+      if (doneModal) {
+        try {
+          const totals = window.checkoutTotals || {};
+          const totalEl = document.getElementById('doneTotal');
+          if (totalEl && typeof totals.total === 'number') totalEl.textContent = `$${totals.total.toFixed(2)}`;
+        } catch (e) {}
+        const d = new Date();
+        const dateEl = document.getElementById('doneOrderDate');
+        if (dateEl) dateEl.textContent = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+        const orderEl = document.getElementById('doneOrderNumber');
+        if (orderEl) orderEl.textContent = `UEL-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+        const shipEl = document.getElementById('doneShipping');
+        if (shipEl) shipEl.textContent = 'Store Pick-up';
+        doneModal.classList.add('show');
+        doneModal.setAttribute('aria-hidden', 'false');
+        fireCuteConfetti();
+      }
+    });
+  }
+
+  // Done modal listeners
+  doneClose && doneClose.addEventListener('click', () => {
+    doneModal && doneModal.classList.remove('show');
+    doneModal && doneModal.setAttribute('aria-hidden', 'true');
+  });
+  doneOk && doneOk.addEventListener('click', () => {
+    doneModal && doneModal.classList.remove('show');
+    doneModal && doneModal.setAttribute('aria-hidden', 'true');
+  });
+  doneModal && doneModal.addEventListener('click', (e) => {
+    if (e.target === doneModal) {
+      doneModal.classList.remove('show');
+      doneModal.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  doneView && doneView.addEventListener('click', () => {
+    window.location.href = '../profile.html';
   });
 
   const totalsEl = document.querySelector('.totals');

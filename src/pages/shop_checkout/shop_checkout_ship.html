@@ -85,7 +85,7 @@
                 <div style="font:600 14px/1.2 'Lexend Deca';color:#4D2B12;">No saved addresses yet</div>
                 <div style="font:400 12px/1.2 'Lexend Deca';color:#7B5E47;">Please add your address to continue</div>
               </div>
-              <button class="btn" style="background:#FFF;">+ Add Shipping Address</button>
+              <button class="btn add-address" style="background:#FFF;">+ Add Shipping Address</button>
             </div>
           </div>
 
@@ -102,7 +102,7 @@
                 <div class="card-left">
                   <span class="card-brand">VISA</span>
                   <span class="card-number">•••• •••• •••• 4242</span>
-                  <span class="card-meta">Expires 12/25 · Chu Viet Cam</span>
+                  <span class="card-meta">Expires 12/25 · TRAN DUY THANH</span>
                 </div>
                 <button class="btn ghost edit">Edit</button>
                 <button class="btn ghost delete">Delete</button>
@@ -125,7 +125,7 @@
               </div>
               <div class="form-row">
                 <label for="cardName">Cardholder Name</label>
-                <input id="cardName" type="text" placeholder="NGUYEN VAN A" required />
+                <input id="cardName" type="text" placeholder="TRAN DUY THANH" required />
               </div>
               <div class="form-row two-col">
                 <div class="col">
@@ -179,7 +179,7 @@
               <div class="row total"><span>Total:</span><span></span></div>
             </div>
 
-            <button class="btn pay">Pay Now</button>
+            <button class="btn pay">PAY NOW</button>
           </div>
         </aside>
       </div>
@@ -250,18 +250,90 @@
       <div class="qr-body">
         <canvas id="qrCanvas" class="qr-image" aria-label="QR Code"></canvas>
         <div class="qr-info">
-          <div class="qr-row"><span>Amount:</span> <strong id="qrAmount">$0.00</strong></div>
+          <div class="qr-row"><span>Amount:</span> <strong id="qrAmount"></strong></div>
           <div class="qr-row"><span>Bank:</span> <strong>Vietcombank</strong></div>
           <div class="qr-row"><span>Account:</span> <strong>0123456789</strong></div>
-          <div class="qr-row"><span>Branch:</span> <strong>Hanoi</strong></div>
+          <div class="qr-row"><span>Branch:</span> <strong>UEL</strong></div>
           <div class="qr-row"><span>Customer:</span> <strong id="qrCustomer">Guest</strong></div>
+        </div>
+      </div>
+      <div class="qr-actions">
+        <div class="qr-countdown">Expires in <span id="qrTimer">05:00</span></div>
+        <div class="qr-buttons">
+          <button class="btn cancel-qr">Cancel</button>
+          <button class="btn done-qr">Done</button>
         </div>
       </div>
       <p class="qr-note">Scan with your banking app. QR updates if total changes.</p>
     </div>
   </div>
+
+  <!-- Done Confirmation Modal -->
+  <div class="done-modal" aria-hidden="true" role="dialog" aria-label="Payment Confirmation">
+    <div class="done-dialog">
+      <button class="done-close" aria-label="Close">×</button>
+      <div class="done-content">
+        <div class="done-icon" aria-hidden="true">✓</div>
+        <h3 class="done-title">Order Placed Successfully!</h3>
+        <p class="done-text">Thank you for your purchasing.</p>
+        <div class="done-details">
+          <div class="detail-row"><span>Order Number</span><strong id="doneOrderNumber"></strong></div>
+          <div class="detail-row"><span>Order Date</span><strong id="doneOrderDate"></strong></div>
+          <div class="detail-row"><span>Shipping Details</span><strong id="doneShipping"></strong></div>
+          <div class="detail-row total"><span>Total</span><strong id="doneTotal"></strong></div>
+        </div>
+        <div class="done-actions">
+          <button class="btn ghost done-ok">Continue Shopping</button>
+          <button class="btn done-view">View Details</button>
+        </div>
+        <p class="done-support">Contact our support at <a href="mailto:support@pawfectcare.com">support@pawfectcare.com</a></p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add Shipping Address Modal -->
+  <div class="address-modal" aria-hidden="true" role="dialog" aria-label="Add Shipping Address">
+    <div class="address-dialog">
+      <button class="address-close" aria-label="Close">×</button>
+      <h3 class="address-title">Add Shipping Address</h3>
+      <form class="address-form" action="#" onsubmit="return false;">
+        <div class="address-grid">
+          <div class="form-row two-col">
+            <div class="col">
+              <label for="addrFullName">Full Name <span class="req">*</span></label>
+              <input id="addrFullName" type="text" placeholder="TRAN DUY THANH" required />
+            </div>
+            <div class="col">
+              <label for="addrPhone">Phone number <span class="req">*</span></label>
+              <input id="addrPhone" type="tel" placeholder="090 123 4567" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="addrAddress">Address <span class="req">*</span></label>
+            <input id="addrAddress" type="text" placeholder="669 Do Muoi" required />
+          </div>
+          <div class="form-row two-col">
+            <div class="col">
+              <label for="addrWard">Ward <span class="req">*</span></label>
+              <input id="addrWard" type="text" placeholder="Linh Xuan" required />
+            </div>
+            <div class="col">
+              <label for="addrCity">City <span class="req">*</span></label>
+              <input id="addrCity" type="text" placeholder="Ho Chi Minh City" required />
+            </div>
+          </div>
+          <label class="addr-default"><input type="checkbox" id="addrDefault" /> Set as default address</label>
+        </div>
+        <div class="address-actions">
+          <button class="btn ghost address-cancel">Cancel</button>
+          <button class="btn address-save">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
   <script src="../../assets/js/utils.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="../../assets/js/shop_checkout/shop_checkout_ship.js"></script>
 </body>
 </html>
