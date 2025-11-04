@@ -7,20 +7,20 @@ document.addEventListener('DOMContentLoaded', () => {
     'luxury': { name: 'Luxury Suite', price: 75 }
   };
   
-  // --- STATE (Trạng thái của booking) ---
+  // --- STATE ---
   let bookingState = {
-    package: packageOptions['premium'], // Mặc định, sẽ bị ghi đè bởi localStorage
-    duration: 1, 
-    checkinDate: null, // Sẽ được set khi chọn lịch
-    treats: [], // Sẽ tải từ localStorage
-    addOns: [], // Sẽ tải từ localStorage
+    package: packageOptions['premium'],
+    duration: 1,
+    checkinDate: null,
+    treats: [],
+    addOns: [],
     discount: { code: null, percentage: 0 },
   };
   
   // Biến quản lý lịch
   let currentDisplayDate = new Date(); // Ngày hôm nay
   
-  // --- DOM ELEMENTS (Lấy các phần tử HTML) ---
+  // --- DOM ELEMENTS ---
   const editPkgBtn = document.getElementById('edit-pkg-btn');
   const packageModal = document.getElementById('package-modal');
   const packageRadios = document.querySelectorAll('input[name="package"]');
@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const checkinDateEl = document.getElementById('checkin-date');
   const checkoutDateEl = document.getElementById('checkout-date');
-  const continueBtn = document.getElementById('continue-btn');
 
   const treatsListEl = document.getElementById('treats-list');
   const addOnsListEl = document.getElementById('addons-list');
@@ -60,13 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const timeGrid = document.querySelector('.time-grid');
   
-  const payNowBtn = document.getElementById('pay-now-btn');
+  const payNowBtn = document.getElementById('pay-now-btn'); // sẽ là Continue
 
-  // --- FUNCTIONS (Các hàm xử lý) ---
+  // --- FUNCTIONS ---
 
-  /**
-   * Render lịch động
-   */
   function renderCalendar(year, month) {
     calGrid.innerHTML = '';
     calTitle.textContent = `${new Date(year, month).toLocaleString('en-US', { month: 'long' })} ${year}`;
@@ -104,34 +100,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /**
-   * Tải gói đã chọn từ trang trước
-   */
+  // Ưu tiên dữ liệu từ localStorage giống servicecard.js
   function loadPackageFromStorage() {
     const nameFromStorage = localStorage.getItem('selectedPackageName');
-    
-    let packageKey = 'premium'; // Mặc định
-    
-    if (nameFromStorage) {
-        const foundKey = Object.keys(packageOptions).find(key => 
-            packageOptions[key].name === nameFromStorage
-        );
-        if (foundKey) {
-            packageKey = foundKey;
-        }
+    const priceFromStorage = localStorage.getItem('selectedPackagePrice');
+    const priceNumber = priceFromStorage ? parseFloat(priceFromStorage) : NaN;
+
+    if (nameFromStorage && !isNaN(priceNumber)) {
+      bookingState.package = { name: nameFromStorage, price: priceNumber };
+    } else if (nameFromStorage) {
+      const foundKey = Object.keys(packageOptions).find(
+        (key) => packageOptions[key].name === nameFromStorage
+      );
+      bookingState.package = foundKey ? packageOptions[foundKey] : packageOptions['premium'];
+    } else {
+      bookingState.package = packageOptions['premium'];
     }
-    
-    bookingState.package = packageOptions[packageKey];
-    
-    packageRadios.forEach(radio => {
-        radio.checked = radio.value === packageKey;
+
+    // Đồng bộ radio theo data-name
+    packageRadios.forEach((radio) => {
+      radio.checked = radio.dataset.name === bookingState.package.name;
     });
   }
 
-
-  /**
-   * Tải treats/addons từ trang trước (SỬA LỖI Ở ĐÂY)
-   */
   function loadDataFromStorage() {
     const treatsData = JSON.parse(localStorage.getItem('selectedTreats')) || [];
     const addonsData = JSON.parse(localStorage.getItem('selectedAddons')) || [];
@@ -142,51 +133,43 @@ document.addEventListener('DOMContentLoaded', () => {
     renderList(treatsListEl, bookingState.treats);
     renderList(addOnsListEl, bookingState.addOns);
     
-    // Tính tổng số lượng
     const totalTreats = bookingState.treats.reduce((sum, item) => sum + (item.qty || 0), 0);
     const totalAddons = bookingState.addOns.reduce((sum, item) => sum + (item.qty || 0), 0);
     
     treatsCountEl.textContent = `${totalTreats} selected`;
-    
-    // SỬA LỖI: Bỏ comment dòng này
-    addonsCountEl.textContent = `${totalAddons} selected`; 
+    addOnsCountEl.textContent = `${totalAddons} selected`;
   }
 
-
-  /**
-   * Cập nhật Price Summary (SỬA LỖI Ở ĐÂY)
-   */
   function updateSummary() {
-    // 1. Đảm bảo chúng ta có giá tiền là SỐ
     const parsePrice = (price) => {
-        if (typeof price === 'number') return price;
-        if (typeof price === 'string') {
-            return parseFloat(price.replace(/[^0-9.]/g, '')) || 0;
-        }
-        return 0;
+      if (typeof price === 'number') return isNaN(price) ? 0 : price;
+      if (typeof price === 'string') return parseFloat(price.replace(/[^0-9.]/g, '')) || 0;
+      return 0;
     };
 
-    // 2. Tính toán
-    const treatsTotal = bookingState.treats.reduce((sum, item) => sum + (parsePrice(item.price) * item.qty), 0);
-    const addOnsTotal = bookingState.addOns.reduce((sum, item) => sum + (parsePrice(item.price) * item.qty), 0);
+    const treatsTotal = bookingState.treats.reduce(
+      (sum, item) => sum + (parsePrice(item.price) * (item.qty || 0)),
+      0
+    );
+    const addOnsTotal = bookingState.addOns.reduce(
+      (sum, item) => sum + (parsePrice(item.price) * (item.qty || 0)),
+      0
+    );
     
-    const packagePrice = parsePrice(bookingState.package.price);
+    const packagePrice = parsePrice(bookingState.package?.price);
     const subtotal = packagePrice * bookingState.duration;
     
     const preDiscountTotal = subtotal + treatsTotal + addOnsTotal;
-    const discountAmount = preDiscountTotal * bookingState.discount.percentage;
-    
+    const discountAmount = preDiscountTotal * (bookingState.discount?.percentage || 0);
     const total = preDiscountTotal - discountAmount;
 
-    // 3. Cập nhật DOM (giao diện)
-    
-    pkgNameEl.textContent = bookingState.package.name;
+    // Update UI
+    pkgNameEl.textContent = bookingState.package?.name || '--';
     pkgPriceEl.textContent = `$${packagePrice.toFixed(2)}`;
 
     dayCountEl.textContent = `${bookingState.duration} Day${bookingState.duration > 1 ? 's' : ''}`;
     
-    // SỬA LỖI: Cập nhật tất cả các dòng
-    summaryServiceEl.textContent = bookingState.package.name;
+    summaryServiceEl.textContent = bookingState.package?.name || '--';
     summaryPackageRateEl.textContent = `$${packagePrice.toFixed(2)}`;
     summaryDurationEl.textContent = `${bookingState.duration} day${bookingState.duration > 1 ? 's' : ''}`;
     summarySubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
@@ -196,9 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryTotalEl.textContent = `$${total.toFixed(2)}`;
   }
 
-  /**
-   * Render danh sách (Treats, Add-ons)
-   */
   function renderList(listElement, items) {
     if (!listElement) return;
     listElement.innerHTML = ''; 
@@ -225,8 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const priceSpan = document.createElement('span');
       priceSpan.className = 'item-price'; 
-      const price = typeof item.price === 'string' ? parseFloat(item.price.replace(/[^0-9.]/g, '')) : item.price;
-      priceSpan.textContent = `$${(price * item.qty).toFixed(2)}`;
+      const price = typeof item.price === 'string'
+        ? parseFloat(item.price.replace(/[^0-9.]/g, ''))
+        : item.price;
+      priceSpan.textContent = `$${(price * (item.qty || 0)).toFixed(2)}`;
       
       li.appendChild(nameSpan);
       li.appendChild(qtySpan);
@@ -234,41 +216,25 @@ document.addEventListener('DOMContentLoaded', () => {
       listElement.appendChild(li);
     });
   }
-  
-  /**
-   * Định dạng ngày (vd: Nov 3, 2025)
-   */
+
   function formatDate(date) {
     if (!date) return "--";
     return date.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
 
-  /**
-   * YÊU CẦU: Hàm cập nhật ngày check-in/out trên UI
-   */
-  function updateDisplayedDates(isContinueClick = false) {
-    if (!bookingState.checkinDate) {
-        if (isContinueClick) { 
-             showNotification("Please select a check-in date!", "error");
-        }
-        return false; // Trả về false nếu thất bại
-    }
+  function updateDisplayedDates() {
+    if (!bookingState.checkinDate) return;
     
     checkinDateEl.textContent = formatDate(bookingState.checkinDate);
     
-    let checkoutDate = new Date(bookingState.checkinDate);
+    const checkoutDate = new Date(bookingState.checkinDate);
     checkoutDate.setDate(checkoutDate.getDate() + bookingState.duration);
     checkoutDateEl.textContent = formatDate(checkoutDate);
-
-    if (isContinueClick) {
-       showNotification("Dates updated in summary!", "success");
-    }
-    return true; // Trả về true nếu thành công
   }
 
-  // --- EVENT LISTENERS (Gắn các hành động) ---
+  // --- EVENT LISTENERS ---
 
-  // 1. Điều khiển lịch
+  // Điều khiển lịch
   calPrevBtn.addEventListener('click', () => {
     currentDisplayDate.setMonth(currentDisplayDate.getMonth() - 1);
     renderCalendar(currentDisplayDate.getFullYear(), currentDisplayDate.getMonth());
@@ -284,73 +250,71 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dayButton && !dayButton.disabled) {
       calGrid.querySelector('.selected')?.classList.remove('selected');
       dayButton.classList.add('selected');
-      const day = parseInt(dayButton.dataset.day);
+      const day = parseInt(dayButton.dataset.day, 10);
       bookingState.checkinDate = new Date(currentDisplayDate.getFullYear(), currentDisplayDate.getMonth(), day);
-      
-      // SỬA LỖI: Cập nhật "live"
-      updateDisplayedDates(false); 
+      updateDisplayedDates();
     }
   });
 
-  // 2. Nút Continue (Chỉ để xác nhận)
-  continueBtn.addEventListener('click', () => updateDisplayedDates(true)); // true = bấm continue
-
-  // 3. Tăng/Giảm Duration (SỬA LỖI: Cập nhật "live")
+  // Tăng/Giảm Duration
   btnIncreaseDay.addEventListener('click', () => {
     bookingState.duration++;
-    btnDecreaseDay.disabled = false;
+    btnDecreaseDay.disabled = bookingState.duration === 1;
     updateSummary();
-    updateDisplayedDates(false); // Cập nhật ngày checkout ngay lập tức
+    updateDisplayedDates();
   });
 
   btnDecreaseDay.addEventListener('click', () => {
     if (bookingState.duration > 1) { 
       bookingState.duration--;
       updateSummary();
-      updateDisplayedDates(false); // Cập nhật ngày checkout ngay lập tức
+      updateDisplayedDates();
     }
-    
-    if (bookingState.duration === 1) {
-      btnDecreaseDay.disabled = true;
-    }
+    btnDecreaseDay.disabled = bookingState.duration === 1;
   });
 
-  // 4. Mở/Đóng modal chọn Package
+  // Mở/Đóng modal chọn Package
   editPkgBtn.addEventListener('click', (e) => {
     e.preventDefault(); 
     packageModal.classList.toggle('visible');
   });
 
-  // 5. Chọn package mới trong modal
+  // Chọn package mới trong modal (đọc data-* như servicecard.js)
   packageRadios.forEach(radio => {
     radio.addEventListener('change', (e) => {
-      const selectedValue = e.target.value;
-      bookingState.package = packageOptions[selectedValue];
+      const el = e.target;
+      const newName = el.dataset.name || bookingState.package.name;
+      const newPrice = parseFloat(el.dataset.price);
+      bookingState.package = {
+        name: newName,
+        price: !isNaN(newPrice) ? newPrice : bookingState.package.price
+      };
       packageModal.classList.remove('visible'); 
       updateSummary(); 
     });
   });
 
-  // 6. Áp dụng Discount Code
+  // Áp dụng Discount Code
+  // applyDiscountBtn.addEventListener('click', () => {
   applyDiscountBtn.addEventListener('click', () => {
     const code = discountInput.value.trim().toUpperCase();
-    
+  
     discountStatusEl.textContent = '';
     discountStatusEl.className = 'discount-status';
-    
+  
     if (!code) {
       discountStatusEl.textContent = 'Please enter a code.';
       discountStatusEl.classList.add('status-error');
       return;
     }
-    
+  
     discountStatusEl.classList.add('status-applying');
     discountStatusEl.textContent = 'Applying discount';
-    
+  
     setTimeout(() => {
       discountStatusEl.classList.remove('status-applying');
-      
-      if (code === 'PAWFECT10') { 
+  
+      if (code === 'PAWFECT10') {
         bookingState.discount = { code: code, percentage: 0.10 };
         discountStatusEl.textContent = 'PAWFECT10 applied! (10% off)';
         discountStatusEl.className = 'discount-status status-success';
@@ -358,18 +322,22 @@ document.addEventListener('DOMContentLoaded', () => {
         bookingState.discount = { code: code, percentage: 0.20 };
         discountStatusEl.textContent = 'BUDDY20 applied! (20% off)';
         discountStatusEl.className = 'discount-status status-success';
-      } else { 
+      } else if (code === 'TRANDUYTHANH') {
+        bookingState.discount = { code: code, percentage: 0.10 };
+        discountStatusEl.textContent = 'TRANDUYTHANH applied! (10% off)';
+        discountStatusEl.className = 'discount-status status-success';
+      } else {
         bookingState.discount = { code: null, percentage: 0 };
         discountStatusEl.textContent = 'Invalid discount code.';
         discountStatusEl.className = 'discount-status status-error';
       }
-      
+  
       updateSummary(); 
       
     }, 1200); 
   });
 
-  // 7. Chọn giờ
+  // Chọn giờ
   timeGrid.addEventListener('click', (e) => {
     const timeButton = e.target.closest('.time');
     if (timeButton) {
@@ -378,12 +346,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  // 8. YÊU CẦU: Nút Pay Now
+  // Nút Continue (pay-now-btn): validate ngày và đi bước 2
   payNowBtn.addEventListener('click', () => {
+    if (!bookingState.checkinDate) {
+      showNotification("Please select a check-in date!", "error");
+      return;
+    }
+    // Lưu thông tin ngày và duration cho step 2 nếu cần
+    localStorage.setItem('bookingDuration', String(bookingState.duration));
+    localStorage.setItem('bookingCheckin', bookingState.checkinDate.toISOString());
+    const checkout = new Date(bookingState.checkinDate);
+    checkout.setDate(checkout.getDate() + bookingState.duration);
+    localStorage.setItem('bookingCheckout', checkout.toISOString());
     window.location.href = 'homestaystep2.html';
   });
 
-  // --- Utility Functions ---
+  // --- Utility ---
   function showNotification(message, type = 'info') {
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => notification.remove());
@@ -417,18 +395,17 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       notification.style.transform = 'translateX(100%)';
       setTimeout(() => {
-        if (notification.parentNode) {
-          notification.remove();
-        }
+        if (notification.parentNode) notification.remove();
       }, 3000);
     }, 3000);
   }
   
-  // --- INITIALIZATION (Khởi chạy) ---
+  // --- INITIALIZATION ---
   renderCalendar(currentDisplayDate.getFullYear(), currentDisplayDate.getMonth());
-  loadPackageFromStorage(); // Tải gói đã chọn
-  loadDataFromStorage(); // Tải treats/addons
-  
-  // SỬA LỖI: Bỏ comment dòng này để tính tiền
-  updateSummary(); 
+  loadPackageFromStorage();
+  loadDataFromStorage();
+
+  // Hiện giá ngay với mặc định 1 day
+  btnDecreaseDay.disabled = bookingState.duration === 1;
+  updateSummary();
 });
