@@ -315,12 +315,12 @@ function initWishlist() {
       if (exists) {
         // nếu đã tồn tại → xóa
         list = list.filter((x) => x.name !== name);
-        btn.classList.remove("is-liked");
+        btn.classList.remove("active");
         notify(`Removed from wishlist `);
       } else {
         // nếu chưa có → thêm mới
         list.push({ id: Date.now(), name, image });
-        btn.classList.add("is-liked");
+        btn.classList.add("active");
         notify(`Added to wishlist `);
       }
 
@@ -416,6 +416,7 @@ function showCartToast(msg) {
     });
   }
 })();
+
 function renderSummaryBars(selector = '#summaryBars') {
   const list = document.querySelector(selector);
   if (!list) return;
@@ -504,3 +505,318 @@ function renderRelated() {
   });
 }
 
+/* =========================
+   >>> ADDED: DATA → UI <<<
+   (Không thay code cũ; chỉ bổ sung bên dưới)
+========================= */
+
+// Lấy slug từ URL (?slug=...)
+function getSlug() {
+  const u = new URL(window.location.href);
+  return u.searchParams.get('slug');
+}
+
+// Helper: format giá
+function fmtPrice(p, curr = 'USD') {
+  if (typeof p !== 'number') return '$0.00';
+  return (curr === 'USD' ? '$' : '') + p.toFixed(2);
+}
+
+// Dựng options theo data
+function renderOptions(elScope, product) {
+  const info = elScope.querySelector('.detail-info');
+  if (!info) return;
+
+  // 1) XÓA HẾT option-group có sẵn trong HTML (default)
+  info.querySelectorAll('.option-group').forEach(n => n.remove());
+
+  // 2) Xác định anchor là khối .price để chèn options lên TRÊN
+  const anchor = info.querySelector('.price');
+
+  // 3) Tạo fragment từ product.options (nếu không có thì bỏ qua)
+  const frag = document.createDocumentFragment();
+  (product.options || []).forEach((opt) => {
+    const group = document.createElement('div');
+    group.className = 'option-group';
+
+    const label = document.createElement('div');
+    label.className = 'option-label';
+    label.textContent = (opt.name || 'Option') + ':';
+
+    const list = document.createElement('div');
+    list.className = 'options';
+
+    (opt.values || []).forEach((val, idx) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'option' + (
+        product.defaultSelection?.[opt.key] === val ||
+        (!product.defaultSelection && idx === 0) ? ' is-active' : ''
+      );
+      b.dataset.value = val;
+      b.textContent = val;
+      list.appendChild(b);
+    });
+
+    group.appendChild(label);
+    group.appendChild(list);
+    frag.appendChild(group);
+  });
+
+  // 4) Chèn fragment LÊN TRÊN .price (fallback prepend)
+  if (anchor) info.insertBefore(frag, anchor);
+  else info.prepend(frag);
+
+  // 5) Gắn lại hành vi chọn option
+  if (typeof initOptions === 'function') initOptions();
+}
+
+
+// Dựng gallery (tương thích với initGallery/initThumbNav)
+function renderGallery(mediaWrap, product) {
+  if (!mediaWrap) return;
+  const main = mediaWrap.querySelector('.main-image img');
+  const track = mediaWrap.querySelector('.thumbs-track');
+  if (!main || !track) return;
+
+  const imgs = product.images && product.images.length ? product.images : [product.thumbnail];
+  main.src = imgs[0];
+
+  track.innerHTML = '';
+  imgs.forEach((src, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'thumb' + (i===0 ? ' is-active' : '');
+    btn.setAttribute('aria-label', `image ${i+1}`);
+    btn.innerHTML = `<img src="${src}" alt="">`;
+    btn.dataset.src = src;
+    track.appendChild(btn);
+  });
+
+  if (typeof initGallery === 'function') initGallery();
+  if (typeof initThumbNav === 'function') initThumbNav();
+}
+
+// Ẩn/hiện Nutrition theo data
+function toggleNutrition(product) {
+  const facts = document.querySelector('.facts');
+  if (!facts) return;
+  const hasNutri = product.nutrition && Object.keys(product.nutrition).length > 0;
+  facts.hidden = !hasNutri;
+  if (hasNutri) {
+    const ul = facts.querySelector('ul');
+    if (ul) {
+      ul.innerHTML = '';
+      Object.entries(product.nutrition).forEach(([k,v]) => {
+        ul.innerHTML += `<li><span>${k[0].toUpperCase()+k.slice(1)}</span><strong>${v}</strong></li>`;
+      });
+    }
+  }
+}
+
+// Reviews + summary bars + list
+function renderReviews(product) {
+  const barsWrap = document.querySelector('#summaryBars');
+  if (barsWrap && product.rating && product.rating.breakdown) {
+    barsWrap.innerHTML = '';
+    const bd = product.rating.breakdown;
+    [5,4,3,2,1].forEach(star => {
+      const count = bd[star] || 0;
+      barsWrap.innerHTML += `
+        <li class="bar-row" data-rating="${star}" data-count="${count}">
+          <span class="label">${star} <span class="icon-star sm"></span></span>
+          <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+            <div class="bar-fill" data-percent="0"></div>
+          </div>
+          <span class="qty">${count}</span>
+        </li>`;
+    });
+    if (typeof renderSummaryBars === 'function') renderSummaryBars('#summaryBars');
+    if (typeof observeBarsAppear === 'function') observeBarsAppear('#summaryBars');
+  }
+
+  const score = document.querySelector('.summary-score');
+  const count = document.querySelector('.summary-count');
+  if (score) score.textContent = (product.rating?.avg ?? 0).toFixed(1);
+  if (count) count.textContent = `${product.rating?.count ?? 0} Review`;
+
+  const list = document.querySelector('.review-list');
+  if (list) {
+    const items = (product.reviews && product.reviews.length) ? product.reviews : [{
+      author:'Guest',
+      avatar:'https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?crop=faces&fit=crop&w=300&h=300',
+      rating:4, title:'Good', text:'Đúng mô tả.', createdAt:'2025-08-01'
+    }];
+    list.innerHTML = '';
+    items.forEach(rv => {
+      list.innerHTML += `
+        <article class="review-card">
+          <header class="review-head">
+            <img class="avatar" src="${rv.avatar}" alt="avatar">
+            <div class="meta">
+              <h5 class="name">${rv.author}</h5>
+              <div class="stars">${'<span class="star full"></span>'.repeat(Math.round(rv.rating||0))}</div>
+            </div>
+          </header>
+          <p class="review-text"><strong>${rv.title||''}</strong> ${rv.text||''}</p>
+        </article>`;
+    });
+  }
+}
+
+// Related theo relatedIds trong PRODUCTS_DATA
+function renderRelatedFromData(product) {
+  const container = document.querySelector(".container.related .cards");
+  if (!container) return;
+  const ids = product.relatedIds || [];
+  const list = (window.PRODUCTS_DATA || []).filter(p => ids.includes(p.id)).slice(0,4);
+  container.innerHTML = '';
+  list.forEach(p => {
+    container.innerHTML += `
+      <article class="p-card" style="width:285px; height:450px;">
+        <div class="p-card__img" style="height:280px; background:#F1F1F1; position:relative;">
+          <img src="${p.thumbnail}" alt="${p.name}" style="width:210px; height:auto;">
+          <button class="p-card__fav" aria-label="Add to wishlist" title="Add to wishlist">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36..."/></svg>
+          </button>
+        </div>
+        <div class="p-card__body" style="padding:20px; border:1px solid #E5C4FF; border-top:none; border-radius:0 0 10px 10px;">
+          <h3 class="p-card__name" style="font-family:'Bagel Fat One', system-ui; font-size:20px; line-height:26px; letter-spacing:.03em; text-transform:uppercase; color:#252525; margin:0 0 6px;">
+            ${p.name.length>18 ? p.name.slice(0,18)+'…' : p.name}
+          </h3>
+          <div class="p-card__meta" style="display:flex; align-items:center; gap:5px; color:#595959; margin-bottom:6px;">
+            <img src="assets/star-yellow.svg" alt="" style="width:18px; height:18px;">
+            <span>(${(p.rating?.avg ?? 0).toFixed(1)})</span>
+            <span>${p.soldCount ?? ''} Sold</span>
+          </div>
+          <div class="p-card__price" style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+            <span style="font-family:'Lexend Deca', system-ui; font-size:18px; line-height:22px; color:#4D2B12;">${fmtPrice(p.price?.current || 0)}</span>
+            ${p.price?.original ? `<s style="font-weight:600; font-size:16px; color:#595959;">${fmtPrice(p.price.original)}</s>` : ''}
+          </div>
+          <div class="p-card__cta" style="display:flex; gap:5px;">
+            <a class="btn btn--small btn--primary" style="flex:1; height:30px; border-radius:32px;"
+               href="product_detail.html?slug=${p.slug}">View</a>
+            <button class="btn btn--small btn--outline" aria-label="Add to cart"
+                    style="width:30px; height:30px; padding:5px; border-radius:32px;">
+              <svg class="icon-cart" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6h15l-1.5 7.5a2 2 0 0 1-2 1.5H8.5a2 2 0 0 1-2-1.5L4 3H2" />
+                <circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </article>`;
+  });
+  if (typeof initWishlist === 'function') initWishlist();
+  if (typeof initAddToCart === 'function') initAddToCart();
+}
+
+// === MAIN: init render từ data ===
+window.initProductDetailFromData = function initProductDetailFromData() {
+  const slug = getSlug();
+  const product = (window.PRODUCTS_BY_SLUG && window.PRODUCTS_BY_SLUG[slug]) ||
+                  (window.PRODUCTS_DATA || [])[0];
+  if (!product) return;
+
+  // Title / Subtitle / Price
+  const t = document.querySelector('.detail-info .title');
+  const sub = document.querySelector('.detail-info .subtitle');
+  const pc = document.querySelector('.price .price-current');
+  const po = document.querySelector('.price .price-old');
+  if (t) t.textContent = product.name;
+  if (sub) sub.textContent = product.subtitle || product.description?.slice(0,120) || '';
+  if (pc) pc.textContent = fmtPrice(product.price?.current || 0, product.price?.currency);
+  if (po) {
+    if (product.price?.original) {
+      po.textContent = fmtPrice(product.price.original, product.price.currency);
+      po.style.display = '';
+    } else {
+      po.style.display = 'none';
+    }
+  }
+
+  // Rating
+  const score = document.querySelector('.rating-score');
+  if (score) score.textContent = `(${(product.rating?.avg ?? 0).toFixed(1)})`;
+
+  // Sold
+  const sold = document.querySelector('.sold-count');
+  if (sold && product.soldCount) sold.textContent = `${product.soldCount} Sold`;
+
+  // Info (Category / Brand)
+  const infoLines = document.querySelector('.info-lines');
+  if (infoLines) {
+    infoLines.innerHTML = `
+      <span><strong>Category:</strong> ${product.category}</span>
+      <span><strong>Brand:</strong> ${product.brand}</span>
+    `;
+  }
+
+  // Description / Benefits
+  const descBlk = document.querySelector('.panel-details .detail-block:nth-of-type(2) p');
+  if (descBlk) descBlk.textContent = product.description || '';
+  const benefitsBlk = document.querySelector('.panel-details .detail-block:nth-of-type(3) p');
+  if (benefitsBlk) {
+    benefitsBlk.innerHTML = (product.benefits || []).map(b => `• ${b}`).join('<br>');
+  }
+
+  // Gallery
+  renderGallery(document.querySelector('.detail-media'), product);
+
+  // Options
+  renderOptions(document, product);
+
+  // Nutrition hide/show
+  toggleNutrition(product);
+
+  // Reviews
+  renderReviews(product);
+
+  // Related
+  renderRelatedFromData(product);
+
+  // Lưu product hiện tại lên window để nút Buy/Cart dùng
+  window.__currentProduct = product;
+};
+
+// === Buttons: Buy Now / Add to cart (gắn data) ===
+window.initProductDetailButtons = function initProductDetailButtons() {
+  const buy = document.querySelector('.btn.buy-now');
+  const add = document.querySelector('.btn.outline[aria-label="Add to cart"]');
+
+  function getPriceNumber() {
+    const txt = document.querySelector('.price .price-current')?.textContent || '$0';
+    return parseFloat(txt.replace(/[^0-9.]/g, '')) || 0;
+  }
+
+  function collectSelectedOptions() {
+    const out = {};
+    document.querySelectorAll('.option-group .options').forEach(g => {
+      const label = g.closest('.option-group')?.querySelector('.option-label')?.textContent?.replace(':','').trim() || 'Option';
+      const active = g.querySelector('.option.is-active');
+      if (active) out[label] = active.dataset.value || active.textContent.trim();
+    });
+    return out;
+  }
+
+  function getQty() {
+    const v = +document.querySelector('.quantity-control input')?.value || 1;
+    return Math.max(1, Math.min(99, v|0));
+    }
+
+  function handleAddToCart() {
+    const p = window.__currentProduct;
+    if (!p) return;
+    const opts = collectSelectedOptions();
+    const qty = getQty();
+
+    if (typeof window.addToCart === 'function') {
+      const trigger = this;
+      trigger.dataset.qty = String(qty);
+      trigger.dataset.selectedOptions = JSON.stringify(opts);
+      window.addToCart(p.name, (p.thumbnail || p.images?.[0] || ''), getPriceNumber());
+    }
+  }
+
+  buy?.addEventListener('click', handleAddToCart);
+  add?.addEventListener('click', handleAddToCart);
+};

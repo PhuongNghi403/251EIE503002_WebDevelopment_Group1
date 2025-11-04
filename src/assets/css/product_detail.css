@@ -938,7 +938,7 @@ html, body { background: var(--bg); }
   margin:0;
   font:400 18px "Bagel Fat One", system-ui, sans-serif;
   letter-spacing:.03em; text-transform:uppercase; color:#252525;
-  display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical;
+  display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow: hidden;
 }
 
 /* rating + sold */
