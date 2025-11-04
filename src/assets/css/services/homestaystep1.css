@@ -170,9 +170,9 @@
 }
 .day:hover:not(:disabled) { border-color: #e2d3c8; background: #f7f2ec; }
 .day.selected {
-  background: #7a5b48;
-  color: #fff;
-  border-color: #7a5b48;
+  background: #BFD6F6;         
+  color: #fff;                  
+  border-color: #BFD6F6;        
   box-shadow: 0 8px 18px rgba(122, 91, 72, 0.35);
 }
 .day.muted {
@@ -217,44 +217,7 @@
 }
 
 
-/* Actions */
-.actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-}
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: none;
-  border-radius: 999px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.btn .icon { width: 18px; height: 18px; }
-.btn.primary {
-  padding: 12px 18px;
-  background: #b8956a;
-  color: #fff;
-  box-shadow: 0 10px 22px rgba(184, 149, 106, 0.35);
-}
-.btn.primary:hover,
-.btn.primary:focus,
-.btn.primary.is-active {
-  background: #7a5b48;
-  box-shadow: 0 10px 22px rgba(122, 91, 72, 0.35);
-}
-.btn.primary.is-disabled,
-.btn.primary:disabled {
-  background: #e9dfd7;
-  color: #b7a496;
-  box-shadow: none;
-  cursor: not-allowed;
-}
-.ml-8 { margin-left: 8px; }
+/* Actions — đã bỏ nút Continue phía trên nên không cần style mới */
 
 /* Summary */
 .summary-title { font-size: 16px; margin: 6px 8px 12px; }
@@ -431,7 +394,7 @@
 }
 
 
-/* Pay now */
+/* Pay now (giữ style, text đã đổi thành Continue) */
 .btn.pay-now {
   margin: 12px 8px 6px;
   width: calc(100% - 16px);

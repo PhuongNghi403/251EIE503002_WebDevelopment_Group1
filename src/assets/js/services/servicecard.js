@@ -295,6 +295,7 @@ function initHomestayBoardingFunctionality() {
       localStorage.setItem('selectedPackagePrice', selectedPackage.price.toString()); // Lưu là string
 
       // 2. Chuyển đổi và lưu Add-ons
+      // Map: addonName -> { price: number, ... }
       const addonsToSave = [];
       selectedAddons.forEach((value, key) => {
         addonsToSave.push({
@@ -306,6 +307,7 @@ function initHomestayBoardingFunctionality() {
       localStorage.setItem('selectedAddons', JSON.stringify(addonsToSave));
 
       // 3. Chuyển đổi và lưu Treats
+      // Map: treatName -> { price: number, quantity: number, ... }
       const treatsToSave = [];
       selectedTreats.forEach((value, key) => {
         if (value.quantity > 0) {
@@ -328,6 +330,7 @@ function initHomestayBoardingFunctionality() {
   }
 
   // Chạy khi tải trang
+  // Lấy gói từ localStorage (nếu quay lại trang) hoặc dùng gói đầu tiên
   const savedPkgName = localStorage.getItem('selectedPackageName');
   const savedPkgPrice = parseInt(localStorage.getItem('selectedPackagePrice'), 10);
   
@@ -353,6 +356,7 @@ function initGroomingSpaFunctionality() {
   let selectedAddons = new Map(); // addonName -> { price: number, element: HTMLElement }
   let selectedTreats = new Map(); // treatName -> { price: number, quantity: number, element: HTMLElement }
 
+  // SỬA LỖI: Dùng đúng packageData của Grooming (Fix bug trong ảnh)
   const packageData = {
     'The Polished Pup': {
       price: 45,
@@ -494,6 +498,7 @@ function initGroomingSpaFunctionality() {
   }
 
   function updateSidebarForPackage(packageName, packagePrice) {
+    // SỬA LỖI: Đây là selector của trang Grooming
     const packageNameEl = document.querySelector('.package-name');
     const packagePriceEl = document.querySelector('.package-price');
     
@@ -508,6 +513,7 @@ function initGroomingSpaFunctionality() {
     updatePriceSummary();
   }
 
+  // SỬA LỖI: Thêm $ và mô tả
   function updateAddonsForPackage(packageName) {
     const addonsContainer = document.querySelector('.accordion-content');
     if (!addonsContainer) return;
@@ -553,6 +559,7 @@ function initGroomingSpaFunctionality() {
     });
   }
 
+  // HÀM NÀY BỊ THIẾU TRONG CODE GỐC CỦA BẠN, TÔI ĐÃ THÊM VÀO
   function updateQuantityDisplay(treatItem, quantity) {
     const treatNameElement = treatItem.querySelector('.treat-name');
     if (!treatNameElement) {
@@ -626,6 +633,7 @@ function initGroomingSpaFunctionality() {
 // CÁC HÀM HỖ TRỢ CHUNG
 // ========================================================================
 
+// Toggle package details (expand/collapse)
 function toggleDetails(button) {
   const pkgCard = button.closest('.pkg-card');
   const detailsSection = pkgCard.querySelector('.pkg-details-toggled');
@@ -638,6 +646,8 @@ function toggleDetails(button) {
     button.innerHTML = 'Hide Details <span class="arrow">↑</span>';
   }
 }
+
+// Switch between tabs
 function switchTab(button, tabId) {
   const tabContainer = button.closest('.pkg-tabs');
   tabContainer.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -646,6 +656,8 @@ function switchTab(button, tabId) {
   button.classList.add('active');
   document.getElementById(tabId).classList.add('active');
 }
+
+// Toggle accordion sections
 function toggleAccordion(button) {
   const content = button.nextElementSibling;
   const chevron = button.querySelector('.chevron');
@@ -660,6 +672,8 @@ function toggleAccordion(button) {
     chevron.style.transform = 'rotate(180deg)';
   }
 }
+
+// Show notification
 function showNotification(message, type = 'info') {
   const existingNotifications = document.querySelectorAll('.notification');
   existingNotifications.forEach(notification => notification.remove());
