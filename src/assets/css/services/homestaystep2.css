@@ -1,0 +1,427 @@
+/* ==========================================================================
+   GHI ĐÈ LAYOUT (CENTER VÀ LÀM TO FORM)
+   ========================================================================== */
+
+.booking-layout {
+  /* Bỏ 2 cột, chỉ dùng 1 cột */
+  grid-template-columns: 1fr;
+  justify-content: center; /* Căn giữa grid */
+}
+
+.main-content-col {
+  /* Đặt chiều rộng tối đa cho form và căn giữa */
+  max-width: 800px; 
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Ẩn sidebar (nếu nó vẫn còn trong CSS file step 1) */
+.summary-card {
+  display: none !important;
+}
+
+/* ==========================================================================
+   STYLES CHO FORM (ĐÃ SỬA KHOẢNG CÁCH)
+   ========================================================================== */
+
+.form-section {
+  border: none; 
+  display: flex;
+  flex-direction: column;
+  gap: 28px; /* Khoảng cách đều giữa các nhóm */
+}
+
+.booking-form {
+  padding: 32px 40px; /* Tăng padding 1 chút */
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Xóa gap của form, để fieldset/title tự quản lý */
+}
+
+.form-section-title {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  color: #3b2a1f;
+  margin-bottom: 28px; /* Khoảng cách DƯỚI tiêu đề */
+}
+
+/* Thêm khoảng cách TRÊN tiêu đề (trừ cái đầu tiên) */
+.form-section-title:not(:first-child) {
+  margin-top: 32px; 
+}
+
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 24px; 
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.inline-group {
+  flex-direction: row;
+  gap: 24px;
+}
+.form-group.inline-group .form-group {
+  flex: 1;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #5a3d2b;
+}
+
+.form-group .required {
+  color: #DC143C;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #E9DFD7;
+  border-radius: 12px;
+  background-color: #FCFAFA;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #3b2a1f;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #b7a496;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #7a5b48;
+  box-shadow: 0 0 0 3px rgba(122, 91, 72, 0.1);
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+  border-color: #DC143C;
+  background-color: #FFF8F8;
+}
+.form-group.has-error input:focus,
+.form-group.has-error select:focus,
+.form-group.has-error textarea:focus {
+  box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
+}
+
+.error-message {
+  color: #DC143C;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: none; /* Ẩn mặc định */
+}
+
+.form-group.has-error .error-message {
+  display: block; /* Hiện khi có lỗi */
+}
+
+/* ==========================================================================
+   YÊU CẦU: THÊM CSS CHO PAYMENT METHOD
+   ========================================================================== */
+
+/* Payment tabs: đồng bộ hiệu ứng chọn, icon có nền */
+.payment-tabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.payment-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 2px solid #E9DFD7;
+  border-radius: 16px;
+  cursor: pointer;
+  background-color: #FCFAFA;
+  transition: all 0.2s;
+  position: relative; /* Cho chấm tròn */
+  padding-left: 56px;           /* chừa khoảng cho chấm radio bên trái */
+}
+
+.payment-tab input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Chấm tròn radio (Unselected) */
+.payment-tab::before {
+  content: '';
+  position: absolute; 
+  left: 20px;       
+  top: 50%;         
+  transform: translateY(-50%); 
+  width: 18px;  /* Size gốc */
+  height: 18px; /* Size gốc */
+  border: 2px solid #D1C7BC;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: all 0.2s; /* Thêm transition */
+}
+
+/* Chấm tròn radio (Selected) - Viền ngoài */
+.payment-tab:has(input:checked)::before {
+  border-color: #7a5b48; /* Đổi màu viền */
+}
+
+/* THÊM MỚI: Chấm nâu bên trong (Selected) */
+.payment-tab::after {
+  content: '';
+  position: absolute;
+  left: 27px; /* 20px (left) + 2px (border) + 5px (padding) = 27px */
+  top: 50%;
+  transform: translateY(-50%) scale(0); /* Ẩn đi */
+  width: 10px;  /* Size của chấm bên trong */
+  height: 10px; /* Size của chấm bên trong */
+  border-radius: 50%;
+  background-color: #7a5b48;
+  transition: all 0.2s;
+}
+
+.payment-tab:has(input:checked)::after {
+   transform: translateY(-50%) scale(1); /* Hiện ra */
+}
+
+
+.payment-tab .tab-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  padding: 8px;                 /* tạo khoảng để nền hiện rõ */
+  border-radius: 12px;          /* bo góc nền icon */
+}
+/* Card: nền xanh nhạt */
+.payment-tab:has(input[value="card"]) .tab-icon {
+  background-color: #dbe7ff;    /* xanh nhạt */
+}
+/* QR: nền xanh lá nhạt */
+.payment-tab:has(input[value="qr"]) .tab-icon {
+  background-color: #dff1df;    /* xanh lá nhạt */
+}
+
+/* Hiệu ứng khi chọn: viền, nền, shadow, icon nền đậm hơn */
+.payment-tab:has(input:checked) {
+  border-color: #7a5b48;
+  background-color: #F7F2EC;
+  box-shadow: 0 6px 16px rgba(122, 91, 72, 0.15);
+}
+/* chấm radio khi chọn đã có hiệu ứng, giữ nguyên */
+.payment-tab:has(input:checked)::before {
+  border-color: #7a5b48;
+  background-color: #7a5b48;
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px #7a5b48; /* Hiệu ứng viền kép */
+}
+
+
+.payment-tab .tab-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-tab .tab-info strong {
+  color: #3b2a1f;
+  font-weight: 600;
+}
+.payment-tab .tab-info span {
+  font-size: 0.875rem;
+  color: #7a5b48;
+}
+
+.payment-tab:hover {
+  background-color: #F7F2EC;
+  /* Thêm: Chỉ đổi màu viền khi hover, không thêm shadow */
+  border-color: #D1C7BC; 
+}
+/* Chỉ áp dụng style active cho tab ĐƯỢC CHỌN */
+.payment-tab:has(input:checked) {
+  border-color: #7a5b48;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(97, 70, 57, 0.08);
+}
+
+/* Payment tabs: chiếm toàn bộ chiều rộng form */
+.payment-tabs {
+  width: 100%;
+}
+
+.saved-cards-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;                 /* quan trọng: bỏ padding mặc định của ul */
+  margin: 0 0 24px;           /* giữ khoảng cách dưới, bỏ thụt lề trái/phải */
+  width: 100%;                /* đảm bảo khớp chiều rộng form */
+}
+
+.saved-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 2px solid #E9DFD7;
+  border-radius: 16px;
+  background-color: #FCFAFA;
+  transition: all 0.2s;
+  width: 100%;                /* full-width theo form */
+  box-sizing: border-box;     /* tính cả padding/border trong width */
+}
+.saved-card.active {
+  border-color: #7a5b48;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(97, 70, 57, 0.08);
+}
+
+.saved-card .card-logo {
+  width: 50px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.saved-card .card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.saved-card .card-number {
+  font-weight: 600;
+  color: #3b2a1f;
+}
+.saved-card .card-details {
+  font-size: 0.875rem;
+  color: #7a5b48;
+}
+
+/* Nút Edit: là button thực sự, bỏ nền ô vuông phía sau */
+.saved-card .edit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;           /* đẩy nút sang phải */
+  height: 40px;
+  min-width: 96px;
+  padding: 0 18px;
+  color: #7a5b48;
+  background-color: #fff;
+  border: 1.5px solid #E9DFD7; /* viền nhẹ, không “bold” */
+  border-radius: 12px;
+  box-shadow: none;            /* bỏ mọi bóng gây cảm giác ô vuông */
+  position: static;            /* tránh overlay do position */
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Xoá mọi pseudo-element tạo ô vuông phía sau (nếu có từ global CSS) */
+.saved-card .edit-btn::before,
+.saved-card .edit-btn::after {
+  content: none !important;
+}
+
+/* Trạng thái hover/focus đồng bộ, nhẹ nhàng */
+.saved-card .edit-btn:hover {
+  background-color: #f7f2ec;
+  border-color: #D1C7BC;
+}
+.saved-card .edit-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(209, 199, 188, 0.35);
+}
+
+.add-new-card-btn {
+  display: block;             /* khớp lề với nội dung form */
+  width: 100%; 
+  padding: 14px;
+  border: 2px dashed #D1C7BC;
+  border-radius: 12px;
+  box-sizing: border-box;     /* không vượt quá lề của form */
+}
+.add-new-card-btn:hover {
+  background-color: #F7F2EC;
+  border-color: #b8956a;
+}
+
+/* Thẻ Payment Details (thẻ riêng) */
+.payment-details-card {
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px; /* Gap giữa các dòng form */
+}
+.form-section-title-sub {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 700;
+  color: #3b2a1f;
+}
+
+
+/* ==========================================================================
+   STYLES CHO NÚT BẤM (MỚI)
+   ========================================================================== */
+
+/* Nút Back và Continue ở dưới cùng */
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px; /* Căn lề cho giống .card */
+  margin-top: 24px;
+}
+
+.form-navigation .back-link-bottom {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #7a5b48;
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.form-navigation .back-link-bottom .icon {
+  width: 18px; 
+  height: 18px; 
+}
+
+/* Lấy style từ .btn.primary của file homestaystep1.css */
+.form-navigation .btn.primary {
+  padding: 12px 24px;
+  background: #7a5b48; /* Dùng màu nâu đậm */
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(122, 91, 72, 0.35);
+}
+.form-navigation .btn.primary:hover {
+  background: #5a3d2b;
+}
+
+/* Xóa style của sidebar (nếu có) */
+.summary-card .btn.pay-now {
+  display: none;
+}

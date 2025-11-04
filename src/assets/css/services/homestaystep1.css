@@ -711,3 +711,465 @@ BƯỚC 2: THÊM CODE CSS CHO MODAL
 .package-option input[type="radio"]:checked + .radio-custom::after {
   transform: scale(1);
 }
+
+/* Layout: tránh kéo dài chiều cao bằng nhau giữa hai cột */
+.booking-card {
+    /* đảm bảo card trái ôm nội dung, không bị stretch theo grid/flex */
+    align-self: flex-start;
+    align-self: start;
+    height: auto;
+}
+/* Sidebar: làm nhẹ viền nút Edit (Select Package) */
+.summary-card .edit-btn {
+    border: none;
+    box-shadow: none;
+}
+.muted { color: #9a8576; }
+.small { font-size: 12px; }
+.strong { font-weight: 700; }
+.pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #efe6de;
+  color: #6b4f3d;
+  justify-self: end;
+}
+
+/* Accordions */
+.summary-accordion {
+  border: 1px solid #eee3da;
+  border-radius: 16px;
+  margin: 10px 8px;
+  overflow: hidden;
+}
+.summary-accordion[open] .accordion-header { border-bottom: 1px solid #efe6de; }
+.accordion-header {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  cursor: pointer;
+  color: #3b2a1f;
+}
+.accordion-header .count { color: #9a8576; font-weight: 600; }
+.accordion-header .chevron { width: 18px; height: 18px; color: #7a5b48; }
+.accordion-body { padding: 12px; }
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-list li {
+  list-style: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f3ebe4;
+  color: #6b4f3d;
+  font-weight: 600;
+}
+
+/* Discount */
+.discount-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-top: 6px;
+}
+.input {
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid #efe6de;
+  padding: 0 12px;
+  font-weight: 600;
+  color: #3b2a1f;
+  background: #fcfaf8;
+}
+.input::placeholder { color: #b7a496; }
+.btn.apply {
+  padding: 0 14px;
+  height: 38px;
+  background: #e9dfd7;       /* disabled look when empty */
+  color: #6b4f3d;
+  border-radius: 12px;
+  font-weight: 700;
+}
+/* CSS-only enable when input has value (placeholder not shown) */
+.discount-row .input:not(:placeholder-shown) + .apply {
+  background: #7a5b48;
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(122, 91, 72, 0.35);
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: #6b4f3d;
+  font-weight: 600;
+}
+
+/* Price summary (ĐÃ SỬA THEO YÊU CẦU FONT) */
+.price-summary {
+  border: 1px solid #eee3da;
+  border-radius: 16px;
+  padding: 12px;
+  margin: 10px 8px;
+}
+.price-summary .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  color: #3b2a1f;
+  font-size: 15px; /* Size chữ cơ bản */
+}
+.price-summary .row .value { color: #6b4f3d; }
+.price-summary .row .strong { font-weight: 700; }
+
+.price-summary .row.subtotal {
+  padding-top: 10px;
+  border-top: 1px dashed #efe6de;
+  font-weight: 700;
+  font-size: 17px; /* Yêu cầu: To hơn một chút */
+}
+
+/* Yêu cầu: Giữ nguyên size cơ bản (15px) */
+.price-summary .row.treats,
+.price-summary .row.addons {
+  font-size: inherit; 
+  color: #6b4f3d;
+}
+.price-summary .row.discount {
+  font-size: inherit;
+  color: #2E8B57; 
+}
+.price-summary .row.discount .value {
+  color: #2E8B57;
+}
+
+.price-summary .row.total {
+  margin-top: 6px;
+  padding-top: 10px;
+  font-size: 19px; /* Yêu cầu: To hơn subtotal */
+  font-weight: 800;
+}
+.price-summary .row.total .value {
+  color: #3b2a1f;
+  font-size: 22px; /* Yêu cầu: To nhất */
+}
+
+
+/* Pay now (giữ style, text đã đổi thành Continue) */
+.btn.pay-now {
+  margin: 12px 8px 6px;
+  width: calc(100% - 16px);
+  padding: 14px 20px;
+  background: #5a3d2b;
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(90, 61, 43, 0.35);
+}
+.btn.pay-now:hover { filter: brightness(1.02); }
+
+/* ==========================================================================
+BẮT ĐẦU PHẦN SỬA LỖI
+==========================================================================
+*/
+
+/* BƯỚC 1: THAY THẾ CODE CSS CHO DURATION */
+.duration-section {
+  border: 1px solid #eee3da;
+  border-radius: 16px;
+  padding: 16px 14px 18px;
+  margin: 10px 8px;
+  background: #fff;
+}
+.duration-title {
+  font-weight: 700;
+  color: #3b2a1f;
+  margin: 0 0 8px;
+  text-align: center;
+}
+.duration-hr {
+  display: none;
+}
+.date-range {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 12px;
+}
+.date-col { flex: 1; text-align: center; }
+.date-label {
+  color: #8b7465;
+  font-size: 0.8rem;
+  margin: 0 0 2px;
+  font-weight: 500;
+}
+.date-value {
+  color: #3b2a1f;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.day-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  background-color: #fcfaf8;
+  border-radius: 12px;
+  padding: 8px;
+  margin-top: 12px;
+}
+.counter-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #eee3da;
+  background: #fff;
+  color: #7a5b48;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: background 160ms ease, color 160ms ease;
+}
+.counter-btn:hover:not(:disabled) {
+  background: #f7f2ec;
+  color: #3b2a1f;
+  outline: none;
+}
+.counter-btn:disabled {
+  background-color: #fcfaf8;
+  color: #c1afa2;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.day-count {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #6b4f3d;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Summary list (name — qty — price) */
+.summary-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0 4px;
+}
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed #E8E3DD;
+}
+.summary-item:last-child { border-bottom: none; }
+.summary-item .item-name { flex: 1; color: #3b2a1f; font-weight: 600; font-size: 0.9em; }
+.summary-item .item-qty { min-width: 56px; text-align: center; color: #7a5b48; font-weight: 700; font-size: 0.9em; }
+.summary-item .item-price { min-width: 80px; text-align: right; font-weight: 800; color: #4D2B12; font-size: 0.9em; }
+
+
+/* Discount Code (new UI) */
+.discount-section {
+  border: 1px solid #eee3da;
+  border-radius: 16px;
+  padding: 16px 14px;
+  margin: 10px 8px;
+  background: #fff;
+}
+.discount-section h4 {
+  font-weight: 800;
+  color: #4D2B12;
+  margin: 0 0 10px;
+}
+.discount-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.input-wrapper {
+  position: relative;
+  flex: 1;
+}
+.input-wrapper .input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: #b7a496;
+  pointer-events: none;
+}
+#discount-code-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px 0 38px; /* room for icon */
+  border: 1.5px solid #efe6de;
+  border-radius: 12px;
+  background: #fcfaf8;
+  color: #3b2a1f;
+  font-weight: 600;
+}
+#discount-code-input::placeholder { color: #b7a496; }
+#apply-discount-btn {
+  height: 44px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  background: #b8956a;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(184,149,106,0.35);
+}
+#apply-discount-btn:hover,
+#apply-discount-btn:focus {
+  background: #7a5b48;
+  outline: none;
+}
+
+.discount-status {
+  margin-top: 10px;
+  min-height: 28px;          
+  font-size: 14px;      /* giảm cỡ chữ */
+  margin: 0;            /* xoá khoảng trống trên/dưới */
+  min-height: 0;        /* không giữ chiều cao thừa */
+  line-height: 1.2;     /* gọn dòng hơn */
+  font-weight: 700;
+}
+
+/* Status variants */
+.status-applying {
+  color: #7a5b48;             /* warm brown */
+  position: relative;
+  padding-left: 28px;
+}
+.status-applying::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #7a5b48;
+  border-top-color: transparent;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  animation: spin 0.9s linear infinite;
+}
+.status-success { color: #2E8B57; }   /* green */
+.status-error { color: #DC143C; font-weight: 800; } /* red */
+
+.discount-hr {
+  border: none;
+  border-top: 1.5px solid #D1C7BC;
+  margin: 12px 0 8px;
+}
+
+@keyframes spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Bỏ qua CSS !important cũ */
+.summary-card .addon-item { display: none !important; }
+
+/* ==========================================================================
+BƯỚC 2: THÊM CODE CSS CHO MODAL
+==========================================================================
+*/
+
+.package-modal {
+  position: absolute;
+  top: 130px; 
+  left: 16px;
+  right: 16px;
+  background: #fff;
+  border-radius: 16px; 
+  border: 1px solid #eee3da; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 16px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.2s ease-in-out;
+}
+
+.package-modal.visible {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.package-modal h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3b2a1f;
+}
+
+.package-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #eee3da;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.package-option:has(input:checked) {
+  border-color: #7a5b48; 
+  background-color: #fcfaf8; 
+}
+
+.package-option .name {
+  font-weight: 600;
+  display: block;
+  color: #3b2a1f;
+}
+
+.package-option .price {
+  font-size: 0.875rem;
+  color: #7a5b48;
+}
+
+.package-option input[type="radio"] {
+  display: none; 
+}
+
+.radio-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #eee3da;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.radio-custom::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: #7a5b48;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.2s ease;
+}
+
+.package-option input[type="radio"]:checked + .radio-custom {
+  border-color: #7a5b48;
+}
+
+.package-option input[type="radio"]:checked + .radio-custom::after {
+  transform: scale(1);
+}

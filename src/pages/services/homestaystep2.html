@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawfect Care</title>
+  
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/header.css" />
+  <link rel="stylesheet" href="../../assets/css/footer.css" />
+  
+  <link rel="stylesheet" href="../../assets/css/services/homestaystep1.css" />
+  <link rel="stylesheet" href="../../assets/css/services/homestaystep2.css" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body data-page="services">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../index.html">
+        <img class="brand-mark-img" src="../../assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+        <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+      </a>
+      <nav class="nav">
+        <a class="nav-link" href="../../index.html">Home</a>
+        <a class="nav-link active" href="services.html">Services</a>
+        <a class="nav-link" href="../shop.html">Shop</a>
+        <a class="nav-link" href="../community.html">Community</a>
+        <a class="nav-link" href="../profile.html">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" aria-label="Wishlist">
+          <img src="../../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+        </button>
+        <a class="icon-btn" href="../cart.html" aria-label="Cart">
+          <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="../login-signup.html" aria-label="Account">
+          <img src="../../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="booking-main">
+    <div class="booking-shell">
+      <a href="homestaystep1.html" class="back-link">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        Back
+      </a>
+
+      <div class="steps-indicator" aria-label="Checkout steps">
+        <div class="step active">
+          <div class="dot">1</div>
+          <div class="label">Date/Time</div>
+        </div>
+        <div class="bar"></div>
+        <div class="step active">
+          <div class="dot">2</div>
+          <div class="label">Information</div>
+        </div>
+        <div class="bar"></div>
+        <div class="step">
+          <div class="dot">3</div>
+          <div class="label">Review</div>
+        </div>
+      </div>
+
+      <div class="booking-layout">
+        <div class="main-content-col">
+          <h2 class="form-section-title bagel-fat-one-regular">Pet Information</h2>
+          <form class="card booking-form" id="booking-step2-form">
+            <fieldset class="form-section">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="pet-name">Pet Name <span class="required">*</span></label>
+                  <input type="text" id="pet-name" name="pet-name" placeholder="Enter your pet's name" required>
+                </div>
+                <div class="form-group">
+                  <label for="pet-type">Pet Type <span class="required">*</span></label>
+                  <select id="pet-type" name="pet-type" required>
+                    <option value="" disabled selected>Select pet type</option>
+                    <option value="dog">Dog</option>
+                    <option value="cat">Cat</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group inline-group">
+                <div class="form-group">
+                  <label for="pet-age">Age</label>
+                  <input type="number" id="pet-age" name="pet-age" placeholder="Years">
+                </div>
+                <div class="form-group">
+                  <label for="pet-weight">Weight</label>
+                  <input type="number" id="pet-weight" name="pet-weight" placeholder="kg">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="special-requirements">Special Requirements</label>
+                <textarea id="special-requirements" name="special-requirements" placeholder="Any special care instructions, medical conditions, or behavioral notes..."></textarea>
+              </div>
+              <div class="form-group">
+                <label for="emergency-contact">Emergency Contact <span class="required">*</span></label>
+                <input type="tel" id="emergency-contact" name="emergency-contact" placeholder="+84 123 456 789" required>
+              </div>
+            </fieldset>
+            </form>
+        
+          <h2 class="form-section-title bagel-fat-one-regular">Contact Information</h2>  
+          <form class="card booking-form" id="booking-step2-form">
+            <fieldset class="form-section">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="owner-name">Owner's Name <span class="required">*</span></label>
+                  <input type="text" id="owner-name" name="owner-name" placeholder="Enter your pet's name" required>
+                </div>
+                <div class="form-group">
+                  <label for="phone-number">Phone Number <span class="required">*</span></label>
+                  <input type="tel" id="phone-number" name="phone-number" placeholder="+84 123 456 789" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+              </div>
+              <div class="form-group has-error">
+                <label for="address">Address <span class="required">*</span></label>
+                <input type="text" id="address" name="address" placeholder="Enter your address" required>
+                <div class="error-message">Please fill in the information</div>
+              </div>
+            </fieldset> 
+          </form>
+
+          <h2 class="form-section-title bagel-fat-one-regular">Payment Method</h2>
+          <!-- Payment Method -->
+          <form class="card booking-form" id="booking-step2-form">
+            <fieldset class="form-section">
+              <div class="payment-tabs">
+                <label class="payment-tab active">
+                  <input type="radio" name="payment-type" value="card" checked>
+                  <img src="../../assets/icons/Service/DebitIcon.svg" alt="Credit Card" class="tab-icon">
+                  <div class="tab-info">
+                    <strong>Credit/Debit Card</strong>
+                    <span>Pay securely with your card</span>
+                  </div>
+                </label>
+                <label class="payment-tab">
+                  <input type="radio" name="payment-type" value="qr">
+                  <img src="../../assets/icons/Service/QRCodeIcon.svg" alt="QR Code" class="tab-icon">
+                  <div class="tab-info">
+                    <strong>QR Code</strong>
+                    <span>MOMO, VNPAY is supported</span>
+                  </div>
+                </label>
+              </div>
+              <ul class="saved-cards-list">
+                <li class="saved-card active">
+                  <img src="../../assets/icons/Service/CreditCardIcon.svg" alt="Visa" class="card-logo">
+                  <div class="card-info">
+                    <span class="card-number">•••• •••• •••• 4242</span>
+                    <span class="card-details">Expires 12/25 • Chu Viet Cam</span>
+                  </div>
+                  <button type="button" class="edit-btn">Edit</button>
+                </li>
+                <li class="saved-card">
+                  <img src="../../assets/icons/Service/CreditCardIcon.svg" alt="Visa" class="card-logo">
+                  <div class="card-info">
+                    <span class="card-number">•••• •••• •••• 8686</span>
+                    <span class="card-details">Expires 12/25 • Pham Vi Anh</span>
+                  </div>
+                  <button type="button" class="edit-btn">Edit</button>
+                </li>
+              </ul>
+              
+              <button type="button" class="add-new-card-btn">
+                + Add New Card
+              </button>
+            </fieldset>
+          </form>
+
+          <div class="card payment-details-card" id="payment-details-form" style="display: none;"> <h3 class="form-section-title-sub">Payment Details</h3>
+             <div class="form-group">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456">
+              </div>
+              <div class="form-group">
+                <label for="card-name">Cardholder Name</label>
+                <input type="text" id="card-name" name="card-name" placeholder="NGUYEN VAN A">
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="expiry-date">Expiry Date</label>
+                  <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY">
+                </div>
+                <div class="form-group">
+                  <label for="cvv">CVV</label>
+                  <input type="text" id="cvv" name="cvv" placeholder="123">
+                </div>
+              </div>
+          </div>
+  
+            <button type="button" class="btn primary" id="continue-to-step3-btn">
+              Continue
+              <svg class="icon ml-8" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </button>
+          </div>
+
+        </div> 
+        
+        </div> 
+    </div> 
+  </main>
+
+  <section class="site-cta">
+    <div class="container cta-inner">
+      <div class="cta-icons" aria-hidden="true">
+        <img class="cta-pattern" src="../../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+      </div>
+      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+      <div class="cta-actions">
+        <a href="services.html" class="btn primary">Book Now</a>
+        <a href="../community.html" class="btn ghost">Contact Us</a>
+      </div>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img class="brand-foot-img" src="../../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
+          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+        </div>
+        <p>Your trusted partner in pet care since 2020.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="bookinghomestay.html">Pet Boarding</a></li>
+          <li><a href="groomingspa-service.html">Pet Spa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Follow Us</h4>
+        <div class="socials">
+          <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+          <a href="https://x.com/" aria-label="Twitter"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" align="center" style="color: #000000;">
+        © 2025 Pawfect Care. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  
+  <script src="../../assets/js/services/servicestep2.js"></script>
+</body>
+</html>
