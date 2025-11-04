@@ -3,6 +3,7 @@
 .home-flashsale {
   --gap-x: 8px;
   --gap-y: 8px;
+  --row-h: clamp(220px, 24vw, 260px);
 }
 
 /* GRID: 5 cột × 5 hàng ảo để đặt tỉ lệ như mockup
@@ -157,6 +158,7 @@
   width: 100%;
   flex: 1.2 1 460px; 
   max-width: 470px;
+  height:480px;
 }
 
 /* --- Badge Row (25% OFF + Spa) --- */
@@ -262,6 +264,7 @@
   padding:16px;
   justify-content: center;
   isolation:isolate;
+  
   min-width:0; /* critical cho grid */
   
 }
@@ -279,9 +282,8 @@
 .home-flashsale .deal-card.wide.beige > .wide-body > .wide-media{
   border-radius:24px !important;
   overflow:hidden !important;
-  min-width:0 !important;
-  /* hủy width/height cố định từ Figma */
-  width:auto !important; height:355px !important;
+  
+  width:100% !important; height:100% !important;
 }
 .home-flashsale .deal-card.wide.beige > .wide-body > .wide-media img{
   display:block !important;
@@ -300,9 +302,11 @@
 
 /* badges */
 .home-flashsale .deal-card.wide.beige .badge-row{
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 8px;
+  position: relative;
 }
 .home-flashsale .deal-card.wide.beige .badge{
   display:flex; align-items:center; justify-content:center;
@@ -312,6 +316,44 @@
 }
 .home-flashsale .deal-card.wide.beige .badge.dark{ background:#fff; color:#4D2B12; font-family: "Bagel Fat One",sans-serif; }
 .home-flashsale .deal-card.wide.beige .badge.outline{ background:#B8D4E6; color:#4D2B12; }
+.home-flashsale .deal-card.wide.beige .badge-row .star-spin {
+  position: absolute;
+  top: -4px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(180deg, #fbedb1 0%, #ffe791 85%);
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+              0 0 0 1.5px rgba(255, 255, 255, 0.8);
+  z-index: 3;
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out, filter 0.3s ease-in-out;
+}
+
+/* Hover: xoay nhẹ vòng vòng */
+.home-flashsale .deal-card.wide.beige .badge-row .star-spin:hover {
+  animation: spin360 1.1s linear infinite;
+  filter: brightness(1.15);
+  transform-origin: center;
+}
+
+@keyframes spin360 {
+  from { transform: rotate(0deg) scale(1.05); }
+  to   { transform: rotate(360deg) scale(1.05); }
+}
 
 /* title + desc */
 .home-flashsale .deal-card.wide.beige .deal-title{
@@ -327,7 +369,7 @@
 /* Price và BTN */
 .home-flashsale .deal-card.wide.beige .deal-bottom{
   display:flex !important;flex-direction: column; justify-content:space-between; align-items:left; gap:12px;
-  min-width:0;margin-top:100px;
+  min-width:0;margin-top:auto;
 }
 .home-flashsale .deal-card.wide.beige .price{
   display:inline-flex; gap:10px; align-items:baseline;
@@ -356,7 +398,6 @@
 
 
 /* ====== GRID AREAS (quan trọng) ====== */
-/* KHÔNG dùng ".deal-card .blue" nữa — phải là ".deal-card.blue" */
 
 .home-flashsale .deal-card.blue  { grid-area: 1 / 1 / 3 / 2; } /* cao 2 hàng, cột 1 */
 .home-flashsale .deal-card.mint  { grid-area: 1 / 2 / 2 / 4; } /* span 2 cột (2→3) */
