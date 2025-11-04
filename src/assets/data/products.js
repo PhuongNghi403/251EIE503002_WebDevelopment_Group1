@@ -7,6 +7,7 @@ window.PRODUCTS_DATA = [
     type: 'toy',
     category: 'Dog Toy',
     brand: 'Pawfect',
+<<<<<<< HEAD
     name: "SQUEAKY SPORTS BALL SET",
     subtitle: "Textured squeaky balls inspired by classic sports.",
     description:
@@ -44,6 +45,14 @@ window.PRODUCTS_DATA = [
       { id:'r1', author:'Dianne Russell', avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?crop=faces&fit=crop&w=300&h=300', rating:4, title:'Dogs love it', text:'Âm squeak vui tai, nảy tốt.', createdAt:'2025-08-20' },
       { id:'r2', author:'Jane Cooper', avatar:'https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?crop=faces&fit=crop&w=300&h=300', rating:5, title:'Bền', text:'Cắn nhiều vẫn ổn.', createdAt:'2025-09-02' }
     ]
+=======
+    image_url: '../assets/images/Shop/baseball.svg',
+    description: 'A textured squeaky ball set inspired by classic basketball and football shapes. Made from durable, non-toxic rubber with raised massage nubs that are gentle on gums,these toys keep dogs engaged through fetch, chase, and solo chew time. The grippy surface is easy to hold with wet paws and stands up to daily play, indoors or out.',
+    benefits: ['Durable, non-toxic rubber built for daily play', 
+      'Raised nubs help reduce plaque while massaging gums', 
+      'Easy-clean surface; wipe down after outdoor sessions'],
+    nutrition: {}
+>>>>>>> 915002d45c78c55fe6bc87e27e97df499edb7614
   },
   {
     id: '2',
@@ -51,10 +60,15 @@ window.PRODUCTS_DATA = [
     type: 'toy',
     category: 'Dog Toy',
     brand: 'Pawfect',
+<<<<<<< HEAD
     name: "BONE-SHAPED PET TOYS (SET OF 4)",
     subtitle: "Colorful flexible TPR bones for fetch & training.",
     description:
       'A colorful set of bone-shaped toys crafted from flexible TPR that is gentle on teeth yet tough enough for repeated chewing. Their lightweight build and lively bounce make them perfect for fetch and training games. Subtle textures keep interest high and help support oral hygiene during casual chew sessions.',
+=======
+    image_url: '../assets/images/Shop/bone-4.svg',
+    description: `A colorful set of bone-shaped toys crafted from flexible TPR that is gentle on teeth yet tough enough for repeated chewing. Their lightweight build and lively bounce make them perfect for fetch and training games. Subtle textures keep interest high and help support oral hygiene during casual chew sessions.`,
+>>>>>>> 915002d45c78c55fe6bc87e27e97df499edb7614
     benefits: ['Squeaky fun', 'Great for fetch'],
     images: ['../assets/images/Shop/bone-4.svg','../assets/images/Shop/bone-4.svg'],
     thumbnail: '../assets/images/Shop/bone-4.svg',
@@ -80,6 +94,7 @@ window.PRODUCTS_DATA = [
     type: 'toy',
     category: 'Dog Toy',
     brand: 'Pawfect',
+<<<<<<< HEAD
     name: 'HIGH-GRIP TRAINING BALL',
     subtitle: "Lightweight, high-bounce training ball.",
     description:
@@ -100,6 +115,12 @@ window.PRODUCTS_DATA = [
     relatedIds: ['1', '10'],
     createdAt: '2025-08-12T00:00:00Z',
     reviews: []
+=======
+    image_url: '../assets/images/Shop/ball-fordog.svg',
+    description: `A lightweight, high-grip training ball designed for everyday fetch. The smooth outer shell resists dirt, while the responsive core delivers a satisfying bounce that encourages exercise and healthy play routines. Sized for easy carrying without straining the jaw.`,
+    benefits: ['High protein'],
+    nutrition: {}
+>>>>>>> 915002d45c78c55fe6bc87e27e97df499edb7614
   },
   {
     id: '4',
@@ -136,10 +157,15 @@ window.PRODUCTS_DATA = [
     type: 'food',
     category: 'Cat Food',
     brand: 'Encore',
+<<<<<<< HEAD
     name: 'ENCORE COMPLETE - CAT FOOD',
     subtitle: "High-quality protein with crunchy accents.",
     description:
       'A complete and balanced meal made with real chicken breast, crunchy kibble accents, and garden vegetables. Each serving provides high-quality protein for strong, lean muscles and is fortified with Omega-3 &amp; Omega-6, taurine, and essential vitamins.',
+=======
+    image_url: '../assets/images/Shop/encore.svg',
+    description: `A complete and balanced meal made with real chicken breast, crunchy kibble accents, and garden vegetables. Each serving provides high-quality protein for strong, lean muscles and is fortified with Omega-3 &amp; Omega-6, taurine, and essential vitamins. Free from pork and lard, the recipe is designed to support everyday wellness—from skin and coat to digestion and immune defense—while delivering a flavor cats love.`,
+>>>>>>> 915002d45c78c55fe6bc87e27e97df499edb7614
     benefits: ['Glossy coat and skin comfort'],
     images: ['../assets/images/Shop/encore.svg','../assets/images/Shop/encore.svg'],
     thumbnail: '../assets/images/Shop/encore.svg',
@@ -190,10 +216,15 @@ window.PRODUCTS_DATA = [
     type: 'food',
     category: 'Cat Food',
     brand: 'Friskies',
+<<<<<<< HEAD
     name: 'FRISKIES WITH CHICKEN (CANNED)',
     subtitle: "Tender chicken in savory gravy.",
     description:
       'Tender chicken in a savory gravy that keeps cats coming back to the bowl. Complete and balanced entrée with essential vitamins, taurine, and omegas.',
+=======
+    image_url: '../assets/images/Shop/friski.svg',
+    description: `Tender chicken in a savory gravy that keeps cats coming back to the bowl. This complete and balanced entrée delivers high-quality protein for lean muscles and includes essential vitamins, taurine, and omegas to support heart, vision, skin, and coat. The juicy texture adds extra hydration while the irresistible aroma turns mealtime into a treat. Made without pork or lard for everyday feeding.`,
+>>>>>>> 915002d45c78c55fe6bc87e27e97df499edb7614
     benefits: ['Taurine helps maintain heart and eye function'],
     images: ['../assets/images/Shop/friski.svg','../assets/images/Shop/friski.svg'],
     thumbnail: '../assets/images/Shop/friski.svg',
@@ -271,10 +302,15 @@ window.PRODUCTS_DATA = [
     type: 'toy',
     category: 'Dog Toy',
     brand: 'PetStay',
+<<<<<<< HEAD
     name: 'STUFFED ANIMALS & ROPE PLAY SET',
     subtitle: "Plush squeakers + tough rope bundle.",
     description:
       'A multi-toy bundle that mixes plush squeakers with a tough rope for tug, fetch, and independent play.',
+=======
+    image_url: '../assets/images/Shop/stuffed-animal.svg',
+    description: `A multi-toy bundle that mixes plush squeakers with a tough rope for tug, fetch, and independent play. The varied shapes, sounds, and textures keep dogs mentally stimulated while the rope fibers can help with light flossing as they chew. Ideal for indoor sessions and basic training games.`,
+>>>>>>> 915002d45c78c55fe6bc87e27e97df499edb7614
     benefits: ['Rope fibers aid light dental flossing'],
     images: ['../assets/images/Shop/stuffed-animal.svg','../assets/images/Shop/stuffed-animal.svg'],
     thumbnail: '../assets/images/Shop/stuffed-animal.svg',
@@ -298,10 +334,15 @@ window.PRODUCTS_DATA = [
     type: 'toy',
     category: 'Dog Toy',
     brand: 'PetStay',
+<<<<<<< HEAD
     name: 'RAWHIDE BONE CHEW',
     subtitle: "Long-lasting rawhide chew.",
     description:
       'A long-lasting rawhide chew shaped like a classic bone to satisfy a dog\'s natural urge to chew.',
+=======
+    image_url: '../assets/images/Shop/bone.svg',
+    description: `A long-lasting rawhide chew shaped like a classic bone to satisfy a dog's natural urge to chew. Helps alleviate boredom and promotes healthy chewing habits. Always supervise your pet while chewing and provide fresh water; this is a chew, not a complete meal.`,
+>>>>>>> 915002d45c78c55fe6bc87e27e97df499edb7614
     benefits: ['Encourages healthy chewing away from household items'],
     images: ['../assets/images/Shop/bone.svg','../assets/images/Shop/bone.svg'],
     thumbnail: '../assets/images/Shop/bone.svg',

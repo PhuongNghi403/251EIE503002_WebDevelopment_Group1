@@ -143,7 +143,10 @@ function initHomestayBoardingFunctionality() {
     const bookNowButtons = document.querySelectorAll('.pkg-card a.btn.primary');
     bookNowButtons.forEach(button => {
       button.addEventListener('click', function(event) {
-        event.preventDefault();
+        
+        // YÊU CẦU: Thêm lại preventDefault để không chuyển trang
+        event.preventDefault(); 
+        
         const pkgCard = this.closest('.pkg-card');
         if (!pkgCard) return;
 
@@ -164,9 +167,6 @@ function initHomestayBoardingFunctionality() {
 
         updateSidebarForPackage(packageTitle, packagePrice);
         showNotification(`${packageTitle} has been selected!`, 'success');
-
-        localStorage.setItem('selectedPackageName', packageTitle);
-        localStorage.setItem('selectedPackagePrice', packagePrice);
       });
     });
   }
@@ -187,12 +187,11 @@ function initHomestayBoardingFunctionality() {
     updatePriceSummary();
   }
 
-  // Hàm con để cập nhật add-ons (của riêng Homestay)
   function updateAddonsForPackage(packageName) {
     const addonsContainer = document.querySelector('.accordion-section .accordion-content');
     if (!addonsContainer) return;
     
-    const packageInfo = packageData[packageName]; // Dùng packageData cục bộ
+    const packageInfo = packageData[packageName]; 
     if (!packageInfo) {
       console.error("Package data not found for:", packageName);
       addonsContainer.innerHTML = '<p>No add-ons available for this package.</p>';
@@ -206,7 +205,6 @@ function initHomestayBoardingFunctionality() {
       addonItem.className = 'addon-item';
       addonItem.setAttribute('data-price', addon.price);
       
-      // SỬA LỖI: Đã xóa chữ "AS" bị dư ở đây
       addonItem.innerHTML = `
         <div class="addon-info">
           <div class="addon-header">
@@ -287,17 +285,67 @@ function initHomestayBoardingFunctionality() {
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      
+      // =======================================================
+      // YÊU CẦU: LƯU TẤT CẢ VÀO LOCALSTORAGE KHI BẤM "CHECKOUT"
+      // =======================================================
+
+      // 1. Lưu Gói
+      localStorage.setItem('selectedPackageName', selectedPackage.name);
+      localStorage.setItem('selectedPackagePrice', selectedPackage.price.toString()); // Lưu là string
+
+      // 2. Chuyển đổi và lưu Add-ons
+      const addonsToSave = [];
+      selectedAddons.forEach((value, key) => {
+        addonsToSave.push({
+          name: key,
+          price: value.price,
+          qty: 1 // Addons luôn có qty: 1
+        });
+      });
+      localStorage.setItem('selectedAddons', JSON.stringify(addonsToSave));
+
+      // 3. Chuyển đổi và lưu Treats
+      const treatsToSave = [];
+      selectedTreats.forEach((value, key) => {
+        if (value.quantity > 0) {
+          treatsToSave.push({
+            name: key,
+            price: value.price,
+            qty: value.quantity
+          });
+        }
+      });
+      localStorage.setItem('selectedTreats', JSON.stringify(treatsToSave));
+
+      // =======================================================
+      // KẾT THÚC SỬA LỖI
+      // =======================================================
+
+      // Chuyển trang
       window.location.href = 'homestaystep1.html';
     });
   }
 
   // Chạy khi tải trang
+  const savedPkgName = localStorage.getItem('selectedPackageName');
+  const savedPkgPrice = parseInt(localStorage.getItem('selectedPackagePrice'), 10);
+  
+  if (savedPkgName && !isNaN(savedPkgPrice)) {
+    selectedPackage = { name: savedPkgName, price: savedPkgPrice };
+  } else {
+    // Nếu không có gì, dùng gói đầu tiên làm mặc định
+    selectedPackage = { name: 'Cozy Room (Basic)', price: 40 };
+    localStorage.setItem('selectedPackageName', selectedPackage.name);
+    localStorage.setItem('selectedPackagePrice', selectedPackage.price.toString());
+  }
+  
   updateSidebarForPackage(selectedPackage.name, selectedPackage.price);
   updatePriceSummary();
 }
 
 // ========================================================================
-// LOGIC TRANG GROOMING SPA (ĐÃ SỬA LỖI ĐỂ HOẠT ĐỘNG GIỐNG HET HOMESTAY)
+// LOGIC TRANG GROOMING SPA (PHỤC HỒI LẠI CODE CŨ CỦA BẠN)
 // ========================================================================
 function initGroomingSpaFunctionality() {
   // State management for grooming spa
@@ -305,7 +353,6 @@ function initGroomingSpaFunctionality() {
   let selectedAddons = new Map(); // addonName -> { price: number, element: HTMLElement }
   let selectedTreats = new Map(); // treatName -> { price: number, quantity: number, element: HTMLElement }
 
-  // SỬA LỖI: Dùng đúng packageData của Grooming (Fix bug trong ảnh)
   const packageData = {
     'The Polished Pup': {
       price: 45,
@@ -344,7 +391,6 @@ function initGroomingSpaFunctionality() {
 
       if (!addonName) return;
 
-      // Toggle addon selection
       if (selectedAddons.has(addonName)) {
         selectedAddons.delete(addonName);
         addBtn.textContent = '+';
@@ -448,7 +494,6 @@ function initGroomingSpaFunctionality() {
   }
 
   function updateSidebarForPackage(packageName, packagePrice) {
-    // SỬA LỖI: Đây là selector của trang Grooming
     const packageNameEl = document.querySelector('.package-name');
     const packagePriceEl = document.querySelector('.package-price');
     
@@ -463,7 +508,6 @@ function initGroomingSpaFunctionality() {
     updatePriceSummary();
   }
 
-  // SỬA LỖI: Thêm $ và mô tả
   function updateAddonsForPackage(packageName) {
     const addonsContainer = document.querySelector('.accordion-content');
     if (!addonsContainer) return;
@@ -482,7 +526,6 @@ function initGroomingSpaFunctionality() {
       addonItem.className = 'addon-item';
       addonItem.setAttribute('data-price', addon.price);
       
-      // SỬA LỖI: Đã xóa chữ "AS" bị dư ở đây
       addonItem.innerHTML = `
         <div class="addon-info">
           <div class="addon-header">
@@ -510,7 +553,6 @@ function initGroomingSpaFunctionality() {
     });
   }
 
-  // HÀM NÀY BỊ THIẾU TRONG CODE GỐC CỦA BẠN, TÔI ĐÃ THÊM VÀO
   function updateQuantityDisplay(treatItem, quantity) {
     const treatNameElement = treatItem.querySelector('.treat-name');
     if (!treatNameElement) {
@@ -581,11 +623,9 @@ function initGroomingSpaFunctionality() {
 
 
 // ========================================================================
-// CÁC HÀM HỖ TRỢ CHUNG (GIỮ NGUYÊN TỪ FILE 903 DÒNG)
-// (Các hàm này không bị xung đột)
+// CÁC HÀM HỖ TRỢ CHUNG
 // ========================================================================
 
-// Toggle package details (expand/collapse)
 function toggleDetails(button) {
   const pkgCard = button.closest('.pkg-card');
   const detailsSection = pkgCard.querySelector('.pkg-details-toggled');
@@ -598,20 +638,14 @@ function toggleDetails(button) {
     button.innerHTML = 'Hide Details <span class="arrow">↑</span>';
   }
 }
-
-// Switch between tabs
 function switchTab(button, tabId) {
-  // Remove active class from all tab buttons and panels
   const tabContainer = button.closest('.pkg-tabs');
   tabContainer.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   tabContainer.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
   
-  // Add active class to clicked button and corresponding panel
   button.classList.add('active');
   document.getElementById(tabId).classList.add('active');
 }
-
-// Toggle accordion sections
 function toggleAccordion(button) {
   const content = button.nextElementSibling;
   const chevron = button.querySelector('.chevron');
@@ -626,10 +660,7 @@ function toggleAccordion(button) {
     chevron.style.transform = 'rotate(180deg)';
   }
 }
-
-// Show notification
 function showNotification(message, type = 'info') {
-  // Remove existing notifications
   const existingNotifications = document.querySelectorAll('.notification');
   existingNotifications.forEach(notification => notification.remove());
   
@@ -655,12 +686,10 @@ function showNotification(message, type = 'info') {
   
   document.body.appendChild(notification);
   
-  // Animate in
   setTimeout(() => {
     notification.style.transform = 'translateX(0)';
   }, 100);
   
-  // Auto remove after 3 seconds
   setTimeout(() => {
     notification.style.transform = 'translateX(100%)';
     setTimeout(() => {
@@ -670,14 +699,3 @@ function showNotification(message, type = 'info') {
     }, 300);
   }, 3000);
 }
-
-// ========================================================================
-// TOÀN BỘ CODE GLOBAL "CŨ" (TỪ DÒNG ~721 - 903 TRONG FILE CỦA BẠN) ĐÃ BỊ XÓA
-//
-// Lý do: Các hàm như 'const selectionState', 'packageAddonsData', 
-// 'function updatePriceSummary()', 'function initPackageSelection()', v.v.
-// bị TRÙNG LẶP và XUNG ĐỘT với code bên trong
-// 'initHomestayBoardingFunctionality' và 'initGroomingSpaFunctionality'.
-//
-// Giữ lại chúng sẽ làm hỏng file. Đây là phiên bản đã sửa lỗi.
-// ========================================================================

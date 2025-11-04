@@ -2,12 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCheckoutSummary();
   initMethodSelectionState();
   initShippingMethod();
+  initAddressModal();
   initQrPayment();
   renderSavedCards();
   initCardSelectionClick();
   initAddCard();
   initUpdateCard();
   initPayNowGuard();
+  initOtpPayment();
 });
 
 // Track edit state for saved cards
@@ -112,10 +114,78 @@ function initQrPayment() {
   const amountEl = document.getElementById('qrAmount');
   const customerEl = document.getElementById('qrCustomer');
   const closeBtn = document.querySelector('.qr-close');
+  const timerEl = document.getElementById('qrTimer');
+  const doneBtn = document.querySelector('.done-qr');
+  const cancelBtn = document.querySelector('.cancel-qr');
+  const noteEl = modal ? modal.querySelector('.qr-note') : null;
+  const doneModal = document.querySelector('.done-modal');
+  const doneOk = document.querySelector('.done-ok');
+  const doneClose = document.querySelector('.done-close');
+  const doneView = document.querySelector('.done-view');
+
+  function fireCuteConfetti() {
+    const conf = window.confetti;
+    if (!conf) return;
+    const base = {
+      particleCount: 90,
+      spread: 70,
+      startVelocity: 50,
+      ticks: 200,
+      scalar: 0.9,
+      gravity: 0.8,
+      origin: { y: 0.2 },
+      zIndex: 1002,
+      colors: ['#FFD1DC','#FFC3A0','#CDE7BE','#C6DEF1','#FAD2E1','#FDE3A7','#EFD3D7']
+    };
+    conf(Object.assign({}, base, { origin: { x: 0.2, y: 0.2 } }));
+    conf(Object.assign({}, base, { origin: { x: 0.5, y: 0.2 } }));
+    conf(Object.assign({}, base, { origin: { x: 0.8, y: 0.2 } }));
+  }
 
   if (!qrTab || !modal || !canvas || !amountEl || !customerEl) return;
 
   let qrInstance = null;
+  let countdownId = null;
+
+  function formatTime(ms) {
+    const totalSec = Math.max(0, Math.floor(ms / 1000));
+    const m = String(Math.floor(totalSec / 60)).padStart(2, '0');
+    const s = String(totalSec % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function startCountdown() {
+    if (!timerEl) return;
+    let remaining = 5 * 60 * 1000; // 5 minutes
+    timerEl.textContent = formatTime(remaining);
+    canvas && canvas.classList.remove('hidden');
+    if (doneBtn) doneBtn.disabled = false;
+    if (noteEl) noteEl.textContent = 'Scan with your banking app. QR updates if total changes.';
+    if (countdownId) clearInterval(countdownId);
+    countdownId = setInterval(() => {
+      remaining -= 1000;
+      timerEl.textContent = formatTime(remaining);
+      if (remaining <= 0) {
+        clearInterval(countdownId);
+        countdownId = null;
+        timerEl.textContent = '00:00';
+        canvas && canvas.classList.add('hidden');
+        if (noteEl) noteEl.textContent = 'QR expired. Reopen QR payment to generate a new code.';
+        if (doneBtn) doneBtn.disabled = true;
+      }
+    }, 1000);
+  }
+
+  function stopCountdown(reset = true) {
+    if (countdownId) {
+      clearInterval(countdownId);
+      countdownId = null;
+    }
+    if (reset && timerEl) timerEl.textContent = '05:00';
+    canvas && canvas.classList.remove('hidden');
+    if (doneBtn) doneBtn.disabled = false;
+    if (noteEl && reset) noteEl.textContent = 'Scan with your banking app. QR updates if total changes.';
+  }
 
   function getCustomerName() {
     const meta = document.querySelector('.saved-cards .selected .card-meta');
@@ -158,17 +228,116 @@ function initQrPayment() {
     updateQr();
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
+    startCountdown();
   });
 
   closeBtn && closeBtn.addEventListener('click', () => {
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden', 'true');
+    stopCountdown(true);
   });
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
       modal.classList.remove('show');
       modal.setAttribute('aria-hidden', 'true');
+      stopCountdown(true);
     }
+  });
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+      alert('Payment canceled');
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      stopCountdown(true);
+    });
+  }
+
+  if (doneBtn) {
+    doneBtn.addEventListener('click', () => {
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      stopCountdown(true);
+      if (doneModal) {
+        // Populate basic order details if available
+        try {
+          const totals = window.checkoutTotals || {};
+          const totalEl = document.getElementById('doneTotal');
+          if (totalEl && typeof totals.total === 'number') totalEl.textContent = `$${totals.total.toFixed(2)}`;
+        } catch (e) {}
+        // Basic timestamp
+        const d = new Date();
+        const dateEl = document.getElementById('doneOrderDate');
+        if (dateEl) dateEl.textContent = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+        // Order number
+        const generatedId = `UEL-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+        const orderEl = document.getElementById('doneOrderNumber');
+        if (orderEl) orderEl.textContent = generatedId;
+        // Shipping detail based on current selection
+        const shipEl = document.getElementById('doneShipping');
+        const activeMethod = document.querySelector('.method-options .method-card.active');
+        let shippingText = 'Standard Shipping';
+        if (activeMethod && activeMethod.dataset.method === 'pickup') {
+          shippingText = 'Store Pick-up';
+        } else {
+          const summary = getSelectedAddressSummary();
+          shippingText = summary ? `Standard Shipping — ${summary}` : 'Standard Shipping';
+        }
+        if (shipEl) shipEl.textContent = shippingText;
+
+        // Persist latest order in localStorage for profile page
+        try {
+          let items = [];
+          try { items = JSON.parse(localStorage.getItem('checkoutItems') || '[]'); } catch (_) { items = []; }
+          if (!items || items.length === 0) {
+            try { items = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (_) { items = []; }
+          }
+          const totalsObj = (window.checkoutTotals || {});
+          const total = typeof totalsObj.total === 'number' ? totalsObj.total : items.reduce((s,i)=>s + (Number(i.price) * Number(i.quantity||1)), 0);
+          const nowIso = new Date().toISOString();
+          const lastOrder = {
+            id: generatedId,
+            method: (activeMethod && activeMethod.dataset.method === 'pickup') ? 'pickup' : 'shipping',
+            shipping: shippingText,
+            createdAt: nowIso,
+            total,
+            items,
+            status: 'processing',
+            timeline: [
+              { key: 'confirmed', title: 'Order Placed', time: nowIso, note: 'Your order has been confirmed and payment received.' },
+              { key: 'processing', title: 'Preparing Order', time: nowIso, note: 'We are getting your order ready.' },
+              { key: 'ready', title: (activeMethod && activeMethod.dataset.method === 'pickup') ? 'Ready To Pick-up' : 'Shipped', time: nowIso, note: (activeMethod && activeMethod.dataset.method === 'pickup') ? 'Show your order ID at reception to receive items.' : 'Your package is on the way.' },
+              { key: 'completed', title: 'Order Completed', time: nowIso, note: 'Thank you for your purchase!' }
+            ]
+          };
+          localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+        } catch (_err) {}
+        doneModal.classList.add('show');
+        doneModal.setAttribute('aria-hidden', 'false');
+        fireCuteConfetti();
+      }
+    });
+  }
+
+  // Done modal listeners
+  doneClose && doneClose.addEventListener('click', () => {
+    doneModal && doneModal.classList.remove('show');
+    doneModal && doneModal.setAttribute('aria-hidden', 'true');
+  });
+  doneOk && doneOk.addEventListener('click', () => {
+    doneModal && doneModal.classList.remove('show');
+    doneModal && doneModal.setAttribute('aria-hidden', 'true');
+  });
+  doneModal && doneModal.addEventListener('click', (e) => {
+    if (e.target === doneModal) {
+      doneModal.classList.remove('show');
+      doneModal.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  doneView && doneView.addEventListener('click', () => {
+    // Navigate to the relocated profile order status page
+    window.location.href = '../profile/profile_orderstatus.html';
   });
 
   // Keep QR in sync if totals change while the modal is open
@@ -203,6 +372,239 @@ function initShippingMethod() {
         renderCheckoutSummary();
       }
     });
+  });
+}
+
+// Summarize the selected address for receipts/modals
+function getSelectedAddressSummary() {
+  try {
+    const list = JSON.parse(localStorage.getItem('savedAddresses') || '[]');
+    let id = localStorage.getItem('selectedAddressId');
+    let addr = null;
+    if (id) addr = list.find(a => a.id === id) || null;
+    if (!addr) addr = list.find(a => a.isDefault) || list[0] || null;
+    if (!addr) return '';
+    return `${addr.address}, ${addr.ward}, ${addr.city}`;
+  } catch (e) { return ''; }
+}
+
+// Add Shipping Address modal: open, validate, save, and render summary
+function initAddressModal() {
+  const addBtn = document.querySelector('.address-empty .add-address, .address-empty .btn');
+  const modal = document.querySelector('.address-modal');
+  if (!addBtn || !modal) return;
+
+  const closeBtn = modal.querySelector('.address-close');
+  const cancelBtn = modal.querySelector('.address-cancel');
+  const saveBtn = modal.querySelector('.address-save');
+
+  const fullName = document.getElementById('addrFullName');
+  const phone = document.getElementById('addrPhone');
+  const addressLine = document.getElementById('addrAddress');
+  const ward = document.getElementById('addrWard');
+  const city = document.getElementById('addrCity');
+  const def = document.getElementById('addrDefault');
+  let editingAddressId = null;
+
+  // Multiple addresses storage helpers
+  function getAddresses() {
+    try { return JSON.parse(localStorage.getItem('savedAddresses') || '[]'); } catch (e) { return []; }
+  }
+  function setAddresses(list) {
+    try { localStorage.setItem('savedAddresses', JSON.stringify(list)); } catch (e) {}
+  }
+  function getSelectedId() {
+    try { return localStorage.getItem('selectedAddressId'); } catch (e) { return null; }
+  }
+  function setSelectedId(id) {
+    try { localStorage.setItem('selectedAddressId', id); } catch (e) {}
+  }
+  function migrateSingleAddressIfNeeded() {
+    try {
+      const legacy = JSON.parse(localStorage.getItem('shippingAddress') || 'null');
+      const existing = getAddresses();
+      if (legacy && (!existing || existing.length === 0)) {
+        const id = 'addr_' + String(Date.now());
+        const obj = { id, ...legacy };
+        setAddresses([obj]);
+        setSelectedId(id);
+        localStorage.removeItem('shippingAddress');
+      }
+    } catch (e) {}
+  }
+
+  function open() {
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+    setTimeout(() => { fullName && fullName.focus(); }, 50);
+  }
+  function close() {
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  function clearFields() {
+    if (fullName) fullName.value = '';
+    if (phone) phone.value = '';
+    if (addressLine) addressLine.value = '';
+    if (ward) ward.value = '';
+    if (city) city.value = '';
+    if (def) def.checked = false;
+  }
+
+  function fillFields(addr) {
+    if (!addr) return;
+    if (fullName) fullName.value = addr.fullName || '';
+    if (phone) phone.value = addr.phone || '';
+    if (addressLine) addressLine.value = addr.address || '';
+    if (ward) ward.value = addr.ward || '';
+    if (city) city.value = addr.city || '';
+    if (def) def.checked = !!addr.isDefault;
+  }
+
+  addBtn.addEventListener('click', () => { clearFields(); open(); });
+  closeBtn && closeBtn.addEventListener('click', close);
+  cancelBtn && cancelBtn.addEventListener('click', (e) => { e.preventDefault(); close(); });
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+
+  function validate() {
+    const fields = [fullName, phone, addressLine, ward, city];
+    const firstInvalid = fields.find(f => !f || !String(f.value).trim());
+    if (firstInvalid) {
+      firstInvalid.focus();
+      alert('Please fill in all required fields.');
+      return false;
+    }
+    const digits = (phone && phone.value || '').replace(/\D/g, '');
+    if (digits.length < 9) {
+      phone && phone.focus();
+      alert('Please enter a valid phone number.');
+      return false;
+    }
+    return true;
+  }
+
+  function renderAddressSection() {
+    const container = document.querySelector('.checkout-section .address-list')
+      || document.querySelector('.checkout-section .address-empty')
+      || document.querySelector('.checkout-section > .address-card');
+    if (!container) return;
+    const list = getAddresses();
+    if (!list || list.length === 0) {
+      if (container.classList.contains('address-list') || container.classList.contains('address-card')) {
+        container.outerHTML = `
+          <div class="address-empty" style="background:#FAF4EC;border:1px solid #E9E4DC;border-radius:12px;padding:16px;display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;">
+            <div style="width:36px;height:36px;border-radius:10px;background:#FFF;border:1px solid #EEE2D4;display:flex;align-items:center;justify-content:center;color:#7B5E47;">📍</div>
+            <div>
+              <div style="font:600 14px/1.2 'Lexend Deca';color:#4D2B12;">No saved addresses yet</div>
+              <div style="font:400 12px/1.2 'Lexend Deca';color:#7B5E47;">Please add your address to continue</div>
+            </div>
+            <button class="btn add-address" style="background:#FFF;">+ Add Shipping Address</button>
+          </div>`;
+      }
+      return;
+    }
+    const selectedId = getSelectedId() || (list.find(a => a.isDefault)?.id || list[0].id);
+    setSelectedId(selectedId);
+    const html = `
+      <div class="address-list">
+        <div class="address-list-header">
+          <div class="label">Select shipping address</div>
+          <button class="btn add-address">Add New</button>
+        </div>
+        <div class="address-list-body">
+          ${list.map(a => `
+            <div class="address-card">
+              <label class="address-select-row">
+                <input type="radio" name="addressSelect" class="address-select" data-id="${a.id}" ${a.id === selectedId ? 'checked' : ''} />
+                <div class="address-info">
+                  <div class="address-line1">${a.fullName} · ${a.phone}${a.isDefault ? ' · Default' : ''}</div>
+                  <div class="address-line2">${a.address}, ${a.ward}, ${a.city}</div>
+                </div>
+              </label>
+              <div class="address-card-actions">
+                <button class="btn ghost address-update" data-id="${a.id}">Update</button>
+                <button class="btn ghost address-delete" data-id="${a.id}">Delete</button>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    container.outerHTML = html;
+  }
+
+  saveBtn && saveBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+    const obj = {
+      id: editingAddressId || ('addr_' + String(Date.now())),
+      fullName: String(fullName.value).trim(),
+      phone: String(phone.value).trim(),
+      address: String(addressLine.value).trim(),
+      ward: String(ward.value).trim(),
+      city: String(city.value).trim(),
+      isDefault: !!(def && def.checked)
+    };
+    migrateSingleAddressIfNeeded();
+    const list = getAddresses();
+    let next = Array.isArray(list) ? [...list] : [];
+    const idx = next.findIndex(a => a.id === obj.id);
+    if (idx >= 0) {
+      next[idx] = obj;
+    } else {
+      next.push(obj);
+      setSelectedId(obj.id);
+    }
+    if (obj.isDefault) next = next.map(a => ({ ...a, isDefault: a.id === obj.id }));
+    setAddresses(next);
+    renderAddressSection();
+    close();
+  });
+
+  // Load existing addresses on page load (migrate legacy single address if needed)
+  migrateSingleAddressIfNeeded();
+  renderAddressSection();
+
+  // Delegate actions for dynamically inserted buttons
+  document.addEventListener('click', (e) => {
+    const addNewBtn = e.target.closest && e.target.closest('.address-add-new, .add-address');
+    const updateBtn = e.target.closest && e.target.closest('.address-update');
+    const deleteBtn = e.target.closest && e.target.closest('.address-delete');
+    if (addNewBtn) {
+      editingAddressId = null;
+      clearFields();
+      open();
+    } else if (updateBtn) {
+      const id = updateBtn.getAttribute('data-id');
+      editingAddressId = id;
+      const list = getAddresses();
+      const found = list.find(a => a.id === id);
+      if (found) fillFields(found); else clearFields();
+      open();
+    } else if (deleteBtn) {
+      const id = deleteBtn.getAttribute('data-id');
+      const confirmDelete = window.confirm('Are you sure you want to delete this address?');
+      if (!confirmDelete) return;
+      let list = getAddresses();
+      const idx = list.findIndex(a => a.id === id);
+      if (idx >= 0) {
+        list.splice(idx, 1);
+        setAddresses(list);
+        const selectedId = getSelectedId();
+        if (selectedId === id) {
+          const nextSelected = (list.find(a => a.isDefault)?.id) || (list[0]?.id) || null;
+          if (nextSelected) setSelectedId(nextSelected); else try { localStorage.removeItem('selectedAddressId'); } catch (e) {}
+        }
+        renderAddressSection();
+      }
+    }
+  });
+
+  document.addEventListener('change', (e) => {
+    const radio = e.target.closest && e.target.closest('.address-select');
+    if (radio && radio.checked) {
+      const id = radio.getAttribute('data-id');
+      if (id) setSelectedId(id);
+    }
   });
 }
 
@@ -506,6 +908,163 @@ function initPayNowGuard() {
       alert('You have unsaved changes to a card. Click "Update Card" before proceeding.');
       const numElFocus = document.getElementById('cardNumber');
       if (numElFocus) numElFocus.focus();
+    }
+  });
+}
+
+// OTP flow for card payments on shipping page
+function initOtpPayment() {
+  const payBtn = document.querySelector('.order-card .btn.pay');
+  const termsEl = document.querySelector('.terms input[type="checkbox"]');
+  const cardTab = document.querySelector('.pay-tabs .pay-tab:first-child');
+  const otpModal = document.querySelector('.otp-modal');
+  const otpClose = document.querySelector('.otp-close');
+  const otpConfirm = document.querySelector('.otp-confirm');
+  const otpResend = document.querySelector('.otp-resend');
+  const otpInput = document.getElementById('otpCodeInput');
+  const otpPhoneEl = document.getElementById('otpPhone');
+  const timerEl = document.getElementById('otpTimer');
+  let countdownId = null;
+
+  function formatTime(ms) {
+    const totalSec = Math.max(0, Math.floor(ms / 1000));
+    const m = String(Math.floor(totalSec / 60)).padStart(2, '0');
+    const s = String(totalSec % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function startOtpCountdown() {
+    let remaining = 2 * 60 * 1000; // 2 minutes
+    if (timerEl) timerEl.textContent = formatTime(remaining);
+    if (countdownId) clearInterval(countdownId);
+    countdownId = setInterval(() => {
+      remaining -= 1000;
+      if (timerEl) timerEl.textContent = formatTime(remaining);
+      if (remaining <= 0) {
+        clearInterval(countdownId);
+        countdownId = null;
+        if (timerEl) timerEl.textContent = '00:00';
+      }
+    }, 1000);
+  }
+
+  function stopOtpCountdown(reset = true) {
+    if (countdownId) {
+      clearInterval(countdownId);
+      countdownId = null;
+    }
+    if (reset && timerEl) timerEl.textContent = '02:00';
+  }
+
+  if (!payBtn || !cardTab || !otpModal) return;
+
+  function resolvePhoneText() {
+    const phoneInput = document.getElementById('addrPhone');
+    const val = (phoneInput?.value || '').trim();
+    return val || 'your phone';
+  }
+
+  function openOtp() {
+    if (otpPhoneEl) otpPhoneEl.textContent = resolvePhoneText();
+    if (otpInput) otpInput.value = '';
+    otpModal.classList.add('show');
+    otpModal.setAttribute('aria-hidden', 'false');
+    startOtpCountdown();
+  }
+
+  payBtn.addEventListener('click', (e) => {
+    if (!cardTab.classList.contains('active')) return; // only for card payments
+    if (editingPending) {
+      e.preventDefault();
+      alert('You have unsaved changes to a card. Click "Update Card" before proceeding.');
+      const numElFocus = document.getElementById('cardNumber');
+      if (numElFocus) numElFocus.focus();
+      return;
+    }
+    if (!termsEl || !termsEl.checked) {
+      e.preventDefault();
+      alert('Please agree to the terms before paying.');
+      return;
+    }
+    e.preventDefault();
+    openOtp();
+  });
+
+  otpConfirm && otpConfirm.addEventListener('click', () => {
+    // Accept any OTP entered by user
+    const code = otpInput ? otpInput.value.trim() : '';
+    void code;
+    otpModal.classList.remove('show');
+    otpModal.setAttribute('aria-hidden', 'true');
+    stopOtpCountdown(true);
+    const doneModal = document.querySelector('.done-modal');
+    if (doneModal) {
+      try {
+        const totals = window.checkoutTotals || {};
+        const totalEl = document.getElementById('doneTotal');
+        if (totalEl && typeof totals.total === 'number') totalEl.textContent = `$${totals.total.toFixed(2)}`;
+      } catch (e) {}
+      const d = new Date();
+      const dateEl = document.getElementById('doneOrderDate');
+      if (dateEl) dateEl.textContent = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      const generatedId = `UEL-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+      const orderEl = document.getElementById('doneOrderNumber');
+      if (orderEl) orderEl.textContent = generatedId;
+      const shipEl = document.getElementById('doneShipping');
+      const summary = getSelectedAddressSummary();
+      const shippingText = summary ? `Standard Shipping — ${summary}` : 'Standard Shipping';
+      if (shipEl) shipEl.textContent = shippingText;
+      // Persist latest order for profile page
+      try {
+        let items = [];
+        try { items = JSON.parse(localStorage.getItem('checkoutItems') || '[]'); } catch (_) { items = []; }
+        if (!items || items.length === 0) {
+          try { items = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (_) { items = []; }
+        }
+        const totalsObj = (window.checkoutTotals || {});
+        const total = typeof totalsObj.total === 'number' ? totalsObj.total : items.reduce((s,i)=>s + (Number(i.price) * Number(i.quantity||1)), 0);
+        const nowIso = new Date().toISOString();
+        const lastOrder = {
+          id: generatedId,
+          method: 'shipping',
+          shipping: shippingText,
+          createdAt: nowIso,
+          total,
+          items,
+          status: 'processing',
+          timeline: [
+            { key: 'confirmed', title: 'Order Placed', time: nowIso, note: 'Your order has been confirmed and payment received.' },
+            { key: 'processing', title: 'Preparing Order', time: nowIso, note: 'We are getting your order ready.' },
+            { key: 'ready', title: 'Shipped', time: nowIso, note: 'Your package is on the way.' },
+            { key: 'completed', title: 'Order Completed', time: nowIso, note: 'Thank you for your purchase!' }
+          ]
+        };
+        localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+      } catch (_err) {}
+      doneModal.classList.add('show');
+      doneModal.setAttribute('aria-hidden', 'false');
+      try {
+        const conf = window.confetti; if (conf) conf({ particleCount: 80, spread: 70, origin: { y: 0.2 } });
+      } catch (e) {}
+    }
+  });
+
+  otpResend && otpResend.addEventListener('click', () => {
+    alert('A new OTP has been sent.');
+    if (otpInput) otpInput.value = '';
+    startOtpCountdown();
+  });
+
+  otpClose && otpClose.addEventListener('click', () => {
+    otpModal.classList.remove('show');
+    otpModal.setAttribute('aria-hidden', 'true');
+    stopOtpCountdown(true);
+  });
+  otpModal.addEventListener('click', (e) => {
+    if (e.target === otpModal) {
+      otpModal.classList.remove('show');
+      otpModal.setAttribute('aria-hidden', 'true');
+      stopOtpCountdown(true);
     }
   });
 }

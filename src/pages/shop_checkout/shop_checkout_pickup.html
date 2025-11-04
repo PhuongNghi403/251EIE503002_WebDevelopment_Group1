@@ -103,10 +103,12 @@
                 <div class="card-left">
                   <span class="card-brand">VISA</span>
                   <span class="card-number">•••• •••• •••• 4242</span>
-                  <span class="card-meta">Expires 12/25 · Tran Duy Thanh</span>
+                  <span class="card-meta">Expires 12/25 · TRAN DUY THANH</span>
                 </div>
-                <button class="btn ghost edit">Edit</button>
-                <button class="btn ghost delete">Delete</button>
+                <div>
+                  <button class="btn ghost edit">Edit</button>
+                  <button class="btn ghost delete">Delete</button>
+                </div>
               </div>
 
               <div class="actions">
@@ -180,7 +182,7 @@
               <div class="row total"><span>Total:</span><span></span></div>
             </div>
 
-            <button class="btn pay">Pay Now</button>
+            <button class="btn pay">PAY NOW</button>
           </div>
         </aside>
       </div>
@@ -254,15 +256,74 @@
           <div class="qr-row"><span>Amount:</span> <strong id="qrAmount">$0.00</strong></div>
           <div class="qr-row"><span>Bank:</span> <strong>Vietcombank</strong></div>
           <div class="qr-row"><span>Account:</span> <strong>0123456789</strong></div>
-          <div class="qr-row"><span>Branch:</span> <strong>Hanoi</strong></div>
+          <div class="qr-row"><span>Branch:</span> <strong>UEL</strong></div>
           <div class="qr-row"><span>Customer:</span> <strong id="qrCustomer">Guest</strong></div>
+        </div>
+      </div>
+      <div class="qr-actions">
+        <div class="qr-countdown">Expires in <span id="qrTimer">05:00</span></div>
+        <div class="qr-buttons">
+          <button class="btn cancel-qr">Cancel</button>
+          <button class="btn done-qr">Done</button>
         </div>
       </div>
       <p class="qr-note">Scan with your banking app. QR updates if total changes.</p>
     </div>
   </div>
+
+  <!-- Done Confirmation Modal -->
+  <div class="done-modal" aria-hidden="true" role="dialog" aria-label="Payment Confirmation">
+    <div class="done-dialog">
+      <button class="done-close" aria-label="Close">×</button>
+      <div class="done-content">
+        <div class="done-icon" aria-hidden="true">✓</div>
+        <h3 class="done-title">Order Placed Successfully!</h3>
+        <p class="done-text">Thank you for your purchasing.</p>
+        <div class="done-details">
+          <div class="detail-row"><span>Order Number</span><strong id="doneOrderNumber"></strong></div>
+          <div class="detail-row"><span>Order Date</span><strong id="doneOrderDate"></strong></div>
+          <div class="detail-row"><span>Shipping Details</span><strong id="doneShipping"></strong></div>
+          <div class="detail-row total"><span>Total</span><strong id="doneTotal"></strong></div>
+        </div>
+        <div class="done-actions">
+          <button class="btn ghost done-ok">Continue Shopping</button>
+          <button class="btn done-view">View Details</button>
+        </div>
+        <p class="done-support">Contact our support at <a href="mailto:support@pawfectcare.com">support@pawfectcare.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OTP Verification Modal -->
+  <style>
+    .otp-modal{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:none;align-items:center;justify-content:center;z-index:1000;}
+    .otp-modal.show{display:flex;}
+    .otp-dialog{background:#fff;border-radius:12px;padding:20px;max-width:420px;width:90%;box-shadow:0 10px 24px rgba(0,0,0,0.12);}    
+    .otp-title{margin:0 0 8px;font:600 18px/1.3 'Lexend Deca';color:#4D2B12;}
+    .otp-desc{margin:0 0 12px;font:400 14px/1.5 'Lexend Deca';color:#7B5E47;}
+    .otp-input-row input{width:100%;padding:10px;border:1px solid #E9E4DC;border-radius:8px;font:400 14px 'Lexend Deca';}
+    .otp-countdown{margin-top:8px;font:400 12px 'Lexend Deca';color:#7B5E47;}
+    .otp-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:12px;}
+    .otp-close{position:absolute;top:10px;right:12px;background:#fff;border:1px solid #EEE2D4;border-radius:8px;width:32px;height:32px;cursor:pointer;}
+  </style>
+  <div class="otp-modal" aria-hidden="true" role="dialog" aria-label="OTP Verification">
+    <div class="otp-dialog">
+      <button class="otp-close" aria-label="Close">×</button>
+      <h3 class="otp-title">Confirm Your Order</h3>
+      <p class="otp-desc">Enter the 6-digit OTP sent to <span id="otpPhone">your phone</span>.</p>
+      <div class="otp-input-row">
+        <input id="otpCodeInput" type="text" inputmode="numeric" maxlength="6" placeholder="Enter OTP" />
+      </div>
+      <div class="otp-countdown">Expires in <span id="otpTimer">02:00</span></div>
+      <div class="otp-actions">
+        <button class="btn ghost otp-resend">Resend</button>
+        <button class="btn otp-confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
   <script src="../../assets/js/utils.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="../../assets/js/shop_checkout/shop_checkout_pickup.js"></script>
 </body>
 </html>

@@ -4,34 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pawfect Care — Profile</title>
-  <link rel="stylesheet" href="../assets/css/base.css" />
-  <link rel="stylesheet" href="../assets/css/header.css" />
-  <link rel="stylesheet" href="../assets/css/profile.css" />
-  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/header.css" />
+  <link rel="stylesheet" href="../../assets/css/profile/profile_orderstatus.css" />
+  <link rel="stylesheet" href="../../assets/css/footer.css" />
 </head>
 <body data-page="profile">
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="../index.html">
-        <img class="brand-mark-img" src="../assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+      <a class="brand" href="../../index.html">
+        <img class="brand-mark-img" src="../../assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
         <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
       </a>
       <nav class="nav">
-        <a class="nav-link" href="../index.html">Home</a>
-        <a class="nav-link" href="services/services.html">Services</a>
-        <a class="nav-link" href="shop.html">Shop</a>
-        <a class="nav-link" href="community.html">Community</a>
-        <a class="nav-link" href="profile.html">Profile</a>
+        <a class="nav-link" href="../../index.html">Home</a>
+        <a class="nav-link" href="../services/services.html">Services</a>
+        <a class="nav-link" href="../shop.html">Shop</a>
+        <a class="nav-link" href="../community.html">Community</a>
+        <a class="nav-link" href="profile_orderstatus.html">Profile</a>
       </nav>
       <div class="header-actions">
-        <a class="icon-btn" href="favorite.html" aria-label="Wishlist">
-              <img src="../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+        <a class="icon-btn" href="../favorite.html" aria-label="Wishlist">
+              <img src="../../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
             </a>
-        <a class="icon-btn" href="cart.html" aria-label="Cart">
-          <img src="../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        <a class="icon-btn" href="../cart.html" aria-label="Cart">
+          <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
         </a>
-        <a class="icon-btn" href="login-signup.html" aria-label="Account">
-          <img src="../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        <a class="icon-btn" href="../login-signup.html" aria-label="Account">
+          <img src="../../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
         </a>
       </div>
     </div>
@@ -42,17 +42,21 @@
       <h1 class="page-title">Profile</h1>
       <p class="page-desc">Thông tin tài khoản, đơn hàng, và tuỳ chọn cá nhân.</p>
     </section>
+    <section class="container order-status-section">
+      <h2 class="section-title">Order Status</h2>
+      <div id="orderStatus" class="order-status" aria-live="polite"></div>
+    </section>
   </main>
 <section class="site-cta">
   <div class="container cta-inner">
     <div class="cta-icons" aria-hidden="true">
-      <img class="cta-pattern" src="../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+      <img class="cta-pattern" src="../../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
     </div>
     <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
     <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
     <div class="cta-actions">
-      <a href="services/services.html" class="btn primary">Book Now</a>
-      <a href="community.html" class="btn ghost">Contact Us</a>
+      <a href="../services/services.html" class="btn primary">Book Now</a>
+      <a href="../community.html" class="btn ghost">Contact Us</a>
     </div>
   </div>
 </section>
@@ -60,7 +64,7 @@
   <div class="container footer-columns">
     <div class="footer-col">
       <div class="footer-brand">
-        <img class="brand-foot-img" src="../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
+        <img class="brand-foot-img" src="../../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
         <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
       </div>
       <p>Your trusted partner in pet care since 2020.</p>
@@ -68,8 +72,8 @@
     <div class="footer-col">
       <h4 class="footer-title">Services</h4>
       <ul class="footer-links">
-        <li><a href="services/homestaystep1.html">Pet Boarding</a></li>
-        <li><a href="services/groomingspa-service.html">Pet Spa</a></li>
+        <li><a href="../services/homestaystep1.html">Pet Boarding</a></li>
+        <li><a href="../services/groomingspa-service.html">Pet Spa</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -84,7 +88,7 @@
     <div class="footer-col">
       <h4 class="footer-title">Follow Us</h4>
       <div class="socials">
-        <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+        <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
         <a href="https://www.instagram.com/" aria-label="Instagram"></a>
         <a href="https://x.com/" aria-label="Twitter"></a>
       </div>
@@ -96,7 +100,8 @@
     </div>
   </div>
 </footer>
-<script src="../assets/js/utils.js"></script>
-<script src="../assets/js/profile.js"></script>
+<script src="../../assets/js/utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+<script src="../../assets/js/profile/profile_orderstatus.js"></script>
 </body>
 </html>

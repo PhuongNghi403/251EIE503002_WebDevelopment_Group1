@@ -22,6 +22,17 @@
     padding: clamp(16px, 2.2vw, 24px);
     box-shadow: 0 8px 24px rgba(0,0,0,0.08);
   }
+  .home-testimonials .testi-card {
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+/* Hover: nổi nhẹ + đổi shadow + scale nhẹ */
+  .home-testimonials .testi-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+  border: 2px solid #b8d4e6; /* pastel blue */
+}
   /* Trong khối testimonial */
   .home-testimonials .testi-stars {
     display: flex;

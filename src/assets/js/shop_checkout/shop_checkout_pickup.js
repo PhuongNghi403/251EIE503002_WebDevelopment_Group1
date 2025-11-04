@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAddCard();
   initUpdateCard();
   initPayNowGuard();
+  initOtpPayment();
 });
 
 // Track edit state for saved cards
@@ -114,10 +115,78 @@ function initQrPayment() {
   const amountEl = document.getElementById('qrAmount');
   const customerEl = document.getElementById('qrCustomer');
   const closeBtn = document.querySelector('.qr-close');
+  const timerEl = document.getElementById('qrTimer');
+  const doneBtn = document.querySelector('.done-qr');
+  const cancelBtn = document.querySelector('.cancel-qr');
+  const noteEl = modal ? modal.querySelector('.qr-note') : null;
+  const doneModal = document.querySelector('.done-modal');
+  const doneOk = document.querySelector('.done-ok');
+  const doneClose = document.querySelector('.done-close');
+  const doneView = document.querySelector('.done-view');
+
+  function fireCuteConfetti() {
+    const conf = window.confetti;
+    if (!conf) return;
+    const base = {
+      particleCount: 90,
+      spread: 70,
+      startVelocity: 50,
+      ticks: 200,
+      scalar: 0.9,
+      gravity: 0.8,
+      origin: { y: 0.2 },
+      zIndex: 1002,
+      colors: ['#FFD1DC','#FFC3A0','#CDE7BE','#C6DEF1','#FAD2E1','#FDE3A7','#EFD3D7']
+    };
+    conf(Object.assign({}, base, { origin: { x: 0.2, y: 0.2 } }));
+    conf(Object.assign({}, base, { origin: { x: 0.5, y: 0.2 } }));
+    conf(Object.assign({}, base, { origin: { x: 0.8, y: 0.2 } }));
+  }
 
   if (!qrTab || !modal || !canvas || !amountEl || !customerEl) return;
 
   let qrInstance = null;
+  let countdownId = null;
+
+  function formatTime(ms) {
+    const totalSec = Math.max(0, Math.floor(ms / 1000));
+    const m = String(Math.floor(totalSec / 60)).padStart(2, '0');
+    const s = String(totalSec % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function startCountdown() {
+    if (!timerEl) return;
+    let remaining = 5 * 60 * 1000;
+    timerEl.textContent = formatTime(remaining);
+    canvas && canvas.classList.remove('hidden');
+    if (doneBtn) doneBtn.disabled = false;
+    if (noteEl) noteEl.textContent = 'Scan with your banking app. QR updates if total changes.';
+    if (countdownId) clearInterval(countdownId);
+    countdownId = setInterval(() => {
+      remaining -= 1000;
+      timerEl.textContent = formatTime(remaining);
+      if (remaining <= 0) {
+        clearInterval(countdownId);
+        countdownId = null;
+        timerEl.textContent = '00:00';
+        canvas && canvas.classList.add('hidden');
+        if (noteEl) noteEl.textContent = 'QR expired. Reopen QR payment to generate a new code.';
+        if (doneBtn) doneBtn.disabled = true;
+      }
+    }, 1000);
+  }
+
+  function stopCountdown(reset = true) {
+    if (countdownId) {
+      clearInterval(countdownId);
+      countdownId = null;
+    }
+    if (reset && timerEl) timerEl.textContent = '05:00';
+    canvas && canvas.classList.remove('hidden');
+    if (doneBtn) doneBtn.disabled = false;
+    if (noteEl && reset) noteEl.textContent = 'Scan with your banking app. QR updates if total changes.';
+  }
 
   function getCustomerName() {
     const meta = document.querySelector('.saved-cards .selected .card-meta');
@@ -159,17 +228,104 @@ function initQrPayment() {
     updateQr();
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
+    startCountdown();
   });
 
   closeBtn && closeBtn.addEventListener('click', () => {
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden', 'true');
+    stopCountdown(true);
   });
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
       modal.classList.remove('show');
       modal.setAttribute('aria-hidden', 'true');
+      stopCountdown(true);
     }
+  });
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+      alert('Payment canceled');
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      stopCountdown(true);
+    });
+  }
+
+  if (doneBtn) {
+    doneBtn.addEventListener('click', () => {
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      stopCountdown(true);
+      if (doneModal) {
+        try {
+          const totals = window.checkoutTotals || {};
+          const totalEl = document.getElementById('doneTotal');
+          if (totalEl && typeof totals.total === 'number') totalEl.textContent = `$${totals.total.toFixed(2)}`;
+        } catch (e) {}
+        const d = new Date();
+        const dateEl = document.getElementById('doneOrderDate');
+        if (dateEl) dateEl.textContent = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+        // Generate order id and persist latest order details for profile page
+        const generatedId = `UEL-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+        const orderEl = document.getElementById('doneOrderNumber');
+        if (orderEl) orderEl.textContent = generatedId;
+        const shipEl = document.getElementById('doneShipping');
+        if (shipEl) shipEl.textContent = 'Store Pick-up';
+
+        try {
+          // Collect items from checkout selection or cart
+          let items = [];
+          try { items = JSON.parse(localStorage.getItem('checkoutItems') || '[]'); } catch (_) { items = []; }
+          if (!items || items.length === 0) {
+            try { items = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (_) { items = []; }
+          }
+          const totals = (window.checkoutTotals || {});
+          const total = typeof totals.total === 'number' ? totals.total : items.reduce((s,i)=>s + (Number(i.price) * Number(i.quantity||1)), 0);
+          const nowIso = new Date().toISOString();
+          const lastOrder = {
+            id: generatedId,
+            method: 'pickup',
+            shipping: 'Store Pick-up',
+            createdAt: nowIso,
+            total,
+            items,
+            status: 'ready',
+            timeline: [
+              { key: 'confirmed', title: 'Order Placed', time: nowIso, note: 'Your order has been confirmed and payment received.' },
+              { key: 'processing', title: 'Processing', time: nowIso, note: 'Preparing your order.' },
+              { key: 'ready', title: 'Ready To Pick-up', time: nowIso, note: 'Show your order ID at the reception to receive your items.' },
+              { key: 'completed', title: 'Order Completed', time: nowIso, note: 'Thank you! Hope your furry friend loves it.' }
+            ]
+          };
+          localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+        } catch (_err) {}
+        doneModal.classList.add('show');
+        doneModal.setAttribute('aria-hidden', 'false');
+        fireCuteConfetti();
+      }
+    });
+  }
+
+  // Done modal listeners
+  doneClose && doneClose.addEventListener('click', () => {
+    doneModal && doneModal.classList.remove('show');
+    doneModal && doneModal.setAttribute('aria-hidden', 'true');
+  });
+  doneOk && doneOk.addEventListener('click', () => {
+    doneModal && doneModal.classList.remove('show');
+    doneModal && doneModal.setAttribute('aria-hidden', 'true');
+  });
+  doneModal && doneModal.addEventListener('click', (e) => {
+    if (e.target === doneModal) {
+      doneModal.classList.remove('show');
+      doneModal.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  doneView && doneView.addEventListener('click', () => {
+    window.location.href = '../profile/profile_orderstatus.html';
   });
 
   const totalsEl = document.querySelector('.totals');
@@ -498,4 +654,154 @@ function refreshSavedCardsDom() {
   if (addBtn) {
     renderSavedCards();
   }
+}
+
+// OTP flow for card payments: require terms checked and validate 6-digit OTP, then show Done
+function initOtpPayment() {
+  const payBtn = document.querySelector('.order-card .btn.pay');
+  const termsEl = document.querySelector('.terms input[type="checkbox"]');
+  const cardTab = document.querySelector('.pay-tabs .pay-tab:first-child');
+  const otpModal = document.querySelector('.otp-modal');
+  const otpClose = document.querySelector('.otp-close');
+  const otpConfirm = document.querySelector('.otp-confirm');
+  const otpResend = document.querySelector('.otp-resend');
+  const otpInput = document.getElementById('otpCodeInput');
+  const otpPhoneEl = document.getElementById('otpPhone');
+  const timerEl = document.getElementById('otpTimer');
+  let countdownId = null;
+
+  function formatTime(ms) {
+    const totalSec = Math.max(0, Math.floor(ms / 1000));
+    const m = String(Math.floor(totalSec / 60)).padStart(2, '0');
+    const s = String(totalSec % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function startOtpCountdown() {
+    let remaining = 2 * 60 * 1000;
+    if (timerEl) timerEl.textContent = formatTime(remaining);
+    if (countdownId) clearInterval(countdownId);
+    countdownId = setInterval(() => {
+      remaining -= 1000;
+      if (timerEl) timerEl.textContent = formatTime(remaining);
+      if (remaining <= 0) {
+        clearInterval(countdownId);
+        countdownId = null;
+        if (timerEl) timerEl.textContent = '00:00';
+      }
+    }, 1000);
+  }
+
+  function stopOtpCountdown(reset = true) {
+    if (countdownId) {
+      clearInterval(countdownId);
+      countdownId = null;
+    }
+    if (reset && timerEl) timerEl.textContent = '02:00';
+  }
+
+  if (!payBtn || !cardTab || !otpModal) return;
+
+  function openOtp() {
+    const phoneLabel = 'your phone';
+    if (otpPhoneEl) otpPhoneEl.textContent = phoneLabel;
+    if (otpInput) otpInput.value = '';
+    otpModal.classList.add('show');
+    otpModal.setAttribute('aria-hidden', 'false');
+    startOtpCountdown();
+  }
+
+  payBtn.addEventListener('click', (e) => {
+    if (!cardTab.classList.contains('active')) return; // only for card payments
+    if (editingPending) {
+      e.preventDefault();
+      alert('You have unsaved changes to a card. Click "Update Card" before proceeding.');
+      const numElFocus = document.getElementById('cardNumber');
+      if (numElFocus) numElFocus.focus();
+      return;
+    }
+    if (!termsEl || !termsEl.checked) {
+      e.preventDefault();
+      alert('Please agree to the terms before paying.');
+      return;
+    }
+    e.preventDefault();
+    openOtp();
+  });
+
+  otpConfirm && otpConfirm.addEventListener('click', () => {
+    // Accept any OTP entered by user
+    const code = otpInput ? otpInput.value.trim() : '';
+    void code;
+    otpModal.classList.remove('show');
+    otpModal.setAttribute('aria-hidden', 'true');
+    stopOtpCountdown(true);
+    const doneModal = document.querySelector('.done-modal');
+    if (doneModal) {
+      try {
+        const totals = window.checkoutTotals || {};
+        const totalEl = document.getElementById('doneTotal');
+        if (totalEl && typeof totals.total === 'number') totalEl.textContent = `$${totals.total.toFixed(2)}`;
+      } catch (e) {}
+      const d = new Date();
+      const dateEl = document.getElementById('doneOrderDate');
+      if (dateEl) dateEl.textContent = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      const generatedId = `UEL-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+      const orderEl = document.getElementById('doneOrderNumber');
+      if (orderEl) orderEl.textContent = generatedId;
+      const shipEl = document.getElementById('doneShipping');
+      if (shipEl) shipEl.textContent = 'Store Pick-up';
+      // Persist latest order for profile Order Status view
+      try {
+        let items = [];
+        try { items = JSON.parse(localStorage.getItem('checkoutItems') || '[]'); } catch (_) { items = []; }
+        if (!items || items.length === 0) {
+          try { items = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (_) { items = []; }
+        }
+        const totals = (window.checkoutTotals || {});
+        const total = typeof totals.total === 'number' ? totals.total : items.reduce((s,i)=>s + (Number(i.price) * Number(i.quantity||1)), 0);
+        const nowIso = new Date().toISOString();
+        const lastOrder = {
+          id: generatedId,
+          method: 'pickup',
+          shipping: 'Store Pick-up',
+          createdAt: nowIso,
+          total,
+          items,
+          status: 'ready',
+          timeline: [
+            { key: 'confirmed', title: 'Order Placed', time: nowIso, note: 'Your order has been confirmed and payment received.' },
+            { key: 'processing', title: 'Processing', time: nowIso, note: 'Preparing your order.' },
+            { key: 'ready', title: 'Ready To Pick-up', time: nowIso, note: 'Show your order ID at the reception to receive your items.' },
+            { key: 'completed', title: 'Order Completed', time: nowIso, note: 'Thank you! Hope your furry friend loves it.' }
+          ]
+        };
+        localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+      } catch (_err) {}
+      doneModal.classList.add('show');
+      doneModal.setAttribute('aria-hidden', 'false');
+      try {
+        const conf = window.confetti; if (conf) conf({ particleCount: 80, spread: 70, origin: { y: 0.2 } });
+      } catch (e) {}
+    }
+  });
+
+  otpResend && otpResend.addEventListener('click', () => {
+    alert('A new OTP has been sent.');
+    if (otpInput) otpInput.value = '';
+    startOtpCountdown();
+  });
+
+  otpClose && otpClose.addEventListener('click', () => {
+    otpModal.classList.remove('show');
+    otpModal.setAttribute('aria-hidden', 'true');
+    stopOtpCountdown(true);
+  });
+  otpModal.addEventListener('click', (e) => {
+    if (e.target === otpModal) {
+      otpModal.classList.remove('show');
+      otpModal.setAttribute('aria-hidden', 'true');
+      stopOtpCountdown(true);
+    }
+  });
 }
