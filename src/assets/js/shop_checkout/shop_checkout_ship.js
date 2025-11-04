@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAddCard();
   initUpdateCard();
   initPayNowGuard();
+  initOtpPayment();
 });
 
 // Track edit state for saved cards
@@ -269,19 +270,48 @@ function initQrPayment() {
         const dateEl = document.getElementById('doneOrderDate');
         if (dateEl) dateEl.textContent = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
         // Order number
+        const generatedId = `UEL-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
         const orderEl = document.getElementById('doneOrderNumber');
-        if (orderEl) orderEl.textContent = `UEL-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+        if (orderEl) orderEl.textContent = generatedId;
         // Shipping detail based on current selection
         const shipEl = document.getElementById('doneShipping');
         const activeMethod = document.querySelector('.method-options .method-card.active');
-        if (shipEl) {
-          if (activeMethod && activeMethod.dataset.method === 'pickup') {
-            shipEl.textContent = 'Store Pick-up';
-          } else {
-            const summary = getSelectedAddressSummary();
-            shipEl.textContent = summary ? `Standard Shipping — ${summary}` : 'Standard Shipping';
-          }
+        let shippingText = 'Standard Shipping';
+        if (activeMethod && activeMethod.dataset.method === 'pickup') {
+          shippingText = 'Store Pick-up';
+        } else {
+          const summary = getSelectedAddressSummary();
+          shippingText = summary ? `Standard Shipping — ${summary}` : 'Standard Shipping';
         }
+        if (shipEl) shipEl.textContent = shippingText;
+
+        // Persist latest order in localStorage for profile page
+        try {
+          let items = [];
+          try { items = JSON.parse(localStorage.getItem('checkoutItems') || '[]'); } catch (_) { items = []; }
+          if (!items || items.length === 0) {
+            try { items = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (_) { items = []; }
+          }
+          const totalsObj = (window.checkoutTotals || {});
+          const total = typeof totalsObj.total === 'number' ? totalsObj.total : items.reduce((s,i)=>s + (Number(i.price) * Number(i.quantity||1)), 0);
+          const nowIso = new Date().toISOString();
+          const lastOrder = {
+            id: generatedId,
+            method: (activeMethod && activeMethod.dataset.method === 'pickup') ? 'pickup' : 'shipping',
+            shipping: shippingText,
+            createdAt: nowIso,
+            total,
+            items,
+            status: 'processing',
+            timeline: [
+              { key: 'confirmed', title: 'Order Placed', time: nowIso, note: 'Your order has been confirmed and payment received.' },
+              { key: 'processing', title: 'Preparing Order', time: nowIso, note: 'We are getting your order ready.' },
+              { key: 'ready', title: (activeMethod && activeMethod.dataset.method === 'pickup') ? 'Ready To Pick-up' : 'Shipped', time: nowIso, note: (activeMethod && activeMethod.dataset.method === 'pickup') ? 'Show your order ID at reception to receive items.' : 'Your package is on the way.' },
+              { key: 'completed', title: 'Order Completed', time: nowIso, note: 'Thank you for your purchase!' }
+            ]
+          };
+          localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+        } catch (_err) {}
         doneModal.classList.add('show');
         doneModal.setAttribute('aria-hidden', 'false');
         fireCuteConfetti();
@@ -878,6 +908,163 @@ function initPayNowGuard() {
       alert('You have unsaved changes to a card. Click "Update Card" before proceeding.');
       const numElFocus = document.getElementById('cardNumber');
       if (numElFocus) numElFocus.focus();
+    }
+  });
+}
+
+// OTP flow for card payments on shipping page
+function initOtpPayment() {
+  const payBtn = document.querySelector('.order-card .btn.pay');
+  const termsEl = document.querySelector('.terms input[type="checkbox"]');
+  const cardTab = document.querySelector('.pay-tabs .pay-tab:first-child');
+  const otpModal = document.querySelector('.otp-modal');
+  const otpClose = document.querySelector('.otp-close');
+  const otpConfirm = document.querySelector('.otp-confirm');
+  const otpResend = document.querySelector('.otp-resend');
+  const otpInput = document.getElementById('otpCodeInput');
+  const otpPhoneEl = document.getElementById('otpPhone');
+  const timerEl = document.getElementById('otpTimer');
+  let countdownId = null;
+
+  function formatTime(ms) {
+    const totalSec = Math.max(0, Math.floor(ms / 1000));
+    const m = String(Math.floor(totalSec / 60)).padStart(2, '0');
+    const s = String(totalSec % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function startOtpCountdown() {
+    let remaining = 2 * 60 * 1000; // 2 minutes
+    if (timerEl) timerEl.textContent = formatTime(remaining);
+    if (countdownId) clearInterval(countdownId);
+    countdownId = setInterval(() => {
+      remaining -= 1000;
+      if (timerEl) timerEl.textContent = formatTime(remaining);
+      if (remaining <= 0) {
+        clearInterval(countdownId);
+        countdownId = null;
+        if (timerEl) timerEl.textContent = '00:00';
+      }
+    }, 1000);
+  }
+
+  function stopOtpCountdown(reset = true) {
+    if (countdownId) {
+      clearInterval(countdownId);
+      countdownId = null;
+    }
+    if (reset && timerEl) timerEl.textContent = '02:00';
+  }
+
+  if (!payBtn || !cardTab || !otpModal) return;
+
+  function resolvePhoneText() {
+    const phoneInput = document.getElementById('addrPhone');
+    const val = (phoneInput?.value || '').trim();
+    return val || 'your phone';
+  }
+
+  function openOtp() {
+    if (otpPhoneEl) otpPhoneEl.textContent = resolvePhoneText();
+    if (otpInput) otpInput.value = '';
+    otpModal.classList.add('show');
+    otpModal.setAttribute('aria-hidden', 'false');
+    startOtpCountdown();
+  }
+
+  payBtn.addEventListener('click', (e) => {
+    if (!cardTab.classList.contains('active')) return; // only for card payments
+    if (editingPending) {
+      e.preventDefault();
+      alert('You have unsaved changes to a card. Click "Update Card" before proceeding.');
+      const numElFocus = document.getElementById('cardNumber');
+      if (numElFocus) numElFocus.focus();
+      return;
+    }
+    if (!termsEl || !termsEl.checked) {
+      e.preventDefault();
+      alert('Please agree to the terms before paying.');
+      return;
+    }
+    e.preventDefault();
+    openOtp();
+  });
+
+  otpConfirm && otpConfirm.addEventListener('click', () => {
+    // Accept any OTP entered by user
+    const code = otpInput ? otpInput.value.trim() : '';
+    void code;
+    otpModal.classList.remove('show');
+    otpModal.setAttribute('aria-hidden', 'true');
+    stopOtpCountdown(true);
+    const doneModal = document.querySelector('.done-modal');
+    if (doneModal) {
+      try {
+        const totals = window.checkoutTotals || {};
+        const totalEl = document.getElementById('doneTotal');
+        if (totalEl && typeof totals.total === 'number') totalEl.textContent = `$${totals.total.toFixed(2)}`;
+      } catch (e) {}
+      const d = new Date();
+      const dateEl = document.getElementById('doneOrderDate');
+      if (dateEl) dateEl.textContent = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      const generatedId = `UEL-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+      const orderEl = document.getElementById('doneOrderNumber');
+      if (orderEl) orderEl.textContent = generatedId;
+      const shipEl = document.getElementById('doneShipping');
+      const summary = getSelectedAddressSummary();
+      const shippingText = summary ? `Standard Shipping — ${summary}` : 'Standard Shipping';
+      if (shipEl) shipEl.textContent = shippingText;
+      // Persist latest order for profile page
+      try {
+        let items = [];
+        try { items = JSON.parse(localStorage.getItem('checkoutItems') || '[]'); } catch (_) { items = []; }
+        if (!items || items.length === 0) {
+          try { items = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (_) { items = []; }
+        }
+        const totalsObj = (window.checkoutTotals || {});
+        const total = typeof totalsObj.total === 'number' ? totalsObj.total : items.reduce((s,i)=>s + (Number(i.price) * Number(i.quantity||1)), 0);
+        const nowIso = new Date().toISOString();
+        const lastOrder = {
+          id: generatedId,
+          method: 'shipping',
+          shipping: shippingText,
+          createdAt: nowIso,
+          total,
+          items,
+          status: 'processing',
+          timeline: [
+            { key: 'confirmed', title: 'Order Placed', time: nowIso, note: 'Your order has been confirmed and payment received.' },
+            { key: 'processing', title: 'Preparing Order', time: nowIso, note: 'We are getting your order ready.' },
+            { key: 'ready', title: 'Shipped', time: nowIso, note: 'Your package is on the way.' },
+            { key: 'completed', title: 'Order Completed', time: nowIso, note: 'Thank you for your purchase!' }
+          ]
+        };
+        localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+      } catch (_err) {}
+      doneModal.classList.add('show');
+      doneModal.setAttribute('aria-hidden', 'false');
+      try {
+        const conf = window.confetti; if (conf) conf({ particleCount: 80, spread: 70, origin: { y: 0.2 } });
+      } catch (e) {}
+    }
+  });
+
+  otpResend && otpResend.addEventListener('click', () => {
+    alert('A new OTP has been sent.');
+    if (otpInput) otpInput.value = '';
+    startOtpCountdown();
+  });
+
+  otpClose && otpClose.addEventListener('click', () => {
+    otpModal.classList.remove('show');
+    otpModal.setAttribute('aria-hidden', 'true');
+    stopOtpCountdown(true);
+  });
+  otpModal.addEventListener('click', (e) => {
+    if (e.target === otpModal) {
+      otpModal.classList.remove('show');
+      otpModal.setAttribute('aria-hidden', 'true');
+      stopOtpCountdown(true);
     }
   });
 }
