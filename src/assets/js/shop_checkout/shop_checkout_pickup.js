@@ -325,7 +325,7 @@ function initQrPayment() {
   });
 
   doneView && doneView.addEventListener('click', () => {
-    window.location.href = '../profile.html';
+    window.location.href = '../profile/profile_orderstatus.html';
   });
 
   const totalsEl = document.querySelector('.totals');

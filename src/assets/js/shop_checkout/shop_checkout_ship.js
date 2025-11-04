@@ -336,8 +336,8 @@ function initQrPayment() {
   });
 
   doneView && doneView.addEventListener('click', () => {
-    // Navigate to the profile page where order details would typically be shown
-    window.location.href = '../profile.html';
+    // Navigate to the relocated profile order status page
+    window.location.href = '../profile/profile_orderstatus.html';
   });
 
   // Keep QR in sync if totals change while the modal is open
