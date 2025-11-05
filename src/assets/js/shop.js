@@ -1136,72 +1136,86 @@ function loadProductsFromData() {
     const products = Array.isArray(window.PRODUCTS_DATA) ? window.PRODUCTS_DATA : [];
     const productCards = document.querySelectorAll('.product-card');
 
-    // Fallback to XML if no JS data available
+    // Fallback nếu chưa có dữ liệu JS
     if (!products.length) {
       console.warn('No PRODUCTS_DATA found; falling back to XML');
-      loadProductsFromXML();
+      loadProductsFromXML && loadProductsFromXML();
       return;
     }
 
-    // Store products data globally for filtering and navigation
+    // Dùng cho filter / search sau này
     window.productsData = [];
 
     products.forEach((p, index) => {
-      if (index < productCards.length) {
-        const card = productCards[index];
-        const cardDetails = card.querySelector('.card-details');
+      if (index >= productCards.length) return; // đủ số card có sẵn trong DOM
 
-        // Normalize properties
-        const name = p.name || '';
-        const price = Number(p.price) || 0;
-        const discount = p.discount > 1 ? p.discount / 100 : p.discount; // chấp nhận cả 0.15 hoặc 15
-        const discounted = price * (1 - discount);
-        const rating = Number(p.rating ?? 0);
-        const soldCount = String(p.sold_count ?? p.soldCount ?? '0');
-        const category = p.category ?? '';
+      const card = productCards[index];
+      const cardDetails = card.querySelector('.card-details');
 
-        const isFood = /food/i.test(String(category || ''));  // ví dụ "Dog Food" => true
-        card.querySelectorAll('.nutri-badge, .nutrition, [data-section="nutrition"]').forEach(el => {
-          if (!isFood) el.remove(); // Toy/Accessory => xoá hẳn block dinh dưỡng
-          if (currentPriceElement) currentPriceElement.textContent = `$${discounted.toFixed(2)}`;
-          if (originalPriceElement) originalPriceElement.textContent = `$${price.toFixed(2)}`;
-          if (ratingElement) ratingElement.textContent = `⭐ ${p.rating.toFixed(1)} (${p.sold} Sold)`;
+      // ---- Normalize data từ products.js
+      const name = p.name || '';
+      const price = Number(p.price) || 0;
+      // chấp nhận discount là 0.15 (15%) hoặc 15 (15%)
+      const discountRatio = (typeof p.discount === 'number')
+        ? (p.discount > 1 ? p.discount / 100 : p.discount)
+        : 0;
+      const discounted = Math.max(0, price * (1 - discountRatio));
 
-        });
-        // Store product data for later filtering and navigation
-        window.productsData.push({
-          id: String(p.id ?? index + 1),
-          name,
-          discountedPrice: discounted,
-          originalPrice: original,
-          rating,
-          soldCount,
-          category,
-          element: card
-        });
+      const rating = typeof p.rating === 'number' ? p.rating : 0;
+      const soldCount = (p.sold ?? p.sold_count ?? p.soldCount ?? 0);
+      const category = p.category ?? '';
+      const type = (p.type || '').toLowerCase();
 
-        if (cardDetails) {
-          const cardTitle = cardDetails.querySelector('.card-title');
-          if (cardTitle) cardTitle.textContent = name;
+      // ---- Gắn data-type để CSS có thể ẩn nutrition phòng hờ
+      card.dataset.type = type;
 
-          const currentPriceElement = cardDetails.querySelector('.current-price');
-          const originalPriceElement = cardDetails.querySelector('.original-price');
-          if (currentPriceElement) currentPriceElement.textContent = `$${discounted.toFixed(2)}`;
-          if (originalPriceElement) originalPriceElement.textContent = `$${original.toFixed(2)}`;
+      if (cardDetails) {
+        // Title
+        const cardTitle = cardDetails.querySelector('.card-title');
+        if (cardTitle) cardTitle.textContent = name;
 
-          const ratingElement = cardDetails.querySelector('.rating');
-          const soldElement = cardDetails.querySelector('.sold');
-          if (ratingElement) ratingElement.textContent = `⭐ (${rating})`;
-          if (soldElement) soldElement.textContent = `${soldCount} Sold`;
-        }
+        // Prices
+        const currentPriceElement = cardDetails.querySelector('.current-price');
+        const originalPriceElement = cardDetails.querySelector('.original-price');
+        if (currentPriceElement) currentPriceElement.textContent = `$${discounted.toFixed(2)}`;
+        if (originalPriceElement && price) originalPriceElement.textContent = `$${price.toFixed(2)}`;
+
+        // Rating & Sold
+        const ratingElement = cardDetails.querySelector('.rating');
+        const soldElement = cardDetails.querySelector('.sold');
+        if (ratingElement) ratingElement.textContent = `⭐ ${rating.toFixed(1)}`;
+        if (soldElement) soldElement.textContent = `${soldCount} Sold`;
       }
+
+      // ---- Ẩn Nutrition với mọi sản phẩm không phải food,
+      // hoặc có nutrition rỗng trong data
+      const hasNutrition = !!(p.nutrition && Object.keys(p.nutrition).length);
+      if (type !== 'food' || !hasNutrition) {
+        card.querySelectorAll('.facts').forEach(el => el.remove());
+      }
+
+      // ---- Lưu lại để filter/search
+      window.productsData.push({
+        id: String(p.id ?? index + 1),
+        slug: p.slug || '',
+        name,
+        discountedPrice: discounted,
+        originalPrice: price,
+        rating,
+        soldCount,
+        category,
+        type,
+        element: card
+      });
     });
 
-    updateResultsCount && updateResultsCount();
+    // Cập nhật số kết quả nếu có hàm
+    if (typeof updateResultsCount === 'function') updateResultsCount();
   } catch (err) {
     console.error('Failed to load products from JS data:', err);
-    loadProductsFromXML();
+    loadProductsFromXML && loadProductsFromXML();
   }
 }
+
 
 

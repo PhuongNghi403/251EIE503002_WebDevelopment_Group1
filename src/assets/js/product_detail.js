@@ -616,15 +616,20 @@ function renderGallery(mediaWrap, product) {
 function toggleNutrition(product) {
   const facts = document.querySelector('.facts');
   if (!facts) return;
-  const hasNutri = product.nutrition && Object.keys(product.nutrition).length > 0;
+
+  const hasNutri =
+    product?.type === 'food' &&
+    product?.nutrition &&
+    Object.keys(product.nutrition).length > 0;
+
   facts.hidden = !hasNutri;
+
   if (hasNutri) {
     const ul = facts.querySelector('ul');
     if (ul) {
-      ul.innerHTML = '';
-      Object.entries(product.nutrition).forEach(([k,v]) => {
-        ul.innerHTML += `<li><span>${k[0].toUpperCase()+k.slice(1)}</span><strong>${v}</strong></li>`;
-      });
+      ul.innerHTML = Object.entries(product.nutrition)
+        .map(([k, v]) => `<li><span>${k}</span><strong>${v}</strong></li>`)
+        .join('');
     }
   }
 }
@@ -766,24 +771,27 @@ window.initProductDetailFromData = function initProductDetailFromData() {
       <span><strong>Brand:</strong> ${product.brand}</span>
     `;
   }
-  const nutSection = document.querySelector('[data-section="nutrition"]'); // hoặc .nutrition-section
-  if (nutSection) {
-    const hasNutrition =
-      prod?.type === 'food' &&
-      prod?.nutrition &&
-      Object.keys(prod.nutrition).length > 0;
+  (function handleNutritionFacts(product) {
+  const facts = document.querySelector('.panel-details .facts');
+  if (!facts) return;
 
-    if (!hasNutrition) {
-      // không phải food hoặc rỗng -> bỏ hẳn panel
-      nutSection.remove();
-    } else {
-      // render bảng dinh dưỡng từ data
-      const tbody = nutSection.querySelector('tbody') || nutSection;
-      tbody.innerHTML = Object.entries(prod.nutrition)
-        .map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`)
-        .join('');
-    }
+  const isFood = product?.type === 'food';
+  const hasNutritionObj =
+    product?.nutrition && typeof product.nutrition === 'object' &&
+    Object.keys(product.nutrition).length > 0;
+
+  // Nếu KHÔNG phải food hoặc không có nutrition -> bỏ hẳn block
+  if (!isFood || !hasNutritionObj) {
+    facts.remove();
+    return;
   }
+
+  // Có dinh dưỡng -> render lại list từ product.nutrition
+  const ul = facts.querySelector('ul') || facts.appendChild(document.createElement('ul'));
+  ul.innerHTML = Object.entries(product.nutrition)
+    .map(([k, v]) => `<li><span>${k}</span><strong>${v}</strong></li>`)
+    .join('');
+})(product);
   // Description / Benefits
   const descBlk = document.querySelector('.panel-details .detail-block:nth-of-type(2) p');
   if (descBlk) descBlk.textContent = product.description || '';
