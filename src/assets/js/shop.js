@@ -187,19 +187,19 @@ function initCardTitleNavigation() {
       const card = title.closest('.product-card');
       const name = title.textContent?.trim() || '';
 
-      let idParam = '';
+      let slugParam = '';
       try {
-        if (Array.isArray(window.productsData) && window.productsData.length) {
-          const match = window.productsData.find(p => p.element === card || p.name === name);
-          if (match && match.id) idParam = String(match.id);
+        if (Array.isArray(window.PRODUCTS_DATA) && window.PRODUCTS_DATA.length) {
+          const match = window.PRODUCTS_DATA.find(p => p.name === name);
+          if (match?.slug) slugParam = match.slug;
         }
       } catch (_) {}
 
-      // Build navigation URL (same directory as shop.html)
       let href = 'product_detail.html';
-      if (idParam) {
-        href += `?id=${encodeURIComponent(idParam)}`;
+      if (slugParam) {
+        href += `?slug=${encodeURIComponent(slugParam)}`;
       } else if (name) {
+        // fallback cực chẳng đã: vẫn gửi name (để phía detail còn bắt lại)
         href += `?name=${encodeURIComponent(name)}`;
       }
       window.location.href = href;
@@ -1153,12 +1153,21 @@ function loadProductsFromData() {
 
         // Normalize properties
         const name = p.name || '';
-        const discounted = Number(p.discounted_price ?? p.discountedPrice ?? 0);
-        const original = Number(p.original_price ?? p.originalPrice ?? discounted);
+        const price = Number(p.price) || 0;
+        const discount = p.discount > 1 ? p.discount / 100 : p.discount; // chấp nhận cả 0.15 hoặc 15
+        const discounted = price * (1 - discount);
         const rating = Number(p.rating ?? 0);
         const soldCount = String(p.sold_count ?? p.soldCount ?? '0');
         const category = p.category ?? '';
 
+        const isFood = /food/i.test(String(category || ''));  // ví dụ "Dog Food" => true
+        card.querySelectorAll('.nutri-badge, .nutrition, [data-section="nutrition"]').forEach(el => {
+          if (!isFood) el.remove(); // Toy/Accessory => xoá hẳn block dinh dưỡng
+          if (currentPriceElement) currentPriceElement.textContent = `$${discounted.toFixed(2)}`;
+          if (originalPriceElement) originalPriceElement.textContent = `$${price.toFixed(2)}`;
+          if (ratingElement) ratingElement.textContent = `⭐ ${p.rating.toFixed(1)} (${p.sold} Sold)`;
+
+        });
         // Store product data for later filtering and navigation
         window.productsData.push({
           id: String(p.id ?? index + 1),

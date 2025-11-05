@@ -513,7 +513,23 @@ function renderRelated() {
 // Lấy slug từ URL (?slug=...)
 function getSlug() {
   const u = new URL(window.location.href);
-  return u.searchParams.get('slug');
+  let slug = u.searchParams.get('slug');
+  if (slug) return slug;
+
+  const id = u.searchParams.get('id');
+  const name = u.searchParams.get('name');
+
+  if (Array.isArray(window.PRODUCTS_DATA)) {
+    if (id) {
+      const m = window.PRODUCTS_DATA.find(p => String(p.id) === String(id));
+      if (m?.slug) return m.slug;
+    }
+    if (name) {
+      const m = window.PRODUCTS_DATA.find(p => (p.name || '').trim() === name.trim());
+      if (m?.slug) return m.slug;
+    }
+  }
+  return null;
 }
 
 // Helper: format giá
@@ -750,7 +766,24 @@ window.initProductDetailFromData = function initProductDetailFromData() {
       <span><strong>Brand:</strong> ${product.brand}</span>
     `;
   }
+  const nutSection = document.querySelector('[data-section="nutrition"]'); // hoặc .nutrition-section
+  if (nutSection) {
+    const hasNutrition =
+      prod?.type === 'food' &&
+      prod?.nutrition &&
+      Object.keys(prod.nutrition).length > 0;
 
+    if (!hasNutrition) {
+      // không phải food hoặc rỗng -> bỏ hẳn panel
+      nutSection.remove();
+    } else {
+      // render bảng dinh dưỡng từ data
+      const tbody = nutSection.querySelector('tbody') || nutSection;
+      tbody.innerHTML = Object.entries(prod.nutrition)
+        .map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`)
+        .join('');
+    }
+  }
   // Description / Benefits
   const descBlk = document.querySelector('.panel-details .detail-block:nth-of-type(2) p');
   if (descBlk) descBlk.textContent = product.description || '';
