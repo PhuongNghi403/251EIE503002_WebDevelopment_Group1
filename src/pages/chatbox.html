@@ -1,38 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pawfect Care — CHATBOX</title>
-  <link rel="stylesheet" href="../assets/css/base.css" />
-  <link rel="stylesheet" href="../assets/css/header.css" />
-  <link rel="stylesheet" href="../assets/css/chatbox.css" />
-  <link rel="stylesheet" href="../assets/css/footer.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <script src="../assets/js/chatbox.js" defer></script>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300..700&family=Bagel+Fat+One&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbox - Pawfect Care</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="../assets/css/chatbox.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
 <body>
-    <!-- AI Product Assistant -->
-<div class="ai-chatbox">
-  <div class="chat-header">💬 Pawfect Assistant</div>
-  <div class="chat-body" id="chatBody">
-    <div class="bot-msg">Xin chào! Bạn muốn tìm sản phẩm cho ai nè? 🐾</div>
-    <div class="suggest-btns">
-      <button class="suggest-btn" data-type="dog">🐶 Cho chó</button>
-      <button class="suggest-btn" data-type="cat">🐱 Cho mèo</button>
-      <button class="suggest-btn" data-type="rabbit">🐰 Cho thỏ</button>
+    <!-- Floating Chat Bubble -->
+    <div id="chat-bubble" class="chat-bubble">
+        <div class="bubble-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="bubble-text">Need help?</div>
+        <div class="bubble-notification">1</div>
     </div>
-  </div>
-  <div class="chat-footer">
-    <input id="chatInput" type="text" placeholder="Nhập câu hỏi của bạn..." />
-    <button id="chatSend">➤</button>
-  </div>
-</div>
-<script src="../assets/js/chatbox.js"></script>
-<script src="../assets/data/products.js"></script>
-</body>
 
+    <!-- AI Chatbox Widget -->
+    <div id="ai-chatbox" class="ai-chatbox hidden">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <div class="header-left">
+                <div class="header-avatar">🐾</div>
+                <div class="header-info">
+                    <div class="header-title">Pawfect Assistant</div>
+                    <div class="header-status">Online</div>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button id="chat-minimize" class="control-btn" title="Minimize">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button id="chat-close" class="control-btn" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Body -->
+        <div class="chat-body" id="chatBody">
+            <!-- Welcome Message -->
+            <div class="bot-msg">
+                <div class="msg-avatar">🐾</div>
+                <div class="msg-content">
+                    <p>Hello! I'm your Pawfect Care assistant! 🐱🐶</p>
+                    <p>I'm here and ready to help! I can:</p>
+                    <ul>
+                        <li>Find pet products (food, toys, accessories)</li>
+                        <li>Give pet care advice (grooming, nutrition, training)</li>
+                        <li>Help you shop within your budget</li>
+                    </ul>
+                    <p><em>Tip: Try asking me "Show me dog food" or "How do I groom my cat?"</em></p>
+                </div>
+            </div>
+
+            <!-- Quick Suggestions -->
+            <div class="quick-suggestions">
+                <button class="quick-btn" data-query="I need dog food for my puppy under $25">
+                    🐕 Puppy food under $25
+                </button>
+                <button class="quick-btn" data-query="How to groom my cat?">
+                    🐱 Cat grooming tips
+                </button>
+                <button class="quick-btn" data-query="Show me some cat toys">
+                    🧸 Cat toys
+                </button>
+                <button class="quick-btn" data-query="I need rabbit food">
+                    🐰 Rabbit food
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Footer -->
+        <div class="chat-footer">
+            <div class="input-container">
+                <input type="text" id="chatInput" placeholder="Type your message..." maxlength="200">
+                <button id="chatSend" class="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="footer-actions">
+                <button id="cart-toggle" class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mini Cart Drawer -->
+    <div id="mini-cart" class="mini-cart hidden">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button id="cart-close" class="close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="empty-cart">
+                <p>Your cart is empty</p>
+                <small>Add items to see them here!</small>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-price">$<span id="cart-total">0.00</span></span>
+            </div>
+            <button id="checkout-btn" class="checkout-btn">
+                <i class="fas fa-credit-card"></i>
+                Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="cart-overlay hidden"></div>
+
+    <!-- Main Content (for demonstration) -->
+    <div class="demo-content">
+        <div class="container">
+            <h1>AI Chatbox Demo</h1>
+            <p>Click the chat bubble in the bottom right corner to start chatting with our AI assistant!</p>
+            
+            <div class="demo-features">
+                <div class="feature">
+                    <div class="feature-icon">🛍️</div>
+                    <h3>Product Search</h3>
+                    <p>Ask for products like "dog food under $25" or "cat toys"</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💡</div>
+                    <h3>Pet Care Advice</h3>
+                    <p>Get tips on grooming, nutrition, and training</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🛒</div>
+                    <h3>Shopping Cart</h3>
+                    <p>Add products to cart and checkout seamlessly</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Powered</h3>
+                    <p>Smart responses powered by Gemini API</p>
+                </div>
+            </div>
+
+            <div class="demo-instructions">
+                <h2>Try These Commands:</h2>
+                <div class="command-list">
+                    <div class="command">
+                        <strong>"I need dog food for my puppy under $25"</strong>
+                        <span>→ Shows puppy food options within budget</span>
+                    </div>
+                    <div class="command">
+                        <strong>"How to groom my cat?"</strong>
+                        <span>→ Provides cat grooming tips</span>
+                    </div>
+                    <div class="command">
+                        <strong>"Show me some rabbit toys"</strong>
+                        <span>→ Displays rabbit toy products</span>
+                    </div>
+                    <div class="command">
+                        <strong>"What should I feed my indoor cat?"</strong>
+                        <span>→ Gives nutrition advice for cats</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="../assets/data/products.js"></script>
+    <script src="../assets/js/chatbox.js"></script>
+</body>
 </html>

@@ -609,9 +609,9 @@ function addToCart(productName, productImage, price = 0) {
 function updateCartButton() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
   const cartBtn = document.querySelector('.icon-btn[aria-label="Cart"]');
+  const count = cart.reduce((total, item) => total + item.quantity, 0);
   
   if (cartBtn) {
-    const count = cart.reduce((total, item) => total + item.quantity, 0);
     cartBtn.setAttribute('data-count', count);
     
     // Add count badge if items exist
