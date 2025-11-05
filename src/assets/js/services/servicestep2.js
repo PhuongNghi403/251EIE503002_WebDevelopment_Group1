@@ -17,17 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   
   // --- DOM ELEMENTS (Lấy các phần tử Sidebar) ---
+  // (Phần này đã bị xóa khỏi HTML, nhưng code JS vẫn an toàn)
   const pkgNameEl = document.getElementById('package-name');
   const pkgPriceEl = document.getElementById('package-price');
   const dayCountEl = document.getElementById('day-count');
   const checkinDateEl = document.getElementById('checkin-date');
   const checkoutDateEl = document.getElementById('checkout-date');
-  
   const treatsListEl = document.getElementById('treats-list');
   const addOnsListEl = document.getElementById('addons-list');
   const treatsCountEl = document.getElementById('treats-count');
   const addOnsCountEl = document.getElementById('addons-count');
-  
   const summaryServiceEl = document.getElementById('summary-service');
   const summaryPackageRateEl = document.getElementById('summary-package-rate');
   const summaryDurationEl = document.getElementById('summary-duration');
@@ -40,6 +39,43 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- DOM ELEMENTS (Lấy các phần tử Form Step 2) ---
   const continueToStep3Btn = document.getElementById('continue-to-step3-btn');
   const requiredFields = document.querySelectorAll('#booking-step2-form [required]');
+  const bookingForm = document.getElementById('booking-step2-form');
+
+  const paymentTabs = document.querySelector('.payment-tabs');
+  const paymentTypeRadios = document.querySelectorAll('input[name="payment-type"]');
+  const savedCardsList = document.querySelector('.saved-cards-list');
+  const addNewCardBtn = document.querySelector('.add-new-card-btn');
+
+  function updatePaymentVisibility() {
+    const selected = document.querySelector('input[name="payment-type"]:checked')?.value;
+    const isCard = selected === 'card';
+
+    // KHÔNG đổi CSS thẻ; chỉ ẩn/hiện bằng inline style để tuân theo CSS gốc
+    if (savedCardsList) savedCardsList.style.display = isCard ? '' : 'none';
+    if (addNewCardBtn) addNewCardBtn.style.display = isCard ? '' : 'none';
+
+    // Ẩn đường kẻ nét đứt cho QR (CSS riêng của QR)
+    if (paymentTabs) paymentTabs.classList.toggle('hide-separator', !isCard);
+
+    // Phòng khi có rule khác, thêm class trạng thái cho form (không ảnh hưởng card CSS)
+    if (bookingForm) bookingForm.classList.toggle('qr-selected', !isCard);
+  }
+
+  paymentTypeRadios.forEach(r => r.addEventListener('change', updatePaymentVisibility));
+  updatePaymentVisibility();
+
+  const paymentDetailsForm = document.getElementById('payment-details-form'); // Lấy form chi tiết thẻ
+
+  // Logic cho nút "Add New Card"
+  if (addNewCardBtn) {
+    addNewCardBtn.addEventListener('click', () => {
+      if (paymentDetailsForm) {
+        paymentDetailsForm.style.display = 'flex'; // Hiển thị form
+        paymentDetailsForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      addNewCardBtn.style.display = 'none'; // Ẩn nút "Add"
+    });
+  }
 
   // --- FUNCTIONS ---
 
@@ -71,9 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
     bookingState.package = packageOptions[packageKey];
   }
 
-  /**
-   * Tải treats/addons từ localStorage
-   */
   // --- Helper: ép kiểu số an toàn & chuẩn hóa dữ liệu ---
   const toNumber = (val, fallback = 0) => {
     if (val == null) return fallback;
@@ -120,8 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
     bookingState.duration = parseInt(localStorage.getItem('bookingDuration') || '1', 10);
     const checkinStored = localStorage.getItem('bookingCheckinDate') || localStorage.getItem('bookingCheckin');
     const checkoutStored = localStorage.getItem('bookingCheckoutDate') || localStorage.getItem('bookingCheckout');
-    checkinDateEl.textContent = checkinStored ? checkinStored : '--';
-    checkoutDateEl.textContent = checkoutStored ? checkoutStored : '--';
+    
+    // Kiểm tra null trước khi gán
+    if (checkinDateEl) checkinDateEl.textContent = checkinStored ? checkinStored : '--';
+    if (checkoutDateEl) checkoutDateEl.textContent = checkoutStored ? checkoutStored : '--';
 
     // Render danh sách
     renderList(treatsListEl, bookingState.treats);
@@ -151,19 +186,19 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const total = preDiscountTotal - discountAmount;
     
-    // Cập nhật DOM
-    pkgNameEl.textContent = bookingState.package.name;
-    pkgPriceEl.textContent = `$${packagePrice.toFixed(2)}`;
-    dayCountEl.textContent = `${bookingState.duration} Day${bookingState.duration > 1 ? 's' : ''}`;
+    // Cập nhật DOM (Kiểm tra null vì sidebar đã bị xóa)
+    if (pkgNameEl) pkgNameEl.textContent = bookingState.package.name;
+    if (pkgPriceEl) pkgPriceEl.textContent = `$${packagePrice.toFixed(2)}`;
+    if (dayCountEl) dayCountEl.textContent = `${bookingState.duration} Day${bookingState.duration > 1 ? 's' : ''}`;
     
-    summaryServiceEl.textContent = bookingState.package.name;
-    summaryPackageRateEl.textContent = `$${packagePrice.toFixed(2)}`;
-    summaryDurationEl.textContent = `${bookingState.duration} day${bookingState.duration > 1 ? 's' : ''}`;
-    summarySubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-    summaryTreatsEl.textContent = `$${treatsTotal.toFixed(2)}`;
-    summaryAddonsEl.textContent = `$${addOnsTotal.toFixed(2)}`;
-    summaryDiscountEl.textContent = `-$${discountAmount.toFixed(2)}`;
-    summaryTotalEl.textContent = `$${total.toFixed(2)}`;
+    if (summaryServiceEl) summaryServiceEl.textContent = bookingState.package.name;
+    if (summaryPackageRateEl) summaryPackageRateEl.textContent = `$${packagePrice.toFixed(2)}`;
+    if (summaryDurationEl) summaryDurationEl.textContent = `${bookingState.duration} day${bookingState.duration > 1 ? 's' : ''}`;
+    if (summarySubtotalEl) summarySubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    if (summaryTreatsEl) summaryTreatsEl.textContent = `$${treatsTotal.toFixed(2)}`;
+    if (summaryAddonsEl) summaryAddonsEl.textContent = `$${addOnsTotal.toFixed(2)}`;
+    if (summaryDiscountEl) summaryDiscountEl.textContent = `-$${discountAmount.toFixed(2)}`;
+    if (summaryTotalEl) summaryTotalEl.textContent = `$${total.toFixed(2)}`;
   }
 
   /**
@@ -211,35 +246,39 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   function validateForm() {
     let allValid = true;
-    
     requiredFields.forEach(field => {
       const formGroup = field.closest('.form-group');
-      if (!field.value || (field.type === 'select' && field.value === '')) {
-        formGroup.classList.add('has-error');
+      const isEmpty = !field.value || (field.tagName?.toLowerCase() === 'select' && field.value === '');
+      if (isEmpty) {
+        formGroup?.classList.add('has-error');
         allValid = false;
       } else {
-        formGroup.classList.remove('has-error');
+        formGroup?.classList.remove('has-error');
       }
     });
-    
     return allValid;
   }
 
-  /**
-   * Thêm listener cho nút "Continue"
-   */
-  continueToStep3Btn.addEventListener('click', (e) => {
-    e.preventDefault(); // Ngăn <button> submit form (hoặc <a> chuyển trang)
-    
-    if (validateForm()) {
-      // (Lý tưởng nhất là lưu dữ liệu form vào localStorage ở đây)
-      
-      // Chuyển trang
-      window.location.href = 'homestaystep3.html';
-    } else {
-      // (Bạn có thể thêm 1 thông báo lỗi chung ở đây)
-      console.log("Form is invalid");
-    }
+  // Continue -> Step 3
+  if (continueToStep3Btn) {
+    continueToStep3Btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // validateForm() sẽ dùng biến requiredFields phía trên (đã loại bản trùng)
+      if (validateForm()) {
+        window.location.href = 'homestaystep3.html';
+      } else {
+        console.log('Form is invalid');
+      }
+    });
+  }
+  
+  // Xóa báo lỗi khi người dùng bắt đầu nhập
+  requiredFields.forEach(field => {
+    field.addEventListener('input', () => {
+      if (field.value) {
+        field.closest('.form-group')?.classList.remove('has-error');
+      }
+    });
   });
 
   // --- INITIALIZATION (Khởi chạy) ---

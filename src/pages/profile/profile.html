@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawfect Care — Profile</title>
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/header.css" />
+  <link rel="stylesheet" href="../../assets/css/profile/profile.css" />
+  <link rel="stylesheet" href="../../assets/css/footer.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="profile">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../index.html">
+        <img class="brand-mark-img" src="../../assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+        <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+      </a>
+      <nav class="nav">
+        <a class="nav-link" href="../../index.html">Home</a>
+        <a class="nav-link" href="../services/services.html">Services</a>
+        <a class="nav-link" href="../shop.html">Shop</a>
+        <a class="nav-link" href="../community.html">Community</a>
+        <a class="nav-link active" href="profile.html">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-btn" href="../favorite.html" aria-label="Wishlist">
+          <img src="../../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="../cart.html" aria-label="Cart">
+          <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="../login-signup.html" aria-label="Account">
+          <img src="../../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="profile-dashboard container">
+
+    <div class="welcome-banner">
+      <div>
+        <h1 class="welcome-title font-display">Welcome back, Sarah! <span class="paw-icon">🐾</span></h1>
+        <p class="font-body">Here's what's happening with your furry friends</p>
+      </div>
+      <button class="icon-button notification-button" aria-label="Notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span class="notification-dot"></span>
+      </button>
+    </div>
+
+    <div class="dashboard-layout">
+      
+      <div class="main-content">
+
+        <section class="status-dashboard">
+          <h2 class="section-title font-display">Pet Status Dashboard</h2>
+          <div class="status-grid">
+            <a href="#" class="status-card service-status">
+              <span class="status-icon-wrapper paw">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 13.5c-2 0-4.5-1.1-6-3.2.1-2.5 2-4.8 5-5.3 1.6-.3 3.3.1 4.7 1.1 1.3 1 2 2.4 2.3 4 .3 1.8 0 3.8-1.5 5.2-1.7 1.4-3.5 2.2-5.5 2.2z"></path><path d="M7 18.2c-1.3-.7-2.3-1.8-3-3.2"></path><path d="M11 20.2c-1.2 0-2.4-.4-3.4-1.2"></path><path d="M15 18.2c1.3-.7 2.3-1.8 3-3.2"></path><path d="M13 20.2c1.2 0 2.4-.4 3.4-1.2"></path></svg>
+              </span>
+              <div class="status-info">
+                <span class="status-pill active">Active</span>
+                <strong>Service Status</strong>
+                <small>Click to view details</small>
+              </div>
+              <span class="arrow-icon">›</span>
+            </a>
+            <a href="#" class="status-card order-status">
+              <span class="status-icon-wrapper truck">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+              </span>
+              <div class="status-info">
+                <span class="status-pill processing">Processing</span>
+                <strong>Order Status</strong>
+                <small>Click to view details</small>
+              </div>
+              <span class="arrow-icon">›</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="booking-history">
+          <div class="section-header">
+            <h2 class="section-title font-display">Booking History</h2>
+            <a href="#" class="view-all-link">View All ›</a>
+          </div>
+          <div class="history-list">
+            
+            <article class="history-card">
+              <div class="card-header">
+                <div class="header-info">
+                  <h3 class="card-title">Daycare - Full Day</h3>
+                  <p class="card-meta">Buddy & Luna • Jan 15, 2025</p>
+                </div>
+                <div class="header-status">
+                  <span class="status-pill completed">Completed</span>
+                  <strong class="card-price">$65</strong>
+                </div>
+              </div>
+              <div class="card-review-prompt">
+                <span class="review-icon">⭐</span>
+                <div class="review-prompt-info">
+                  <strong>How was the Daycare Service?</strong>
+                  <small>Receive 50 points</small>
+                </div>
+                <button class="btn-review">Review Now</button>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"></path><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                  Book Again
+                </button>
+                <button class="btn btn-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  View Details
+                </button>
+              </div>
+            </article>
+            
+            <article class="history-card">
+              <div class="card-header">
+                <div class="header-info">
+                  <h3 class="card-title">Grooming Session</h3>
+                  <p class="card-meta">Buddy • Jan 10, 2025</p>
+                </div>
+                <div class="header-status">
+                  <span class="status-pill completed">Completed</span>
+                  <strong class="card-price">$45</strong>
+                </div>
+              </div>
+              <div class="card-review-display">
+                <div class="stars">
+                  <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span class="star-muted">⭐</span>
+                </div>
+                <p>Amazing service! Buddy looks so fresh and happy. The staff was very professional.</p>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"></path><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                  Book Again
+                </button>
+                <button class="btn btn-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  View Details
+                </button>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <section class="order-history">
+          <div class="section-header">
+            <h2 class="section-title font-display">Order History</h2>
+            <a href="#" class="view-all-link">View All ›</a>
+          </div>
+          <div class="history-list">
+            
+            <article class="history-card">
+              <div class="card-header order-header">
+                <div class="order-info-left">
+                  <span class="history-icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                  </span>
+                  <div class="header-info">
+                    <h3 class="card-title">Premium Dog Food</h3>
+                    <p class="card-meta">1 bag (10kg)</p>
+                  </div>
+                </div>
+                <div class="order-info-right">
+                  <span class="status-pill delivered">Delivered</span>
+                  <small class="card-date">Jan 15, 2025</small>
+                </div>
+              </div>
+              <div class="card-review-display green">
+                <div class="stars">
+                  <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span class="star-muted">⭐</span>
+                </div>
+                <p>Good quality food, Buddy loves it!</p>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"></path><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                  Order Again
+                </button>
+                <button class="btn btn-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  View Details
+                </button>
+              </div>
+            </article>
+
+            <article class="history-card">
+              <div class="card-header order-header">
+                <div class="order-info-left">
+                  <span class="history-icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                  </span>
+                  <div class="header-info">
+                    <h3 class="card-title">Cat Toy Bundle</h3>
+                    <p class="card-meta">Interactive toy set</p>
+                  </div>
+                </div>
+                <div class="order-info-right">
+                  <span class="status-pill delivered">Delivered</span>
+                  <small class="card-date">Jan 8, 2025</small>
+                </div>
+              </div>
+              <div class="card-review-prompt green">
+                <span class="review-icon">⭐</span>
+                <div class="review-prompt-info">
+                  <strong>What do you think about Cat Toy Bundle?</strong>
+                  <small>Write review to receive 50 points</small>
+                </div>
+                <button class="btn-review green">Review Now</button>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"></path><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                  Order Again
+                </button>
+                <button class="btn btn-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  View Details
+                </button>
+              </div>
+            </article>
+
+          </div>
+        </section>
+      </div> <aside class="sidebar">
+        <section class="my-pets">
+          <div class="section-header">
+            <h2 class="section-title font-display">My Pets <span class="pet-icons">♡</span></h2>
+          </div>
+          <div class="pets-list">
+            <a href="#" class="pet-card">
+              <img src="https://via.placeholder.com/50" alt="Buddy" class="pet-avatar">
+              <div class="pet-info">
+                <strong>Buddy</strong>
+                <small>Golden Retriever, 3 years</small>
+              </div>
+              <span class="arrow-icon">›</span>
+            </a>
+            <a href="#" class="pet-card">
+              <img src="https://via.placeholder.com/50" alt="Luna" class="pet-avatar">
+              <div class="pet-info">
+                <strong>Luna</strong>
+                <small>American Shorthair, 2 years</small>
+              </div>
+              <span class="arrow-icon">›</span>
+            </a>
+          </div>
+          <button class="btn btn-add-pet">
+            + Add New Pet
+          </button>
+        </section>
+      </aside> </div> </main> <section class="site-cta">
+    <div class="container cta-inner">
+      <div class="cta-icons" aria-hidden="true">
+        <img class="cta-pattern" src="../../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+      </div>
+      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+      <div class="cta-actions">
+        <a href="services.html" class="btn primary">Book Now</a>
+        <a href="../community.html" class="btn ghost">Contact Us</a>
+      </div>
+    </div>
+  </section>
+  
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img class="brand-foot-img" src="../../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
+          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+        </div>
+        <p>Your trusted partner in pet care since 2020.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="bookinghomestay.html">Pet Boarding</a></li>
+          <li><a href="groomingspa-service.html">Pet Spa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Follow Us</h4>
+        <div class="socials">
+          <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+          <a href="https://x.com/" aria-label="Twitter"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" align="center" style="color: #000000;">
+        © 2025 Pawfect Care. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

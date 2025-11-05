@@ -1,0 +1,545 @@
+/* ==========================================================================
+   Font Imports & Biến
+   ========================================================================== */
+/* Đảm bảo các font này đã được import trong base.css hoặc header.css */
+/* @import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@400;500;600;700&display=swap'); 
+*/
+
+:root {
+  --font-display: 'Bagel Fat One', cursive;
+  --font-body: 'Quicksand', sans-serif;
+  
+  --color-text-dark: #4D2B12;
+  --color-text-medium: #7b470b;
+  --color-text-light: #A08C7D;
+  
+  --color-bg-page: #FBF9F6;
+  --color-bg-card: #FFFFFF;
+  --color-bg-card-light: #FCF8F3;
+  
+  --color-border: #F4E8DA;
+
+  --color-pill-green-bg: #E0F5E9;
+  --color-pill-green-text: #10B981;
+  --color-pill-pink-bg: #FFF0F5;
+  --color-pill-pink-text: #E53A89;
+  --color-pill-brown-bg: #F4E8DA;
+  --color-pill-brown-text: #7b470b;
+  
+  --color-review-pink-bg: #FFF5F9;
+  --color-review-pink-btn: #FFC0D9;
+  --color-review-green-bg: #F0FBF3;
+  --color-review-green-btn: #C8E6C9;
+  
+  --color-btn-blue-bg: #E6F0FF;
+  --color-btn-blue-text: #4285F4;
+}
+
+/* ==========================================================================
+   Layout Cơ bản
+   ========================================================================== */
+body {
+  background-color: var(--color-bg-page); /* Đặt màu nền cho toàn trang */
+}
+
+/* Class .container đã có trong base.css */
+.profile-dashboard {
+  font-family: var(--font-body);
+  color: var(--color-text-dark);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* BỔ SUNG KHUNG LAYOUT 2 CỘT */
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 1fr; /* Mặc định 1 cột cho mobile */
+  gap: 2.5rem; /* Khoảng cách giữa cột trái và phải */
+}
+
+/* Áp dụng 2 cột khi màn hình đủ lớn */
+@media (min-width: 992px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr 340px; /* Cột trái linh hoạt, cột phải 340px */
+  }
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem; /* Khoảng cách giữa các section (Status, Booking, Order) */
+}
+
+.sidebar {
+  position: sticky;
+  top: 2rem;
+  height: fit-content; /* Giữ sidebar ở vị trí khi cuộn */
+}
+
+/* ==========================================================================
+   Các Thành phần Chung
+   ========================================================================== */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem; /* ~28px */
+  color: var(--color-text-dark);
+  margin: 0;
+}
+
+.view-all-link {
+  font-weight: 700;
+  color: var(--color-text-medium);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.view-all-link:hover {
+  text-decoration: underline;
+}
+
+.arrow-icon {
+  font-size: 1.5rem;
+  color: var(--color-text-light);
+  margin-left: auto; /* Đẩy mũi tên sang phải */
+}
+
+.status-pill {
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-pill.completed,
+.status-pill.delivered {
+  background-color: var(--color-pill-green-bg);
+  color: var(--color-pill-green-text);
+}
+
+.status-pill.active {
+  background-color: var(--color-pill-brown-bg);
+  color: var(--color-pill-brown-text);
+}
+
+.status-pill.processing {
+  background-color: var(--color-pill-pink-bg);
+  color: var(--color-pill-pink-text);
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.btn-secondary {
+  flex: 1;
+  background: var(--color-bg-card-light);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-medium);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-secondary:hover {
+  background: #fff;
+  border-color: #E0CDBA;
+}
+
+/* ==========================================================================
+   Welcome Banner
+   ========================================================================== */
+.welcome-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem; /* 24px */
+  padding: 1.5rem 2rem;
+  margin-bottom: 2.5rem; /* Khoảng cách với layout bên dưới */
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+
+.welcome-title {
+  font-family: var(--font-display);
+  font-size: 2rem; /* ~32px */
+  color: var(--color-text-dark);
+  margin: 0 0 0.25rem 0;
+}
+
+.welcome-title .paw-icon {
+  font-size: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.welcome-banner p {
+  font-weight: 500;
+  color: var(--color-text-medium);
+  margin: 0;
+}
+
+.icon-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-bg-page);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-medium);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-button:hover {
+  background: #fff;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 10px;
+  height: 10px;
+  background-color: #FF6B6B;
+  border-radius: 50%;
+  border: 2px solid var(--color-bg-page);
+}
+
+/* ==========================================================================
+   Status Dashboard
+   ========================================================================== */
+.status-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 576px) {
+  .status-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.status-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem; /* 16px */
+  text-decoration: none;
+  color: var(--color-text-dark);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.status-card:hover {
+  border-color: #E0CDBA;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.status-icon-wrapper {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.status-icon-wrapper.paw {
+  background-color: var(--color-pill-brown-bg);
+  color: var(--color-pill-brown-text);
+}
+.status-icon-wrapper.truck {
+  background-color: var(--color-pill-pink-bg);
+  color: var(--color-pill-pink-text);
+}
+.status-icon-wrapper svg {
+  width: 24px;
+  height: 24px;
+}
+
+.status-info {
+  flex-grow: 1;
+}
+.status-info strong {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+.status-info small {
+  font-weight: 500;
+  color: var(--color-text-light);
+}
+
+/* ==========================================================================
+   History Cards (Booking & Order)
+   ========================================================================== */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.history-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem; /* 16px */
+  padding: 1.25rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin: 0 0 0.25rem 0;
+}
+.card-meta {
+  font-weight: 500;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  margin: 0;
+}
+.header-status {
+  text-align: right;
+  flex-shrink: 0;
+}
+.card-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* Header cho Order History */
+.card-header.order-header {
+  align-items: center;
+}
+.order-info-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.history-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-card-light);
+  color: var(--color-text-medium);
+}
+.order-info-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+.card-date {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+/* Ô Review */
+.card-review-prompt {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem; /* 12px */
+  margin-top: 1rem;
+  background-color: var(--color-review-pink-bg);
+}
+.card-review-prompt.green {
+  background-color: var(--color-review-green-bg);
+}
+
+.review-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.review-prompt-info {
+  flex-grow: 1;
+}
+.review-prompt-info strong {
+  display: block;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+.review-prompt-info small {
+  color: var(--color-text-medium);
+  font-size: 0.9rem;
+}
+.btn-review {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: var(--color-review-pink-btn);
+  color: #C1306C;
+  flex-shrink: 0;
+}
+.btn-review.green {
+  background-color: var(--color-review-green-btn);
+  color: #1A7431;
+}
+.btn-review:hover {
+  filter: brightness(0.95);
+}
+
+/* Ô Đã Review */
+.card-review-display {
+  padding: 1rem;
+  border-radius: 0.75rem; /* 12px */
+  margin-top: 1rem;
+  background-color: var(--color-review-green-bg); /* Mặc định là màu xanh */
+}
+.stars {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: #FFC107; /* Màu sao vàng */
+}
+.star-muted {
+  color: #E0E0E0; /* Màu sao mờ */
+}
+.card-review-display p {
+  margin: 0.5rem 0 0 0;
+  font-weight: 500;
+  color: var(--color-text-dark);
+  line-height: 1.5;
+}
+
+/* Nút Actions */
+.card-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+}
+.card-actions .btn-secondary svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ==========================================================================
+   Sidebar: My Pets
+   ========================================================================== */
+.my-pets {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem; /* 16px */
+  padding: 1.25rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+}
+.my-pets .section-title {
+  font-size: 1.5rem; /* 24px */
+}
+.my-pets .pet-icons {
+  font-size: 1rem;
+  color: #FF80AB; /* Pink heart */
+}
+.pets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.pet-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--color-text-dark);
+  transition: background-color 0.2s ease;
+}
+.pet-card:hover {
+  background-color: var(--color-bg-page);
+}
+.pet-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: #eee; /* Màu nền placeholder */
+}
+.pet-info {
+  flex-grow: 1;
+}
+.pet-info strong {
+  display: block;
+  font-weight: 700;
+}
+.pet-info small {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+}
+.btn-add-pet {
+  width: 100%;
+  background-color: var(--color-btn-blue-bg);
+  color: var(--color-btn-blue-text);
+  border: none;
+}
+.btn-add-pet:hover {
+  background-color: #D6E4FF;
+}
+
+/* ==========================================================================
+   Font Display/Body (Nếu base.css chưa có)
+   ========================================================================== */
+.font-display {
+  font-family: var(--font-display);
+}
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Sửa lỗi thụt lề cho font (nếu cần) */
+h1, h2, h3, h4, p, div, span, small, strong {
+  margin: 0;
+  padding: 0;
+}
+/* Style lại cho các element bị reset nếu cần */
+.section-title {
+  margin: 0;
+}
+.welcome-banner p {
+  margin: 0;
+}
+.card-meta {
+  margin: 0;
+}
+.card-review-display p {
+  margin: 0.5rem 0 0 0;
+}

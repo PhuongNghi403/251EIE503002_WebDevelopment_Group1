@@ -10,7 +10,7 @@
 
 .main-content-col {
   /* Đặt chiều rộng tối đa cho form và căn giữa */
-  max-width: 800px; 
+  max-width: 800px;
   width: 100%;
   margin: 0 auto;
 }
@@ -21,14 +21,15 @@
 }
 
 /* ==========================================================================
-   STYLES CHO FORM (ĐÃ SỬA KHOẢNG CÁCH)
+   STYLES CHO FORM
    ========================================================================== */
 
+/* Sửa khoảng cách chung cho các form sections */
 .form-section {
-  border: none; 
+  border: none;
   display: flex;
   flex-direction: column;
-  gap: 28px; /* Khoảng cách đều giữa các nhóm */
+  gap: 28px; /* Khoảng cách giữa các nhóm form-group hoặc form-grid */
 }
 
 .booking-form {
@@ -47,14 +48,22 @@
 
 /* Thêm khoảng cách TRÊN tiêu đề (trừ cái đầu tiên) */
 .form-section-title:not(:first-child) {
-  margin-top: 32px; 
+  margin-top: 32px;
+}
+
+/* THÊM MỚI: Style cho tiêu đề phụ (Payment Details) */
+h3.form-section-title-sub {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  color: #3b2a1f;
+  margin-bottom: 0; /* Đặt margin-bottom 0 để gap của card quản lý */
 }
 
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px 24px; 
+  gap: 28px 24px; /* Giữ gap ngang 24px, gap dọc 28px */
 }
 
 .form-group {
@@ -139,7 +148,7 @@
 }
 
 /* ==========================================================================
-   YÊU CẦU: THÊM CSS CHO PAYMENT METHOD
+   PAYMENT METHOD STYLES
    ========================================================================== */
 
 /* Payment tabs: đồng bộ hiệu ứng chọn, icon có nền */
@@ -147,7 +156,13 @@
   display: flex;
   gap: 16px;
   margin-bottom: 24px;
+  position: relative;
+  --sep-gap: 18px;              /* khoảng cách đều trên/dưới đường kẻ */
+  padding-bottom: var(--sep-gap);
+  margin-bottom: var(--sep-gap);
+  flex-wrap: nowrap;            /* tránh wrap khiến ::after bị lệch */
 }
+
 
 .payment-tab {
   flex: 1;
@@ -174,10 +189,10 @@
 /* Chấm tròn radio (Unselected) */
 .payment-tab::before {
   content: '';
-  position: absolute; 
-  left: 20px;       
-  top: 50%;         
-  transform: translateY(-50%); 
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 18px;  /* Size gốc */
   height: 18px; /* Size gốc */
   border: 2px solid #D1C7BC;
@@ -257,7 +272,7 @@
 .payment-tab:hover {
   background-color: #F7F2EC;
   /* Thêm: Chỉ đổi màu viền khi hover, không thêm shadow */
-  border-color: #D1C7BC; 
+  border-color: #D1C7BC;
 }
 /* Chỉ áp dụng style active cho tab ĐƯỢC CHỌN */
 .payment-tab:has(input:checked) {
@@ -271,15 +286,24 @@
   width: 100%;
 }
 
-.saved-cards-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 0;                 /* quan trọng: bỏ padding mặc định của ul */
-  margin: 0 0 24px;           /* giữ khoảng cách dưới, bỏ thụt lề trái/phải */
-  width: 100%;                /* đảm bảo khớp chiều rộng form */
+/* Đường kẻ ngang đứt nét dưới phần Payment Method (giống ảnh) */
+/* Đường kẻ nét đứt dưới payment tabs */
+.payment-tabs::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-top: 2px dashed #D1C7BC;
+  opacity: 0.9;
 }
+/* Ẩn đường kẻ khi chọn QR */
+.payment-tabs.hide-separator::after {
+  content: none;
+}
+/* Ẩn cứng danh sách thẻ và nút Add khi chọn QR Code */
+#booking-step2-form.qr-selected .saved-cards-list,
+#booking-step2-form.qr-selected .add-new-card-btn { display: none !important; }
 
 .saved-card {
   display: flex;
@@ -357,7 +381,7 @@
 
 .add-new-card-btn {
   display: block;             /* khớp lề với nội dung form */
-  width: 100%; 
+  width: 100%;
   padding: 14px;
   border: 2px dashed #D1C7BC;
   border-radius: 12px;
@@ -370,28 +394,24 @@
 
 /* Thẻ Payment Details (thẻ riêng) */
 .payment-details-card {
-  padding: 24px 32px;
+  margin-top: 16px;
+  padding: 32px 40px; /* Thêm padding giống như các form khác */
   display: flex;
   flex-direction: column;
-  gap: 28px; /* Gap giữa các dòng form */
+  gap: 24px; /* Thêm khoảng cách giữa các trường */
 }
-.form-section-title-sub {
-  font-size: 1.25rem; /* 20px */
-  font-weight: 700;
-  color: #3b2a1f;
+/* THÊM MỚI: Tinh chỉnh lại gap cho grid Expiry/CVV */
+.payment-details-card .form-grid {
+  gap: 16px 24px; /* Giảm gap dọc xuống 16px */
 }
 
 
-/* ==========================================================================
-   STYLES CHO NÚT BẤM (MỚI)
-   ========================================================================== */
-
-/* Nút Back và Continue ở dưới cùng */
+/* Nút điều hướng dưới cùng */
 .form-navigation {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* SỬA TẠI ĐÂY: Đẩy nút Continue sang phải */
   align-items: center;
-  padding: 0 16px; /* Căn lề cho giống .card */
+  padding: 0 16px;
   margin-top: 24px;
 }
 
@@ -406,8 +426,8 @@
 }
 
 .form-navigation .back-link-bottom .icon {
-  width: 18px; 
-  height: 18px; 
+  width: 18px;
+  height: 18px;
 }
 
 /* Lấy style từ .btn.primary của file homestaystep1.css */
@@ -424,4 +444,21 @@
 /* Xóa style của sidebar (nếu có) */
 .summary-card .btn.pay-now {
   display: none;
+}
+
+/* Đường kẻ ngang đứt giữa 2 thẻ Visa (vẽ trong khoảng gap) */
+.saved-cards-list .saved-card + .saved-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -10px;                         /* nằm giữa khoảng gap 16px */
+  border-top: 2px dashed #D1C7BC;     /* nâu nhạt, nét đứt dày */
+  opacity: 0.9;
+}
+
+/* Ẩn toàn bộ danh sách thẻ và nút Add khi chọn QR */
+#booking-step2-form.qr-selected .saved-cards-list,
+#booking-step2-form.qr-selected .add-new-card-btn {
+  display: none !important;
 }

@@ -1,0 +1,154 @@
+/* Grid chung cho phần review */
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px 24px;
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .review-grid { grid-template-columns: 1fr 1fr; }
+  .booking-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+.review-item { display: grid; row-gap: 6px; }
+.review-item.span-2 { grid-column: 1 / -1; }
+
+/* Typography giống mẫu: label nhỏ, value lớn */
+.field-label {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
+  font-size: 16px;            /* nhỏ hơn value */
+  font-weight: 600;
+  color: #9a7f6c;             /* nâu nhạt */
+  line-height: 1.4;
+}
+.field-value {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
+  font-size: 22px;            /* lớn hơn label */
+  font-weight: 700;
+  color: #7a5b48;             /* nâu chủ đạo */
+  letter-spacing: 0.2px;
+  line-height: 1.3;
+}
+.field-value.emphasis {
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+/* Payment Method tóm tắt, bỏ inline style */
+.payment-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #d8cfc5;
+  border-radius: 12px;
+  background: #fffaf5;
+}
+.payment-card-logo { width: 48px; height: 32px; }
+.payment-card-info { display: flex; flex-direction: column; }
+.payment-number {
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #3b2a1f;
+}
+.payment-details { color: #7a5b48; }
+
+/* Ghi chú điều khoản */
+.terms-note {
+  margin-top: 16px;
+  color: #3b2a1f;
+}
+.terms-note label { display: inline-flex; align-items: center; gap: 8px; }
+.terms-note a { text-decoration: underline; }
+
+/* Bảng Order Summary: label nhỏ, value canh phải, Total có border-top */
+.summary-table { display: grid; row-gap: 8px; }
+.summary-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 12px;
+  align-items: center;
+}
+.summary-row .label {
+  font-size: 14px;
+  color: #7a5b48;
+}
+.summary-row .value {
+  font-size: 14px;
+  color: #3b2a1f;
+}
+.summary-row .value.strong {
+  font-weight: 700;
+}
+.summary-total {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #e9dfd7; /* áp dụng lên cả hàng */
+}
+
+
+/* Khôi phục layout 2 cột cho trang review */
+.booking-layout.review-page {
+  display: grid;
+  grid-template-columns: 1fr 360px; /* giống Step 1 */
+  gap: 24px;
+}
+@media (max-width: 980px) {
+  .booking-layout.review-page { grid-template-columns: 1fr; }
+}
+
+/* Card trái: mỗi khối review là một card nhỏ */
+.review-card { padding: 20px; }
+
+/* Grid 3 cột cho Booking Details (nhỏ hơn một chút) */
+.booking-details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px 24px;
+  padding: 12px 20px;
+}
+@media (min-width: 768px) {
+  .booking-details-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* Payment Method box (đồng bộ tên class mới) */
+.payment-method-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #d8cfc5;
+  border-radius: 12px;
+  background: #fffaf5;
+}
+.payment-icon { width: 48px; height: 32px; }
+.payment-details { display: flex; flex-direction: column; }
+.payment-number { font-weight: 700; letter-spacing: 1px; color: #3b2a1f; }
+.payment-expiry { color: #7a5b48; }
+
+/* Terms */
+.terms-agreement { margin-top: 16px; color: #3b2a1f; }
+.terms-agreement label { display: inline-flex; align-items: center; gap: 8px; }
+.terms-agreement a { text-decoration: underline; }
+
+/* Sidebar Order Summary dạng grid 2 cột, tổng có đường kẻ */
+.summary-review-card { padding: 16px; }
+.order-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 12px;
+  row-gap: 8px;
+}
+.summary-label { font-size: 14px; color: #7a5b48; }
+.summary-value { font-size: 14px; color: #3b2a1f; }
+.summary-value.discount,
+.summary-label.discount { color: #2E8B57; }
+
+/* Tổng: kẻ line trên cả cặp nhãn/giá trị */
+.total-label,
+.total-value {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #e9dfd7;
+  font-weight: 800;
+}
+.total-value { font-size: 19px; color: #3b2a1f; }

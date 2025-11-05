@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawfect Care — Review</title>
+
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/header.css" />
+  <link rel="stylesheet" href="../../assets/css/footer.css" />
+  <link rel="stylesheet" href="../../assets/css/services/homestaystep1.css" />
+  <link rel="stylesheet" href="../../assets/css/services/homestaystep2.css" />
+  <link rel="stylesheet" href="../../assets/css/services/homestaystep3.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body data-page="services">
+  <!-- Header: identical across pages -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../index.html">
+        <img class="brand-mark-img" src="../../assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+        <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+      </a>
+      <nav class="nav">
+        <a class="nav-link" href="../../index.html">Home</a>
+        <a class="nav-link active" href="services.html">Services</a>
+        <a class="nav-link" href="../shop.html">Shop</a>
+        <a class="nav-link" href="../community.html">Community</a>
+        <a class="nav-link" href="../profile.html">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" aria-label="Wishlist">
+          <img src="../../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+        </button>
+        <a class="icon-btn" href="../cart.html" aria-label="Cart">
+          <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="../login-signup.html" aria-label="Account">
+          <img src="../../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="booking-main">
+    <div class="booking-shell">
+      <a href="homestaystep2.html" class="back-link">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        Back
+      </a>        
+      <div class="booking-layout review-page">
+        <div class="main-content-col">
+          <h2 class="form-section-title bagel-fat-one-regular">Pet Information</h2>
+          <section class="card review-card">
+            <div class="review-grid">
+              <div class="review-item">
+                <div class="field-label">Pet Name</div>
+                <div class="field-value">Meo</div>
+              </div>
+              <div class="review-item">
+                <div class="field-label">Owner’s Name</div>
+                <div class="field-value">Chu Viet Cam</div>
+              </div>
+              <div class="review-item">
+                <div class="field-label">Pet Type</div>
+                <div class="field-value">Cat</div>
+              </div>
+              <div class="review-item">
+                <div class="field-label">Phone Number</div>
+                <div class="field-value emphasis">+84 123 456 789</div>
+              </div>
+              <div class="review-item">
+                <div class="field-label">Age</div>
+                <div class="field-value">1 year</div>
+              </div>
+              <div class="review-item">
+                <div class="field-label">Weight</div>
+                <div class="field-value">10 kg</div>
+              </div>
+              <div class="review-item span-2">
+                <div class="field-label">Special Notes</div>
+                <div class="field-value">Prefers chicken over beef</div>
+              </div>
+            </div>
+          </section>
+
+          <h2 class="form-section-title bagel-fat-one-regular">Booking Details</h2>
+          <section class="card review-card">
+            <div class="booking-details-grid">
+              <div class="review-item">
+                <div class="field-label">Check-in</div>
+                <div class="field-value small">November 11, 2025</div>
+              </div>
+              <div class="review-item">
+                <div class="field-label">Check-out</div>
+                <div class="field-value small">November 14, 2025</div>
+              </div>
+              <div class="review-item">
+                <div class="field-label">Duration</div>
+                <div class="field-value small">3 days</div>
+              </div>
+            </div>
+          </section>
+
+          <h2 class="form-section-title bagel-fat-one-regular">Payment Method</h2>
+          <section class="card review-card">
+            <div class="payment-method-box">
+              <img src="../../assets/icons/Service/CreditCardIcon.svg" alt="Visa" class="payment-icon" />
+              <div class="payment-details">
+                <span class="payment-number">•••• •••• •••• 4242</span>
+                <span class="payment-expiry">Expires 12/25 • Chu Viet Cam</span>
+              </div>
+            </div>
+          </section>
+
+          <div class="terms-agreement">
+            <label>
+              <input type="checkbox" checked />
+              I agree to the <a href="#">Term & Conditions</a> and
+              <a href="#">Cancellation Policy</a>.
+              I understand that cancellations made less than 48 hours before check-in are non-refundable.
+            </label>
+          </div>
+        </div>
+
+        <aside class="sidebar-col">
+          <section class="card summary-review-card">
+            <h3 class="summary-title bagel-fat-one-regular">Order Summary</h3>
+            <div class="order-summary-grid">
+              <span class="summary-label">Service:</span>
+              <span class="summary-value" id="summary-service-name">Basic Room</span>
+
+              <span class="summary-label">Duration:</span>
+              <span class="summary-value" id="summary-service-duration">1 day</span>
+
+              <span class="summary-label">Subtotal:</span>
+              <span class="summary-value" id="summary-service-subtotal">$55</span>
+
+              <span class="summary-label">Service fee:</span>
+              <span class="summary-value" id="summary-service-fee">$5</span>
+
+              <span class="summary-label">Add ons:</span>
+              <span class="summary-value" id="summary-service-addons">$25</span>
+
+              <span class="summary-label">Treats:</span>
+              <span class="summary-value" id="summary-service-treats">$15</span>
+
+              <span class="summary-label discount">Discount</span>
+              <span class="summary-value discount" id="summary-service-discount">-$15</span>
+
+              <span class="summary-label total-label">Total:</span>
+              <span class="summary-value total-value" id="summary-service-total">$100</span>
+            </div>
+            <button class="btn primary" style="width: 100%; margin-top: 16px;">
+              PROCEED TO PAY
+            </button>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- CTA section (same structure as other pages) -->
+  <section class="site-cta">
+    <div class="container cta-inner">
+      <div class="cta-icons" aria-hidden="true">
+        <img class="cta-pattern" src="../../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+      </div>
+      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+      <div class="cta-actions">
+        <a href="services.html" class="btn primary">Book Now</a>
+        <a href="../community.html" class="btn ghost">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer: identical across pages -->
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img class="brand-foot-img" src="../../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
+          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+        </div>
+        <p>Your trusted partner in pet care since 2020.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="bookinghomestay.html">Pet Boarding</a></li>
+          <li><a href="groomingspa-service.html">Pet Spa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Follow Us</h4>
+        <div class="socials">
+          <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+          <a href="https://x.com/" aria-label="Twitter"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" align="center" style="color: #000000;">
+        © 2025 Pawfect Care. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- No extra JS needed; reusing styles and layout -->
+</body>
+</html>
