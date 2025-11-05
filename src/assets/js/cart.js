@@ -431,7 +431,7 @@ function addToCart(productName, productImage, price = 0) {
 }
 
 // Global add to wishlist function
-function addToWishlist(productName, productImage, category = 'General') {
+function addToWishlist(productName, productImage, category = 'General', price = 0) {
   let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
   const existingItem = wishlist.find(item => item.name === productName);
   
@@ -441,6 +441,8 @@ function addToWishlist(productName, productImage, category = 'General') {
       name: productName,
       image: productImage,
       category: category,
+      price: Number(price) || 0,
+      originalPrice: Number(price) || 0,
       addedAt: new Date().toISOString()
     });
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
@@ -613,8 +615,13 @@ function renderRecommendationsGrid(products) {
   grid.innerHTML = '';
 
   const toCard = (item) => {
-    const price = (typeof item.price === 'number') ? `$${item.price.toFixed(2)}` : (item.price || '$—');
+    // Normalize price from PRODUCTS_DATA which uses an object { current, original, currency }
+    const currentPriceNum = (typeof item.price === 'object')
+      ? Number(item.price?.current ?? item.price?.discounted ?? item.price?.original ?? 0)
+      : Number(item.price ?? 0);
+    const price = `$${(currentPriceNum || 0).toFixed(2)}`;
     const img = item.image || item.banner || item.thumbnail || '../assets/images/placeholder.svg';
+    const safeName = (item.name || '').replace(/"/g,'&quot;');
 
     const card = document.createElement('div');
     card.className = 'recommendation-card';
@@ -628,12 +635,12 @@ function renderRecommendationsGrid(products) {
         <div class="card-actions">
           <span class="card-price">${price}</span>
           <div class="card-buttons">
-            <button class="wishlist-btn" aria-label="Add to Wishlist">
+            <button class="wishlist-btn" aria-label="Add to Wishlist" data-name="${safeName}" data-image="${img}" data-price="${currentPriceNum}" data-category="${item.category || 'General'}">
               <svg viewBox="0 0 24 24" width="20" height="20">
                 <path fill="#6B6358" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
               </svg>
             </button>
-            <button class="add-to-cart-btn" data-slug="${item.slug || ''}">Add to Cart</button>
+            <button class="add-to-cart-btn" data-name="${safeName}" data-image="${img}" data-price="${currentPriceNum}">Add to Cart</button>
           </div>
         </div>
       </div>
@@ -645,14 +652,35 @@ function renderRecommendationsGrid(products) {
   const show = products.slice(0, 4);
   show.forEach(p => grid.appendChild(toCard(p)));
 
-  // optional: gắn handler add-to-cart nếu bạn có hàm addToCart(slug)
+  // Attach add-to-cart handler using the unified signature addToCart(name, image, price)
   grid.querySelectorAll('.add-to-cart-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      const slug = e.currentTarget.getAttribute('data-slug');
-      if (window.addToCart) {
-        window.addToCart(slug, 1);
+      const name = btn.getAttribute('data-name') || '';
+      const image = btn.getAttribute('data-image') || '';
+      const price = parseFloat(btn.getAttribute('data-price') || '0') || 0;
+      if (typeof addToCart === 'function') {
+        addToCart(name, image, price);
+        showNotification(`${name} added to cart!`, 'success');
       } else {
-        console.info('[recommendations] addToCart missing. Clicked:', slug);
+        console.info('[recommendations] addToCart missing. Clicked:', name);
+      }
+    });
+  });
+
+  // Attach wishlist handler to add favorites from recommendations
+  grid.querySelectorAll('.wishlist-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const name = btn.getAttribute('data-name') || '';
+      const image = btn.getAttribute('data-image') || '';
+      const category = btn.getAttribute('data-category') || 'General';
+      const price = parseFloat(btn.getAttribute('data-price') || '0') || 0;
+      if (typeof addToWishlist === 'function') {
+        addToWishlist(name, image, category, price);
+        showNotification(`${name} added to favorites!`, 'success');
+      } else {
+        console.info('[recommendations] addToWishlist missing. Clicked:', name);
       }
     });
   });

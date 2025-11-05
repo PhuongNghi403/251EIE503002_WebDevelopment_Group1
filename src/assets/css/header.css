@@ -20,6 +20,24 @@
 }
 .header-actions { display: inline-flex; align-items: center; gap: 10px; }
 .icon-btn { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; cursor: pointer; }
+/* Enable count badges across all pages */
+.header-actions .icon-btn { position: relative; }
+.count-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4757;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-family: 'Lexend Deca', sans-serif;
+}
 
 /* hỗ trợ hiển thị svg logo + action icons */
 .site-header .brand .brand-mark-img {

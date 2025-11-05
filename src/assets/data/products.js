@@ -41,8 +41,8 @@ window.PRODUCTS_DATA = [
     relatedIds: ['3', '10', '11'],
     createdAt: '2025-08-01T00:00:00Z',
     reviews: [
-      { id:'r1', author:'Dianne Russell', avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?crop=faces&fit=crop&w=300&h=300', rating:4, title:'Dogs love it', text:'Âm squeak vui tai, nảy tốt.', createdAt:'2025-08-20' },
-      { id:'r2', author:'Jane Cooper', avatar:'https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?crop=faces&fit=crop&w=300&h=300', rating:5, title:'Bền', text:'Cắn nhiều vẫn ổn.', createdAt:'2025-09-02' }
+      { id:'r1', author:'Donald Trump', avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?crop=faces&fit=crop&w=300&h=300', rating:4, title:'Dogs love it', text:'Âm squeak vui tai, nảy tốt.', createdAt:'2025-08-20' },
+      { id:'r2', author:'Obama', avatar:'https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?crop=faces&fit=crop&w=300&h=300', rating:5, title:'Bền', text:'Cắn nhiều vẫn ổn.', createdAt:'2025-09-02' }
     ]
   },
   {
@@ -71,7 +71,7 @@ window.PRODUCTS_DATA = [
     relatedIds: ['1', '10', '11'],
     createdAt: '2025-08-05T00:00:00Z',
     reviews: [
-      { id:'r1', author:'Darlene Robertson', avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=faces&fit=crop&w=300&h=300', rating:5, title:'Cực đáng tiền', text:'4 cái thay phiên ném chơi đã đời.', createdAt:'2025-08-22' }
+      { id:'r1', author:'Michael Jackson', avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=faces&fit=crop&w=300&h=300', rating:5, title:'Cực đáng tiền', text:'4 cái thay phiên ném chơi đã đời.', createdAt:'2025-08-22' }
     ]
   },
   {
@@ -127,7 +127,7 @@ window.PRODUCTS_DATA = [
     relatedIds: ['5', '6', '7', '8'],
     createdAt: '2025-07-29T00:00:00Z',
     reviews: [
-      { id:'r1', author:'Dianne Russell', avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?crop=faces&fit=crop&w=300&h=300', rating:5, title:'Mèo mê', text:'Lông bóng, phân đẹp.', createdAt:'2025-08-01' }
+      { id:'r1', author:'Hieu Thu Hai', avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?crop=faces&fit=crop&w=300&h=300', rating:5, title:'Mèo mê', text:'Lông bóng, phân đẹp.', createdAt:'2025-08-01' }
     ]
   },
   {

@@ -279,17 +279,32 @@
   font-size: 14px;
   line-height: 18px;
   color: #FFFFFF;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform .15s ease;
 }
 
 .add-to-cart-btn:hover {
-  background: #3a2110;
+  background: #3a2110; transform: translateY(-1px);
 }
+.add-to-cart-btn:active{ transform:translateY(0); }
+.add-to-cart-btn:focus-visible{ outline:2px solid #E5C4FF; outline-offset:2px; }
 
 .remove-cell {
   width: 9%;
   text-align: center;
 }
+
+/* Delete button — mirrored from cart.css */
+.delete-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity .15s ease;
+}
+.delete-btn:hover{ opacity:.85; }
+.delete-btn:hover .icon-trash path{ stroke:#CC0000; }
 
 /* Remove Button */
 .remove-btn {
@@ -500,7 +515,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, transform .15s ease;
 }
+.wishlist-btn:hover{ background:#FFF4F6; border-color:#F9B8C0; transform:translateY(-1px); }
+.wishlist-btn:hover svg path{ fill:#E63946 !important; stroke:#E63946 !important; }
+.wishlist-btn:active{ transform:translateY(0); }
 
 
 .add-to-cart-btn {

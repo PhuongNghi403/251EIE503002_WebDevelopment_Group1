@@ -140,8 +140,20 @@ function renderFavoriteItems(wishlist) {
       </td>
       <td class="remove-cell">
         <button class="delete-btn" onclick="removeFromFavorites(${item.id})" aria-label="Remove favorite">
-          <svg viewBox="0 0 24 24" width="20" height="20">
-            <path fill="#FF0000" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+               xmlns="http://www.w3.org/2000/svg" class="icon-trash">
+            <!-- Lid -->
+            <path d="M3 6H21" stroke="#FF0000" stroke-width="2" stroke-linecap="round"/>
+            <path d="M8 6V4C8 3.44772 8.44772 3 9 3H15C15.5523 3 16 3.44772 16 4V6"
+                  stroke="#FF0000" stroke-width="2" stroke-linecap="round"/>
+
+            <!-- Body -->
+            <rect x="5" y="6" width="14" height="15" rx="1.5"
+                  stroke="#FF0000" stroke-width="2"/>
+
+            <!-- Inner bars -->
+            <path d="M10 10V17" stroke="#FF0000" stroke-width="2" stroke-linecap="round"/>
+            <path d="M14 10V17" stroke="#FF0000" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </button>
       </td>
