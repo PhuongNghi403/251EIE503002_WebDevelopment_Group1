@@ -1154,14 +1154,22 @@ function loadProductsFromData() {
 
       // ---- Normalize data từ products.js
       const name = p.name || '';
-      const price = Number(p.price) || 0;
-      // chấp nhận discount là 0.15 (15%) hoặc 15 (15%)
-      const discountRatio = (typeof p.discount === 'number')
+      // Đọc giá đúng từ object price { current, original }
+      const priceCurrent = Number(p.price?.current) || 0;
+      const priceOriginal = Number(p.price?.original) || 0;
+      // chấp nhận discount là 0.15 (15%) hoặc 15 (15%) nếu có
+      const hasDiscountField = (typeof p.discount === 'number');
+      const discountRatio = hasDiscountField
         ? (p.discount > 1 ? p.discount / 100 : p.discount)
         : 0;
-      const discounted = Math.max(0, price * (1 - discountRatio));
+      const discounted = hasDiscountField
+        ? Math.max(0, priceCurrent * (1 - discountRatio))
+        : priceCurrent;
 
-      const rating = typeof p.rating === 'number' ? p.rating : 0;
+      // Lấy rating trung bình nếu dữ liệu là object { avg }
+      const rating = (typeof p.rating === 'number')
+        ? p.rating
+        : (typeof p.rating?.avg === 'number' ? p.rating.avg : 0);
       const soldCount = (p.sold ?? p.sold_count ?? p.soldCount ?? 0);
       const category = p.category ?? '';
       const type = (p.type || '').toLowerCase();
@@ -1178,7 +1186,15 @@ function loadProductsFromData() {
         const currentPriceElement = cardDetails.querySelector('.current-price');
         const originalPriceElement = cardDetails.querySelector('.original-price');
         if (currentPriceElement) currentPriceElement.textContent = `$${discounted.toFixed(2)}`;
-        if (originalPriceElement && price) originalPriceElement.textContent = `$${price.toFixed(2)}`;
+        if (originalPriceElement) {
+          if (priceOriginal && priceOriginal > discounted) {
+            originalPriceElement.textContent = `$${priceOriginal.toFixed(2)}`;
+            originalPriceElement.style.display = '';
+          } else {
+            // Ẩn giá gốc nếu không có hoặc không cao hơn
+            originalPriceElement.style.display = 'none';
+          }
+        }
 
         // Rating & Sold
         const ratingElement = cardDetails.querySelector('.rating');
@@ -1200,7 +1216,7 @@ function loadProductsFromData() {
         slug: p.slug || '',
         name,
         discountedPrice: discounted,
-        originalPrice: price,
+        originalPrice: priceOriginal,
         rating,
         soldCount,
         category,
