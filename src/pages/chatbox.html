@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawfect Care — CHATBOX</title>
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/chatbox.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <script src="../assets/js/chatbox.js" defer></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300..700&family=Bagel+Fat+One&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- AI Product Assistant -->
+<div class="ai-chatbox">
+  <div class="chat-header">💬 Pawfect Assistant</div>
+  <div class="chat-body" id="chatBody">
+    <div class="bot-msg">Xin chào! Bạn muốn tìm sản phẩm cho ai nè? 🐾</div>
+    <div class="suggest-btns">
+      <button class="suggest-btn" data-type="dog">🐶 Cho chó</button>
+      <button class="suggest-btn" data-type="cat">🐱 Cho mèo</button>
+      <button class="suggest-btn" data-type="rabbit">🐰 Cho thỏ</button>
+    </div>
+  </div>
+  <div class="chat-footer">
+    <input id="chatInput" type="text" placeholder="Nhập câu hỏi của bạn..." />
+    <button id="chatSend">➤</button>
+  </div>
+</div>
+<script src="../assets/js/chatbox.js"></script>
+<script src="../assets/data/products.js"></script>
+</body>
+
+</html>

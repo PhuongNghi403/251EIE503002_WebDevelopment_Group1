@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initCartEventListeners();
   initGlobalCartListeners();
   initItemTitleNavigation();
+  initRecommendations();
+
 });
 
 function initCartPage() {
@@ -540,3 +542,168 @@ function showNotification(message, type = 'info') {
     }, 300);
   }, 3000);
 }
+/********************
+ * AI RECOMMENDATIONS
+ ********************/
+function getCurrentCartInfoFromDOM() {
+  const rows = document.querySelectorAll('.cart-table tbody tr');
+  const items = [];
+  rows.forEach(tr => {
+    const slug = tr.getAttribute('data-slug') || tr.dataset.slug || ''; // bạn set data-slug ở <tr>
+    const type = tr.getAttribute('data-type') || tr.dataset.type || '';
+    const category = tr.getAttribute('data-category') || tr.dataset.category || '';
+    const brand = tr.getAttribute('data-brand') || tr.dataset.brand || '';
+    const qty = parseInt(tr.getAttribute('data-qty') || tr.dataset.qty || '1', 10) || 1;
+    if (slug) items.push({ slug, type, category, brand, qty });
+  });
+  return items;
+}
+
+// helper: save/load lịch sử type gần nhất để fallback khi giỏ trống
+const LAST_TYPES_KEY = 'pc_last_cart_types';
+
+function saveLastTypes(typesSet) {
+  try {
+    localStorage.setItem(LAST_TYPES_KEY, JSON.stringify([...typesSet]));
+  } catch {}
+}
+
+function loadLastTypes() {
+  try {
+    const raw = localStorage.getItem(LAST_TYPES_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw) || [];
+  } catch {
+    return [];
+  }
+}
+
+// chấm điểm ứng viên theo độ liên quan
+function scoreProduct(p, signals) {
+  // signals: { types:Set, categories:Set, brands:Set, inCart:Set }
+  if (signals.inCart.has(p.slug)) return -1e9; // loại nếu đã trong giỏ
+
+  let s = 0;
+  if (signals.types.has(p.type)) s += 3;
+  if (signals.categories.has(p.category)) s += 2;
+  if (signals.brands.has(p.brand)) s += 1;
+
+  // Jitter nhỏ để tránh thứ tự cố định:
+  s += Math.random() * 0.2;
+
+  return s;
+}
+
+// chọn N món gợi ý từ PRODUCTS_DATA theo signals
+function pickRecommendations(products, signals, limit = 4) {
+  const scored = products
+    .filter(p => p && p.slug && p.name) // sanity
+    .map(p => ({ p, score: scoreProduct(p, signals) }))
+    .filter(x => x.score > -1e8);
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, limit).map(x => x.p);
+}
+
+// render theo HTML bạn đã dùng sẵn (giữ class để khớp CSS)
+function renderRecommendationsGrid(products) {
+  const grid = document.querySelector('.recommendations-grid');
+  if (!grid) return;
+
+  grid.innerHTML = '';
+
+  const toCard = (item) => {
+    const price = (typeof item.price === 'number') ? `$${item.price.toFixed(2)}` : (item.price || '$—');
+    const img = item.image || item.banner || item.thumbnail || '../assets/images/placeholder.svg';
+
+    const card = document.createElement('div');
+    card.className = 'recommendation-card';
+
+    card.innerHTML = `
+      <div class="card-image">
+        <img src="${img}" alt="${item.name}"/>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">${item.name}</h3>
+        <div class="card-actions">
+          <span class="card-price">${price}</span>
+          <div class="card-buttons">
+            <button class="wishlist-btn" aria-label="Add to Wishlist">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path fill="#6B6358" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </button>
+            <button class="add-to-cart-btn" data-slug="${item.slug || ''}">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    `;
+    return card;
+  };
+
+  // chỉ hiển thị đúng 4 card ngang như bạn yêu cầu
+  const show = products.slice(0, 4);
+  show.forEach(p => grid.appendChild(toCard(p)));
+
+  // optional: gắn handler add-to-cart nếu bạn có hàm addToCart(slug)
+  grid.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const slug = e.currentTarget.getAttribute('data-slug');
+      if (window.addToCart) {
+        window.addToCart(slug, 1);
+      } else {
+        console.info('[recommendations] addToCart missing. Clicked:', slug);
+      }
+    });
+  });
+}
+
+// main: cập nhật gợi ý
+function updateRecommendationsFromProducts(limit = 4) {
+  const all = (window.PRODUCTS_DATA || []).slice();
+  if (!all.length) {
+    console.warn('[recommendations] PRODUCTS_DATA is empty or not loaded.');
+    return;
+  }
+
+  // lấy giỏ hiện tại
+  const cartItems = getCurrentCartInfoFromDOM();
+  const inCartSlugs = new Set(cartItems.map(x => x.slug).filter(Boolean));
+
+  // tạo signals
+  let typeSet = new Set(cartItems.map(x => x.type).filter(Boolean));
+  let categorySet = new Set(cartItems.map(x => x.category).filter(Boolean));
+  let brandSet = new Set(cartItems.map(x => x.brand).filter(Boolean));
+
+  // nếu giỏ trống: dùng loại gần nhất trong lịch sử
+  if (inCartSlugs.size === 0) {
+    const lastTypes = loadLastTypes();
+    if (lastTypes.length) {
+      typeSet = new Set(lastTypes);
+    } else {
+      // fallback: nếu chưa có lịch sử, lấy 1-2 type phổ biến nhất trong PRODUCTS_DATA
+      const typeCount = {};
+      all.forEach(p => { typeCount[p.type] = (typeCount[p.type] || 0) + 1; });
+      const topTypes = Object.entries(typeCount).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]);
+      typeSet = new Set(topTypes);
+    }
+  } else {
+    // lưu loại hiện tại để lần sau giỏ trống còn biết đường recommend
+    saveLastTypes(typeSet);
+  }
+
+  const signals = {
+    types: typeSet,
+    categories: categorySet,
+    brands: brandSet,
+    inCart: inCartSlugs
+  };
+
+  const picked = pickRecommendations(all, signals, Math.max(4, limit));
+  renderRecommendationsGrid(picked);
+}
+
+// Gọi khi trang sẵn sàng
+document.addEventListener('DOMContentLoaded', () => {
+  updateRecommendationsFromProducts(8); // cho rộng tập chọn rồi render 4 card
+});
