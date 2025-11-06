@@ -1024,19 +1024,20 @@ class AIChatbot {
   constructor() {
     console.log('AIChatbot constructor called');
     
+    // Support both legacy and generic selectors to improve compatibility
     this.elements = {
-      chatBubble: document.querySelector('.chat-bubble'),
-      chatBox: document.querySelector('.ai-chatbox'),
-      closeBtn: document.querySelector('.close-btn'),
-      minimizeBtn: document.querySelector('.minimize-btn'),
-      chatInput: document.getElementById('chatInput'),
-      sendBtn: document.querySelector('.send-btn'),
-      chatBody: document.querySelector('.chat-body'),
-      cartBtn: document.querySelector('.cart-btn'),
-      miniCart: document.querySelector('.mini-cart'),
-      cartOverlay: document.querySelector('.cart-overlay'),
-      cartClose: document.querySelector('.cart-close'),
-      checkoutBtn: document.querySelector('.checkout-btn')
+      chatBubble: document.querySelector('.chat-bubble') || document.querySelector('#ai-chatbox .ai-chatbox__fab'),
+      chatBox: document.querySelector('.ai-chatbox') || document.querySelector('#ai-chatbox .ai-chatbox__panel') || document.querySelector('#ai-chatbox'),
+      closeBtn: document.querySelector('.close-btn') || document.querySelector('#ai-chatbox .ai-chatbox__close'),
+      minimizeBtn: document.querySelector('.minimize-btn') || null,
+      chatInput: document.getElementById('chatInput') || document.querySelector('#ai-chatbox-input'),
+      sendBtn: document.querySelector('.send-btn') || document.querySelector('#ai-chatbox-send'),
+      chatBody: document.querySelector('.chat-body') || document.querySelector('#ai-chatbox-messages'),
+      cartBtn: document.querySelector('.cart-btn') || null,
+      miniCart: document.querySelector('.mini-cart') || null,
+      cartOverlay: document.querySelector('.cart-overlay') || null,
+      cartClose: document.querySelector('.cart-close') || null,
+      checkoutBtn: document.querySelector('.checkout-btn') || null
     };
 
     console.log('Chat elements found:', this.elements);
@@ -1050,7 +1051,41 @@ class AIChatbot {
   init() {
     // Event listeners
     this.elements.chatBubble?.addEventListener('click', () => this.toggleChat());
-    this.elements.closeBtn?.addEventListener('click', () => this.closeChat());
+    // Bind close button(s)
+    const explicitCloseBtn = this.elements.closeBtn || document.getElementById('chat-close');
+    if (explicitCloseBtn && !explicitCloseBtn._bound) {
+      explicitCloseBtn.addEventListener('click', () => this.closeChat());
+      explicitCloseBtn._bound = true;
+    }
+
+    // Event delegation: capture any future close triggers
+    if (!document._aiChatboxCloseBound) {
+      document.addEventListener('click', (e) => {
+        const t = e.target;
+        if (!t) return;
+        if (
+          t.matches('#chat-close') ||
+          t.matches('.close-btn') ||
+          t.matches('.ai-chatbox__close') ||
+          t.matches('[data-action="close"]')
+        ) {
+          this.closeChat();
+        }
+      });
+      document._aiChatboxCloseBound = true;
+    }
+
+    // Click outside to close (when clicking on container outside the panel)
+    const container = document.getElementById('ai-chatbox');
+    if (container && !container._outsideBound) {
+      container.addEventListener('click', (ev) => {
+        const panel = container.querySelector('.ai-chatbox__panel') || container;
+        if (!panel.contains(ev.target)) {
+          this.closeChat();
+        }
+      });
+      container._outsideBound = true;
+    }
     this.elements.minimizeBtn?.addEventListener('click', () => this.toggleMinimize());
     this.elements.sendBtn?.addEventListener('click', () => this.sendMessage());
     this.elements.chatInput?.addEventListener('keypress', (e) => {
@@ -1086,15 +1121,19 @@ class AIChatbot {
   }
 
   openChat() {
+    if (!this.elements.chatBox) return;
     this.elements.chatBox.classList.remove('hidden');
-    this.elements.chatBubble.style.display = 'none';
+    this.elements.chatBox.classList.add('open');
+    if (this.elements.chatBubble) this.elements.chatBubble.style.display = 'none';
     this.isOpen = true;
     this.elements.chatInput?.focus();
   }
 
   closeChat() {
+    if (!this.elements.chatBox) return;
     this.elements.chatBox.classList.add('hidden');
-    this.elements.chatBubble.style.display = 'flex';
+    this.elements.chatBox.classList.remove('open');
+    if (this.elements.chatBubble) this.elements.chatBubble.style.display = 'flex';
     this.isOpen = false;
   }
 
@@ -1149,7 +1188,7 @@ class AIChatbot {
     cardDiv.innerHTML = `
       <div class="msg-avatar">🐾</div>
       <div class="msg-content">
-        <div class="product-card">
+        <div class="product-card-chat">
           <div class="product-card-header">
             <img src="${product.thumbnail}" alt="${product.name}" class="product-image">
             <div class="product-info">
@@ -1202,15 +1241,48 @@ class AIChatbot {
   }
 
   addToCart(product) {
-    // Create a simplified product object for cart
-    const cartProduct = {
-      id: product.id,
-      name: product.name,
-      price: product.price.current,
-      image: product.thumbnail
-    };
-    cartManager.addItem(cartProduct);
-    this.addBotMessage(`Great choice! I've added ${product.name} to your cart. 🛒`);
+    const name = product.name;
+    const image = product.thumbnail || (product.images && product.images[0]) || '';
+    const price = (product.price && (product.price.current ?? product.price)) || 0;
+
+    // Use site's global addToCart signature so header badge updates
+    if (typeof window.addToCart === 'function') {
+      try {
+        window.addToCart(name, image, price);
+        // Fire global update event to ensure header refreshes
+        window.dispatchEvent(new CustomEvent('cartCountUpdated', { detail: {} }));
+        this.addBotMessage(`Great choice! I've added ${name} to your cart. 🛒`);
+        return;
+      } catch (e) {
+        console.warn('window.addToCart failed, fallback next', e);
+      }
+    }
+
+    // Fallback: try site Cart API if exists
+    if (window.Cart && typeof window.Cart.addItem === 'function') {
+      try {
+        window.Cart.addItem({ id: product.id, slug: product.slug, name, price, qty: 1, thumbnail: image });
+        window.dispatchEvent(new CustomEvent('cartCountUpdated', { detail: {} }));
+        this.addBotMessage(`Great choice! I've added ${name} to your cart. 🛒`);
+        return;
+      } catch (e) {
+        console.warn('window.Cart.addItem failed, fallback next', e);
+      }
+    }
+
+    // Fallback: localStorage 'cart' used by header scripts
+    try {
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const existed = cart.find(x => x.name === name);
+      if (existed) existed.quantity += 1;
+      else cart.push({ id: Date.now(), name, image, price, quantity: 1 });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      window.dispatchEvent(new CustomEvent('cartCountUpdated', { detail: {} }));
+      this.addBotMessage(`Great choice! I've added ${name} to your cart. 🛒`);
+    } catch (e) {
+      console.error('Fallback localStorage add failed', e);
+      this.addBotMessage('Sorry, could not add to cart right now.');
+    }
   }
 
   async sendMessage() {
@@ -1516,6 +1588,7 @@ class AIChatbot {
     if (advice && advice.title && advice.content) {
       this.addBotMessage(`**${advice.title}**\n\n${advice.content}`);
       this.addBotMessage("Is there anything specific about this topic you'd like to know more about?");
+      return;
     } else {
       // Provide comprehensive general advice
       const generalAdvice = `**Comprehensive Pet Care Guide** 🐾\n\n` +
@@ -1638,9 +1711,12 @@ class AIChatbot {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          contents: [{
-            parts: [{ text: prompt }]
-          }]
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: prompt }]
+            }
+          ]
         })
       });
 
@@ -1663,14 +1739,41 @@ class AIChatbot {
     }
   }
 
-  buildGeminiPrompt(message) {
-    return `You are a helpful pet shop assistant. The user asked: "${message}"
+    buildGeminiPrompt(message) {
+    // Summarize the knowledge base to give the AI context about its capabilities.
+    const knowledgeSummary = Object.keys(PET_CARE_ADVICE).map(animal => {
+        if (animal === 'general') return 'general pet care tips (daily, seasonal, emergency, bonding)';
+        const topics = Object.keys(PET_CARE_ADVICE[animal]);
+        return `${animal}s (${topics.join(', ')})`;
+    }).join('; ');
 
-Please provide a helpful response. If they're asking about products, suggest relevant pet products. If they're asking for advice, provide helpful pet care tips. Keep your response friendly and concise.
+    return `You are a friendly and helpful AI assistant for an online pet shop called "PetPal". Your goal is to assist users with their pet-related questions, whether they are looking for products or need care advice.
 
-Available product categories: food, toys, grooming, treats, beds for dogs, cats, rabbits, birds, and fish.
+The user's message is: "${message}"
 
-If suggesting products, mention that you can show them specific items with prices and let them add to cart.`;
+**Your Capabilities & Knowledge Base:**
+
+You have access to a comprehensive knowledge base covering the following topics:
+- ${knowledgeSummary}
+
+You can also search for products in these categories: food, toys, grooming, treats, beds, health, accessories.
+
+**Response Guidelines:**
+
+1.  **Analyze the User's Intent:**
+    *   If the user is asking for specific advice that is likely in your knowledge base (e.g., "how to groom a cat", "dog feeding schedule"), provide a detailed and helpful answer based on that knowledge.
+    *   If the user is asking for product recommendations (e.g., "best food for puppies", "toys for cats under $20"), state that you can find products for them and ask for clarifying details if needed (like pet type, age, price range).
+    *   For general conversation or questions outside your knowledge base (e.g., "is my dog happy?", "can you tell me a pet joke?"), answer in a friendly, conversational, and safe manner.
+
+2.  **Be Conversational:** Start with a friendly tone. Use emojis where appropriate to seem more engaging (e.g., 🐾, 🐕, 🐈).
+
+3.  **Keep it Concise:** Provide a clear and direct answer. If the topic is complex, give a summary and offer to provide more details.
+
+4.  **Promote In-App Actions:** Gently guide users towards actions they can take within the chat. For example:
+    *   Instead of just listing advice, say "I have some great tips on that. Here's a summary..."
+    *   Instead of saying "we have dog food", say "I can show you our top-rated dog foods and you can add them directly to your cart. What are you looking for?"
+
+Based on these guidelines, please generate a helpful and friendly response to the user's message.`;
   }
 
   checkout() {
@@ -1737,3 +1840,4 @@ document.addEventListener('DOMContentLoaded', () => {
   
   initializeChatbot();
 });
+

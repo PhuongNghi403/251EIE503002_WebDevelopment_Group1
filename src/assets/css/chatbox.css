@@ -298,7 +298,7 @@
 }
 
 /* Product Cards */
-.product-card {
+.product-card-chat {
   background: white;
   border-radius: 12px;
   padding: 16px;
@@ -328,7 +328,7 @@
   margin: 0 0 4px 0;
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: #ffffff;
 }
 
 .product-price {
@@ -890,7 +890,7 @@
     font-size: 12px;
   }
   
-  .product-card,
+  .product-card-chat,
   .advice-card {
     max-width: 100%;
   }
@@ -936,7 +936,7 @@
     background: #4d2b12;
   }
   
-  .product-card,
+  .product-card-chat,
   .advice-card {
     background: #2d2d2d;
     border-color: #404040;

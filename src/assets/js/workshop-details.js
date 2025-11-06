@@ -1,4 +1,3 @@
-<script>
 
 function getQueryParam(key) {
   const url = new URL(window.location.href);
@@ -156,5 +155,136 @@ function populateWorkshopDetail() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", populateWorkshopDetail);
-</script>
+// ----- Registration modal & logic -----
+function isPastISO(iso) {
+  if (!iso) return false;
+  const end = new Date(iso); end.setHours(23,59,59,999);
+  return new Date() > end;
+}
+
+function ensureRegisterModal() {
+  if (document.getElementById('ws-register-modal')) return;
+  const html = `
+  <div id="ws-register-modal" class="ws-modal" aria-hidden="true" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:9999;background:rgba(0,0,0,.5)">
+    <div class="ws-modal-dialog" role="dialog" aria-modal="true" style="background:#fff;border-radius:12px;max-width:520px;width:92%;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.2)">
+      <div class="ws-modal-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <h3 style="margin:0;font-size:18px">Register for event</h3>
+        <button type="button" class="ws-modal-close" aria-label="Close" style="border:none;background:transparent;font-size:20px">×</button>
+      </div>
+      <form id="ws-register-form" style="display:grid;gap:10px">
+        <div>
+          <label style="display:block;font-size:13px;margin-bottom:4px">Full name</label>
+          <input name="name" type="text" placeholder="Your name" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px" />
+        </div>
+        <div>
+          <label style="display:block;font-size:13px;margin-bottom:4px">Email</label>
+          <input name="email" type="email" placeholder="you@example.com" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px" />
+        </div>
+        <div>
+          <label style="display:block;font-size:13px;margin-bottom:4px">Phone</label>
+          <input name="phone" type="tel" placeholder="090..." required pattern="[0-9 +()-]{8,}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px" />
+        </div>
+        <div>
+          <label style="display:block;font-size:13px;margin-bottom:4px">Participants</label>
+          <input name="qty" type="number" min="1" max="10" value="1" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px" />
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+          <button type="button" class="ws-cancel" style="padding:10px 14px;border:1px solid #ddd;border-radius:8px;background:#fff;cursor:pointer">Cancel</button>
+          <button type="submit" class="ws-submit" style="padding:10px 14px;border:none;border-radius:8px;background:#ff3e81;color:#fff;font-weight:600;cursor:pointer">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+
+  const modal = document.getElementById('ws-register-modal');
+  const closeBtn = modal.querySelector('.ws-modal-close');
+  const cancelBtn = modal.querySelector('.ws-cancel');
+  const onClose = () => { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); };
+  closeBtn.addEventListener('click', onClose);
+  cancelBtn.addEventListener('click', onClose);
+  modal.addEventListener('click', (e) => { if (e.target === modal) onClose(); });
+}
+
+function openRegisterModal(ev) {
+  ensureRegisterModal();
+  const modal = document.getElementById('ws-register-modal');
+  modal.style.display = 'flex';
+  modal.setAttribute('aria-hidden','false');
+
+  const form = modal.querySelector('#ws-register-form');
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const name = (fd.get('name') || '').toString().trim();
+    const email = (fd.get('email') || '').toString().trim();
+    const phone = (fd.get('phone') || '').toString().trim();
+    const qty = Math.max(1, parseInt(fd.get('qty') || '1', 10));
+    if (!name || !email || !phone) {
+      alert('Vui lòng điền đầy đủ thông tin');
+      return;
+    }
+    try {
+      const key = 'workshop_registrations';
+      const list = JSON.parse(localStorage.getItem(key) || '[]');
+      list.push({ eventId: ev.id, name, email, phone, qty, registeredAt: new Date().toISOString(), title: ev.title });
+      localStorage.setItem(key, JSON.stringify(list));
+      alert('Đăng ký thành công! Hẹn gặp bạn tại sự kiện.');
+      // mark UI
+      const btn = document.getElementById('ws-register');
+      if (btn) { btn.textContent = 'Registered'; btn.disabled = true; btn.setAttribute('aria-disabled','true'); btn.dataset.status='registered'; }
+    } catch (err) {
+      console.error(err);
+      alert('Không thể lưu đăng ký. Vui lòng thử lại.');
+    }
+    // close
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden','true');
+  };
+}
+
+function attachRegisterHandler() {
+  const id = getQueryParam('id');
+  const ev = getCampaignById(id);
+  const registerBtn = document.getElementById('ws-register');
+  if (!registerBtn) return;
+
+  // if past -> keep disabled from populate; else enable and bind
+  if (!ev || ev.status === 'past' || isPastISO(ev?.dateISO)) {
+    registerBtn.disabled = true;
+    registerBtn.setAttribute('aria-disabled','true');
+    registerBtn.dataset.status = 'past';
+    return;
+  }
+  registerBtn.removeAttribute('aria-disabled');
+  registerBtn.disabled = false;
+  registerBtn.dataset.status = 'upcoming';
+
+  // if already registered in localStorage, mark and disable
+  try {
+    const reg = JSON.parse(localStorage.getItem('workshop_registrations') || '[]');
+    const me = reg.find(r => String(r.eventId) === String(ev.id));
+    if (me) {
+      registerBtn.textContent = 'Registered';
+      registerBtn.disabled = true;
+      registerBtn.setAttribute('aria-disabled','true');
+      registerBtn.dataset.status = 'registered';
+      return;
+    }
+  } catch {}
+
+  registerBtn.addEventListener('click', () => openRegisterModal(ev));
+}
+
+// Helper để community có thể set data rồi điều hướng sang detail
+window.navigateToWorkshopDetail = function (campaignsList, id) {
+  try { sessionStorage.setItem('CAMPAIGNS_DATA', JSON.stringify(campaignsList || [])); } catch {}
+  const base = '/src/pages/workshop_detail.html';
+  window.location.href = `${base}?id=${encodeURIComponent(id)}`;
+};
+
+document.addEventListener("DOMContentLoaded", function(){
+  populateWorkshopDetail();
+  attachRegisterHandler();
+});
+
