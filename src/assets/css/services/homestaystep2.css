@@ -1,69 +1,70 @@
 /* ==========================================================================
-   GHI ĐÈ LAYOUT (CENTER VÀ LÀM TO FORM)
+   LAYOUT STEP 2 (GHI ĐÈ STEP 1)
    ========================================================================== */
 
 .booking-layout {
-  /* Bỏ 2 cột, chỉ dùng 1 cột */
-  grid-template-columns: 1fr;
-  justify-content: center; /* Căn giữa grid */
+  display: grid;
+  grid-template-columns: 1fr; /* Mặc định 1 cột */
+  gap: 24px;
+  align-items: start;
+}
+
+/* Áp dụng 2 cột khi màn hình đủ lớn */
+@media (min-width: 980px) {
+  .booking-layout {
+    grid-template-columns: 1fr 360px; /* Cột form | Cột sidebar */
+  }
 }
 
 .main-content-col {
-  /* Đặt chiều rộng tối đa cho form và căn giữa */
-  max-width: 800px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-/* Ẩn sidebar (nếu nó vẫn còn trong CSS file step 1) */
-.summary-card {
-  display: none !important;
+  /* Cột trái chứa các form */
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Khoảng cách giữa các card form */
 }
 
 /* ==========================================================================
-   STYLES CHO FORM
+   STYLES CHO FORM (PET, CONTACT, PAYMENT)
    ========================================================================== */
 
-/* Sửa khoảng cách chung cho các form sections */
 .form-section {
   border: none;
   display: flex;
   flex-direction: column;
-  gap: 28px; /* Khoảng cách giữa các nhóm form-group hoặc form-grid */
+  gap: 24px; /* Khoảng cách giữa các nhóm field */
 }
 
 .booking-form {
-  padding: 32px 40px; /* Tăng padding 1 chút */
+  padding: 32px 40px;
   display: flex;
   flex-direction: column;
-  gap: 0; /* Xóa gap của form, để fieldset/title tự quản lý */
+  gap: 0;
 }
 
 .form-section-title {
   font-size: 1.5rem; /* 24px */
+  font-family: 'Bagel Fat One', cursive; /* Đảm bảo font */
   font-weight: 700;
   color: #3b2a1f;
-  margin-bottom: 28px; /* Khoảng cách DƯỚI tiêu đề */
+  margin-bottom: 24px;
 }
 
-/* Thêm khoảng cách TRÊN tiêu đề (trừ cái đầu tiên) */
 .form-section-title:not(:first-child) {
   margin-top: 32px;
 }
 
-/* THÊM MỚI: Style cho tiêu đề phụ (Payment Details) */
 h3.form-section-title-sub {
   font-size: 1.5rem; /* 24px */
+  font-family: 'Bagel Fat One', cursive;
   font-weight: 700;
   color: #3b2a1f;
-  margin-bottom: 0; /* Đặt margin-bottom 0 để gap của card quản lý */
+  margin-bottom: 0; 
 }
-
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px 24px; /* Giữ gap ngang 24px, gap dọc 28px */
+  gap: 24px 24px; /* Dọc 24px, Ngang 24px */
 }
 
 .form-group {
@@ -83,6 +84,7 @@ h3.form-section-title-sub {
 .form-group label {
   font-weight: 600;
   color: #5a3d2b;
+  font-family: 'Inter', sans-serif;
 }
 
 .form-group .required {
@@ -93,6 +95,7 @@ h3.form-section-title-sub {
 .form-group input[type="email"],
 .form-group input[type="tel"],
 .form-group input[type="number"],
+.form-group input[type="password"],
 .form-group select,
 .form-group textarea {
   width: 100%;
@@ -104,7 +107,46 @@ h3.form-section-title-sub {
   font-size: 1rem;
   color: #3b2a1f;
   transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box; /* Quan trọng */
 }
+
+/* Bọc input và icon con mắt */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-with-icon input {
+  /* Input chiếm 100% */
+  flex: 1;
+  /* Thêm padding bên phải để chừa chỗ cho icon */
+  padding-right: 45px !important; 
+}
+.input-with-icon .icon-btn {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  background: transparent;
+  border: none;
+  color: #7a5b48;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.input-with-icon .icon-btn:hover {
+  background-color: #f3ebe4;
+  border-radius: 50%;
+}
+.input-with-icon .icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
@@ -117,6 +159,12 @@ h3.form-section-title-sub {
   outline: none;
   border-color: #7a5b48;
   box-shadow: 0 0 0 3px rgba(122, 91, 72, 0.1);
+}
+
+.form-group input:disabled {
+  background-color: #F5F5F5;
+  color: #777;
+  cursor: not-allowed;
 }
 
 .form-group textarea {
@@ -151,18 +199,15 @@ h3.form-section-title-sub {
    PAYMENT METHOD STYLES
    ========================================================================== */
 
-/* Payment tabs: đồng bộ hiệu ứng chọn, icon có nền */
 .payment-tabs {
   display: flex;
   gap: 16px;
-  margin-bottom: 24px;
   position: relative;
-  --sep-gap: 18px;              /* khoảng cách đều trên/dưới đường kẻ */
+  --sep-gap: 18px;
   padding-bottom: var(--sep-gap);
   margin-bottom: var(--sep-gap);
-  flex-wrap: nowrap;            /* tránh wrap khiến ::after bị lệch */
+  flex-wrap: nowrap;
 }
-
 
 .payment-tab {
   flex: 1;
@@ -175,8 +220,8 @@ h3.form-section-title-sub {
   cursor: pointer;
   background-color: #FCFAFA;
   transition: all 0.2s;
-  position: relative; /* Cho chấm tròn */
-  padding-left: 56px;           /* chừa khoảng cho chấm radio bên trái */
+  position: relative;
+  padding-left: 56px;
 }
 
 .payment-tab input[type="radio"] {
@@ -186,80 +231,62 @@ h3.form-section-title-sub {
   height: 0;
 }
 
-/* Chấm tròn radio (Unselected) */
 .payment-tab::before {
   content: '';
   position: absolute;
   left: 20px;
   top: 50%;
   transform: translateY(-50%);
-  width: 18px;  /* Size gốc */
-  height: 18px; /* Size gốc */
+  width: 18px;
+  height: 18px;
   border: 2px solid #D1C7BC;
   border-radius: 50%;
   background-color: #fff;
-  transition: all 0.2s; /* Thêm transition */
+  transition: all 0.2s;
 }
-
-/* Chấm tròn radio (Selected) - Viền ngoài */
 .payment-tab:has(input:checked)::before {
-  border-color: #7a5b48; /* Đổi màu viền */
+  border-color: #7a5b48;
 }
-
-/* THÊM MỚI: Chấm nâu bên trong (Selected) */
 .payment-tab::after {
   content: '';
   position: absolute;
-  left: 27px; /* 20px (left) + 2px (border) + 5px (padding) = 27px */
+  left: 27px; 
   top: 50%;
-  transform: translateY(-50%) scale(0); /* Ẩn đi */
-  width: 10px;  /* Size của chấm bên trong */
-  height: 10px; /* Size của chấm bên trong */
+  transform: translateY(-50%) scale(0);
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-color: #7a5b48;
   transition: all 0.2s;
 }
-
 .payment-tab:has(input:checked)::after {
-   transform: translateY(-50%) scale(1); /* Hiện ra */
+   transform: translateY(-50%) scale(1);
 }
-
 
 .payment-tab .tab-icon {
   width: 40px;
   height: 40px;
   object-fit: contain;
-  padding: 8px;                 /* tạo khoảng để nền hiện rõ */
-  border-radius: 12px;          /* bo góc nền icon */
+  padding: 8px;
+  border-radius: 12px;
 }
-/* Card: nền xanh nhạt */
 .payment-tab:has(input[value="card"]) .tab-icon {
-  background-color: #dbe7ff;    /* xanh nhạt */
+  background-color: #dbe7ff;
 }
-/* QR: nền xanh lá nhạt */
 .payment-tab:has(input[value="qr"]) .tab-icon {
-  background-color: #dff1df;    /* xanh lá nhạt */
+  background-color: #dff1df;
 }
 
-/* Hiệu ứng khi chọn: viền, nền, shadow, icon nền đậm hơn */
 .payment-tab:has(input:checked) {
   border-color: #7a5b48;
   background-color: #F7F2EC;
   box-shadow: 0 6px 16px rgba(122, 91, 72, 0.15);
 }
-/* chấm radio khi chọn đã có hiệu ứng, giữ nguyên */
-.payment-tab:has(input:checked)::before {
-  border-color: #7a5b48;
-  background-color: #7a5b48;
-  box-shadow: 0 0 0 3px #fff, 0 0 0 5px #7a5b48; /* Hiệu ứng viền kép */
-}
-
 
 .payment-tab .tab-info {
   display: flex;
   flex-direction: column;
 }
-
 .payment-tab .tab-info strong {
   color: #3b2a1f;
   font-weight: 600;
@@ -269,25 +296,11 @@ h3.form-section-title-sub {
   color: #7a5b48;
 }
 
-.payment-tab:hover {
+.payment-tab:hover:not(:has(input:checked)) {
   background-color: #F7F2EC;
-  /* Thêm: Chỉ đổi màu viền khi hover, không thêm shadow */
   border-color: #D1C7BC;
 }
-/* Chỉ áp dụng style active cho tab ĐƯỢC CHỌN */
-.payment-tab:has(input:checked) {
-  border-color: #7a5b48;
-  background-color: #fff;
-  box-shadow: 0 4px 12px rgba(97, 70, 57, 0.08);
-}
 
-/* Payment tabs: chiếm toàn bộ chiều rộng form */
-.payment-tabs {
-  width: 100%;
-}
-
-/* Đường kẻ ngang đứt nét dưới phần Payment Method (giống ảnh) */
-/* Đường kẻ nét đứt dưới payment tabs */
 .payment-tabs::after {
   content: '';
   position: absolute;
@@ -297,13 +310,19 @@ h3.form-section-title-sub {
   border-top: 2px dashed #D1C7BC;
   opacity: 0.9;
 }
-/* Ẩn đường kẻ khi chọn QR */
 .payment-tabs.hide-separator::after {
   content: none;
 }
-/* Ẩn cứng danh sách thẻ và nút Add khi chọn QR Code */
-#booking-step2-form.qr-selected .saved-cards-list,
-#booking-step2-form.qr-selected .add-new-card-btn { display: none !important; }
+
+.saved-cards-list {
+  list-style: none;
+  display: flex; /* Sửa: JS sẽ đổi thành 'none' */
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  margin: 18px 0 24px;
+  width: 100%;
+}
 
 .saved-card {
   display: flex;
@@ -314,13 +333,17 @@ h3.form-section-title-sub {
   border-radius: 16px;
   background-color: #FCFAFA;
   transition: all 0.2s;
-  width: 100%;                /* full-width theo form */
-  box-sizing: border-box;     /* tính cả padding/border trong width */
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 .saved-card.active {
   border-color: #7a5b48;
   background-color: #fff;
   box-shadow: 0 4px 12px rgba(97, 70, 57, 0.08);
+}
+.saved-card:hover {
+  background-color: #F7F2EC;
 }
 
 .saved-card .card-logo {
@@ -328,7 +351,6 @@ h3.form-section-title-sub {
   height: auto;
   border-radius: 4px;
 }
-
 .saved-card .card-info {
   flex: 1;
   display: flex;
@@ -344,121 +366,360 @@ h3.form-section-title-sub {
   color: #7a5b48;
 }
 
-/* Nút Edit: là button thực sự, bỏ nền ô vuông phía sau */
+/* Nút Edit/Delete trong thẻ đã lưu */
+.saved-card .card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
 .saved-card .edit-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-left: auto;           /* đẩy nút sang phải */
   height: 40px;
-  min-width: 96px;
-  padding: 0 18px;
+  min-width: 80px;
+  padding: 0 14px;
   color: #7a5b48;
   background-color: #fff;
-  border: 1.5px solid #E9DFD7; /* viền nhẹ, không “bold” */
+  border: 1.5px solid #E9DFD7;
   border-radius: 12px;
-  box-shadow: none;            /* bỏ mọi bóng gây cảm giác ô vuông */
-  position: static;            /* tránh overlay do position */
   font-weight: 600;
   cursor: pointer;
 }
-
-/* Xoá mọi pseudo-element tạo ô vuông phía sau (nếu có từ global CSS) */
-.saved-card .edit-btn::before,
-.saved-card .edit-btn::after {
-  content: none !important;
-}
-
-/* Trạng thái hover/focus đồng bộ, nhẹ nhàng */
 .saved-card .edit-btn:hover {
   background-color: #f7f2ec;
   border-color: #D1C7BC;
 }
-.saved-card .edit-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(209, 199, 188, 0.35);
+
+/* Nút Xóa (Mới) */
+.saved-card .delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #DC143C; /* Màu đỏ */
+  background-color: #FFF8F8;
+  border: 1.5px solid #FADADD;
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+.saved-card .delete-btn:hover {
+  background-color: #FBE5E7;
+  border-color: #F5BCC0;
+}
+.saved-card .delete-btn svg {
+  width: 20px;
+  height: 20px;
 }
 
+
 .add-new-card-btn {
-  display: block;             /* khớp lề với nội dung form */
+  display: block; /* Sửa: JS sẽ đổi thành 'none' */
   width: 100%;
   padding: 14px;
   border: 2px dashed #D1C7BC;
   border-radius: 12px;
-  box-sizing: border-box;     /* không vượt quá lề của form */
+  box-sizing: border-box;
+  background-color: #F7F2EC;
+  color: #7a5b48;
+  font-weight: 600;
+  cursor: pointer;
 }
 .add-new-card-btn:hover {
-  background-color: #F7F2EC;
+  background-color: #F3EBE4;
   border-color: #b8956a;
 }
 
-/* Thẻ Payment Details (thẻ riêng) */
+/* Thẻ Payment Details (Form nhập liệu) */
 .payment-details-card {
   margin-top: 16px;
-  padding: 32px 40px; /* Thêm padding giống như các form khác */
-  display: flex;
+  padding: 32px 40px;
+  display: none; /* Ẩn ban đầu, JS sẽ đổi thành 'flex' */
   flex-direction: column;
-  gap: 24px; /* Thêm khoảng cách giữa các trường */
+  gap: 24px;
+  border: 1px solid #E9DFD7;
+  border-radius: 16px;
+  background-color: #FCFAFA;
 }
-/* THÊM MỚI: Tinh chỉnh lại gap cho grid Expiry/CVV */
 .payment-details-card .form-grid {
-  gap: 16px 24px; /* Giảm gap dọc xuống 16px */
+  gap: 16px 24px;
+}
+
+/* Nút Done/Cancel trong Form Payment Details */
+.payment-form-actions {
+  display: flex;
+  justify-content: flex-end; /* Căn phải */
+  gap: 12px;
+  margin-top: 16px;
+  border-top: 1px solid #E9DFD7;
+  padding-top: 20px;
+}
+
+.btn-cancel {
+  padding: 10px 20px;
+  font-weight: 600;
+  color: #7a5b48;
+  background-color: #F7F2EC;
+  border: 1px solid #E9DFD7;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.btn-cancel:hover {
+  background-color: #E9DFD7;
+}
+
+.btn-done {
+  padding: 10px 20px;
+  font-weight: 600;
+  color: white;
+  background-color: #7a5b48; /* Màu nâu chính */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.btn-done:hover {
+  background-color: #5a3d2b;
 }
 
 
 /* Nút điều hướng dưới cùng */
 .form-navigation {
   display: flex;
-  justify-content: flex-end; /* SỬA TẠI ĐÂY: Đẩy nút Continue sang phải */
+  justify-content: flex-end; /* Đẩy nút Continue sang phải */
   align-items: center;
-  padding: 0 16px;
-  margin-top: 24px;
+  margin-top: 32px;
 }
 
-.form-navigation .back-link-bottom {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #7a5b48;
-  text-decoration: none;
-  font-weight: 600;
-  margin-bottom: 0;
-}
-
-.form-navigation .back-link-bottom .icon {
-  width: 18px;
-  height: 18px;
-}
-
-/* Lấy style từ .btn.primary của file homestaystep1.css */
 .form-navigation .btn.primary {
-  padding: 12px 24px;
-  background: #7a5b48; /* Dùng màu nâu đậm */
+  padding: 14px 28px;
+  background: #4D2B12; /* Nâu đậm */
   color: #fff;
-  box-shadow: 0 10px 22px rgba(122, 91, 72, 0.35);
+  box-shadow: 0 10px 22px rgba(77, 43, 18, 0.25);
+  font-size: 1rem;
 }
 .form-navigation .btn.primary:hover {
-  background: #5a3d2b;
+  background: #3a1f0d;
 }
 
-/* Xóa style của sidebar (nếu có) */
-.summary-card .btn.pay-now {
-  display: none;
+/* ==========================================================================
+   SIDEBAR (ORDER SUMMARY)
+   ========================================================================== */
+
+/* Card Order Summary bên phải */
+.order-summary-card {
+  position: sticky;
+  top: 20px;
+  padding: 24px;
+  border: 1px solid #eee3da;
+  border-radius: 24px; /* Bo góc 24px cho đồng bộ */
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(122, 91, 72, 0.08);
+  /* Đảm bảo nó hiển thị */
+  display: block !important; 
+}
+.order-summary-title {
+  font-family: 'Bagel Fat One', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #3b2a1f;
+  margin: 0 0 16px 0;
 }
 
-/* Đường kẻ ngang đứt giữa 2 thẻ Visa (vẽ trong khoảng gap) */
-.saved-cards-list .saved-card + .saved-card::before {
-  content: '';
-  position: absolute;
+.order-summary-rows { 
+  display: grid; 
+  row-gap: 12px; 
+}
+.order-summary-rows .row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 12px;
+  align-items: center;
+}
+.order-summary-rows .label {
+  font-size: 15px;
+  color: #6b4f3d; /* Nâu nhạt hơn */
+}
+.order-summary-rows .value {
+  font-size: 15px;
+  color: #3b2a1f; /* Nâu đậm */
+  font-weight: 600;
+}
+.order-summary-rows .value.strong { 
+  font-weight: 700; 
+}
+.order-summary-rows .discount .label,
+.order-summary-rows .discount .value { 
+  color: #2E8B57; 
+  font-weight: 600;
+}
+
+.summary-divider {
+  border: none;
+  border-top: 1.5px solid #E9DFD7;
+  margin: 12px 0;
+}
+
+.order-summary-rows .total {
+  margin-top: 4px;
+}
+.order-summary-rows .total .label,
+.order-summary-rows .total .value {
+  font-weight: 700;
+  font-size: 18px;
+  color: #3b2a1f;
+}
+.order-summary-rows .total .value {
+  font-size: 20px;
+}
+
+/* Nút PROCEED TO PAY */
+.proceed-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px 24px;
+  background: #4D2B12; /* Nâu đậm */
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.4px;
+  box-shadow: 0 12px 28px rgba(77, 43, 18, 0.25);
+  cursor: pointer;
+}
+.proceed-btn:hover { 
+  background: #3a1f0d;
+}
+
+/* Accordion (Dropdowns trong sidebar) */
+.summary-accordion {
+  border: 1px solid #eee3da;
+  border-radius: 16px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+.summary-accordion .accordion-header {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  cursor: pointer;
+  color: #3b2a1f;
+  font-weight: 600;
+}
+.summary-accordion .count { 
+  color: #9a8576; 
+  font-weight: 500; 
+  font-size: 0.9rem;
+}
+.summary-accordion .chevron { 
+  width: 18px; 
+  height: 18px; 
+  color: #7a5b48;
+  transition: transform 0.2s ease;
+}
+/* Xoay mũi tên khi mở */
+.summary-accordion[open] .chevron {
+  transform: rotate(180deg);
+}
+.summary-accordion .accordion-body { 
+  padding: 0 16px 16px 16px; 
+}
+.summary-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+}
+.summary-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed #E8E3DD;
+  font-size: 0.9rem;
+}
+.summary-item:last-child { border-bottom: none; }
+.summary-item .item-name { flex: 1; color: #3b2a1f; font-weight: 500; }
+.summary-item .item-qty { color: #7a5b48; font-weight: 600; }
+.summary-item .item-price { text-align: right; font-weight: 600; color: #4D2B12; }
+.summary-item-none {
+  color: #9a8576; 
+  font-size: 0.9em; 
+  padding: 8px 0;
+}
+
+/* Modal Xác nhận (Mới) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
   left: 0;
-  right: 0;
-  top: -10px;                         /* nằm giữa khoảng gap 16px */
-  border-top: 2px dashed #D1C7BC;     /* nâu nhạt, nét đứt dày */
-  opacity: 0.9;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.modal-box {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+}
+.modal-box h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #3b2a1f;
+  margin: 0 0 12px 0;
+}
+.modal-box p {
+  font-size: 1rem;
+  color: #5a3d2b;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+.modal-actions .btn-cancel,
+.modal-actions .btn-confirm {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.modal-actions .btn-cancel {
+  background-color: #E9DFD7;
+  color: #7a5b48;
+}
+.modal-actions .btn-cancel:hover {
+  background-color: #D1C7BC;
+}
+.modal-actions .btn-confirm {
+  background-color: #DC143C; /* Màu đỏ (xóa) */
+  color: white;
+}
+.modal-actions .btn-confirm[data-action="edit"] {
+  background-color: #7a5b48; /* Màu nâu (edit) */
+}
+.modal-actions .btn-confirm:hover {
+  filter: brightness(0.9);
 }
 
-/* Ẩn toàn bộ danh sách thẻ và nút Add khi chọn QR */
-#booking-step2-form.qr-selected .saved-cards-list,
-#booking-step2-form.qr-selected .add-new-card-btn {
-  display: none !important;
-}

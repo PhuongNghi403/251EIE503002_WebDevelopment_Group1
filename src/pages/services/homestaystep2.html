@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pawfect Care</title>
+  <title>Pawfect Care - Booking Step 2</title>
   
   <link rel="stylesheet" href="../../assets/css/base.css" />
   <link rel="stylesheet" href="../../assets/css/header.css" />
@@ -14,10 +14,11 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
-<body data-page="services">
+<body data-page="homestayboarding">
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="../../index.html">
@@ -72,14 +73,16 @@
       </div>
 
       <div class="booking-layout">
+        
         <div class="main-content-col">
           <h2 class="form-section-title bagel-fat-one-regular">Pet Information</h2>
-          <form class="card booking-form" id="booking-step2-form">
+          <form class="card booking-form" id="booking-step2-form-pet">
             <fieldset class="form-section">
               <div class="form-grid">
                 <div class="form-group">
                   <label for="pet-name">Pet Name <span class="required">*</span></label>
                   <input type="text" id="pet-name" name="pet-name" placeholder="Enter your pet's name" required>
+                  <div class="error-message">Please fill in the information</div>
                 </div>
                 <div class="form-group">
                   <label for="pet-type">Pet Type <span class="required">*</span></label>
@@ -89,6 +92,7 @@
                     <option value="cat">Cat</option>
                     <option value="other">Other</option>
                   </select>
+                  <div class="error-message">Please fill in the information</div>
                 </div>
               </div>
               <div class="form-group inline-group">
@@ -108,28 +112,32 @@
               <div class="form-group">
                 <label for="emergency-contact">Emergency Contact <span class="required">*</span></label>
                 <input type="tel" id="emergency-contact" name="emergency-contact" placeholder="+84 123 456 789" required>
+                <div class="error-message">Please fill in the information</div>
               </div>
             </fieldset>
-            </form>
+          </form>
         
           <h2 class="form-section-title bagel-fat-one-regular">Contact Information</h2>  
-          <form class="card booking-form" id="booking-step2-form">
+          <form class="card booking-form" id="booking-step2-form-contact">
             <fieldset class="form-section">
               <div class="form-grid">
                 <div class="form-group">
                   <label for="owner-name">Owner's Name <span class="required">*</span></label>
                   <input type="text" id="owner-name" name="owner-name" placeholder="Enter your pet's name" required>
+                  <div class="error-message">Please fill in the information</div>
                 </div>
                 <div class="form-group">
                   <label for="phone-number">Phone Number <span class="required">*</span></label>
                   <input type="tel" id="phone-number" name="phone-number" placeholder="+84 123 456 789" required>
+                  <div class="error-message">Please fill in the information</div>
                 </div>
               </div>
               <div class="form-group">
                 <label for="email">Email <span class="required">*</span></label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <div class="error-message">Please fill in the information</div>
               </div>
-              <div class="form-group has-error">
+              <div class="form-group">
                 <label for="address">Address <span class="required">*</span></label>
                 <input type="text" id="address" name="address" placeholder="Enter your address" required>
                 <div class="error-message">Please fill in the information</div>
@@ -138,8 +146,7 @@
           </form>
 
           <h2 class="form-section-title bagel-fat-one-regular">Payment Method</h2>
-          <!-- Payment Method -->
-          <form class="card booking-form" id="booking-step2-form">
+          <form class="card booking-form" id="booking-step2-form-payment">
             <fieldset class="form-section">
               <div class="payment-tabs">
                 <label class="payment-tab active">
@@ -159,68 +166,141 @@
                   </div>
                 </label>
               </div>
+              
               <ul class="saved-cards-list">
-                <li class="saved-card active">
-                  <img src="../../assets/icons/Service/CreditCardIcon.svg" alt="Visa" class="card-logo">
-                  <div class="card-info">
-                    <span class="card-number">•••• •••• •••• 4242</span>
-                    <span class="card-details">Expires 12/25 • Chu Viet Cam</span>
-                  </div>
-                  <button type="button" class="edit-btn">Edit</button>
-                </li>
-                <li class="saved-card">
+                <li class="saved-card" data-id="card_2">
                   <img src="../../assets/icons/Service/CreditCardIcon.svg" alt="Visa" class="card-logo">
                   <div class="card-info">
                     <span class="card-number">•••• •••• •••• 8686</span>
                     <span class="card-details">Expires 12/25 • Pham Vi Anh</span>
                   </div>
-                  <button type="button" class="edit-btn">Edit</button>
+                  <div class="card-actions">
+                    <button type="button" class="edit-btn">Edit</button>
+                    <button type="button" class="delete-btn" aria-label="Delete card">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    </button>
+                  </div>
+                </li>
+                <li class="saved-card" data-id="card_1">
+                  <img src="../../assets/icons/Service/CreditCardIcon.svg" alt="Visa" class="card-logo">
+                  <div class="card-info">
+                    <span class="card-number">•••• •••• •••• 4242</span>
+                    <span class="card-details">Expires 12/25 • Chu Viet Cam</span>
+                  </div>
+                  <div class="card-actions">
+                    <button type="button" class="edit-btn">Edit</button>
+                    <button type="button" class="delete-btn" aria-label="Delete card">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    </button>
+                  </div>
                 </li>
               </ul>
               
+              <div id="card-limit-error" class="error-message" style="display: none; text-align: center; margin-bottom: 10px;"></div>
+
               <button type="button" class="add-new-card-btn">
                 + Add New Card
               </button>
+
+              <div class="payment-details-card" id="payment-details-form" style="display: none;">
+                <h3 class="form-section-title-sub" id="payment-form-title">Payment Details</h3>
+                
+                <div class="form-group">
+                  <label for="card-number">Card Number</label>
+                  <div class="input-with-icon">
+                    <input type="text" id="card-number" name="card-number" placeholder="1234 5678 90" maxlength="10">
+                    <button type="button" class="icon-btn toggle-visibility-btn" aria-label="Toggle card visibility">
+                      <svg class="icon-eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      <svg class="icon-eye-closed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                    </button>
+                  </div>
+                  <div class="error-message" id="card-number-error"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="card-name">Cardholder Name</label>
+                  <input type="text" id="card-name" name="card-name" placeholder="NGUYEN VAN A">
+                  <div class="error-message" id="card-name-error"></div>
+                </div>
+                
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="expiry-date">Expiry Date</label>
+                    <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY">
+                    <div class="error-message" id="expiry-date-error"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <div class="input-with-icon">
+                      <input type="password" id="cvv" name="cvv" placeholder="123" maxlength="3">
+                      <button type="button" class="icon-btn toggle-visibility-btn" aria-label="Toggle CVV visibility">
+                         <svg class="icon-eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                         <svg class="icon-eye-closed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                      </button>
+                    </div>
+                    <div class="error-message" id="cvv-error"></div>
+                  </div>
+                </div>
+                
+                <div class="payment-form-actions">
+                  <button type="button" class="btn-cancel" id="cancel-edit-btn">Cancel</button>
+                  <button type="button" class="btn-done" id="done-edit-btn">Done</button>
+                </div>
+              </div>
             </fieldset>
           </form>
+        </div> <aside class="card order-summary-card" aria-labelledby="order-summary-title">
+          <h4 id="order-summary-title " class="order-summary-title ">Order Summary</h4>
 
-          <!-- Hiển thị Payment Details mẫu gốc -->
-          <div class="card payment-details-card" id="payment-details-form">
-            <h3 class="form-section-title-sub">Payment Details</h3>
-            <div class="form-group">
-              <label for="card-number">Card Number</label>
-              <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456">
+          <div class="order-summary-rows">
+            <div class="row">
+              <span class="label">Service:</span>
+              <span class="value strong" id="summary-service">--</span>
             </div>
-            <div class="form-group">
-              <label for="card-name">Cardholder Name</label>
-              <input type="text" id="card-name" name="card-name" placeholder="NGUYEN VAN A">
+            <div class="row">
+              <span class="label">Duration:</span>
+              <span class="value" id="summary-duration">1 day</span>
             </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="expiry-date">Expiry Date</label>
-                <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY">
-              </div>
-              <div class="form-group">
-                <label for="cvv">CVV</label>
-                <input type="text" id="cvv" name="cvv" placeholder="123">
-              </div>
+            <div class="row subtotal">
+              <span class="label">Subtotal:</span>
+              <span class="value" id="summary-subtotal">$0.00</span>
+            </div>
+            <div class="row service-fee">
+              <span class="label">Service fee:</span>
+              <span class="value" id="summary-service-fee">$5.00</span>
+            </div>
+            <div class="row addons">
+              <span class="label">Add ons:</span>
+              <span class="value" id="summary-addons">$0.00</span>
+            </div>
+            <div class="row treats">
+              <span class="label">Treats:</span>
+              <span class="value" id="summary-treats">$0.00</span>
+            </div>
+            <div class="row discount">
+              <span class="label">Discount</span>
+              <span class="value" id="summary-discount">-$0.00</span>
+            </div>
+
+            <hr class="summary-divider" />
+
+            <div class="row total">
+              <span class="label">Total:</span>
+              <span class="value strong" id="summary-total">$0.00</span>
             </div>
           </div>
-  
-            <!-- Điều hướng: Back trái, Continue phải -->
-            <div class="form-navigation">
-              <button type="button" class="btn primary" id="continue-to-step3-btn">
-                Continue
-                <svg class="icon ml-8" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-            </div>
-          </div>
 
-        </div> 
-        
-        </div> 
-    </div> 
-  </main>
+          <button class="btn proceed-btn" id="proceed-to-pay-btn">PROCEED TO PAY</button>
+        </aside> </div> </div> </main> <div class="modal-overlay" id="confirmation-modal" style="display: none;">
+    <div class="modal-box">
+      <h3 id="modal-title">Are you sure?</h3>
+      <p id="modal-message">Do you really want to delete this card?</p>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" id="modal-cancel-btn">Cancel</button>
+        <button type="button" class="btn-confirm" id="modal-confirm-btn">Yes, Delete</button>
+      </div>
+    </div>
+  </div>
 
   <section class="site-cta">
     <div class="container cta-inner">

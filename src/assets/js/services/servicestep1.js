@@ -343,21 +343,57 @@ document.addEventListener('DOMContentLoaded', () => {
     if (timeButton) {
       timeGrid.querySelector('.selected')?.classList.remove('selected');
       timeButton.classList.add('selected');
+
+      const timeText = timeButton.textContent.trim();
+      localStorage.setItem('selectedTimeSlot', timeText);
     }
   });
   
   // Nút Continue (pay-now-btn): validate ngày và đi bước 2
   payNowBtn.addEventListener('click', () => {
     if (!bookingState.checkinDate) {
-      showNotification("Please select a check-in date!", "error");
+      showNotification("Please pick the booking date!", "error");
       return;
     }
-    // Lưu thông tin ngày và duration cho step 2 nếu cần
+    const selectedTimeEl = document.querySelector('.time-grid .time.selected');
+    if (!selectedTimeEl) {
+      showNotification("Please pick the booking time!", "error");
+      return;
+    }
+    const selectedTimeText = selectedTimeEl.textContent.trim();
+    localStorage.setItem('selectedTimeSlot', selectedTimeText);
+
+    // Lưu thông tin ngày và duration cho step 2
     localStorage.setItem('bookingDuration', String(bookingState.duration));
     localStorage.setItem('bookingCheckin', bookingState.checkinDate.toISOString());
     const checkout = new Date(bookingState.checkinDate);
     checkout.setDate(checkout.getDate() + bookingState.duration);
     localStorage.setItem('bookingCheckout', checkout.toISOString());
+
+    // LƯU THÊM: dữ liệu cho Order Summary của Step 2
+    const bookingDetails = {
+      package: { name: bookingState.package.name, price: bookingState.package.price },
+      duration: bookingState.duration,
+      treats: (bookingState.treats || []).map(t => ({
+        name: t.name,
+        price: t.price,
+        quantity: t.qty || 0
+      })),
+      addons: (bookingState.addOns || []).map(a => ({
+        name: a.name,
+        price: a.price
+      })),
+      discount: bookingState.discount || { code: null, percentage: 0 },
+      timeSlot: selectedTimeText
+    };
+    localStorage.setItem('bookingDetails', JSON.stringify(bookingDetails));
+
+    // Chuỗi hiển thị ngày cho Step 2
+    const checkinDisplay = formatDate(bookingState.checkinDate);
+    const checkoutDisplay = formatDate(checkout);
+    localStorage.setItem('bookingCheckinDate', checkinDisplay);
+    localStorage.setItem('bookingCheckoutDate', checkoutDisplay);
+
     window.location.href = 'homestaystep2.html';
   });
 

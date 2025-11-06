@@ -56,81 +56,80 @@
       <div class="booking-layout review-page">
         <div class="main-content-col">
           <h2 class="form-section-title bagel-fat-one-regular">Pet Information</h2>
+          <!-- Trong phần Pet Information -->
           <section class="card review-card">
             <div class="review-grid">
               <div class="review-item">
-                <div class="field-label">Pet Name</div>
-                <div class="field-value">Meo</div>
+                <div class="field-label Lexend Deca">Pet Name</div>
+                <div class="field-value" id="review-pet-name">--</div>
               </div>
               <div class="review-item">
-                <div class="field-label">Owner’s Name</div>
-                <div class="field-value">Chu Viet Cam</div>
+                <div class="field-label Lexend Deca">Owner’s Name</div>
+                <div class="field-value" id="review-owner-name">--</div>
               </div>
               <div class="review-item">
-                <div class="field-label">Pet Type</div>
-                <div class="field-value">Cat</div>
+                <div class="field-label Lexend Deca">Pet Type</div>
+                <div class="field-value" id="review-pet-type">--</div>
               </div>
               <div class="review-item">
-                <div class="field-label">Phone Number</div>
-                <div class="field-value emphasis">+84 123 456 789</div>
+                <div class="field-label Lexend Deca">Phone Number</div>
+                <div class="field-value emphasis" id="review-phone-number">--</div>
               </div>
               <div class="review-item">
-                <div class="field-label">Age</div>
-                <div class="field-value">1 year</div>
+                <div class="field-label Lexend Deca">Age</div>
+                <div class="field-value" id="review-pet-age">--</div>
               </div>
               <div class="review-item">
-                <div class="field-label">Weight</div>
-                <div class="field-value">10 kg</div>
+                <div class="field-label Lexend Deca">Weight</div>
+                <div class="field-value" id="review-pet-weight">--</div>
               </div>
               <div class="review-item span-2">
-                <div class="field-label">Special Notes</div>
-                <div class="field-value">Prefers chicken over beef</div>
+                <div class="field-label Lexend Deca">Special Notes</div>
+                <div class="field-value" id="review-special-notes">--</div>
               </div>
             </div>
           </section>
 
-          <h2 class="form-section-title bagel-fat-one-regular">Booking Details</h2>
+          <!-- Trong phần Booking Details -->
           <section class="card review-card">
             <div class="booking-details-grid">
               <div class="review-item">
-                <div class="field-label">Check-in</div>
-                <div class="field-value small">November 11, 2025</div>
+                <div class="field-label Lexend Deca">Check-in</div>
+                <div class="field-value small" id="review-checkin">--</div>
               </div>
               <div class="review-item">
-                <div class="field-label">Check-out</div>
-                <div class="field-value small">November 14, 2025</div>
+                <div class="field-label Lexend Deca">Check-out</div>
+                <div class="field-value small" id="review-checkout">--</div>
               </div>
               <div class="review-item">
-                <div class="field-label">Duration</div>
-                <div class="field-value small">3 days</div>
+                <div class="field-label Lexend Deca">Duration</div>
+                <div class="field-value small" id="review-duration">--</div>
               </div>
             </div>
           </section>
 
-          <h2 class="form-section-title bagel-fat-one-regular">Payment Method</h2>
+          <!-- Trong phần Payment Method -->
           <section class="card review-card">
             <div class="payment-method-box">
               <img src="../../assets/icons/Service/CreditCardIcon.svg" alt="Visa" class="payment-icon" />
               <div class="payment-details">
-                <span class="payment-number">•••• •••• •••• 4242</span>
-                <span class="payment-expiry">Expires 12/25 • Chu Viet Cam</span>
+                <span class="payment-number" id="review-payment-number">•••• •••• •••• ----</span>
+                <span class="payment-expiry" id="review-payment-expiry">Expires --/-- • --</span>
               </div>
             </div>
           </section>
-
+          <!-- Thêm script trước </body> -->
           <div class="terms-agreement">
             <label>
               <input type="checkbox" checked />
-              I agree to the <a href="#">Term & Conditions</a> and
-              <a href="#">Cancellation Policy</a>.
-              I understand that cancellations made less than 48 hours before check-in are non-refundable.
+              I agree to the <a href="#">Term & Conditions</a> and <a href="#">Cancellation Policy</a>. I understand that cancellations made less than 48 hours before check-in are non-refundable.
             </label>
           </div>
         </div>
 
         <aside class="sidebar-col">
           <section class="card summary-review-card">
-            <h3 class="summary-title bagel-fat-one-regular">Order Summary</h3>
+            <h3 class="summary-title  bagel-fat-one-regular">Order Summary</h3>
             <div class="order-summary-grid">
               <span class="summary-label">Service:</span>
               <span class="summary-value" id="summary-service-name">Basic Room</span>
@@ -140,9 +139,6 @@
 
               <span class="summary-label">Subtotal:</span>
               <span class="summary-value" id="summary-service-subtotal">$55</span>
-
-              <span class="summary-label">Service fee:</span>
-              <span class="summary-value" id="summary-service-fee">$5</span>
 
               <span class="summary-label">Add ons:</span>
               <span class="summary-value" id="summary-service-addons">$25</span>
@@ -154,7 +150,7 @@
               <span class="summary-value discount" id="summary-service-discount">-$15</span>
 
               <span class="summary-label total-label">Total:</span>
-              <span class="summary-value total-value" id="summary-service-total">$100</span>
+              <span class="summary-value total-value " id="summary-service-total">$100</span>
             </div>
             <button class="btn primary" style="width: 100%; margin-top: 16px;">
               PROCEED TO PAY
@@ -222,6 +218,6 @@
     </div>
   </footer>
 
-  <!-- No extra JS needed; reusing styles and layout -->
+  <script src="../../assets/js/services/servicestep3.js"></script>
 </body>
 </html>
