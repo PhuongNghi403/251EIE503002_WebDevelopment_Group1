@@ -52,3 +52,38 @@ body {
 .pill .muted { color: var(--text-3); }
 
 .section-title { font-size: clamp(24px, 4vw, 36px); margin: 0 0 18px; font-weight: 800; color: var(--brand-brown); }
+/* Back button — shared style across profile and checkout pages */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #7B5E47;
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.back-btn::before {
+  content: '\2039'; /* single left-pointing angle quotation mark (‹) */
+  font-size: 18px;
+  line-height: 1;
+}
+
+.back-btn:hover {
+  color: #4D2B12;
+  background: #F6EFE5;
+}
+
+.back-btn:focus-visible {
+  outline: 2px solid #E9E4DC;
+  outline-offset: 2px;
+}
+
+/* Optional wrapper spacing when used in a back row */
+.back-row {
+  padding-top: 8px;
+  padding-bottom: 0;
+}

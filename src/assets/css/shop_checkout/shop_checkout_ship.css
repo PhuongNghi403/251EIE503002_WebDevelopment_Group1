@@ -8,7 +8,23 @@ body[data-page="shop-checkout-ship"] {
 }
 
 .checkout-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 20px;
+}
+
+.back-to-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+.back-to-cart svg {
+  width: 16px;
+  height: 16px;
 }
 
 .checkout-title {
