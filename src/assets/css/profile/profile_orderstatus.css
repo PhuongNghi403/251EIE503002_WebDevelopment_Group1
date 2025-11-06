@@ -111,4 +111,21 @@
   display: flex;
   gap: 8px;
   align-items: center;
+.back-row { display: flex; justify-content: flex-start; margin: 12px 0 0; }
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 13px/1 'Lexend Deca', sans-serif;
+  color: #4D2B12;
+  background: #FFF;
+  border: 1px solid #E9E4DC;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.06s ease;
+  text-decoration: none;
 }
+.back-btn:hover { background: #F5EFE7; border-color: #D8CFC2; }
+.back-btn:active { transform: translateY(1px); }
+.back-btn:focus-visible { outline: 2px solid #B08968; outline-offset: 2px; }
