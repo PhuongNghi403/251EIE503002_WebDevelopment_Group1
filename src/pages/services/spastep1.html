@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pawfect Care — Booking Service</title>
+  <title>Pawfect Care — Booking Spa</title>
   
   <link rel="stylesheet" href="../../assets/css/base.css" />
   <link rel="stylesheet" href="../../assets/css/header.css" />
@@ -45,7 +45,7 @@
 
   <main class="booking-main">
     <div class="booking-shell">
-      <a href="homestayboarding-service.html" class="back-link">
+      <a href="groomingspa-service.html" class="back-link">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
@@ -71,7 +71,7 @@
 
       <div class="booking-layout">
         <section class="card booking-card" aria-labelledby="booking-title">
-          <h2 id="booking-title">Book Your Homestay Time</h2>
+          <h2 id="booking-title">Book Your Spa Time</h2>
           <p class="subtitle">Pick your preferred date and time. We’ll pamper your pet! ✨</p>
 
           <div class="select-grid">
@@ -125,26 +125,18 @@
             <h4>Select Package</h4>
             <label class="package-option">
               <div>
-                <span class="name">Cozy Room (Basic)</span>
-                <span class="price">$40</span>
+                <span class="name">The Polished Pup</span>
+                <span class="price">$45</span>
               </div>
-              <input type="radio" name="package" value="basic" data-name="Cozy Room (Basic)" data-price="40">
+              <input type="radio" name="package" value="polished" data-name="The Polished Pup" data-price="45">
               <span class="radio-custom"></span>
             </label>
             <label class="package-option">
               <div>
-                <span class="name">Premium Retreat</span>
-                <span class="price">$55</span>
+                <span class="name">The Zen Paws Experience</span>
+                <span class="price">$65</span>
               </div>
-              <input type="radio" name="package" value="premium" data-name="Premium Retreat" data-price="55" checked>
-              <span class="radio-custom"></span>
-            </label>
-            <label class="package-option">
-              <div>
-                <span class="name">Luxury Suite</span>
-                <span class="price">$75</span>
-              </div>
-              <input type="radio" name="package" value="luxury" data-name="Luxury Suite" data-price="75">
+              <input type="radio" name="package" value="zen" data-name="The Zen Paws Experience" data-price="65">
               <span class="radio-custom"></span>
             </label>
           </div>
@@ -167,24 +159,8 @@
             </div>
           </div>
 
-          <div class="duration-section">
-            <h4 class="duration-title">Duration</h4>
-            <div class="date-range">
-              <div class="date-col">
-                <p class="date-label">Check-in</p>
-                <p class="date-value" id="checkin-date">--</p>
-              </div>
-              <div class="date-col">
-                <p class="date-label">Check-out</p>
-                <p class="date-value" id="checkout-date">--</p>
-              </div>
-            </div>
-            <div class="day-counter">
-              <button class="counter-btn" id="btn-decrease-day" aria-label="Decrease days" disabled>−</button>
-              <span class="day-count bagel-fat-one-regular" id="day-count">1 Day</span>
-              <button class="counter-btn" id="btn-increase-day" aria-label="Increase days">+</button>
-            </div>
-          </div>
+          <!-- Bỏ hoàn toàn phần Duration -->
+          <!-- div class="duration-section"> ... </div (đã xóa) -->
 
           <details class="summary-accordion" open>
             <summary class="accordion-header">
@@ -233,9 +209,10 @@
               <span>Package Rate</span>
               <span class="value" id="summary-package-rate">$0.00</span>
             </div>
-            <div class="row">
-              <span>Duration</span>
-              <span class="value" id="summary-duration">1 day</span>
+            <!-- Thêm dòng Date & Time -->
+            <div class="row date-time">
+              <span>Date & Time</span>
+              <span class="value" id="summary-date-time">--</span>
             </div>
             <div class="row subtotal">
               <span>Subtotal</span>
@@ -253,7 +230,6 @@
               <span>Discount</span>
               <span class="value" id="summary-discount">-$0.00</span>
             </div>
-            
             <hr class="discount-hr" />
             <div class="row total">
               <span>Total</span>

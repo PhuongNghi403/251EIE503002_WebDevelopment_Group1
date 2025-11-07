@@ -163,20 +163,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const discountAmount = preDiscountTotal * (bookingState.discount?.percentage || 0);
     const total = preDiscountTotal - discountAmount;
 
-    // Update UI
-    pkgNameEl.textContent = bookingState.package?.name || '--';
-    pkgPriceEl.textContent = `$${packagePrice.toFixed(2)}`;
+    // Update UI (thêm guard để tránh lỗi null element)
+    if (pkgNameEl) pkgNameEl.textContent = bookingState.package?.name || '--';
+    if (pkgPriceEl) pkgPriceEl.textContent = `$${packagePrice.toFixed(2)}`;
 
-    dayCountEl.textContent = `${bookingState.duration} Day${bookingState.duration > 1 ? 's' : ''}`;
+    if (dayCountEl) {
+      dayCountEl.textContent = `${bookingState.duration} Day${bookingState.duration > 1 ? 's' : ''}`;
+    }
     
-    summaryServiceEl.textContent = bookingState.package?.name || '--';
-    summaryPackageRateEl.textContent = `$${packagePrice.toFixed(2)}`;
-    summaryDurationEl.textContent = `${bookingState.duration} day${bookingState.duration > 1 ? 's' : ''}`;
-    summarySubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-    summaryTreatsEl.textContent = `$${treatsTotal.toFixed(2)}`;
-    summaryAddonsEl.textContent = `$${addOnsTotal.toFixed(2)}`;
-    summaryDiscountEl.textContent = `-$${discountAmount.toFixed(2)}`;
-    summaryTotalEl.textContent = `$${total.toFixed(2)}`;
+    if (summaryServiceEl) summaryServiceEl.textContent = bookingState.package?.name || '--';
+    if (summaryPackageRateEl) summaryPackageRateEl.textContent = `$${packagePrice.toFixed(2)}`;
+    if (summaryDurationEl) summaryDurationEl.textContent = `${bookingState.duration} day${bookingState.duration > 1 ? 's' : ''}`;
+    if (summarySubtotalEl) summarySubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    if (summaryTreatsEl) summaryTreatsEl.textContent = `$${treatsTotal.toFixed(2)}`;
+    if (summaryAddonsEl) summaryAddonsEl.textContent = `$${addOnsTotal.toFixed(2)}`;
+    if (summaryDiscountEl) summaryDiscountEl.textContent = `-$${discountAmount.toFixed(2)}`;
+    if (summaryTotalEl) summaryTotalEl.textContent = `$${total.toFixed(2)}`;
+
+    // Cập nhật dòng Date & Time
+    const selectedTimeText =
+      localStorage.getItem('selectedTimeSlot') ||
+      document.querySelector('.time-grid .time.selected')?.textContent.trim() ||
+      '--';
+    const dateText = bookingState.checkinDate ? formatDate(bookingState.checkinDate) : '--';
+    const dateTimeEl = document.getElementById('summary-date-time');
+    if (dateTimeEl) {
+      dateTimeEl.textContent =
+        (dateText !== '--' || selectedTimeText !== '--')
+          ? `${dateText}${selectedTimeText !== '--' ? ', ' + selectedTimeText : ''}`
+          : '--';
+    }
   }
 
   function renderList(listElement, items) {
@@ -224,54 +240,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateDisplayedDates() {
     if (!bookingState.checkinDate) return;
-    
-    checkinDateEl.textContent = formatDate(bookingState.checkinDate);
-    
+    if (checkinDateEl) {
+      checkinDateEl.textContent = formatDate(bookingState.checkinDate);
+    }
     const checkoutDate = new Date(bookingState.checkinDate);
     checkoutDate.setDate(checkoutDate.getDate() + bookingState.duration);
-    checkoutDateEl.textContent = formatDate(checkoutDate);
+    if (checkoutDateEl) {
+      checkoutDateEl.textContent = formatDate(checkoutDate);
+    }
   }
 
   // --- EVENT LISTENERS ---
 
   // Điều khiển lịch
-  calPrevBtn.addEventListener('click', () => {
-    currentDisplayDate.setMonth(currentDisplayDate.getMonth() - 1);
-    renderCalendar(currentDisplayDate.getFullYear(), currentDisplayDate.getMonth());
-  });
+  if (calPrevBtn) {
+    calPrevBtn.addEventListener('click', () => {
+      currentDisplayDate.setMonth(currentDisplayDate.getMonth() - 1);
+      renderCalendar(currentDisplayDate.getFullYear(), currentDisplayDate.getMonth());
+    });
+  }
+  if (calNextBtn) {
+    calNextBtn.addEventListener('click', () => {
+      currentDisplayDate.setMonth(currentDisplayDate.getMonth() + 1);
+      renderCalendar(currentDisplayDate.getFullYear(), currentDisplayDate.getMonth());
+    });
+  }
 
-  calNextBtn.addEventListener('click', () => {
-    currentDisplayDate.setMonth(currentDisplayDate.getMonth() + 1);
-    renderCalendar(currentDisplayDate.getFullYear(), currentDisplayDate.getMonth());
-  });
+  if (calGrid) {
+    calGrid.addEventListener('click', (e) => {
+      const dayButton = e.target.closest('.day');
+      if (dayButton && !dayButton.disabled) {
+        calGrid.querySelector('.selected')?.classList.remove('selected');
+        dayButton.classList.add('selected');
+        const day = parseInt(dayButton.dataset.day, 10);
+        bookingState.checkinDate = new Date(currentDisplayDate.getFullYear(), currentDisplayDate.getMonth(), day);
+        updateDisplayedDates();
+        // Cập nhật Summary sau khi chọn ngày
+        updateSummary();
+      }
+    });
+  }
 
-  calGrid.addEventListener('click', (e) => {
-    const dayButton = e.target.closest('.day');
-    if (dayButton && !dayButton.disabled) {
-      calGrid.querySelector('.selected')?.classList.remove('selected');
-      dayButton.classList.add('selected');
-      const day = parseInt(dayButton.dataset.day, 10);
-      bookingState.checkinDate = new Date(currentDisplayDate.getFullYear(), currentDisplayDate.getMonth(), day);
-      updateDisplayedDates();
-    }
-  });
-
-  // Tăng/Giảm Duration
-  btnIncreaseDay.addEventListener('click', () => {
-    bookingState.duration++;
-    btnDecreaseDay.disabled = bookingState.duration === 1;
-    updateSummary();
-    updateDisplayedDates();
-  });
-
-  btnDecreaseDay.addEventListener('click', () => {
-    if (bookingState.duration > 1) { 
-      bookingState.duration--;
+  // Tăng/Giảm Duration (spa đã bỏ duration nên cần guard)
+  if (btnIncreaseDay) {
+    btnIncreaseDay.addEventListener('click', () => {
+      bookingState.duration++;
+      if (btnDecreaseDay) btnDecreaseDay.disabled = bookingState.duration === 1;
       updateSummary();
       updateDisplayedDates();
-    }
-    btnDecreaseDay.disabled = bookingState.duration === 1;
-  });
+    });
+  }
+
+  if (btnDecreaseDay) {
+    btnDecreaseDay.addEventListener('click', () => {
+      if (bookingState.duration > 1) {
+        bookingState.duration--;
+        updateSummary();
+        updateDisplayedDates();
+      }
+      btnDecreaseDay.disabled = bookingState.duration === 1;
+    });
+  }
 
   // Mở/Đóng modal chọn Package
   editPkgBtn.addEventListener('click', (e) => {
@@ -346,6 +375,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const timeText = timeButton.textContent.trim();
       localStorage.setItem('selectedTimeSlot', timeText);
+      // Cập nhật Summary sau khi chọn giờ
+      updateSummary();
     }
   });
   
@@ -394,7 +425,10 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('bookingCheckinDate', checkinDisplay);
     localStorage.setItem('bookingCheckoutDate', checkoutDisplay);
 
-    window.location.href = 'homestaystep2.html';
+    // Điều hướng theo flow
+    const isSpaFlow = location.pathname.includes('spa');
+    const nextStepUrl = isSpaFlow ? 'spastep2.html' : 'homestaystep2.html';
+    window.location.href = nextStepUrl;
   });
 
   // --- Utility ---
@@ -441,7 +475,8 @@ document.addEventListener('DOMContentLoaded', () => {
   loadPackageFromStorage();
   loadDataFromStorage();
 
-  // Hiện giá ngay với mặc định 1 day
-  btnDecreaseDay.disabled = bookingState.duration === 1;
+  if (btnDecreaseDay) {
+    btnDecreaseDay.disabled = bookingState.duration === 1;
+  }
   updateSummary();
 });

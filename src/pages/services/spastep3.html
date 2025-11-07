@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
-<body data-page="services">
+<body data-page="groomingspa">
   <!-- Header: identical across pages -->
   <header class="site-header">
     <div class="container header-inner">
@@ -47,7 +47,7 @@
 
   <main class="booking-main">
     <div class="booking-shell">
-      <a href="homestaystep2.html" class="back-link">
+      <a href="spastep2.html" class="back-link">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
@@ -75,7 +75,6 @@
       <div class="booking-layout review-page">
         <div class="main-content-col">
           <h2 class="form-section-title bagel-fat-one-regular">Pet Information</h2>
-          <!-- Trong phần Pet Information -->
           <section class="card review-card">
             <div class="review-grid">
               <div class="review-item">
@@ -109,25 +108,17 @@
             </div>
           </section>
 
-          <!-- Trong phần Booking Details -->
+          <!-- Booking Details: Spa dùng Date & Time -->
           <section class="card review-card">
             <div class="booking-details-grid">
-              <div class="review-item">
-                <div class="field-label Lexend Deca">Check-in</div>
-                <div class="field-value small" id="review-checkin">--</div>
-              </div>
-              <div class="review-item">
-                <div class="field-label Lexend Deca">Check-out</div>
-                <div class="field-value small" id="review-checkout">--</div>
-              </div>
-              <div class="review-item">
-                <div class="field-label Lexend Deca">Duration</div>
-                <div class="field-value small" id="review-duration">--</div>
+              <div class="review-item span-2">
+                <div class="field-label Lexend Deca">Date & Time</div>
+                <div class="field-value small" id="review-date-time">--</div>
               </div>
             </div>
           </section>
 
-          <!-- Trong phần Payment Method -->
+          <!-- Payment Method -->
           <section class="card review-card">
             <div class="payment-method-box">
               <img src="../../assets/icons/Service/CreditCardIcon.svg" alt="Visa" class="payment-icon" />
@@ -137,7 +128,7 @@
               </div>
             </div>
           </section>
-          <!-- Thêm script trước </body> -->
+
           <div class="terms-agreement">
             <label>
               <input type="checkbox" checked />
@@ -148,31 +139,31 @@
 
         <aside class="sidebar-col">
           <section class="card summary-review-card">
-            <h3 class="summary-title  bagel-fat-one-regular">Order Summary</h3>
+            <h3 class="summary-title bagel-fat-one-regular">Order Summary</h3>
             <div class="order-summary-grid">
               <span class="summary-label">Service:</span>
-              <span class="summary-value" id="summary-service-name">Basic Room</span>
+              <span class="summary-value" id="summary-service-name">--</span>
 
-              <span class="summary-label">Duration:</span>
-              <span class="summary-value" id="summary-service-duration">1 day</span>
+              <span class="summary-label">Date & Time:</span>
+              <span class="summary-value" id="summary-date-time">--</span>
 
-              <span class="summary-label">Subtotal:</span>
-              <span class="summary-value" id="summary-service-subtotal">$55</span>
+              <span class="summary-label">Service fee:</span>
+              <span class="summary-value" id="summary-service-fee">$5.00</span>
 
               <span class="summary-label">Add ons:</span>
-              <span class="summary-value" id="summary-service-addons">$25</span>
+              <span class="summary-value" id="summary-service-addons">$0.00</span>
 
               <span class="summary-label">Treats:</span>
-              <span class="summary-value" id="summary-service-treats">$15</span>
+              <span class="summary-value" id="summary-service-treats">$0.00</span>
 
               <span class="summary-label discount">Discount</span>
-              <span class="summary-value discount" id="summary-service-discount">-$15</span>
+              <span class="summary-value discount" id="summary-service-discount">-$0.00</span>
 
               <span class="summary-label total-label">Total:</span>
-              <span class="summary-value total-value " id="summary-service-total">$100</span>
+              <span class="summary-value total-value" id="summary-service-total">$0.00</span>
             </div>
             <button class="btn primary" style="width: 100%; margin-top: 16px;">
-              PAY NOW
+              Pay Now
             </button>
           </section>
         </aside>
@@ -180,7 +171,7 @@
     </div>
   </main>
 
-  <!-- CTA section (same structure as other pages) -->
+  <!-- CTA section -->
   <section class="site-cta">
     <div class="container cta-inner">
       <div class="cta-icons" aria-hidden="true">
@@ -195,7 +186,7 @@
     </div>
   </section>
 
-  <!-- Footer: identical across pages -->
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-columns">
       <div class="footer-col">

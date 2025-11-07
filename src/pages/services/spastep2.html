@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pawfect Care - Booking Step 2</title>
+  <title>Pawfect Care — Booking Spa (Step 2)</title>
   
   <link rel="stylesheet" href="../../assets/css/base.css" />
   <link rel="stylesheet" href="../../assets/css/header.css" />
@@ -18,7 +18,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
-<body data-page="homestayboarding">
+<body data-page="groomingspa"> 
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="../../index.html">
@@ -48,7 +48,7 @@
 
   <main class="booking-main">
     <div class="booking-shell">
-      <a href="homestaystep1.html" class="back-link">
+      <a href="spastep1.html" class="back-link">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
@@ -249,8 +249,10 @@
               </div>
             </fieldset>
           </form>
-        </div> <aside class="card order-summary-card" aria-labelledby="order-summary-title">
-          <h4 id="order-summary-title " class="order-summary-title ">Order Summary</h4>
+        </div>
+        
+        <aside class="card order-summary-card" aria-labelledby="order-summary-title">
+          <h4 id="order-summary-title" class="order-summary-title">Order Summary</h4>
 
           <div class="order-summary-rows">
             <div class="row">
@@ -258,13 +260,10 @@
               <span class="value strong" id="summary-service">--</span>
             </div>
             <div class="row">
-              <span class="label">Duration:</span>
-              <span class="value" id="summary-duration">1 day</span>
+              <span class="label">Date & Time:</span>
+              <span class="value" id="summary-date-time">--</span>
             </div>
-            <div class="row subtotal">
-              <span class="label">Subtotal:</span>
-              <span class="value" id="summary-subtotal">$0.00</span>
-            </div>
+            
             <div class="row service-fee">
               <span class="label">Service fee:</span>
               <span class="value" id="summary-service-fee">$5.00</span>
@@ -291,7 +290,12 @@
           </div>
 
           <button class="btn proceed-btn" id="proceed-to-pay-btn">PROCEED TO PAY</button>
-        </aside> </div> </div> </main> <div class="modal-overlay" id="confirmation-modal" style="display: none;">
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="confirmation-modal" style="display: none;">
     <div class="modal-box">
       <h3 id="modal-title">Are you sure?</h3>
       <p id="modal-message">Do you really want to delete this card?</p>
@@ -311,10 +315,11 @@
       <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
       <div class="cta-actions">
         <a href="services.html" class="btn primary">Book Now</a>
-        <a href="../community.html" class="btn ghost">Contact Us</a>
+        <a href="../community.html" classa="btn ghost">Contact Us</a>
       </div>
     </div>
   </section>
+
   <footer class="site-footer">
     <div class="container footer-columns">
       <div class="footer-col">
@@ -355,11 +360,10 @@
       </div>
     </div>
   </footer>
-  
+
   <!-- Split JS: servicestep2_1 + servicestep2_2 -->
   <script src="../../assets/js/services/servicestep2_1.js"></script>
   <script src="../../assets/js/services/servicestep2_2.js"></script>
-  <!-- Global header badge updater -->
   <script src="../../assets/js/utils.js"></script>
 </body>
 </html>
