@@ -8,16 +8,27 @@ async function loadProductsData() {
   try {
     const catalog = Array.isArray(window.PRODUCTS_DATA) ? window.PRODUCTS_DATA : [];
     if (catalog.length) {
-      productsData = catalog.map(p => ({
-        id: String(p.id ?? ''),
-        name: p.name || '',
-        price: Number(p.discounted_price ?? p.discountedPrice ?? p.original_price ?? p.originalPrice ?? 0),
-        originalPrice: Number(p.original_price ?? p.originalPrice ?? p.discounted_price ?? p.discountedPrice ?? 0),
-        category: p.category || 'General',
-        image: p.image_url || p.image || '',
-        rating: Number(p.rating ?? 0),
-        soldCount: String(p.sold_count ?? p.soldCount ?? '0')
-      }));
+      productsData = catalog.map(p => {
+        // Normalize price fields from products.js schema
+        const priceCurrent = Number(p.price?.current ?? p.discounted_price ?? p.discountedPrice ?? p.original_price ?? p.originalPrice ?? 0);
+        const priceOriginal = Number(p.price?.original ?? p.original_price ?? p.originalPrice ?? priceCurrent);
+
+        // If a numeric discount exists, compute discounted price
+        const hasDiscount = typeof p.discount === 'number';
+        const discountRatio = hasDiscount ? (p.discount > 1 ? p.discount / 100 : p.discount) : 0;
+        const discounted = hasDiscount ? Math.max(0, priceCurrent * (1 - discountRatio)) : priceCurrent;
+
+        return {
+          id: String(p.id ?? ''),
+          name: p.name || '',
+          price: discounted,
+          originalPrice: priceOriginal,
+          category: p.category || 'General',
+          image: p.image_url || p.image || p.thumbnail || '',
+          rating: Number(p.rating?.avg ?? p.rating ?? 0),
+          soldCount: String(p.sold_count ?? p.soldCount ?? p.sold ?? '0')
+        };
+      });
       console.log('Products data loaded from JS:', productsData.length, 'products');
       return productsData;
     }
@@ -643,11 +654,33 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-function renderFavoriteList() {
+async function renderFavoriteList() {
   const grid = document.querySelector('#favoriteGrid');
   if (!grid) return;
 
-  const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
+  // Ensure product data is loaded and hydrate wishlist items missing price/category
+  try {
+    if (!productsData.length) {
+      await loadProductsData();
+    }
+    wishlist = wishlist.map(item => {
+      if (!item.price || item.price === 0 || !item.category || item.category === 'General') {
+        const pd = getProductDataByName(item.name);
+        if (pd) {
+          return {
+            ...item,
+            price: pd.price,
+            originalPrice: pd.originalPrice,
+            category: pd.category
+          };
+        }
+      }
+      return item;
+    });
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  } catch (_) { /* noop */ }
 
   if (wishlist.length === 0) {
     grid.innerHTML = `
