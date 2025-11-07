@@ -36,13 +36,14 @@
   cursor: pointer;
   color: #4D2B12;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 18px;
   transition: all 0.2s;
 }
 
 .favorite-addall-btn:hover {
   background: #4D2B12;
   color: #FFF9F2;
+  
 }
 .favorite-addall-btn:hover svg path{
   fill:none;

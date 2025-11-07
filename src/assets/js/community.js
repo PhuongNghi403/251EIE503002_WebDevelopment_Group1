@@ -130,35 +130,93 @@
     views: 1800,
     banner: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=1600&auto=format&fit=crop"
   },
-  {
+{
   id: 111,
   type: 'campaign',
   title: "Adopt Don’t Shop — Pawfect Love Month",
   excerpt: "Join us this February for a heartwarming pet adoption event! Meet adorable dogs & cats waiting for their forever home.",
+  shortDesc: "Join us this February for a heartwarming pet adoption event! Meet adorable dogs & cats waiting for their forever home.",
   category: "Campaign",
   author: "Pawfect Team",
   date: "Feb 10–25",
-  banner: "https://images.unsplash.com/photo-1601758124510-52d5b81d6821?q=80&w=1600&auto=format&fit=crop"
+  dateText: "10/02/2025 • 09:00",
+  dateISO: "2025-02-10T00:00:00+07:00",
+  location: "Meomeo Hub, Thảo Điền",
+  cover: "https://images.unsplash.com/photo-1601758124510-52d5b81d6821?q=80&w=1600&auto=format&fit=crop",
+  banner: "https://images.unsplash.com/photo-1601758124510-52d5b81d6821?q=80&w=1600&auto=format&fit=crop",
+  tags: ["Campaign", "Adoption"],
+  price: "Free • RSVP",
+  status: "upcoming",
+  agenda: [
+    "10:00 - 10:15: Chào mừng",
+    "10:15 - 11:00: Gặp gỡ từng bé",
+    "11:00 - 11:30: Tư vấn chăm sóc",
+    "11:30 - 12:00: Đăng ký nhận nuôi"
+  ],
+  gallery: [
+    "../assets/images/campaigns/a1.jpg",
+    "../assets/images/campaigns/a2.jpg",
+    "../assets/images/campaigns/a3.jpg"
+  ]
 },
 {
   id: 112,
   type: 'campaign',
   title: "Summer Pet Fair 2025",
   excerpt: "A fun-filled festival with workshops, free grooming booths, and pet nutrition consultations.",
+  shortDesc: "A fun-filled festival with workshops, free grooming booths, and pet nutrition consultations.",
   category: "Event",
   author: "Pawfect Care",
   date: "Jun 15–17",
-  banner: "https://images.unsplash.com/photo-1583511655903-5fee6a20fbd4?q=80&w=1600&auto=format&fit=crop"
+  dateText: "15/06/2025 • 10:00",
+  dateISO: "2025-06-15T00:00:00+07:00",
+  location: "Meomeo Plaza, Q.1",
+  cover: "https://images.unsplash.com/photo-1583511655903-5fee6a20fbd4?q=80&w=1600&auto=format&fit=crop",
+  banner: "https://images.unsplash.com/photo-1583511655903-5fee6a20fbd4?q=80&w=1600&auto=format&fit=crop",
+  tags: ["Event", "Festival"],
+  price: "Free",
+  status: "upcoming",
+  agenda: [
+    "10:00 - 10:15: Check-in & Ice-breaker",
+    "10:15 - 11:00: Workshops",
+    "11:00 - 11:30: Grooming booths",
+    "11:30 - 12:00: Nutrition consultations"
+  ],
+  gallery: [
+    "../assets/images/campaigns/s1.jpg",
+    "../assets/images/campaigns/s2.jpg",
+    "../assets/images/campaigns/s3.jpg",
+    "../assets/images/campaigns/s4.jpg"
+  ]
 },
 {
   id: 113,
   type: 'campaign',
   title: "Pawfect Rescue Week",
   excerpt: "Support local shelters and help rehome rescued animals. Every purchase donates to partner shelters.",
+  shortDesc: "Support local shelters and help rehome rescued animals. Every purchase donates to partner shelters.",
   category: "Community",
   author: "Pawfect Rescue",
   date: "Jul 3–10",
-  banner: "https://images.unsplash.com/photo-1612832021027-95362d11d0c1?q=80&w=1600&auto=format&fit=crop"
+  dateText: "03/07/2025 • 09:00",
+  dateISO: "2025-07-03T00:00:00+07:00",
+  location: "Meomeo Store, Q.7",
+  cover: "https://images.unsplash.com/photo-1612832021027-95362d11d0c1?q=80&w=1600&auto=format&fit=crop",
+  banner: "https://images.unsplash.com/photo-1612832021027-95362d11d0c1?q=80&w=1600&auto=format&fit=crop",
+  tags: ["Community", "Rescue"],
+  price: "Free",
+  status: "upcoming",
+  agenda: [
+    "09:00 - 09:30: Opening",
+    "09:30 - 10:30: Shelter tours",
+    "10:30 - 11:30: Adoption counseling",
+    "11:30 - 12:00: Closing"
+  ],
+  gallery: [
+    "../assets/images/campaigns/r1.jpg",
+    "../assets/images/campaigns/r2.jpg",
+    "../assets/images/campaigns/r3.jpg"
+  ]
 }
 ];
 window.blogPosts = blogPosts;

@@ -721,3 +721,45 @@ function removeFromFavorite(id) {
   updateWishlistButton();
   window.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist, action: 'remove', id } }));
 }
+// =====================
+// ADD TO CART IN FAVORITE PAGE
+// =====================
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.body.dataset.page === "favorite") {
+    bindFavoriteCartButtons();
+  }
+});
+
+function bindFavoriteCartButtons() {
+  // Nút "Add All to Cart"
+  const addAllBtn = document.querySelector(".favorite-addall-btn");
+  if (addAllBtn) {
+    addAllBtn.addEventListener("click", () => {
+      const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+      if (!wishlist.length) {
+        showNotification("Your favorites list is empty!", "info");
+        return;
+      }
+
+      wishlist.forEach(item => {
+        addToCart(item.name, item.image, item.price);
+      });
+
+      showNotification(`${wishlist.length} items added to cart!`, "success");
+      window.dispatchEvent(new Event("cartUpdated"));
+    });
+  }
+
+  // Từng nút "Add to Cart"
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".favorite-add-btn");
+    if (!btn) return;
+
+    const name = btn.dataset.name || "";
+    const image = btn.dataset.image || "";
+    const price = parseFloat(btn.dataset.price || "0") || 0;
+
+    addToCart(name, image, price);
+    showNotification(`${name} added to cart!`, "success");
+  });
+}

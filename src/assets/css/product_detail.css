@@ -496,12 +496,14 @@ html, body { background: var(--bg); }
 
 /* ============ WRAPPER ============ */
 .detail-bottom{
-  width: 1200px;
-  margin: 0 auto;
+  max-width: none;
+  width: calc(100% + 40px);
+  margin: 0 -20px;
   background: var(--bg);
   display: flex;
   flex-direction: column;
   gap: 30px;
+  overflow-x: hidden;
 }
 
 /* ============ TABS ============ */
@@ -560,10 +562,10 @@ html, body { background: var(--bg); }
 
 /* ============ PRODUCT DETAILS PANEL ============ */
 .detail-bottom .details{
-  display:grid;
-  grid-template-columns: 285px 1fr;
+  display:flex;
+  flex-direction: column;
   gap:20px;
-  padding: 0 6px 30px;
+  padding: 0 0 30px;
 }
 .detail-block h4{
   font:16px "Lexend Deca", sans-serif;
@@ -611,6 +613,7 @@ html, body { background: var(--bg); }
   color: var(--brown);
   margin:0 0 10px;
 }
+
 .info-lines {
   display: flex;
   flex-direction: column;
@@ -631,7 +634,7 @@ html, body { background: var(--bg); }
 .detail-col:has(.facts:only-child),
 .detail-col:not(:has(.facts)) {
   justify-content: space-between;
-  width: 1000vw;
+  width: 100%;
 }
 
 .panel-details {
@@ -845,10 +848,37 @@ html, body { background: var(--bg); }
   margin:60px auto;
   display:flex;
   flex-direction:column;
-  gap:40px;
+  gap:32px;
   z-index:5;
-  padding:60px 40px;
   
+
+}
+.container.related {
+  padding-inline: clamp(16px, 4vw, 64px);
+  max-width: 1280px;
+  margin-inline: auto;
+}
+
+/* hiển thị đúng 4 card một hàng, gap chuẩn */
+.container.related .cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* đảm bảo card không co kéo, fill đủ cột */
+.container.related .cards > * {
+  width: 100%;
+  margin: 0;
+}
+
+/* card fill height để nút Buy Now thẳng hàng */
+.container.related .p-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 .container.related > h3{
   margin:0;
@@ -858,12 +888,6 @@ html, body { background: var(--bg); }
   color:#252525; 
 }
 
-/* grid */
-.container.related .cards{
-  display:grid;
-  grid-template-columns:repeat(4, 285px);
-  gap:20px;
-}
 
 /* ============ PRODUCT CARD ============ */
 .p-card{

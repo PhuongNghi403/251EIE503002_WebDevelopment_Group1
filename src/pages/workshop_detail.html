@@ -70,12 +70,13 @@
     <div class="ws-hero-card">
       <!-- Banner / main media -->
       <figure class="ws-hero-media">
-        <!-- đổi src theo campaign -->
         <img id="ws-hero-img" src="../assets/images/Community/workshop1.jpeg" alt="Campaign banner">
+        <div class="ws-status-badge" id="ws-status-badge"></div>
       </figure>
 
       <!-- Right info -->
       <div class="ws-hero-info">
+        <div class="ws-tags" id="ws-tags"></div>
         <h1 id="ws-title" class="ws-title">Workshop / Campaign Title</h1>
         <p id="ws-excerpt" class="ws-excerpt">
           A short and catchy description for this event goes here.
@@ -108,11 +109,12 @@
 
         <!-- Register row -->
         <div class="ws-register-row">
+          <div id="ws-countdown" class="countdown"></div>
           <button id="ws-register" class="btn-primary"
                   aria-disabled="false" data-status="upcoming">
             Register
           </button>
-          <button class="btn-ghost" onclick="history.back()">Details</button>
+          <button class="btn-ghost" onclick="history.back()">Back to Community</button>
         </div>
       </div>
     </div>
@@ -237,5 +239,6 @@
 </footer>
 
   <script src="../assets/js/workshop-details.js"></script>
+  <script src="../assets/js/community.js"></script>
 </body>
 </html>
