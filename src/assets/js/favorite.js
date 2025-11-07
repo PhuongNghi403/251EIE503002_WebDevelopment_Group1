@@ -627,3 +627,97 @@ function initAddToCartListeners() {
     });
   });
 }
+// -----------------------------
+// FAVORITE PAGE RENDER + EVENTS
+// -----------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.body.dataset.page === 'favorite') {
+    renderFavoriteList();
+    bindFavoritePageEvents();
+
+    // đồng bộ với storage / event wishlistUpdated
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'wishlist') renderFavoriteList();
+    });
+    window.addEventListener('wishlistUpdated', renderFavoriteList);
+  }
+});
+
+function renderFavoriteList() {
+  const grid = document.querySelector('#favoriteGrid');
+  if (!grid) return;
+
+  const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
+  if (wishlist.length === 0) {
+    grid.innerHTML = `
+      <div class="favorite-empty">
+        <h2>Your Favorites List is Empty</h2>
+        <p>Looks like you haven't added any items to your favorites yet.</p>
+        <a href="shop.html" class="continue-shopping-btn">Continue Shopping</a>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = wishlist.map(item => `
+    <article class="favorite-card" data-id="${item.id}">
+      <div class="favorite-card-img">
+        <img src="${item.image}" alt="${item.name}">
+      </div>
+
+      <h3 class="favorite-card-title">${item.name}</h3>
+
+      <div class="favorite-card-footer">
+        <span class="favorite-card-price">$${(item.price || 0).toFixed(2)}</span>
+
+        <!-- Heart luôn active -->
+        <button class="favorite-heart-btn active"
+                data-id="${item.id}" 
+                data-name="${item.name}">
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <path fill="#E02D3C" stroke="#E02D3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                 C13.09 3.81 14.76 3 16.5 3
+                 19.58 3 22 5.42 22 8.5
+                 c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </button>
+
+        <button class="favorite-add-btn"
+                data-name="${item.name}"
+                data-image="${item.image}"
+                data-price="${item.price}"
+                data-category="${item.category || 'General'}">
+          Add to Cart
+        </button>
+      </div>
+    </article>
+  `).join('');
+}
+
+function bindFavoritePageEvents() {
+  document.addEventListener('click', (e) => {
+    const heart = e.target.closest('.favorite-heart-btn');
+    if (heart) {
+      const id = heart.dataset.id;
+      removeFromFavorite(id);
+    }
+  });
+}
+
+function removeFromFavorite(id) {
+  let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  wishlist = wishlist.filter(item => String(item.id) !== String(id));
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+  const card = document.querySelector(`.favorite-card[data-id="${id}"]`);
+  if (card) {
+    card.classList.add('fade-out');
+    setTimeout(() => card.remove(), 300);
+  }
+
+  showNotification('Removed from favorites', 'info');
+  updateWishlistButton();
+  window.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist, action: 'remove', id } }));
+}

@@ -28,7 +28,12 @@
           <img src="../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
         </a>
         <a class="icon-btn" href="cart.html" aria-label="Cart">
-          <img src="../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.5 23H11.3962C10.9279 22.9999 10.4744 22.8355 10.1148 22.5353C9.75527 22.2352 9.51247 21.8183 9.42875 21.3575L6.09125 3H3" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.5 28C12.8807 28 14 26.8807 14 25.5C14 24.1193 12.8807 23 11.5 23C10.1193 23 9 24.1193 9 25.5C9 26.8807 10.1193 28 11.5 28Z" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M23.5 28C24.8807 28 26 26.8807 26 25.5C26 24.1193 24.8807 23 23.5 23C22.1193 23 21 24.1193 21 25.5C21 26.8807 22.1193 28 23.5 28Z" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.81875 18H24.5125C24.9809 17.9999 25.4344 17.8355 25.7939 17.5353C26.1535 17.2352 26.3963 16.8183 26.48 16.3575L28 8H7" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </a>
         <a class="icon-btn" href="login-signup.html" aria-label="Account">
           <img src="../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
@@ -37,163 +42,64 @@
     </div>
   </header>
 
-  <main class="page favorite">
+  <section class="page favorite">
     <div class="container">
-      <!-- Favorites Section -->
-      <div class="favorite-section">
-        <div class="favorite-header">
+
+      <!-- Header -->
+      <header class="favorite-header">
+        <div class="favorite-heading">
           <h1 class="favorite-title">My Favorites</h1>
-        </div>
-        
-        <div class="favorite-table-container">
-          <table class="favorite-table" border='0'>
-            <!-- Table Header -->
-            <thead>
-              <tr class="favorite-table-header">
-                <th >
-                  <div class="header-checkbox">
-                  <input type="checkbox" id="selectAll">
-                  <label for="selectAll"></label>
-                  </div>
-                </th>
-                <th class="header-text">Products</th>
-                <th class="header-text">Price</th>
-                <th class="header-text">Category</th>
-                <th class="header-text">Added Date</th>
-                <th class="header-text">Actions</th>
-                <th class="header-text"></th>
-              </tr>
-            </thead>
-            
-            <!-- Table Body -->
-            <tbody class="favorite-items">
-              <!-- Items will be dynamically loaded here -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- You May Also Like Section -->
-      <div class="recommendations-section">
-        <div class="recommendations-header">
-          <h2 class="recommendations-title">You May Also Like</h2>
-          
+          <p class="favorite-sub">Based on items in your cart</p>
         </div>
 
-        <div class="recommendations-grid">
-          <!-- Recommendation 1 -->
-          <div class="recommendation-card">
-            <div class="card-image">
-              <img src="../assets/images/Shop/bone-4.svg" alt="Bone Shaped Pet Toys">
-            </div>
-            <div class="card-content">
-              <h3 class="card-title">BONE-SHAPED PET TOYS (SET OF 4)</h3>
-              <div class="card-actions">
-                <span class="card-price">$700.00</span>
-                <div class="card-buttons">
-                  <button class="wishlist-btn" aria-label="Add to Wishlist">
-                    <svg viewBox="0 0 24 24" width="20" height="20">
-                      <path fill="#6B6358" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                  </button>
-                  <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-              </div>
-            </div>
+        <!-- Add all to cart -->
+        <button class="favorite-addall-btn" type="button">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.5 23H11.3962C10.9279 22.9999 10.4744 22.8355 10.1148 22.5353C9.75527 22.2352 9.51247 21.8183 9.42875 21.3575L6.09125 3H3" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.5 28C12.8807 28 14 26.8807 14 25.5C14 24.1193 12.8807 23 11.5 23C10.1193 23 9 24.1193 9 25.5C9 26.8807 10.1193 28 11.5 28Z" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M23.5 28C24.8807 28 26 26.8807 26 25.5C26 24.1193 24.8807 23 23.5 23C22.1193 23 21 24.1193 21 25.5C21 26.8807 22.1193 28 23.5 28Z" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.81875 18H24.5125C24.9809 17.9999 25.4344 17.8355 25.7939 17.5353C26.1535 17.2352 26.3963 16.8183 26.48 16.3575L28 8H7" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Add All to Cart</span>
+        </button>
+      </header>
+
+      <!-- Card grid -->
+      <div class="favorite-grid" id="favoriteGrid">
+        <!-- Sample card -->
+        <article class="favorite-card">
+          <div class="favorite-card-img">
+            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1200&auto=format&fit=crop" alt="Buddy - Interactive Treat Puzzle Toy">
           </div>
-          
-          <!-- Recommendation 2 -->
-          <div class="recommendation-card">
-            <div class="card-image">
-              <img src="../assets/images/Shop/Wellness.svg" alt="WELLNESS - SIGNATURE SELECTS">
-            </div>
-            <div class="card-content">
-              <h3 class="card-title">WELLNESS SIGNATURE SELECTS (CHICKEN ENTRÉE)</h3>
-              <div class="card-actions">
-                <span class="card-price">$200.00</span>
-                <div class="card-buttons">
-                  <button class="wishlist-btn" aria-label="Add to Wishlist">
-                    <svg viewBox="0 0 24 24" width="20" height="20">
-                      <path fill="#6B6358" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                  </button>
-                  <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-              </div>
-            </div>
+
+          <h3 class="favorite-card-title">Buddy - Interactive Treat Puzzle Toy</h3>
+
+          <div class="favorite-card-footer">
+            <span class="favorite-card-price">$10.60</span>
+
+            <button class="favorite-heart-btn active"
+                    aria-label="Remove from Favorites"
+                    data-name="Buddy - Interactive Treat Puzzle Toy">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                        2 5.42 4.42 3 7.5 3
+                        c1.74 0 3.41.81 4.5 2.09
+                        C13.09 3.81 14.76 3 16.5 3
+                        19.58 3 22 5.42 22 8.5
+                        c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                      fill="#E02D3C" stroke="#4D2B12" stroke-width="1.5"/>
+              </svg>
+            </button>
+
+            <button class="favorite-add-btn">
+              Add to Cart
+            </button>
           </div>
-          
-          <!-- Recommendation 3 -->
-          <div class="recommendation-card">
-            <div class="card-image">
-              <img src="../assets/images/Shop/stuffed-animal.svg" alt="STUFFED ANIMALS & TOYS">
-            </div>
-            <div class="card-content">
-              <h3 class="card-title">STUFFED ANIMALS &AMP; ROPE PLAY SET</h3>
-              <div class="card-actions">
-                <span class="card-price">$700.00</span>
-                <div class="card-buttons">
-                  <button class="wishlist-btn" aria-label="Add to Wishlist">
-                    <svg viewBox="0 0 24 24" width="20" height="20">
-                      <path fill="#6B6358" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                  </button>
-                  <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Recommendation 4 -->
-          <div class="recommendation-card">
-            <div class="card-image">
-              <img src="../assets/images/Shop/bone.svg" alt="DOG TOYS RAWHIDE">
-            </div>
-            <div class="card-content">
-              <h3 class="card-title">RAWHIDE BONE CHEW</h3>
-              <div class="card-actions">
-                <span class="card-price">$190.00</span>
-                <div class="card-buttons">
-                  <button class="wishlist-btn" aria-label="Add to Wishlist">
-                    <svg viewBox="0 0 24 24" width="20" height="20">
-                      <path fill="#6B6358" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                  </button>
-                  <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </article>
       </div>
-      
-      <!-- Favorite Summary Section -->
-      <div class="favorite-summary-section">
-        <div class="summary-content">
-          <div class="summary-left">
-            <span class="selected-items">Selected (0 items)</span>
-            <div class="bulk-actions">
-              <button class="add-all-to-cart-btn">Add All to Cart</button>
-              <button class="clear-all-btn">Clear All</button>
-            </div>
-          </div>
-          <div class="summary-right">
-            <div class="favorite-stats">
-              <div class="stat-row">
-                <span class="stat-label">Total Favorites</span>
-                <span class="stat-value">0</span>
-              </div>
-              <div class="stat-row">
-                <span class="stat-label">Categories</span>
-                <span class="stat-value">0</span>
-              </div>
-            </div>
-            <button class="continue-shopping-btn">Continue Shopping</button>
-          </div>
-        </div>
-      </div>
+
     </div>
-  </main>
+  </section>
 
   <section class="site-cta">
     <div class="container cta-inner">
