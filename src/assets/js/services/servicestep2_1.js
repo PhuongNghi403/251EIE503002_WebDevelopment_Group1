@@ -231,7 +231,7 @@ function attemptProceed(e) {
             contact: contactInfo,
             payment: {
                 method: selectedPaymentType,
-                cardLast4: selectedCardLast4
+                cardLast4: selectedPaymentType === 'card' ? selectedCardLast4 : null
             }
         };
 
@@ -262,6 +262,10 @@ function updatePaymentVisibility() {
     
     if (!isCard && paymentDetailsForm.style.display === 'flex') {
         closePaymentForm();
+    }
+    // Nếu chuyển sang QR, xóa lựa chọn thẻ để tránh hiển thị thẻ ở Step 3
+    if (!isCard) {
+        localStorage.removeItem('selectedCardLast4');
     }
 }
 

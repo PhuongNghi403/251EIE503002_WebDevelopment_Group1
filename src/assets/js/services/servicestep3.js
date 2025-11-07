@@ -47,20 +47,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Payment
   const payment = details.payment || {};
-  const selectedLast4 = payment.cardLast4 || localStorage.getItem('selectedCardLast4') || null;
+  const paymentIconEl = document.querySelector('.payment-method-box .payment-icon');
+  const method = payment.method || 'card';
+
   let paymentNumberText = '•••• •••• •••• ----';
   let paymentExpiryText = 'Expires --/-- • --';
 
-  if (selectedLast4) {
-    paymentNumberText = `•••• •••• •••• ${selectedLast4}`;
-    // Nếu có danh sách thẻ đã lưu, hiển thị tên chủ thẻ + hạn
-    const savedCards = JSON.parse(localStorage.getItem('userSavedCards') || 'null') || {};
-    const match = Object.values(savedCards).find(c => c.last4 === selectedLast4);
-    if (match) {
-      const holder = match.cardholder_name || '--';
-      const expiry = match.expiry_display || '--/--';
-      paymentExpiryText = `Expires ${expiry} • ${holder}`;
+  if (method === 'card') {
+    const selectedLast4 = payment.cardLast4 || localStorage.getItem('selectedCardLast4') || null;
+    if (paymentIconEl) {
+      paymentIconEl.src = '../../assets/icons/Service/CreditCardIcon.svg';
+      paymentIconEl.alt = 'Visa';
     }
+    if (selectedLast4) {
+      paymentNumberText = `•••• •••• •••• ${selectedLast4}`;
+      const savedCards = JSON.parse(localStorage.getItem('userSavedCards') || 'null') || {};
+      const match = Object.values(savedCards).find(c => c.last4 === selectedLast4);
+      if (match) {
+        const holder = match.cardholder_name || '--';
+        const expiry = match.expiry_display || '--/--';
+        paymentExpiryText = `Expires ${expiry} • ${holder}`;
+      }
+    }
+  } else {
+    // QR Code selected: hiển thị QR icon và nội dung phù hợp
+    if (paymentIconEl) {
+      paymentIconEl.src = '../../assets/icons/Service/QRCodeIcon.svg';
+      paymentIconEl.alt = 'QR Code';
+    }
+    paymentNumberText = 'QR Code • MOMO/VNPAY';
+    paymentExpiryText = ''; // không áp dụng cho QR
   }
 
   setText('review-payment-number', paymentNumberText);
