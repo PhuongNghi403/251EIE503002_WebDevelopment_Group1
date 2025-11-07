@@ -254,36 +254,43 @@ body[data-page="cart"]{
 /* Grid 4 cột, wrap khi hẹp */
 .recommendations-grid{
   display:grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap:28px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap:20px;
+  align-items: stretch; 
 }
-@media (max-width:1280px){ .recommendations-grid{ grid-template-columns:repeat(3,1fr);} }
-@media (max-width:992px){ .recommendations-grid{ grid-template-columns:repeat(2,1fr);} }
-@media (max-width:560px){ .recommendations-grid{ grid-template-columns:1fr;} }
 
 /* Card */
 .recommendation-card{
-  box-sizing:border-box;
   display:flex; flex-direction:column;
-  padding:28.95px 15.65px;
-  height:407px; background:#FFF9F2;
+  background:#FFF9F2;
   border:0.782px solid #4D2B12; border-radius:12.52px;
   box-shadow:0 10px 24px rgba(0,0,0,.06);
+  padding:28.95px 15.65px;
 }
 .recommendation-card .card-image{
-  height:240.34px; background:#F4E8DA; border-radius:9.389px;
-  overflow:hidden; display:grid; place-items:center; margin-bottom:16.43px;
+ flex:0 0 240.34px; /* không co */
+  height:240.34px; border-radius:9.389px;
+  background:#F4E8DA; overflow:hidden;
+  display:grid; place-items:center; margin-bottom:16.43px;
 }
 .recommendation-card .card-image img{ width:100%; height:100%; object-fit:cover; }
 
 .recommendation-card .card-title{
+  --lh: 20px;              /* khớp line-height bên dưới */
+  --lines: 2;
   margin:0 0 12.52px;
-  font-family:'Lexend Deca',system-ui,sans-serif;
-  font-weight:700; font-size:15.65px; line-height:20px; color:#4D2B12;
-  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  font:700 15.65px/20px 'Lexend Deca',system-ui,sans-serif;
+  color:#4D2B12;
+
+  display:-webkit-box;
+  -webkit-line-clamp: var(--lines);
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  min-height: calc(var(--lh) * var(--lines));
 }
 
 .recommendation-card .card-actions{
+  margin-top:auto;
   display:flex; align-items:center; gap:16.43px;
 }
 
@@ -295,13 +302,18 @@ body[data-page="cart"]{
 
 .card-buttons{ margin-left:auto; display:flex; align-items:center; gap:4.69px; }
 .wishlist-btn{
-  width:28.17px; height:28.17px; border-radius:999px;
-  background:#F7F3EF; border:0.782px solid rgba(139,115,85,0.06); display:grid; place-items:center;
+  padding:0;
+  width:28.17px; height:28.17px; border-radius:999px;place-items: center;
+  background:#F7F3EF; border:0.782px solid rgba(139,115,85,0.06); display:inline-grid;
   cursor:pointer; transition:background-color .2s ease, border-color .2s ease, transform .15s ease;
 }
 .wishlist-btn:hover{ background:#FFF4F6; border-color:#F9B8C0; transform:translateY(-1px); }
-.wishlist-btn:hover svg path{ fill:#E63946 !important; }
-.wishlist-btn:active{ transform:translateY(0); }
+.wishlist-btn:hover svg path{ fill:#E63946 !important;stroke:#E63946;}
+.wishlist-btn.active svg path{fill:#E63946 !important;stroke:#E63946; }
+.wishlist-btn.active{
+  background:transparent;
+  border-color:#E63946;
+}
 .add-to-cart-btn{
   height:33.65px; padding:7.824px 12px;
   background:#7A6F64; color:#FFF9F2; border:none; border-radius:7.04px;
@@ -316,9 +328,26 @@ body[data-page="cart"]{
 .cart-summary-section { 
   width: 100%; 
   border-top: 1px solid rgba(77, 43, 18, 0.35); 
-  padding-top: 16px; 
+  padding: 16px 32px; 
   margin-top: 24px;
+  
 }
+
+.cart-summary-section {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 50;
+  background: #FFF9F2;
+  box-shadow: 0 -6px 24px rgba(0,0,0,.08);
+  transition: all .3s ease;
+}
+
+/* Khi đã chạm tới vị trí thực sự trong layout */
+.cart-summary-section.stuck {
+  position: static;
+  box-shadow: none;
+}
+
 
 .summary-content {
   display: flex;
@@ -332,8 +361,9 @@ body[data-page="cart"]{
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: 24px;
   flex-wrap: nowrap; /* keep on one line */
+  margin-left:170px;
 }
 
 .selected-items { 
@@ -344,6 +374,7 @@ body[data-page="cart"]{
   white-space: nowrap; /* prevent wrapping */
 }
 
+
 .discount-code { 
   display: inline-flex; 
   align-items: center; 
@@ -352,34 +383,58 @@ body[data-page="cart"]{
 }
 
 .discount-code .code-input { 
-  height: 36px; 
-  border-radius: 8px; 
-  border: 1px solid #E8E3DD; 
-  background: #FFF9F2; 
-  padding: 0 10px; 
-  font: 500 14px/1 'Lexend Deca', sans-serif; 
-  color: #4D2B12; 
-  width: 200px; 
+  width: 265px;
+  height: 36px;
+  padding: 9px 16px;
+  border: 1px solid rgba(77, 43, 18, 0.47);
+  border-radius: 5px;
+  background: #FFFEF9;
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 14px;
+  color: #4D2B12;
+  outline: none;
+}
+.discount-code .code-input:disabled {
+  background: #f5f2ef;
+  color: #999;
 }
 
 .discount-code .code-input::placeholder { color: #8B7355; }
 
 .discount-code .apply-btn { 
-  height: 36px; 
-  padding: 0 14px; 
-  border-radius: 8px; 
-  border: 1px solid #E8E3DD; 
-  background: #FAF4EC; 
-  font: 700 13px/36px 'Lexend Deca', sans-serif; 
-  color: #4D2B12; 
-  cursor: pointer; 
+  height: 36px;
+  padding: 8px 16px;
+  background: #492B15;
+  border: 1px solid rgba(77, 43, 18, 0.15);
+  border-radius: 6px;
+  color: #FFFEF9;
+  font-family: 'Lexend Deca',sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: not-allowed;
+  opacity: .5;
+  transition: all .2s ease;
 }
+.discount-code .apply-btn:disabled{
+  background:#ccc;
+  color:#fff;
+  cursor:not-allowed;
+  opacity: .6;
+}
+
+.discount-code .apply-btn.active {
+  background: #492B15;
+  color:#fff;
+  cursor: pointer;
+}
+
 
 .summary-right { 
   display: flex; 
   flex-direction: row; 
   align-items: center; 
   gap: 20px; 
+  margin-right:170px;
 }
 
 .price-breakdown { 
@@ -407,24 +462,23 @@ body[data-page="cart"]{
   font-size: 16px; 
   color: #4D2B12; 
 }
-
-.checkout-btn { 
-  padding: 10px 16px; 
-  background: #4D2B12; 
-  color: #FFF9F2; 
-  border: none; 
-  border-radius: 8px; 
-  font: 700 14px 'Lexend Deca', sans-serif; 
-  cursor: pointer; 
+.price-row.discount .price-value.applied {
+  color: var(--green);
 }
 
-@media (max-width: 768px) {
-  .summary-content { 
-    flex-direction: column; 
-    align-items: flex-start; 
-  }
-  .summary-right { 
-    width: 100%; 
-    justify-content: space-between; 
-  }
+.checkout-btn {
+  background: #8B7355;
+  color: #F4E8DA;
+  font-family: 'Lexend Deca', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  border-radius: 32px;
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.checkout-btn:hover {
+  background: #4D2B12;
 }

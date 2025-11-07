@@ -146,42 +146,41 @@
           <p class="recommendations-sub">Based on items in your cart</p>
         </div>
 
-        <!-- JS sẽ fill 4 card vào đây -->
+        <!-- JS -->
         <div class="recommendations-grid"></div>
       </div>
-
-      
+    </main>
+  
       <!-- Cart Summary Section -->
-      <div class="cart-summary-section">
-        <div class="summary-content">
-          <div class="summary-left">
-            <span class="selected-items">Selected (2 items)</span>
-            <div class="discount-code">
-              <input type="text" placeholder="Enter code" class="code-input">
-              <button class="apply-btn">Apply</button>
-            </div>
-          </div>
-          <div class="summary-right">
-            <div class="price-breakdown">
-              <div class="price-row">
-                <span class="price-label">Subtotal</span>
-                <span class="price-value"></span>
-              </div>
-              <div class="price-row discount">
-                <span class="price-label">Discount</span>
-                <span class="price-value"></span>
-              </div>
-              <div class="price-row total">
-                <span class="price-label">Total</span>
-                <span class="price-value"></span>
+        <div class="cart-summary-section">
+          <div class="summary-content">
+            <div class="summary-left">
+              <span class="selected-items">Selected (2 items)</span>
+              <div class="discount-code">
+                <input type="text" placeholder="Enter code" class="code-input">
+                <button id="applyDiscountBtn" class="apply-btn"disabled>Apply</button>
               </div>
             </div>
-            <button class="checkout-btn">Checkout</button>
+            <div class="summary-right">
+              <div class="price-breakdown">
+                <div class="price-row">
+                  <span class="price-label">Subtotal</span>
+                  <span class="price-value"></span>
+                </div>
+                <div class="price-row discount">
+                  <span class="price-label">Discount</span>
+                  <span class="price-value"></span>
+                </div>
+                <div class="price-row total">
+                  <span class="price-label">Total</span>
+                  <span class="price-value"></span>
+                </div>
+              </div>
+              <button class="checkout-btn">Checkout</button>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </main>
+  
 
   <section class="site-cta">
     <div class="container cta-inner">
@@ -237,8 +236,36 @@
     </div>
   </footer>
 
-  <script src="../assets/data/products.js"></script>
-  <script src="../assets/js/utils.js"></script>
-  <script src="../assets/js/cart.js"></script>
+  <script src="../assets/data/discount.js"></script>
+<script src="../assets/data/products.js"></script>
+<script src="../assets/js/utils.js"></script>
+<script src="../assets/js/cart.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const summary = document.querySelector('.cart-summary-section');
+    if (!summary) return;
+
+    // Tạo 1 sentinel (điểm đánh dấu) đặt TRƯỚC cart-summary-section
+    const sentinel = document.createElement('div');
+    sentinel.style.height = '1px';
+    sentinel.style.marginTop = '-1px';
+    summary.parentNode.insertBefore(sentinel, summary);
+
+    // Khi sentinel đi vào tầm nhìn => đã scroll tới vị trí thật của cart-summary-section
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        summary.classList.add('stuck');
+      } else {
+        summary.classList.remove('stuck');
+      }
+    }, {
+      root: null,
+      threshold: 0,
+    });
+
+    io.observe(sentinel);
+  });
+  </script>
+
 </body>
 </html>
