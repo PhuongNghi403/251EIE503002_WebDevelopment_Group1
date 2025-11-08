@@ -555,7 +555,7 @@ function initProductCardButtons() {
       
       // Add to cart then go to cart immediately to confirm order
       addToCart(productName, productImage, price);
-      window.location.href = 'shop_checkout_pickup.html';
+      window.location.href = '../pages/shop_checkout/shop_checkout_pickup.html';
     });
   });
   
