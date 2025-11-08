@@ -50,3 +50,69 @@
 
 /* Header brand accent color */
 .brand .brand-text .accent { color: #B0C4DE; }
+/* Account dropdown wrap */
+.account-btn-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.account-btn-wrap .icon-btn[aria-label="Account"] {
+  position: relative;
+  z-index: 2;
+}
+
+.account-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  min-width: 160px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  padding: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity .15s ease, transform .15s ease, visibility .15s ease;
+}
+
+.account-btn-wrap:hover .account-menu,
+.account-btn-wrap:focus-within .account-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.account-menu::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 14px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-left: 1px solid #e5e5e5;
+  border-top: 1px solid #e5e5e5;
+  transform: rotate(45deg);
+}
+
+.account-menu .menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: var(--brand-brown, #5b3a2e);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.account-menu .menu-item:hover,
+.account-menu .menu-item:focus-visible {
+  background: #f6f2ef;
+  outline: none;
+}
+
+.account-menu .menu-item.signout { color: #9b2c2c; }
+.account-menu .menu-item.signout:hover { background: #fff0f0; }
