@@ -285,47 +285,29 @@ function initHomestayBoardingFunctionality() {
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      
-      // =======================================================
-      // YÊU CẦU: LƯU TẤT CẢ VÀO LOCALSTORAGE KHI BẤM "CHECKOUT"
-      // =======================================================
 
-      // 1. Lưu Gói
+      // Lưu gói đã chọn
       localStorage.setItem('selectedPackageName', selectedPackage.name);
-      localStorage.setItem('selectedPackagePrice', selectedPackage.price.toString()); // Lưu là string
+      localStorage.setItem('selectedPackagePrice', String(selectedPackage.price));
 
-      // 2. Chuyển đổi và lưu Add-ons
-      // Map: addonName -> { price: number, ... }
+      // Lưu Add-ons (mỗi add-on qty = 1)
       const addonsToSave = [];
       selectedAddons.forEach((value, key) => {
-        addonsToSave.push({
-          name: key,
-          price: value.price,
-          qty: 1 // Addons luôn có qty: 1
-        });
+        addonsToSave.push({ name: key, price: value.price, qty: 1 });
       });
       localStorage.setItem('selectedAddons', JSON.stringify(addonsToSave));
 
-      // 3. Chuyển đổi và lưu Treats
-      // Map: treatName -> { price: number, quantity: number, ... }
+      // Lưu Treats (số lượng từ state)
       const treatsToSave = [];
       selectedTreats.forEach((value, key) => {
-        if (value.quantity > 0) {
-          treatsToSave.push({
-            name: key,
-            price: value.price,
-            qty: value.quantity
-          });
+        if ((value.quantity || 0) > 0) {
+          treatsToSave.push({ name: key, price: value.price, qty: value.quantity });
         }
       });
       localStorage.setItem('selectedTreats', JSON.stringify(treatsToSave));
 
-      // =======================================================
-      // KẾT THÚC SỬA LỖI
-      // =======================================================
-
-      // Chuyển trang
-      window.location.href = 'homestaystep1.html';
+      // Điều hướng sang Spa Step 1
+      window.location.href = 'spastep1.html';
     });
   }
 
@@ -362,7 +344,7 @@ function initGroomingSpaFunctionality() {
       price: 45,
       addons: [
         { name: 'Dental Care Plus', price: 5, desc: 'Full Teeth Brushing & Gum Massage...' },
-        { name: 'Upgraded Shampoo/Conditioner', price: 10, desc: 'Medicated Bath or Whitening Shampoo...' },
+        { name: 'Upgraded Shampoo', price: 10, desc: 'Medicated Bath or Whitening Shampoo...' },
         { name: 'Pet Taxi', price: 10, desc: 'Pawfect Care staff picks up and returns your pet...' },
         { name: 'Live Camera', price: 12, desc: 'HD livestream of your pet 24/7' }
       ]
@@ -614,12 +596,43 @@ function initGroomingSpaFunctionality() {
 
   // --- HẾT CÁC HÀM CON CỦA GROOMING ---
 
+// --- HẾT CÁC HÀM CON CỦA GROOMING ---
+
   const checkoutBtn = document.querySelector('.checkout-btn');
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      // (Bạn có thể thêm logic lưu vào localStorage ở đây nếu muốn)
-      window.location.href = 'bookingspa.html';
+
+      // --- BẮT ĐẦU BỔ SUNG: LƯU DỮ LIỆU VÀO LOCALSTORAGE ---
+
+      // 1. Lưu gói đã chọn
+      // Các biến selectedPackage, selectedAddons, selectedTreats đã được cập nhật
+      // bởi các hàm khác trong file này.
+      localStorage.setItem('selectedPackageName', selectedPackage.name);
+      localStorage.setItem('selectedPackagePrice', String(selectedPackage.price));
+
+      // 2. Lưu Add-ons
+      const addonsToSave = [];
+      selectedAddons.forEach((value, key) => {
+        // Gói Spa coi mỗi add-on là 1 (không có số lượng)
+        addonsToSave.push({ name: key, price: value.price, qty: 1 });
+      });
+      localStorage.setItem('selectedAddons', JSON.stringify(addonsToSave));
+
+      // 3. Lưu Treats
+      const treatsToSave = [];
+      selectedTreats.forEach((value, key) => {
+        // Chỉ lưu treat nào có số lượng > 0
+        if ((value.quantity || 0) > 0) {
+          treatsToSave.push({ name: key, price: value.price, qty: value.quantity });
+        }
+      });
+      localStorage.setItem('selectedTreats', JSON.stringify(treatsToSave));
+
+      // --- KẾT THÚC BỔ SUNG ---
+
+      // 4. Điều hướng (vẫn như cũ)
+      window.location.href = 'spastep1.html';
     });
   }
 

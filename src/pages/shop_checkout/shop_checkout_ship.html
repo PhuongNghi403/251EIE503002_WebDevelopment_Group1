@@ -40,10 +40,11 @@
   <main class="page checkout">
     <div class="container">
       <div class="checkout-header">
+        <a class="back-btn" href="../cart.html" aria-label="Back">Back</a>
         <h1 class="checkout-title">Checkout — Shipping</h1>
       </div>
 
-      <div class="checkout-layout">
+      <div class="checkout-layout" data-policy-scope>
         <!-- Left column: shipping + payment -->
         <section class="checkout-main">
           <!-- Shipping Method -->
@@ -363,6 +364,7 @@
     </div>
   </div>
   <script src="../../assets/js/utils.js"></script>
+  <script src="../../assets/js/policy_modal.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="../../assets/js/shop_checkout/shop_checkout_ship.js"></script>

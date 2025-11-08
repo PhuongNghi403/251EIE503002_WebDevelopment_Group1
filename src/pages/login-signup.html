@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/base.css" />
   <link rel="stylesheet" href="../assets/css/header.css" />
-  <link rel="stylesheet" href="../assets/css/footer.css" />
   <link rel="stylesheet" href="../assets/css/login.css" />
 </head>
 <body data-page="login-signup">
@@ -166,83 +165,23 @@
     </section>
   </main>
 
-  <section class="site-cta">
-    <div class="container cta-inner">
-      <div class="cta-icons" aria-hidden="true">
-        <img class="cta-pattern" src="../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
-      </div>
-      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
-      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
-      <div class="cta-actions">
-        <a href="services/services.html" class="btn primary">Book Now</a>
-        <a href="community.html" class="btn ghost">Contact Us</a>
-      </div>
-    </div>
-  </section>
-
-  <footer class="site-footer">
-    <div class="container footer-columns">
-      <div class="footer-col">
-        <div class="footer-brand">
-          <img class="brand-foot-img" src="../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
-          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
-        </div>
-        <p>Your trusted partner in pet care since 2020.</p>
-      </div>
-      <div class="footer-col">
-        <h4 class="footer-title">Services</h4>
-        <ul class="footer-links">
-          <li><a href="services/homestaystep1.html">Pet Boarding</a></li>
-          <li><a href="services/groomingspa-service.html">Pet Spa</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4 class="footer-title">Company</h4>
-        <ul class="footer-links">
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4 class="footer-title">Follow Us</h4>
-        <div class="socials">
-          <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
-          <a href="https://www.instagram.com/" aria-label="Instagram"></a>
-          <a href="https://x.com/" aria-label="Twitter"></a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container" align="center" style="color: #000000;">
-        © 2025 Pawfect Care. All rights reserved.
-      </div>
-    </div>
-  </footer>
-
   <!-- Social Login SDKs -->
   <!-- Google OAuth 2.0 -->
   <script src="https://apis.google.com/js/api.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  
   <!-- Facebook SDK -->
   <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
   <script>
     window.fbAsyncInit = function() {
       FB.init({
-        appId: 'YOUR_FACEBOOK_APP_ID', // Replace with your Facebook App ID
+        appId: 'YOUR_FACEBOOK_APP_ID',
         cookie: true,
         xfbml: true,
         version: 'v18.0'
       });
-      
-      // Mark FB as ready
       window.fbReady = true;
       console.log('Facebook SDK initialized');
     };
-    
-    // Fallback for development
     setTimeout(() => {
       if (!window.fbReady) {
         console.log('Facebook SDK initialization timeout, will use mock');
@@ -250,14 +189,13 @@
       }
     }, 5000);
   </script>
-  
   <!-- Apple Sign In -->
   <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
   <script>
     window.addEventListener('load', function() {
       if (typeof AppleID !== 'undefined') {
         AppleID.auth.init({
-          clientId: 'YOUR_APPLE_CLIENT_ID', // Replace with your Apple Client ID
+          clientId: 'YOUR_APPLE_CLIENT_ID',
           scope: 'name email',
           redirectURI: window.location.origin + '/pages/login-signup.html',
           state: 'state',
@@ -266,10 +204,9 @@
       }
     });
   </script>
-  
-  <!-- Cuối body: thay main.js bằng utils + api + auth.js -->
   <script src="../assets/js/utils.js"></script>
   <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/policy_modal.js"></script>
   <script src="../assets/js/auth.js"></script>
 </body>
 </html>

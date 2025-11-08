@@ -19,6 +19,7 @@
     initReviewBars();
     initAddToCart();
     renderRelated();
+    initBuyRelated();
   });
 
   // ========== BACK BUTTON ==========
@@ -27,7 +28,7 @@
     if (!back) return;
     back.addEventListener("click", (e) => {
       // nếu history không có, fallback về trang shop
-      if (window.history.length > 1) return; // đã có onclick="history.back()" trong HTML
+      if (window.history.length > 1) return; 
       e.preventDefault();
       window.location.href = "../pages/shop.html";
     });
@@ -403,6 +404,35 @@ function showCartToast(msg) {
   setTimeout(() => toast.remove(), 1500);
 }
 
+// ========== BUY RELATED ==========
+function initBuyRelated() {
+  document.querySelectorAll('.btn-buy-related').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const card = btn.closest('.p-card');
+      if (!card) return;
+
+      const name = card.querySelector('.p-card__name')?.textContent.trim() || 'Unknown Product';
+      const image = card.querySelector('img')?.src || '';
+      const priceText = card.querySelector('.p-card__price span')?.textContent || '$0';
+      const price = parseFloat(priceText.replace(/[^0-9.]/g, '')) || 0;
+
+      // Add to cart
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const found = cart.find(x => x.name === name);
+      if (found) found.quantity += 1;
+      else cart.push({ id: Date.now(), name, image, price, quantity: 1 });
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // Show toast
+      showCartToast(`${name} added to cart 🛒`);
+
+      // Redirect to checkout
+      window.location.href = '../pages/shop_checkout/shop_checkout_ship.html';
+    });
+  });
+}
+
 
   // ========== REVIEW BAR ANIMATION ==========
   function initReviewBars() {
@@ -416,6 +446,10 @@ function showCartToast(msg) {
     });
   }
 })();
+
+window.addEventListener('unhandledrejection', (e) => {
+  console.warn('[product_detail] Unhandled promise rejection:', e.reason || e);
+});
 
 function renderSummaryBars(selector = '#summaryBars') {
   const list = document.querySelector(selector);
@@ -471,9 +505,13 @@ function observeBarsAppear(selector = '#summaryBars') {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // gọi trực tiếp hoặc dùng observer (chọn 1)
-  // renderSummaryBars();
-  observeBarsAppear(); // mượt hơn khi user lướt tới
+try {
+// gọi trực tiếp hoặc dùng observer (chọn 1)
+// renderSummaryBars();
+observeBarsAppear(); // mượt hơn khi user lướt tới
+} catch (e) {
+console.warn('[product_detail] init error:', e);
+}
 });
 
 function renderRelated() {
@@ -487,7 +525,13 @@ function renderRelated() {
         <div class="p-card__img">
           <img src="${p.image}" alt="${p.name}">
           <button class="p-card__fav" aria-label="Add to wishlist">
-            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36..."/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                      2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                      C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5
+                      c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
           </button>
         </div>
         <div class="p-card__body">
@@ -496,7 +540,10 @@ function renderRelated() {
           <div class="p-card__cta">
             <button class="btn btn--small btn--primary">Buy Now</button>
             <button class="btn btn--small btn--outline" aria-label="Add to cart">
-              <svg class="icon-cart" viewBox="0 0 24 24"><path d="M6 6h15..."/></svg>
+              <svg class="icon-cart" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6h15l-1.5 7.5a2 2 0 0 1-2 1.5H8.5a2 2 0 0 1-2-1.5L4 3H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="18" cy="20" r="1.5" fill="currentColor"/>
+              </svg>
             </button>
           </div>
         </div>
@@ -504,6 +551,19 @@ function renderRelated() {
     `;
   });
 }
+document.addEventListener("click", (e) => {
+  const card = e.target.closest(".p-card");
+  if (!card) return;
+
+  // bỏ qua nếu bấm nút Add to cart hoặc tim
+  if (e.target.closest("button")) return;
+
+  const name = card.querySelector(".p-card__name")?.textContent.trim();
+  if (name) {
+    window.location.href = `product_detail.html?name=${encodeURIComponent(name)}`;
+  }
+});
+
 
 /* =========================
    >>> ADDED: DATA → UI <<<
@@ -697,7 +757,13 @@ function renderRelatedFromData(product) {
         <div class="p-card__img" style="height:280px; background:#F1F1F1; position:relative;">
           <img src="${p.thumbnail}" alt="${p.name}" style="width:210px; height:auto;">
           <button class="p-card__fav" aria-label="Add to wishlist" title="Add to wishlist">
-            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36..."/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                      2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                      C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5
+                      c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
           </button>
         </div>
         <div class="p-card__body" style="padding:20px; border:1px solid #E5C4FF; border-top:none; border-radius:0 0 10px 10px;">
@@ -705,7 +771,7 @@ function renderRelatedFromData(product) {
             ${p.name.length>18 ? p.name.slice(0,18)+'…' : p.name}
           </h3>
           <div class="p-card__meta" style="display:flex; align-items:center; gap:5px; color:#595959; margin-bottom:6px;">
-            <img src="assets/star-yellow.svg" alt="" style="width:18px; height:18px;">
+            <img src="../assets/icons/HomestayDetail/starpink_icon.svg" alt="rating" style="width:18px; height:18px;">
             <span>(${(p.rating?.avg ?? 0).toFixed(1)})</span>
             <span>${p.soldCount ?? ''} Sold</span>
           </div>
@@ -714,8 +780,7 @@ function renderRelatedFromData(product) {
             ${p.price?.original ? `<s style="font-weight:600; font-size:16px; color:#595959;">${fmtPrice(p.price.original)}</s>` : ''}
           </div>
           <div class="p-card__cta" style="display:flex; gap:5px;">
-            <a class="btn btn--small btn--primary" style="flex:1; height:30px; border-radius:32px;"
-               href="product_detail.html?slug=${p.slug}">View</a>
+            <button class="btn btn--small btn--primary btn-buy-related" style="flex:1; height:30px; border-radius:32px;">Buy Now</button>
             <button class="btn btn--small btn--outline" aria-label="Add to cart"
                     style="width:30px; height:30px; padding:5px; border-radius:32px;">
               <svg class="icon-cart" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -729,6 +794,7 @@ function renderRelatedFromData(product) {
   });
   if (typeof initWishlist === 'function') initWishlist();
   if (typeof initAddToCart === 'function') initAddToCart();
+  if (typeof initBuyRelated === 'function') initBuyRelated();
 }
 
 // === MAIN: init render từ data ===
@@ -842,9 +908,22 @@ window.initProductDetailButtons = function initProductDetailButtons() {
   function getQty() {
     const v = +document.querySelector('.quantity-control input')?.value || 1;
     return Math.max(1, Math.min(99, v|0));
-    }
+  }
 
-  function handleAddToCart() {
+  function handleAddClick() {
+    const p = window.__currentProduct;
+    if (!p) return;
+    const opts = collectSelectedOptions();
+    const qty = getQty();
+    if (typeof window.addToCart === 'function') {
+      const trigger = this;
+      trigger.dataset.qty = String(qty);
+      trigger.dataset.selectedOptions = JSON.stringify(opts);
+      window.addToCart(p.name, (p.thumbnail || p.images?.[0] || ''), getPriceNumber());
+    }
+  }
+
+  function handleBuyNow() {
     const p = window.__currentProduct;
     if (!p) return;
     const opts = collectSelectedOptions();
@@ -856,8 +935,10 @@ window.initProductDetailButtons = function initProductDetailButtons() {
       trigger.dataset.selectedOptions = JSON.stringify(opts);
       window.addToCart(p.name, (p.thumbnail || p.images?.[0] || ''), getPriceNumber());
     }
+
+    window.location.href = '../pages/shop_checkout/shop_checkout_ship.html';
   }
 
-  buy?.addEventListener('click', handleAddToCart);
-  add?.addEventListener('click', handleAddToCart);
+  buy?.addEventListener('click', handleBuyNow);
+  add?.addEventListener('click', handleAddClick);
 };

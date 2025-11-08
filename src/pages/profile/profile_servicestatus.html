@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawfect Care — Profile</title>
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/header.css" />
+  <link rel="stylesheet" href="../../assets/css/profile/profile_servicestatus.css" />
+  <link rel="stylesheet" href="../../assets/css/footer.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="profile">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../index.html">
+        <img class="brand-mark-img" src="../../assets/icons/Login/mainlogo.svg" alt="Pawfect Care" />
+        <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+      </a>
+      <nav class="nav">
+        <a class="nav-link" href="../../index.html">Home</a>
+        <a class="nav-link" href="../services/services.html">Services</a>
+        <a class="nav-link" href="../shop.html">Shop</a>
+        <a class="nav-link" href="../community.html">Community</a>
+        <a class="nav-link" href="profile.html">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-btn" href="../favorite.html" aria-label="Wishlist">
+              <img src="../../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+            </a>
+        <a class="icon-btn" href="../cart.html" aria-label="Cart">
+          <img src="../../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="../login-signup.html" aria-label="Account">
+          <img src="../../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page profile">
+    <section class="container back-row">
+      <a class="back-btn" href="profile.html" aria-label="Back">Back</a>
+    </section>
+
+    <section class="container service-dashboard">
+      <div class="dashboard-main">
+        <!-- Order summary card -->
+        <article class="card order-summary">
+          <div class="summary-top">
+            <span class="status-pill active">Active</span>
+            <div class="summary-actions">
+              <button class="btn ghost small">Extend Stay</button>
+              <button class="btn small">Early Pickup</button>
+            </div>
+          </div>
+          <div class="summary-info">
+            <div class="summary-title">
+              <strong>Order #UEL-12345678910</strong>
+              <small>Your furry friend is feeling super happy</small>
+            </div>
+            <div class="summary-meta">
+              <div class="meta-item">
+                <span class="meta-label">Order Date</span>
+                <strong>Nov 12, 2025</strong>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Estimate Ready Time</span>
+                <strong>Today, 3:00–5:00 PM</strong>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Shipping Details</span>
+                <strong>Pick-up at Store</strong>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Live camera card -->
+        <article class="card live-camera">
+          <div class="live-header">
+            <span class="live-badge">Live</span>
+          </div>
+          <div class="live-feed">
+            <iframe
+              class="live-iframe"
+              src="https://www.skylinewebcams.com/en/webcam/vietnam/nam-trung-bo/da-nang/da-nang.html"
+              title="Live Cam Da Nang"
+              frameborder="0"
+              allow="autoplay; encrypted-media"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+            <div class="embed-fallback">
+              <small>If the live cam doesn’t load, open it directly:</small>
+              <a class="btn ghost small" href="https://www.skylinewebcams.com/en/webcam/vietnam/nam-trung-bo/da-nang/da-nang.html" target="_blank" rel="noopener">Open Live Cam</a>
+            </div>
+          </div>
+          <div class="live-footer">
+            <button class="btn ghost small">
+              Take Screenshot
+            </button>
+            <button class="icon-btn square" aria-label="Expand">
+              ▢
+            </button>
+          </div>
+        </article>
+
+        <!-- Order status timeline -->
+        <article class="card order-status">
+          <h3 class="card-title">Pet Status</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="time">Today, 9:00 AM</div>
+                <div class="title">Staff Update</div>
+                <div class="note">Vi Anh is playing with her favorite toy</div>
+                <div class="photo-row">
+                  <div class="photo-placeholder"></div>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="time">Today, 7:00 AM</div>
+                <div class="title">Staff Update</div>
+                <div class="note">Vi Anh just had her meal — everything’s good</div>
+                <div class="photo-row">
+                  <div class="photo-placeholder"></div>
+                  <div class="photo-placeholder"></div>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="time">Yesterday, 10:00 PM</div>
+                <div class="title">Staff Update</div>
+                <div class="note">Vi Anh is sleeping now</div>
+                <div class="photo-row">
+                  <div class="photo-placeholder"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="dashboard-aside">
+        <!-- Pick-up information -->
+        <article class="card pickup-info">
+          <h3 class="card-title">Pick-up Information</h3>
+          <div class="pickup-row">
+            <div class="pickup-date">
+              <div class="label">Pick-up</div>
+              <strong>Tomorrow, Nov 12</strong>
+              <small>Check-out 6:00 PM</small>
+            </div>
+          </div>
+          <ul class="store-info">
+            <li>Pawfect Care Store</li>
+            <li>669 Do Muoi, Linh Xuan Ward, Ho Chi Minh City</li>
+            <li>+84 987654321</li>
+          </ul>
+        </article>
+
+        <!-- Caretaker card -->
+        <article class="card caretaker">
+          <h3 class="card-title">Your Caretaker</h3>
+          <div class="caretaker-row">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="info">
+              <strong>Babi Shark</strong>
+              <small>Senior Pet Caretaker</small>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn ghost small">Call Staff</button>
+            <button class="btn small">Message Staff</button>
+          </div>
+        </article>
+
+        <!-- Order details card -->
+        <article class="card order-details">
+          <h3 class="card-title">Order Details</h3>
+          <dl class="meta-list">
+            <div class="row"><dt>VIP Packages</dt><dd>Duration: 3 days</dd></div>
+            <div class="row"><dt>Live Camera</dt><dd>Add-on</dd></div>
+          </dl>
+          <div class="totals">
+            <div class="row"><span>Subtotal:</span><strong>$55</strong></div>
+            <div class="row"><span>Add-ons:</span><strong>$15</strong></div>
+            <div class="row total"><span>Total:</span><strong>$65</strong></div>
+          </div>
+        </article>
+
+        <!-- Help card -->
+        <article class="card help">
+          <h3 class="card-title">Need Help?</h3>
+          <p class="help-desc">We’re here to answer all your questions</p>
+          <a class="btn primary full" href="#">Contact Support</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <section class="site-cta">
+    <div class="container cta-inner">
+      <div class="cta-icons" aria-hidden="true">
+        <img class="cta-pattern" src="../../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+      </div>
+      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+      <div class="cta-actions">
+        <a href="../services/services.html" class="btn primary">Book Now</a>
+        <a href="../community.html" class="btn ghost">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img class="brand-foot-img" src="../../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
+          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+        </div>
+        <p>Your trusted partner in pet care since 2020.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="../services/homestaystep1.html">Pet Boarding</a></li>
+          <li><a href="../services/groomingspa-service.html">Pet Spa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Follow Us</h4>
+        <div class="socials">
+          <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+          <a href="https://x.com/" aria-label="Twitter"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" align="center" style="color: #000000;">
+        © 2025 Pawfect Care. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/utils.js"></script>
+  <script src="../../assets/js/profile/profile_servicestatus.js"></script>
+</body>
+</html>

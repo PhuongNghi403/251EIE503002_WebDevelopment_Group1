@@ -100,12 +100,18 @@ function populateWorkshopDetail() {
   const media = document.querySelector(".ws-hero-media img");
   const title = document.querySelector(".ws-title");
   const excerpt = document.querySelector(".ws-excerpt");
-  const metaDate = document.querySelector('.ws-meta .meta-item[data-field="date"] .meta-value');
-  const metaLoc  = document.querySelector('.ws-meta .meta-item[data-field="location"] .meta-value');
-  const priceEl  = document.querySelector('.ws-summary .ws-price');
+  const metaDate = document.getElementById("ws-date");
+  const metaHost = document.getElementById("ws-host");
+  const metaVenue = document.getElementById("ws-venue");
+  const tagsEl = document.getElementById("ws-tags");
+  const statusBadge = document.getElementById("ws-status-badge");
+  const bodyEl = document.getElementById("ws-body");
   const galleryGrid = document.querySelector(".ws-gallery-grid");
   const agendaList = document.querySelector(".ws-agenda");
   const registerBtn = document.getElementById("ws-register");
+  const sumWhen = document.getElementById("sum-when");
+  const sumWhere = document.getElementById("sum-where");
+  const sumDuration = document.getElementById("sum-duration");
 
   if (notFound) {
     if (title) title.textContent = "Event not found";
@@ -124,9 +130,29 @@ function populateWorkshopDetail() {
     // gắn data-iso để script “past-check” của bạn ưu tiên parse chính xác
     if (ev.dateISO) metaDate.dataset.iso = ev.dateISO;
   }
-  if (metaLoc) metaLoc.textContent = ev.location || "";
+  if (metaHost) metaHost.textContent = ev.author || "Pawfect Team";
+  if (metaVenue) metaVenue.textContent = ev.location || "Pawfect Hub";
 
-  if (priceEl) priceEl.textContent = ev.price || "";
+  // Tags
+  if (tagsEl && Array.isArray(ev.tags)) {
+    tagsEl.innerHTML = ev.tags.map(tag => `<span class="tag">${tag}</span>`).join("");
+  }
+
+  // Status badge
+  if (statusBadge) {
+    const status = ev.status === "past" ? "Past Event" : "Upcoming";
+    const statusClass = ev.status === "past" ? "past" : "upcoming";
+    statusBadge.innerHTML = `<span class="badge ${statusClass}">${status}</span>`;
+  }
+
+  // Body overview
+  if (bodyEl) {
+    bodyEl.innerHTML = `
+      <p>${ev.shortDesc || "No description available."}</p>
+      <p>Join us for an engaging event designed to bring pet lovers together. Learn valuable tips, meet fellow enthusiasts, and enjoy activities tailored for your furry friends. Whether you're a new pet owner or a seasoned pro, this event offers something for everyone.</p>
+      <p>What to expect: Interactive sessions, expert advice, and fun moments with pets. Materials and refreshments will be provided. Key takeaways include practical knowledge to enhance your pet care routine.</p>
+    `;
+  }
 
   if (galleryGrid && Array.isArray(ev.gallery)) {
     galleryGrid.innerHTML = ev.gallery.map(src => `<img src="${src}" alt="Event photo">`).join("");
@@ -136,21 +162,39 @@ function populateWorkshopDetail() {
     agendaList.innerHTML = ev.agenda.map(item => `<li>${item}</li>`).join("");
   }
 
-  // nếu past → disable nút ngay (CSS overlay “Event ended” đã có)
+  // Summary sidebar
+  if (sumWhen) sumWhen.textContent = ev.dateText || "TBA";
+  if (sumWhere) sumWhere.textContent = ev.location || "Pawfect Hub";
+  if (sumDuration) sumDuration.textContent = ev.agenda ? `${ev.agenda.length} sessions` : "–";
+
+  // Countdown and register button logic
+  const countdownEl = document.getElementById("ws-countdown");
   const isPast = (iso) => {
     if (!iso) return false;
     const end = new Date(iso); end.setHours(23,59,59,999);
     return new Date() > end;
   };
-  if (registerBtn) {
-    if (ev.status === "past" || isPast(ev.dateISO)) {
+
+  if (ev.status === "past" || isPast(ev.dateISO)) {
+    // Past event: disable register button
+    if (registerBtn) {
       registerBtn.setAttribute("aria-disabled","true");
       registerBtn.disabled = true;
       registerBtn.dataset.status = "past";
-    } else {
+      registerBtn.textContent = "Event Ended";
+    }
+    if (countdownEl) countdownEl.textContent = "";
+  } else {
+    // Upcoming event: enable register button and start countdown
+    if (registerBtn) {
       registerBtn.removeAttribute("aria-disabled");
       registerBtn.disabled = false;
       registerBtn.dataset.status = "upcoming";
+      registerBtn.textContent = "Register";
+    }
+    // Start countdown if dateISO exists
+    if (ev.dateISO && countdownEl) {
+      startCountdown(ev.dateISO, countdownEl);
     }
   }
 }
@@ -274,6 +318,39 @@ function attachRegisterHandler() {
   } catch {}
 
   registerBtn.addEventListener('click', () => openRegisterModal(ev));
+}
+
+// ===== Countdown function =====
+function startCountdown(targetISO, countdownEl) {
+  const targetDate = new Date(targetISO).getTime();
+
+  const updateCountdown = () => {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance <= 0) {
+      countdownEl.textContent = "Event Started!";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdownEl.innerHTML = `
+      <div class="countdown-timer">
+        <span class="countdown-item">${days}<small>d</small></span>
+        <span class="countdown-item">${hours}<small>h</small></span>
+        <span class="countdown-item">${minutes}<small>m</small></span>
+        <span class="countdown-item">${seconds}<small>s</small></span>
+      </div>
+    `;
+
+    setTimeout(updateCountdown, 1000);
+  };
+
+  updateCountdown();
 }
 
 // Helper để community có thể set data rồi điều hướng sang detail
