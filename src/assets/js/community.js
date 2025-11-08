@@ -883,30 +883,15 @@ window.blogPosts = blogPosts;
     const startPostingBtn = document.querySelector('.hero-actions .c-btn--solid');
     if (startPostingBtn) {
       startPostingBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const postModal = document.getElementById('create-post-modal');
-        if (postModal) {
-          postModal.removeAttribute('aria-hidden');
-        }
-      });
+      e.preventDefault();
+      openCreateModal(); // <- dùng hàm chuẩn
+    });
     }
+    
 
-    const enterContestBtn = document.querySelector('.intro-cta .c-btn--solid');
-    if (enterContestBtn) {
-      enterContestBtn.addEventListener('click', (e) => {
-        const href = enterContestBtn.getAttribute('href') || '';
-        if (href === '#' || href.trim() === '') {
-          e.preventDefault();
-          const contestModal = document.getElementById('contest-modal');
-          if (contestModal) {
-            contestModal.removeAttribute('aria-hidden');
-          }
-        }
-        // nếu href hợp lệ, để trình duyệt điều hướng bình thường
-      });
-    }
 
-      createBtns.forEach(btn => btn.addEventListener('click', openCreateModal));
+
+    createBtns.forEach(btn => btn.addEventListener('click', openCreateModal));
     closeBtn && closeBtn.addEventListener('click', closeCreateModal);
     modal && modal.addEventListener('click', (e) => {
       if (e.target.classList && e.target.classList.contains('modal-backdrop')) {
@@ -942,6 +927,7 @@ window.blogPosts = blogPosts;
   }
 
   /** ===================== CONTEST FORM HANDLING ===================== **/
+  
   function setupContestForm() {
     const contestForm = document.getElementById('contest-form');
     const contestModal = document.getElementById('contest-modal');
@@ -1060,4 +1046,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   items.forEach(i => obsItems.observe(i));
 });
-

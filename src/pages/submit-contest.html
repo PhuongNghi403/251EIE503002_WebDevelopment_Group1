@@ -11,31 +11,128 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Bagel+Fat+One&display=swap" rel="stylesheet" />
   <style>
-    .contest-wrapper { max-width: 880px; margin: 32px auto; padding: 0 16px; }
-    .contest-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-    .contest-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-    .contest-title { font-size: 22px; font-weight: 700; margin: 0; }
-    .contest-badge { font-size: 12px; color: #6b7280; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 999px; padding: 4px 10px; }
+    /* === Contest Page — Pastel Pawfect Refresh === */
+    :root{
+      --brand1:#fec7e4; /* pink */
+      --brand2:#fda4af; /* rose */
+      --ink:#111827;
+      --text:#374151;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --bg:#fff7fb;
+    }
 
-    .contest-form label { display:block; margin: 12px 0 6px; font-weight: 600; font-size: 14px; color: #374151; }
+    /* page bg */
+    body{
+      background: linear-gradient(180deg, #fff7fb 0%, #ffffff 42%, #fefafc 100%);
+      color: var(--text);
+      font-family: "Lexend Deca", system-ui, sans-serif;
+    }
+
+    /* frame */
+    .contest-wrapper{
+      max-width: 880px;
+      margin: 56px auto 72px;
+      padding: 0 16px;
+    }
+
+    .contest-card{
+      background:#fff;
+      border:1px solid #f3f4f6;
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 10px 28px rgba(17,24,39,.06);
+      transition: box-shadow .25s ease, transform .25s ease;
+    }
+    .contest-card:hover{
+      box-shadow: 0 16px 40px rgba(17,24,39,.09);
+      transform: translateY(-2px);
+    }
+
+    /* header */
+    .contest-header{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; margin-bottom: 18px;
+    }
+    .contest-title{
+      margin:0; font-size:28px; line-height:1.15; font-weight:800; color:var(--ink);
+      letter-spacing:.2px;
+    }
+    .contest-badge{
+      padding:6px 14px; border-radius:999px; font-size:13px; font-weight:700;
+      color:#fff; background: linear-gradient(90deg, var(--brand1), var(--brand2));
+      box-shadow: 0 2px 8px rgba(253,164,175,.35);
+    }
+
+    /* form */
+    .contest-form label{
+      display:block; margin:16px 0 6px; font-weight:700; color:#1f2937;
+    }
     .contest-form input[type="text"],
     .contest-form input[type="email"],
-    .contest-form textarea { width: 100%; border: 1px solid #e4e4e7; border-radius: 8px; padding: 10px 12px; font-size: 14px; background: #fafafa; }
-    .contest-form textarea { min-height: 110px; resize: vertical; }
-    .contest-form input:focus, .contest-form textarea:focus { outline:none; border-color:#fec7e4; background:#fff; box-shadow: 0 0 0 3px rgba(254,199,228,0.15); }
+    .contest-form textarea{
+      width:100%; border:1px solid var(--line); background:#f9fafb;
+      border-radius:12px; padding:12px 14px; font-size:15px;
+      transition: box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .contest-form textarea{ min-height:120px; resize:vertical; }
+    .contest-form input:focus,
+    .contest-form textarea:focus{
+      outline:none; background:#fff; border-color: var(--brand1);
+      box-shadow: 0 0 0 4px rgba(254,199,228,.28);
+    }
 
-    .upload-wrap { background:#fafafa; border:1px dashed #e5e7eb; border-radius: 10px; padding: 14px; }
-    .preview { margin-top: 10px; }
-    .preview img, .preview video { max-width: 100%; max-height: 260px; border-radius: 10px; display: block; }
+    /* upload */
+    .upload-wrap{
+      margin-top:6px; background:#fff; border:2px dashed #fecdd3;
+      border-radius:14px; padding:22px; text-align:center;
+      transition: background .2s ease, border-color .2s ease;
+    }
+    .upload-wrap:hover{ background:#fff0f6; border-color:#f472b6; }
+    .upload-wrap input[type="file"]{ display:block; margin:0 auto; }
+    .preview{ margin-top:12px; }
+    .preview img, .preview video{
+      display:block; max-width:100%; border-radius:14px;
+      box-shadow: 0 4px 14px rgba(17,24,39,.08); margin-top:10px;
+    }
 
-    .form-actions { display:flex; gap:10px; justify-content:flex-end; margin-top: 16px; }
-    .btn { border: 1px solid #e5e7eb; background: #fff; border-radius: 8px; height: 38px; padding: 0 14px; cursor: pointer; }
-    .btn.primary { background: #1f2937; color: #fff; border-color: transparent; }
-    .btn.ghost { background: #f9fafb; }
+    /* actions */
+    .form-actions{
+      display:flex; gap:12px; justify-content:flex-end; margin-top:22px;
+    }
+    .btn{
+      height:44px; padding:0 18px; border-radius:12px; font-weight:800; font-size:15px;
+      border:1px solid var(--line); background:#fff; color:#111827; cursor:pointer;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn.ghost{ background:#f3f4f6; }
+    .btn.ghost:hover{ background:#e5e7eb; }
+    .btn.primary{
+      background: linear-gradient(90deg, var(--brand1), var(--brand2)); color:#fff; border:none;
+      box-shadow: 0 4px 12px rgba(253,164,175,.35);
+    }
+    .btn.primary:hover{ transform: translateY(-2px); box-shadow: 0 8px 18px rgba(253,164,175,.45); }
 
-    .success-box { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; padding: 16px; border-radius: 10px; margin-top: 14px; display:none; }
-    .success-box a { color: #065f46; text-decoration: underline; }
+    /* success */
+    .success-box{
+      display:none; margin-top:18px; padding:18px; border-radius:12px;
+      background:#ecfdf5; border:1px solid #6ee7b7; color:#065f46;
+      animation: fadeIn .25s ease both;
+    }
+    .success-box a{ color:#047857; text-decoration:underline; }
+
+    /* small helper */
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+
+    /* responsive */
+    @media (max-width: 600px){
+      .contest-card{ padding:22px; border-radius:16px; }
+      .contest-title{ font-size:24px; }
+      .form-actions{ flex-direction:column-reverse; align-items:stretch; }
+      .btn{ width:100%; }
+    }
   </style>
+
 </head>
 <body>
   <header class="site-header">
@@ -163,94 +260,182 @@
     </div>
   </footer>
 
-  <script>(function(){
-      const qs = (s, r=document) => r.querySelector(s);
-      const contestParam = new URLSearchParams(location.search).get('contest') || 'contest';
-      const title = qs('#contest-page-title');
-      const badge = qs('#contest-badge');
-      const hiddenContest = qs('#contest-id');
-      if (title) title.textContent = 'Enter: ' + contestParam.replace(/-/g,' ').replace(/\b\w/g, c=>c.toUpperCase());
-      if (badge) badge.textContent = contestParam;
-      if (hiddenContest) hiddenContest.value = contestParam;
+  <script>
+(function () {
+  const qs = (s, r = document) => r.querySelector(s);
 
-      const mediaInput = qs('#media');
-      const preview = qs('#media-preview');
-      if (mediaInput && preview) {
-        mediaInput.addEventListener('change', (e) => {
-          preview.innerHTML = '';
-          const file = e.target.files && e.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            const url = ev.target.result;
-            if (file.type.startsWith('image/')) {
-              preview.innerHTML = '<img alt="Preview" src="' + url + '" />';
-            } else {
-              preview.innerHTML = '<video controls><source src="' + url + '" type="' + file.type + '"></video>';
-            }
-          };
-          reader.readAsDataURL(file);
-        });
+  /* ============ Helpers ============ */
+  function downscaleImageDataURL(dataURL, maxW = 1200, maxH = 1200, quality = 0.72) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        const ratio = Math.min(maxW / width, maxH / height, 1);
+        const w = Math.round(width * ratio);
+        const h = Math.round(height * ratio);
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        // Ép về JPEG để giảm size
+        const out = canvas.toDataURL('image/jpeg', quality);
+        resolve(out);
+      };
+      img.onerror = () => resolve(dataURL);
+      img.src = dataURL;
+    });
+  }
+
+  // Lưu an toàn vào localStorage: nếu đầy, xóa bớt cũ rồi thử lại
+  function safeSaveLocal(key, entry, removeCount = 2) {
+    try {
+      const list = JSON.parse(localStorage.getItem(key) || '[]');
+      list.push(entry);
+      localStorage.setItem(key, JSON.stringify(list));
+      return true;
+    } catch (err) {
+      if (String(err).includes('QuotaExceededError')) {
+        try {
+          const list = JSON.parse(localStorage.getItem(key) || '[]');
+          if (list.length) {
+            list.splice(0, Math.min(removeCount, list.length));
+            localStorage.setItem(key, JSON.stringify(list));
+            list.push(entry);
+            localStorage.setItem(key, JSON.stringify(list));
+            return true;
+          }
+        } catch (e2) {
+          console.error('Still quota exceeded:', e2);
+        }
+        alert('Bộ nhớ tạm (localStorage) đã đầy. Hãy xoá bớt mục cũ hoặc dùng ảnh nhỏ hơn.');
+        return false;
+      } else {
+        console.error('Failed to save entry:', err);
+        alert('Không thể lưu local. Vui lòng thử lại.');
+        return false;
+      }
+    }
+  }
+
+  /* ============ Init contest info ============ */
+  const contestParam = new URLSearchParams(location.search).get('contest') || 'contest';
+  const title = qs('#contest-page-title');
+  const badge = qs('#contest-badge');
+  const hiddenContest = qs('#contest-id');
+  if (title) title.textContent = 'Enter: ' + contestParam.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  if (badge) badge.textContent = contestParam;
+  if (hiddenContest) hiddenContest.value = contestParam;
+
+  /* ============ Preview upload ============ */
+  const mediaInput = qs('#media');
+  const preview = qs('#media-preview');
+
+  if (mediaInput && preview) {
+    mediaInput.addEventListener('change', (e) => {
+      preview.innerHTML = '';
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const url = ev.target.result;
+        if (file.type.startsWith('image/')) {
+          preview.innerHTML = '<img alt="Preview" src="' + url + '" />';
+        } else {
+          preview.innerHTML = '<video controls><source src="' + url + '" type="' + file.type + '"></video>';
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /* ============ Submit form (local only) ============ */
+  const form = qs('#contest-form');
+  const successBox = qs('#success-box');
+  const actions = qs('#form-actions');
+  const countEl = qs('#redirect-count');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = qs('#name').value.trim();
+    const email = qs('#email').value.trim();
+    const description = qs('#description').value.trim();
+    const file = mediaInput && mediaInput.files && mediaInput.files[0];
+
+    if (!name || !email || !description || !file) {
+      alert('Please complete all fields and upload a photo/video.');
+      return;
+    }
+
+    const isImage = file.type.startsWith('image/');
+    const isVideo = file.type.startsWith('video/');
+    const reader = new FileReader();
+
+    reader.onload = async (ev) => {
+      const base64 = ev.target.result;
+
+      // Ảnh: nén/resize trước khi lưu để tránh tràn quota
+      let mediaForStorage = null;
+      let mediaTypeForStorage = file.type;
+
+      if (isImage) {
+        mediaForStorage = await downscaleImageDataURL(base64, 1200, 1200, 0.72);
+        // Nếu vẫn dài quá, nén mạnh thêm
+        if (mediaForStorage.length > 900000) {
+          mediaForStorage = await downscaleImageDataURL(mediaForStorage, 1000, 1000, 0.62);
+        }
+      } else if (isVideo) {
+        // Video không lưu binary vào localStorage (quá nặng) — chỉ lưu metadata
+        mediaForStorage = null;
+      } else {
+        mediaForStorage = null;
       }
 
-      const form = qs('#contest-form');
-      const successBox = qs('#success-box');
-      const actions = qs('#form-actions');
-      const countEl = qs('#redirect-count');
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = qs('#name').value.trim();
-        const email = qs('#email').value.trim();
-        const description = qs('#description').value.trim();
-        const file = mediaInput && mediaInput.files && mediaInput.files[0];
-        if (!name || !email || !description || !file) {
-          alert('Please complete all fields and upload a photo/video.');
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          const entry = {
-            id: Date.now(),
-            contest: contestParam,
-            name,
-            email,
-            description,
-            media: ev.target.result,
-            mediaType: file.type,
-            timestamp: new Date().toISOString()
-          };
-          try {
-            const list = JSON.parse(localStorage.getItem('contestEntries') || '[]');
-            list.push(entry);
-            localStorage.setItem('contestEntries', JSON.stringify(list));
-          } catch(err) {
-            console.error('Failed to save entry:', err);
-            alert('Could not save entry locally.');
-            return;
+      const entry = {
+        id: Date.now(),
+        contest: contestParam,
+        name,
+        email,
+        description,
+        media: mediaForStorage,       // ảnh đã nén hoặc null
+        mediaType: mediaTypeForStorage,
+        fileName: file.name,          // metadata để tham chiếu
+        fileSize: file.size,          // bytes
+        fileWasVideo: isVideo,        // cờ để UI biết là video (không lưu nội dung)
+        timestamp: new Date().toISOString()
+      };
+
+      const ok = safeSaveLocal('contestEntries', entry);
+      if (!ok) return;
+
+      // UI sau khi lưu
+      if (successBox) {
+        successBox.style.display = 'block';
+        if (actions) actions.style.display = 'none';
+        // Countdown redirect
+        let left = 10;
+        const tick = () => {
+          if (countEl) countEl.textContent = String(left);
+          if (left <= 0) {
+            window.location.href = 'community.html';
+          } else {
+            left -= 1;
+            setTimeout(tick, 1000);
           }
-          if (successBox) {
-            successBox.style.display = 'block';
-            if (actions) actions.style.display = 'none';
-            // Countdown redirect
-            let left = 10;
-            const tick = () => {
-              if (countEl) countEl.textContent = String(left);
-              if (left <= 0) {
-                window.location.href = 'community.html';
-              } else {
-                left -= 1;
-                setTimeout(tick, 1000);
-              }
-            };
-            tick();
-          }
-          form.reset();
-          if (preview) preview.innerHTML = '';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
         };
-        reader.readAsDataURL(file);
-      });
-    })();
-  </script>
+        tick();
+      }
+      form.reset();
+      if (preview) preview.innerHTML = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // Với ảnh & video đều dùng readAsDataURL để preview,
+    // nhưng chỉ ảnh mới lưu vào localStorage (đã nén).
+    reader.readAsDataURL(file);
+  });
+})();
+</script>
+
 </body>
 </html>
