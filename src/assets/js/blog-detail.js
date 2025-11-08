@@ -332,5 +332,17 @@ const POSTS = (() => {
     }
 
     render(post);
+
+    const searchForm = qs('.bd-search');
+    if (searchForm) {
+      searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const searchInput = qs('input', searchForm);
+        const query = searchInput.value.trim();
+        if (query) {
+          window.location.href = `community.html?search=${encodeURIComponent(query)}`;
+        }
+      });
+    }
   });
 })();

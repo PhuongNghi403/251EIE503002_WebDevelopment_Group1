@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawfect Care — Submit Contest Entry</title>
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/community.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Bagel+Fat+One&display=swap" rel="stylesheet" />
+  <style>
+    .contest-wrapper { max-width: 880px; margin: 32px auto; padding: 0 16px; }
+    .contest-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .contest-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .contest-title { font-size: 22px; font-weight: 700; margin: 0; }
+    .contest-badge { font-size: 12px; color: #6b7280; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 999px; padding: 4px 10px; }
+
+    .contest-form label { display:block; margin: 12px 0 6px; font-weight: 600; font-size: 14px; color: #374151; }
+    .contest-form input[type="text"],
+    .contest-form input[type="email"],
+    .contest-form textarea { width: 100%; border: 1px solid #e4e4e7; border-radius: 8px; padding: 10px 12px; font-size: 14px; background: #fafafa; }
+    .contest-form textarea { min-height: 110px; resize: vertical; }
+    .contest-form input:focus, .contest-form textarea:focus { outline:none; border-color:#fec7e4; background:#fff; box-shadow: 0 0 0 3px rgba(254,199,228,0.15); }
+
+    .upload-wrap { background:#fafafa; border:1px dashed #e5e7eb; border-radius: 10px; padding: 14px; }
+    .preview { margin-top: 10px; }
+    .preview img, .preview video { max-width: 100%; max-height: 260px; border-radius: 10px; display: block; }
+
+    .form-actions { display:flex; gap:10px; justify-content:flex-end; margin-top: 16px; }
+    .btn { border: 1px solid #e5e7eb; background: #fff; border-radius: 8px; height: 38px; padding: 0 14px; cursor: pointer; }
+    .btn.primary { background: #1f2937; color: #fff; border-color: transparent; }
+    .btn.ghost { background: #f9fafb; }
+
+    .success-box { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; padding: 16px; border-radius: 10px; margin-top: 14px; display:none; }
+    .success-box a { color: #065f46; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../index.html">
+        <img class="brand-mark-img" src="../assets/icons/Logo.svg" alt="Pawfect Care" />
+        <span class="brand-text bagel-fat-one-regular">Pawfect Care</span>
+      </a>
+      <nav class="nav">
+        <a class="nav-link" href="../index.html">Home</a>
+        <a class="nav-link" href="services/services.html">Services</a>
+        <a class="nav-link" href="shop.html">Shop</a>
+        <a class="nav-link" href="community.html">Community</a>
+        <a class="nav-link" href="profile/profile.html">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-btn" href="favorite.html" aria-label="Wishlist">
+              <img src="../assets/icons/HomestayDetail/favorite_icon.svg" alt="" />
+            </a>
+        <a class="icon-btn" href="cart.html" aria-label="Cart">
+          <img src="../assets/icons/HomestayDetail/cart_icon.svg" alt="" />
+        </a>
+        <a class="icon-btn" href="login-signup.html" aria-label="Account">
+          <img src="../assets/icons/HomestayDetail/profile_icon.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="contest-wrapper">
+    <div class="contest-card">
+      <div class="contest-header">
+        <h1 class="contest-title" id="contest-page-title">Enter Contest</h1>
+        <span class="contest-badge" id="contest-badge"></span>
+      </div>
+      <p style="margin:0 0 14px;color:#4b5563">Share your precious pet moment — upload a photo or video and tell us the story behind it.</p>
+
+      <form id="contest-form" class="contest-form" novalidate>
+        <input type="hidden" id="contest-id" />
+
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+
+        <label for="description">Contest Description</label>
+        <textarea id="description" name="description" placeholder="Tell us about your precious moment" required></textarea>
+
+        <label for="media">Upload Photo/Video</label>
+        <div class="upload-wrap">
+          <input type="file" id="media" name="media" accept="image/*,video/*" required />
+          <div class="preview" id="media-preview"></div>
+        </div>
+
+        <div class="form-actions" id="form-actions">
+          <a class="btn ghost" href="community.html">Back to Community</a>
+          <button type="submit" class="btn primary">Submit Entry</button>
+        </div>
+
+        <div class="success-box" id="success-box">
+          <p>🎉 Thank you for entering! Please follow the results on our <a href="https://www.facebook.com/PawfectCareBrand" target="_blank" rel="noopener">Facebook fanpage</a>.</p>
+          <p>Redirecting back to Community in <b id="redirect-count">10</b>s…</p>
+          <p>
+            <a href="community.html">← Back now</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <section class="site-cta">
+    <div class="container cta-inner">
+      <div class="cta-icons" aria-hidden="true">
+        <img class="cta-pattern" src="../assets/icons/HomestayDetail/PawPatternWhite.svg" alt="" />
+      </div>
+      <h2 class="cta-title bagel-fat-one-regular">Ready to Give Your Pet the Best Care?</h2>
+      <p class="cta-desc fraunces-body">Book your first appointment today, and see why thousands of pet parents trust us.</p>
+      <div class="cta-actions">
+        <a href="services/services.html" class="btn primary">Book Now</a>
+        <a href="community.html" class="btn ghost">Contact Us</a>
+      </div>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img class="brand-foot-img" src="../assets/icons/HomestayDetail/logopawfooter.svg" alt="Paw" />
+          <span class="brand-text bagel-fat-one-regular" style="color: #ffffff;">Pawfect Care</span>
+        </div>
+        <p>Your trusted partner in pet care since 2020.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="services/homestayboarding-service.html">Pet Boarding</a></li>
+          <li><a href="services/services.html">Dog Grooming</a></li>
+          <li><a href="services/services.html">Cat Grooming</a></li>
+          <li><a href="services/services.html">Pet Training</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">Follow Us</h4>
+        <div class="socials">
+          <a href="https://www.facebook.com/" aria-label="Facebook"><img src="../assets/icons/HomestayDetail/LogoSocialMediaFooter.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/" aria-label="Instagram"></a>
+          <a href="https://x.com/" aria-label="Twitter"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" align="center" style="color: #000000;">
+        © 2025 Pawfect Care. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>(function(){
+      const qs = (s, r=document) => r.querySelector(s);
+      const contestParam = new URLSearchParams(location.search).get('contest') || 'contest';
+      const title = qs('#contest-page-title');
+      const badge = qs('#contest-badge');
+      const hiddenContest = qs('#contest-id');
+      if (title) title.textContent = 'Enter: ' + contestParam.replace(/-/g,' ').replace(/\b\w/g, c=>c.toUpperCase());
+      if (badge) badge.textContent = contestParam;
+      if (hiddenContest) hiddenContest.value = contestParam;
+
+      const mediaInput = qs('#media');
+      const preview = qs('#media-preview');
+      if (mediaInput && preview) {
+        mediaInput.addEventListener('change', (e) => {
+          preview.innerHTML = '';
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            const url = ev.target.result;
+            if (file.type.startsWith('image/')) {
+              preview.innerHTML = '<img alt="Preview" src="' + url + '" />';
+            } else {
+              preview.innerHTML = '<video controls><source src="' + url + '" type="' + file.type + '"></video>';
+            }
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      const form = qs('#contest-form');
+      const successBox = qs('#success-box');
+      const actions = qs('#form-actions');
+      const countEl = qs('#redirect-count');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = qs('#name').value.trim();
+        const email = qs('#email').value.trim();
+        const description = qs('#description').value.trim();
+        const file = mediaInput && mediaInput.files && mediaInput.files[0];
+        if (!name || !email || !description || !file) {
+          alert('Please complete all fields and upload a photo/video.');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const entry = {
+            id: Date.now(),
+            contest: contestParam,
+            name,
+            email,
+            description,
+            media: ev.target.result,
+            mediaType: file.type,
+            timestamp: new Date().toISOString()
+          };
+          try {
+            const list = JSON.parse(localStorage.getItem('contestEntries') || '[]');
+            list.push(entry);
+            localStorage.setItem('contestEntries', JSON.stringify(list));
+          } catch(err) {
+            console.error('Failed to save entry:', err);
+            alert('Could not save entry locally.');
+            return;
+          }
+          if (successBox) {
+            successBox.style.display = 'block';
+            if (actions) actions.style.display = 'none';
+            // Countdown redirect
+            let left = 10;
+            const tick = () => {
+              if (countEl) countEl.textContent = String(left);
+              if (left <= 0) {
+                window.location.href = 'community.html';
+              } else {
+                left -= 1;
+                setTimeout(tick, 1000);
+              }
+            };
+            tick();
+          }
+          form.reset();
+          if (preview) preview.innerHTML = '';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        reader.readAsDataURL(file);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -202,6 +202,7 @@ window.blogPosts = blogPosts;
     setupCampaignTabsFilter();
     setupLoadControls();       
     setupCreatePost();
+    setupContestForm(); // Add contest form handling
     setupBlogCardClick();
 
     // Staff strip (center on scroll/click)
@@ -212,12 +213,32 @@ window.blogPosts = blogPosts;
     renderCarousel();
     renderPosts();
     renderLatestStories();
+
+    // Scroll to blog
+    const browseBtn = document.getElementById('browse-tips-btn');
+    if (browseBtn) {
+      browseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const blogSection = document.querySelector('.community-blog');
+        if (blogSection) {
+          blogSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
   }
 
   /** ===================== TOOLBAR (SEARCH + CATEGORY + SORT) ===================== **/
   function setupSearchBox() {
     const input = document.getElementById('search-input');
     if (!input) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('search');
+    if (query) {
+      input.value = query;
+      currentSearch = query.toLowerCase();
+    }
+
     input.addEventListener('input', (e) => {
       currentSearch = e.target.value.trim().toLowerCase();
       displayedPosts = PAGE_SIZE;
@@ -801,7 +822,33 @@ window.blogPosts = blogPosts;
       if (form) form.reset();
     };
 
-    createBtns.forEach(btn => btn.addEventListener('click', openCreateModal));
+    const startPostingBtn = document.querySelector('.hero-actions .c-btn--solid');
+    if (startPostingBtn) {
+      startPostingBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const postModal = document.getElementById('create-post-modal');
+        if (postModal) {
+          postModal.removeAttribute('aria-hidden');
+        }
+      });
+    }
+
+    const enterContestBtn = document.querySelector('.intro-cta .c-btn--solid');
+    if (enterContestBtn) {
+      enterContestBtn.addEventListener('click', (e) => {
+        const href = enterContestBtn.getAttribute('href') || '';
+        if (href === '#' || href.trim() === '') {
+          e.preventDefault();
+          const contestModal = document.getElementById('contest-modal');
+          if (contestModal) {
+            contestModal.removeAttribute('aria-hidden');
+          }
+        }
+        // nếu href hợp lệ, để trình duyệt điều hướng bình thường
+      });
+    }
+
+      createBtns.forEach(btn => btn.addEventListener('click', openCreateModal));
     closeBtn && closeBtn.addEventListener('click', closeCreateModal);
     modal && modal.addEventListener('click', (e) => {
       if (e.target.classList && e.target.classList.contains('modal-backdrop')) {
@@ -836,7 +883,94 @@ window.blogPosts = blogPosts;
     });
   }
 
-  /** ===================== DOM READY ===================== **/
+  /** ===================== CONTEST FORM HANDLING ===================== **/
+  function setupContestForm() {
+    const contestForm = document.getElementById('contest-form');
+    const contestModal = document.getElementById('contest-modal');
+    const contestSuccessModal = document.getElementById('contest-success-modal');
+    const closeContestModal = document.getElementById('close-contest-modal');
+    const closeSuccessModal = document.getElementById('close-success-modal');
+    const contestMediaInput = document.getElementById('contest-media');
+    const contestPreview = document.getElementById('contest-preview');
+
+    // Close contest modal
+    if (closeContestModal) {
+      closeContestModal.addEventListener('click', () => {
+        if (contestModal) contestModal.setAttribute('aria-hidden', 'true');
+      });
+    }
+
+    // Close success modal
+    if (closeSuccessModal) {
+      closeSuccessModal.addEventListener('click', () => {
+        if (contestSuccessModal) contestSuccessModal.setAttribute('aria-hidden', 'true');
+      });
+    }
+
+    // Contest media preview
+    if (contestMediaInput && contestPreview) {
+      contestMediaInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const mediaType = file.type.startsWith('image/') ? 'image' : 'video';
+            if (mediaType === 'image') {
+              contestPreview.innerHTML = `<img src="${e.target.result}" alt="Contest preview" style="max-width: 100%; max-height: 200px;" />`;
+            } else {
+              contestPreview.innerHTML = `<video controls style="max-width: 100%; max-height: 200px;"><source src="${e.target.result}" type="${file.type}"></video>`;
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    // Contest form submission
+    if (contestForm) {
+      contestForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('contest-name').value.trim();
+        const email = document.getElementById('contest-email').value.trim();
+        const description = document.getElementById('contest-description').value.trim();
+        const mediaFile = contestMediaInput.files[0];
+
+        if (!name || !email || !description || !mediaFile) {
+          alert('Please fill in all fields and upload a photo/video.');
+          return;
+        }
+
+        // Read media file
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const contestEntry = {
+            id: Date.now(),
+            name: name,
+            email: email,
+            description: description,
+            media: e.target.result,
+            mediaType: mediaFile.type,
+            timestamp: new Date().toISOString()
+          };
+
+          // Save to localStorage
+          let contestEntries = JSON.parse(localStorage.getItem('contestEntries') || '[]');
+          contestEntries.push(contestEntry);
+          localStorage.setItem('contestEntries', JSON.stringify(contestEntries));
+
+          // Close contest modal and show success modal
+          if (contestModal) contestModal.setAttribute('aria-hidden', 'true');
+          if (contestSuccessModal) contestSuccessModal.removeAttribute('aria-hidden');
+
+          // Reset form
+          contestForm.reset();
+          if (contestPreview) contestPreview.innerHTML = '';
+        };
+        reader.readAsDataURL(mediaFile);
+      });
+    }
+  }
   document.addEventListener('DOMContentLoaded', initCommunity);
 
 })();

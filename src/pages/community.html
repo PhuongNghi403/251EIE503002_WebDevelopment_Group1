@@ -56,8 +56,8 @@
             Building a world of better pet <span class="highlight-bubble">care</span> — one paw at a time
           </h1>
             <div class="hero-actions">
-              <a href="#" class="c-btn c-btn--solid">Start Posting</a>
-              <a href="#" class="c-btn c-btn--ghost">Browse Tips</a>
+              <a href="#" id="start-posting-btn" class="c-btn c-btn--solid">Start Posting</a>
+              <a href="#" id="browse-tips-btn" class="c-btn c-btn--ghost">Browse Tips</a>
             </div>
           </div>
         </div>
@@ -132,7 +132,7 @@
       </p>
 
       <div class="intro-cta">
-        <a href="#" class="c-btn c-btn--solid" aria-label="Enter Precious Moments Contest">Enter Contest</a>
+        <a href="submit-contest.html?contest=pet-photo-contest" class="c-btn c-btn--solid" aria-label="Enter Precious Moments Contest">Enter Contest</a>
       </div>
     </div>
   </section>
@@ -382,6 +382,57 @@
           <button type="submit" class="btn">Post</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Enter Contest Modal -->
+  <div class="modal" id="contest-modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="contest-modal-title">
+      <div class="modal-header">
+        <h3 id="contest-modal-title">Enter Precious Moments Contest</h3>
+        <button class="modal-close" id="close-contest-modal" aria-label="Close">×</button>
+      </div>
+      <form id="contest-form" class="modal-body">
+        <label>
+          Your Name
+          <input type="text" id="contest-name" required placeholder="Enter your full name" />
+        </label>
+        <label>
+          Email Address
+          <input type="email" id="contest-email" required placeholder="Enter your email address" />
+        </label>
+        <label>
+          Contest Description
+          <textarea id="contest-description" rows="4" required placeholder="Tell us about your precious moment with your pet"></textarea>
+        </label>
+        <label>
+          Upload Photo/Video
+          <div class="image-upload-wrapper">
+            <input type="file" id="contest-media" accept="image/*,video/*" required />
+            <div class="image-preview" id="contest-preview"></div>
+          </div>
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn">Submit Entry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contest Success Modal -->
+  <div class="modal" id="contest-success-modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="success-modal-title">
+      <div class="modal-header">
+        <h3 id="success-modal-title">Submission Successful!</h3>
+        <button class="modal-close" id="close-success-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p>🎉 Thank you for entering the Precious Moments Contest!</p>
+        <p>Your entry has been submitted successfully. You can view all contest entries on our <a href="#" target="_blank" id="fanpage-link">brand fanpage</a>.</p>
+        <p>Good luck! 🐾</p>
+      </div>
     </div>
   </div>
 
