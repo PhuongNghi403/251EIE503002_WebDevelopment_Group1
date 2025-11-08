@@ -252,6 +252,79 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ===== New: Render latest Service Booking into Booking History =====
+  function renderLatestBookingFromStorage() {
+    const bookingData = JSON.parse(localStorage.getItem('lastServiceBooking') || 'null');
+    const historyList = document.querySelector('.booking-history .history-list');
+    const bookingSection = document.querySelector('.booking-history');
+
+    if (!historyList || !bookingData) return;
+
+    // Đảm bảo hiển thị khu vực Booking
+    if (bookingSection) bookingSection.style.display = '';
+
+    const isSpa = bookingData.type === 'spa';
+    const details = bookingData.details || {};
+    const pkgName = details.package?.name || (isSpa ? 'Grooming Session' : 'Homestay');
+    const title = isSpa ? pkgName : `${pkgName}`;
+    const createdAt = new Date(bookingData.createdAt || Date.now());
+    const createdStr = createdAt.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+
+    // Meta hiển thị: Spa dùng Date & Time, Homestay dùng Check-in/Check-out
+    const timeSlot = details.timeSlot || localStorage.getItem('selectedTimeSlot') || '';
+    const checkin = details.checkinDisplay || localStorage.getItem('bookingCheckinDate') || '';
+    const checkout = details.checkoutDisplay || localStorage.getItem('bookingCheckoutDate') || '';
+    const meta = isSpa
+      ? `${timeSlot || 'Date & Time TBD'} • ${createdStr}`
+      : `${checkin || 'Check-in TBD'} → ${checkout || 'Check-out TBD'}`;
+
+    const price = Number(bookingData.total || 0);
+    const priceStr = price ? `$${price.toFixed(2)}` : '$0';
+
+    // Tạo thẻ mới (đặt đầu danh sách)
+    const card = document.createElement('article');
+    card.className = 'history-card';
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="header-info">
+          <h3 class="card-title">${title}</h3>
+          <p class="card-meta">${meta}</p>
+        </div>
+        <div class="header-status">
+          <span class="status-pill active">${isSpa ? 'Confirmed' : 'Active'}</span>
+          <strong class="card-price">${priceStr}</strong>
+        </div>
+      </div>
+      <div class="card-review-prompt">
+        <span class="review-icon">⭐</span>
+        <div class="review-prompt-info">
+          <strong>How was the ${isSpa ? 'Spa Service' : 'Homestay'}?</strong>
+          <small>Receive 50 points</small>
+        </div>
+        <button class="btn-review">${isSpa ? 'Review Now' : 'Review Now'}</button>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"></path><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+          Book Again
+        </button>
+        <button class="btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+          View Details
+        </button>
+      </div>
+    `;
+
+    // Chèn lên đầu danh sách
+    historyList.prepend(card);
+
+    // Áp review sẵn có cho thẻ mới
+    applyExistingReviews();
+    bindBookingHistoryActions();
+  }
+
+  renderLatestBookingFromStorage();
+
   applyExistingReviews();
   bindBookingHistoryActions();
   bindOrderHistoryActions();

@@ -132,7 +132,7 @@ function updateSummary() {
     }, 0);
 
     const preDiscountTotal = isSpaFlow
-        ? (packagePrice + SERVICE_FEE + addOnsTotal + treatsTotal)
+        ? (packagePrice + addOnsTotal + treatsTotal) // Bỏ SERVICE_FEE cho Spa
         : ((packagePrice * bookingState.duration) + addOnsTotal + treatsTotal);
 
     const discountPct = bookingState.discount?.percentage || 0;
@@ -150,9 +150,9 @@ function updateSummary() {
         const dateTimeDisplay = `${dateStr}${timeStr ? ', ' + timeStr : ''}`;
         if (summaryDateTimeEl) summaryDateTimeEl.textContent = dateTimeDisplay;
 
+        // Ẩn hàng Service fee cho Spa
         if (summaryServiceFeeEl) {
-          summaryServiceFeeEl.textContent = `$${SERVICE_FEE.toFixed(2)}`;
-          summaryServiceFeeEl.parentElement.style.display = '';
+          summaryServiceFeeEl.parentElement.style.display = 'none';
         }
     }
 

@@ -155,37 +155,48 @@ function initQrPayment() {
     return `${m}:${s}`;
   }
 
-  function startCountdown() {
-    if (!timerEl) return;
-    let remaining = 5 * 60 * 1000;
-    timerEl.textContent = formatTime(remaining);
-    canvas && canvas.classList.remove('hidden');
-    if (doneBtn) doneBtn.disabled = false;
-    if (noteEl) noteEl.textContent = 'Scan with your banking app. QR updates if total changes.';
-    if (countdownId) clearInterval(countdownId);
-    countdownId = setInterval(() => {
-      remaining -= 1000;
-      timerEl.textContent = formatTime(remaining);
-      if (remaining <= 0) {
-        clearInterval(countdownId);
-        countdownId = null;
-        timerEl.textContent = '00:00';
-        canvas && canvas.classList.add('hidden');
-        if (noteEl) noteEl.textContent = 'QR expired. Reopen QR payment to generate a new code.';
-        if (doneBtn) doneBtn.disabled = true;
+  function regenerateQr() {
+      const total = currentTotal();
+      const name = getCustomerName();
+      const value = `PAWFECTPAY|amount=${total.toFixed(2)}|token=${Date.now()}_${Math.random().toString(36).slice(2,10)}|customer=${name}`;
+      if (!qrInstance) {
+          qrInstance = new QRious({ element: canvas, value, size: 240 });
+      } else {
+          qrInstance.value = value;
       }
-    }, 1000);
+      amountEl.textContent = `$${total.toFixed(2)}`;
+      customerEl.textContent = name;
+  }
+
+  function startCountdown() {
+      if (!timerEl) return;
+      let remaining = 10 * 60 * 1000; // 10 minutes
+      timerEl.textContent = formatTime(remaining);
+      canvas && canvas.classList.remove('hidden');
+      if (doneBtn) doneBtn.disabled = false;
+      if (noteEl) noteEl.textContent = 'Scan with your banking app. QR refreshes every 10 minutes.';
+      if (countdownId) clearInterval(countdownId);
+      countdownId = setInterval(() => {
+          remaining -= 1000;
+          timerEl.textContent = formatTime(remaining);
+          if (remaining <= 0) {
+              // Hết 10p -> tự làm mới QR và reset timer
+              regenerateQr();
+              remaining = 10 * 60 * 1000;
+              timerEl.textContent = formatTime(remaining);
+          }
+      }, 1000);
   }
 
   function stopCountdown(reset = true) {
-    if (countdownId) {
-      clearInterval(countdownId);
-      countdownId = null;
-    }
-    if (reset && timerEl) timerEl.textContent = '05:00';
-    canvas && canvas.classList.remove('hidden');
-    if (doneBtn) doneBtn.disabled = false;
-    if (noteEl && reset) noteEl.textContent = 'Scan with your banking app. QR updates if total changes.';
+      if (countdownId) {
+          clearInterval(countdownId);
+          countdownId = null;
+      }
+      if (reset && timerEl) timerEl.textContent = '10:00';
+      canvas && canvas.classList.remove('hidden');
+      if (doneBtn) doneBtn.disabled = false;
+      if (noteEl && reset) noteEl.textContent = 'Scan with your banking app. QR refreshes every 10 minutes.';
   }
 
   function getCustomerName() {
@@ -732,7 +743,16 @@ function initOtpPayment() {
   otpConfirm && otpConfirm.addEventListener('click', () => {
     // Accept any OTP entered by user
     const code = otpInput ? otpInput.value.trim() : '';
-    void code;
+
+    // Yêu cầu OTP đúng 6 chữ số
+    if (!/^\d{6}$/.test(code)) {
+      alert('OTP không hợp lệ. Mã mới đã được gửi lại.');
+      if (otpInput) otpInput.value = '';
+      startOtpCountdown();
+      return;
+    }
+
+    // OTP hợp lệ -> đóng OTP và tiếp tục luồng "Done"
     otpModal.classList.remove('show');
     otpModal.setAttribute('aria-hidden', 'true');
     stopOtpCountdown(true);
