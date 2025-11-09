@@ -650,15 +650,24 @@ function initGroomingSpaFunctionality() {
 function toggleDetails(button) {
   const pkgCard = button.closest('.pkg-card');
   const detailsSection = pkgCard.querySelector('.pkg-details-toggled');
-  
-  if (detailsSection.classList.contains('is-active')) {
-    detailsSection.classList.remove('is-active');
-    button.innerHTML = 'View Details <span class="arrow">↓</span>';
-  } else {
-    detailsSection.classList.add('is-active');
-    button.innerHTML = 'Hide Details <span class="arrow">↑</span>';
-  }
+
+  // an toàn: nếu thiếu section thì thoát
+  if (!detailsSection) return;
+
+  // tìm label: ưu tiên .label, nếu không có lấy <span> đầu tiên (hoặc null -> bỏ qua)
+  const labelEl = button.querySelector('.label') || button.querySelector('span');
+
+  const willOpen = !detailsSection.classList.contains('is-active');
+
+  // toggle state
+  detailsSection.classList.toggle('is-active', willOpen);
+  button.classList.toggle('is-active', willOpen);
+
+  // đổi text nếu có label
+  if (labelEl) labelEl.textContent = willOpen ? 'Hide Details' : 'View Details';
 }
+
+
 
 // Switch between tabs
 function switchTab(button, tabId) {
