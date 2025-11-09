@@ -480,22 +480,6 @@ body[data-page="community"] {
 .staff-card.is-center .staff-avatar { transform: rotateY(180deg); opacity: 0; }
 .staff-card.is-center .staff-avatar-alt { transform: rotateY(0deg); opacity: 1; }
 
-/* Staff of the Month badge */
-.badge-month {
-  position: absolute;
-  bottom: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, var(--mint) 0%, var(--pink) 100%);
-  color: var(--brown);
-  font-weight: 800;
-  font-size: 11px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  white-space: nowrap;
-  z-index: 3;
-}
 
 /* Info block under avatar */
 .staff-info-min {
