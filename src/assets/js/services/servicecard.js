@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // LOGIC TRANG HOMESTAY (ĐỘC LẬP)
 // ========================================================================
 function initHomestayBoardingFunctionality() {
+  
   // State management for homestay boarding
   let selectedPackage = { name: 'Cozy Room (Basic)', price: 40 };
   let selectedAddons = new Map(); // addonName -> { price: number, element: HTMLElement }
@@ -735,3 +736,104 @@ function showNotification(message, type = 'info') {
     }, 300);
   }, 3000);
 }
+/* ===== Sidebar show/hide when clicking Book Now ===== */
+(function() {
+  // helper: get nearest pkg-card info
+  function getCardInfoFromButton(btn) {
+    const card = btn.closest('.pkg-card');
+    if (!card) return null;
+    const name = card.querySelector('.pkg-title')?.textContent?.trim() || '';
+    // price could be .pkg-price strong or .pkg-price text
+    const priceText = card.querySelector('.pkg-price')?.textContent || '';
+    const priceMatch = priceText.match(/\$?\s*([\d,.]+)/);
+    const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g,'')) : 0;
+    return { card, name, price };
+  }
+
+  // open sidebar: add class to layout, populate sidebar, focus
+  function openPackageSidebar(info) {
+    const layout = document.querySelector('.package-layout');
+    const sidebar = document.querySelector('.package-sidebar');
+    if (!layout || !sidebar) return;
+
+    // add class to show sidebar
+    layout.classList.add('sidebar-visible');
+
+    // populate sidebar fields (assumes these ids exist in sidebar)
+    const sName = sidebar.querySelector('.sidebar-pkg-name');
+    const sPrice = sidebar.querySelector('.sidebar-pkg-price');
+    if (sName) sName.textContent = info.name;
+    if (sPrice) sPrice.textContent = `$${info.price}`;
+
+    // update global state (optional: reuse your selectedPackage variable)
+    window.selectedPackage = { name: info.name, price: info.price };
+
+    // ensure price summary and UI in sidebar reflect state
+    if (typeof updatePriceSummary === 'function') {
+      updatePriceSummary();
+    }
+
+    // accessibility: trap focus into sidebar
+    sidebar.setAttribute('aria-hidden', 'false');
+    // set focus to first focusable element in sidebar (close button)
+    const firstFocusable = sidebar.querySelector('button, a, input, [tabindex]');
+    if (firstFocusable) firstFocusable.focus();
+    document.body.classList.add('sidebar-open'); // optional for page scroll lock
+  }
+
+  // close sidebar: remove class and reset aria
+  function closePackageSidebar() {
+    const layout = document.querySelector('.package-layout');
+    const sidebar = document.querySelector('.package-sidebar');
+    if (!layout || !sidebar) return;
+    layout.classList.remove('sidebar-visible');
+    sidebar.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('sidebar-open');
+    // return focus to last focused Book Now button if wanted
+    if (window.__lastBookNowBtn) {
+      try { window.__lastBookNowBtn.focus(); } catch(e){/*ignore*/ }
+    }
+  }
+
+  // attach click handlers to Book Now buttons (delegation safer)
+  document.addEventListener('click', function(e) {
+    const bookBtn = e.target.closest('.btn.primary, .btn.book-now');
+    if (!bookBtn) return;
+
+    // prevent default if it's a link
+    if (bookBtn.tagName.toLowerCase() === 'a') e.preventDefault();
+
+    const info = getCardInfoFromButton(bookBtn);
+    if (!info) return;
+
+    // save last focused button so we can return focus on close
+    window.__lastBookNowBtn = bookBtn;
+
+    openPackageSidebar(info);
+  });
+
+  // close buttons inside sidebar (add .sidebar-close to your button)
+  document.addEventListener('click', function(e) {
+    const closeBtn = e.target.closest('.sidebar-close');
+    if (!closeBtn) return;
+    closePackageSidebar();
+  });
+
+  // optional: close sidebar on pressing Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const layout = document.querySelector('.package-layout');
+      if (layout && layout.classList.contains('sidebar-visible')) {
+        closePackageSidebar();
+      }
+    }
+  });
+
+  // if your sidebar has overlay clickable area with class .sidebar-backdrop
+  document.addEventListener('click', function(e) {
+    if (e.target.classList && e.target.classList.contains('sidebar-backdrop')) {
+      closePackageSidebar();
+    }
+  });
+
+})();

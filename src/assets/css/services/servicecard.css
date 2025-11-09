@@ -176,24 +176,14 @@
   align-items: center;
   gap: 24px;
   padding: 24px 16px;
-
+  position: relative;
   /* xoá những cái gây 'cục' ở góc */
-  background: rgba(244, 232, 218, 0.75);
+  
   border: 0;                         /* gỡ border nội bộ */
   border-radius: 0;                  /* gỡ bo góc nội bộ */
   background-clip: padding-box;      /* tránh màu nền ăn dưới viền cha */
 }
 /* Hàng 1: Main Content (Ảnh + Header) */
-.pkg-main-info{
-  display:flex;
-  align-items:center;
-  gap:24px;
-  padding:24px 16px;
-  background:rgba(244,232,218,0.75);                 /* Figma */
-  border:1px solid rgba(77,43,18,0.59);              /* Figma */
-  border-radius:16px 16px 0 0;                       /* Figma top radius */
-  position:relative;                                  /* để đặt price góc phải */
-}
 
 .pkg-image-container {
   width: 250px;
@@ -215,53 +205,65 @@
   flex-direction: column;
 }
 
-.pkg-header{
-  display:grid;
+.pkg-header {
+  display: grid;
   grid-template-columns: 1fr auto;
-  grid-auto-rows: min-content;
-  row-gap: 12px;
-  column-gap: 16px;
-  align-items:start;
-  min-height:unset; /* bỏ min-height cũ nếu có */
+  grid-template-rows: auto auto auto;
+  gap: 10px 16px;
+  width: 100%;
 }
 
-.pkg-title{
-  grid-column:1/2;
-  margin:0;
-  color:#4A4035;                                       /* Figma text */
-  font-size:clamp(20px, 2vw, 28px);                    /* Bagel giống ảnh */
-  line-height:1.25;
+/* group title + description */
+.pkg-info {
+  grid-column: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.pkg-price{
-  grid-column:2/3;
-  justify-self:end;
-  align-self:start;
-  display:flex;
-  flex-direction:column;
-  gap:2px;
-  font-family:"Bagel Fat One", system-ui, sans-serif;  /* Figma */
-  font-size:24px;                                      /* $40 */
-  line-height:35px;
-  color:#4D2B12;
-}
-.pkg-price .unit{
-  font-family:"Lexend Deca", system-ui, sans-serif;    /* per pet */
-  font-size:13px;
-  line-height:16px;
-  font-weight:500;
-  color:rgb(73, 68, 62);
+/* title */
+.pkg-title {
+  margin: 0;
+  font-family: "Bagel Fat One", sans-serif;
+  font-size: 20px;
+  color: #4A4035;
 }
 
-.pkg-description{
-  grid-column:1/-1;                                    /* full width dưới title */
-  margin:0;
-  color:#000;                                          /* Figma đen nhẹ */
-  font-family:"Fraunces", serif;
-  font-weight:700;
-  font-size:16px;
-  line-height:20px;                                    /* 125% */
+/* description */
+.pkg-description {
+  margin: 0;
+  font-family: "Fraunces", serif;
+  font-size: 16px;
+  color: #000;
+  font-weight:400;
+  max-width: 380px;
+  
 }
+
+/* price */
+.pkg-price {
+  grid-column: 2 / 3;
+  justify-self: start;
+  align-self: top;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right:10px;
+}
+
+.pkg-price strong {
+  font-family: "Bagel Fat One", sans-serif;
+  font-size: 24px;
+  color: #4D2B12;
+}
+
+.pkg-price small {
+  font-family: "Lexend Deca", sans-serif;
+  font-size: 13px;
+  color: rgb(94, 87, 79);
+  font-weight: 400;
+}
+
 
 .pkg-rating{
   grid-column:1/-1;
@@ -270,7 +272,7 @@
   gap:8px;
 }
 .stars{ color:#FEC7E4; font-size:20px; }               /* sao hồng */
-.rating-text{ font-family:"Lexend Deca",sans-serif; font-size:14px; color:#000; }
+.rating-text{ font-family:"Lexend Deca",sans-serif; font-size:14px; color:#000;font-weight: 400; }
 
 /* Chips (Private Room / Meal Plan / Playtime) */
 .pkg-tags{
@@ -283,7 +285,7 @@
 .tag{
   display:inline-flex; align-items:center; gap:6px;
   height:33px; padding:10px 12px; border-radius:16px;
-  font:400 13px/16px "Lexend Deca", system-ui, sans-serif;
+  font:700 13px/16px "Lexend Deca", system-ui, sans-serif;
   color:#4D2B12; border:0;
 }
 .tag-room{  background:rgba(191,214,246,0.66); }
@@ -306,6 +308,7 @@
 .details-toggle span{
  color:#4D2B12;
   font-weight:600;
+  font-size: 14px;
   font-family:"Lexend Deca",sans-serif;
   display:flex;                      /* để text căn giữa đúng */
   align-items:center;
@@ -499,7 +502,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 1.25rem;
-  background: #f7f3ed;
+  background: #FFFEF9;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
@@ -513,6 +516,8 @@
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.25rem;
+  font-family: "Fraunces",sans-serif;
+  font-weight: 800;
 }
 
 .addon-name {
@@ -673,28 +678,6 @@
   gap: 1.5rem;
 }
 
-.addon-item {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 1.25rem;
-  background: rgba(244, 232, 218, 0.69);
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-  border: 1px solid #d8b894;
-}
-
-.addon-info {
-  flex: 1;
-  margin-bottom: 0.25rem;
-}
-
-.addon-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
 .addon-name {
   font-weight: 600;
   color: #4D2B12;
@@ -796,12 +779,18 @@
   padding-bottom: 1rem;
   border-bottom: 1px solid #e5e7eb;
 }
-
+.rating-overview{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 30px;
+}
 .overall-rating {
   font-size: 2.5rem;
   font-weight: 800;
   color: #4D2B12;
   margin-right: 0.5rem;
+  font-family: "Bagel Fat One",sans-serif;
 }
 
 .overall-stars {
@@ -864,7 +853,7 @@
   color: #7b470b;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  padding: 0.5rem 0;
+  padding: 0;
 }
 
 .view-all-reviews:hover {
@@ -872,7 +861,7 @@
 }
 
 .review-item {
-  background: #f7f3ed;
+  background: #FFFFFF;
   border-radius: 12px;
   padding: 1.25rem;
   margin-bottom: 1rem;
@@ -1160,4 +1149,152 @@
   font-size: 0.7rem;
   color: #6b5e56;
   font-weight: 400;
+}
+/* Thêm vào cuối file servicecard.css */
+
+/* 1. Mặc định, layout chỉ có 1 cột (content chiếm 100%) 
+*/
+.package-layout {
+  display: grid;
+  grid-template-columns: 1fr; /* Chỉ 1 cột, tự động full-width */
+  gap: 24px; /* Giữ khoảng cách (nếu có) */
+}
+
+/* 2. Mặc định ẩn sidebar đi 
+*/
+.package-sidebar {
+  display: none;
+}
+
+/* 3. Khi class .sidebar-visible được thêm vào .package-layout (bằng JS) 
+*/
+.package-layout.sidebar-visible {
+  /* Trả lại layout 2 cột như cũ */
+  grid-template-columns: 2fr 1fr; /* Hoặc tỷ lệ 2 cột bạn muốn */
+}
+
+/* 4. Hiển thị lại sidebar khi layout có class .sidebar-visible 
+*/
+.package-layout.sidebar-visible .package-sidebar {
+  display: block; /* Hoặc 'flex' nếu sidebar dùng flexbox */
+}
+.package-layout.sidebar-visible .pkg-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 90px;
+}
+
+.package-layout.sidebar-visible .pkg-info {
+  flex: 1;
+}
+
+
+
+/* =========================
+   FULL WIDTH MODE (sidebar ẨN)
+========================= */
+.package-layout:not(.sidebar-visible) .pkg-card {
+  /* card chiếm full width, nội dung dàn thẳng */
+  display: block;
+  padding: 20px;
+}
+
+.package-layout:not(.sidebar-visible) .pkg-image-container {
+  width: 50%;              /* ảnh full rộng */
+  height: 320px;           /* bạn có thể chỉnh cao theo ý muốn */
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 18px;     /* tạo khoảng cách xuống phần nội dung */
+}
+
+.package-layout:not(.sidebar-visible) .pkg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* cover cho đẹp với SVG/bitmap */
+  display: block;
+}
+
+/* Group title + desc chung 1 cột, full width */
+.package-layout:not(.sidebar-visible) .pkg-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  gap: 10px 16px;
+  width: 100%;
+}
+
+.package-layout:not(.sidebar-visible) .pkg-info {
+  width: 100%;
+  display: flex;
+}
+
+/* Title lớn hơn khi full width (tuỳ chỉnh) */
+.package-layout:not(.sidebar-visible) .pkg-title {
+  font-size: clamp(22px, 2.4vw, 28px);
+  margin-bottom: 8px;
+}
+
+/* Mô tả full width */
+.package-layout:not(.sidebar-visible) .pkg-description {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Price: đưa xuống dưới nội dung khi full width (nếu muốn giữ hiển thị) */
+.package-layout:not(.sidebar-visible) .pkg-price {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 8px;
+  width: auto;
+}
+
+/* Actions: để dưới cùng, full width */
+.package-layout:not(.sidebar-visible) .pkg-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  justify-content: flex-start;
+}
+/* =========================
+  SIDEBAR VISIBLE MODE (2 columns)
+  Khi .package-layout có .sidebar-visible -> restore layout
+========================= */
+.package-layout.sidebar-visible .pkg-image-container {
+  width: 280px;            /* kích thước ảnh nhỏ lại */
+  height: 210px;
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.package-layout.sidebar-visible .pkg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.package-layout.sidebar-visible .pkg-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 16px;
+  align-items: start;
+}
+
+.package-layout.sidebar-visible .pkg-price {
+  justify-self: end;
+  align-self: center;
+}
+
+/* Smooth transitions so layout change feels nicer */
+.pkg-image-container,
+.pkg-image,
+.pkg-header,
+.pkg-actions,
+.pkg-price {
+  transition: all .28s ease;
 }
