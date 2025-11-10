@@ -15,6 +15,35 @@ document.addEventListener('DOMContentLoaded', () => {
 // Track edit state for saved cards
 let editingCardIndex = null;
 let editingPending = false;
+// Ensure correct product image paths in checkout summaries
+function resolveCheckoutImage(item) {
+  const src = (item && item.image) ? String(item.image) : '';
+  // Absolute or data URIs: use as-is
+  if (/^(https?:|data:|\/)/.test(src)) return src;
+
+  const norm = (s) => (String(s || '').trim().replace(/\s+/g, ' ').toLowerCase());
+  let preferred = src;
+
+  // Try to find canonical product thumbnail by name from PRODUCTS_DATA
+  try {
+    const list = Array.isArray(window.PRODUCTS_DATA) ? window.PRODUCTS_DATA : [];
+    const match = list.find(p => norm(p.name) === norm(item && item.name));
+    if (match) {
+      preferred = match.thumbnail || (Array.isArray(match.images) ? match.images[0] : preferred) || preferred;
+    }
+  } catch {}
+
+  // Normalize any path that contains assets/ to be correct from shop_checkout pages
+  const idx = preferred.indexOf('assets/');
+  if (idx >= 0) {
+    const tail = preferred.slice(idx);
+    return '../../' + tail;
+  }
+  // Fallback: strip leading ../ segments and prefix ../../ for assets
+  const rel = preferred.replace(/^(?:\.\.\/)+/, '');
+  if (rel.startsWith('assets/')) return '../../' + rel;
+  return preferred;
+}
 
 function renderCheckoutSummary() {
   const itemsContainer = document.querySelector('.order-items');
@@ -58,7 +87,7 @@ function renderCheckoutSummary() {
       li.className = 'order-item';
       const totalPrice = (Number(item.price) * Number(item.quantity || 1)) || 0;
       li.innerHTML = `
-        <img class="order-thumb" src="${item.image}" alt="${item.name}">
+        <img class="order-thumb" src="${resolveCheckoutImage(item)}" alt="${item.name}">
         <div class="order-info">
           <div class="order-name">${item.name}</div>
           <div class="order-meta">x${item.quantity || 1}</div>
