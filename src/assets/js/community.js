@@ -124,10 +124,10 @@
   price: "Free • RSVP",
   status: "finished",
   agenda: [
-    "10:00 - 10:15: Chào mừng",
-    "10:15 - 11:00: Gặp gỡ từng bé",
-    "11:00 - 11:30: Tư vấn chăm sóc",
-    "11:30 - 12:00: Đăng ký nhận nuôi"
+    "10:00 - 10:15: Welcome & Hellos!",
+    "10:15 - 11:00: Furry Friend Meet & Greet",
+    "11:00 - 11:30: Pet Care 101 (Tips & Q&A)",
+    "11:30 - 12:00: Making it Official (Adoption Sign-ups)"
   ],
   gallery: [
     "../assets/images/Community/campaigns/galler-3.2.jpg",

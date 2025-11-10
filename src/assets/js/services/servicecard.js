@@ -12,6 +12,108 @@ document.addEventListener('DOMContentLoaded', () => {
   } else if (page === 'homestayboarding') {
     initHomestayBoardingFunctionality();
   }
+
+  // Photo modal functionality
+  let modalZoom = 1;
+  let modalTranslateX = 0;
+  let modalTranslateY = 0;
+  let isDragging = false;
+  let startX, startY, startTranslateX, startTranslateY;
+
+  document.addEventListener('click', (e) => {
+    // Open modal on photo-item click
+    if (e.target.closest('.photo-item')) {
+      const photoItem = e.target.closest('.photo-item');
+      const img = photoItem.querySelector('img');
+      if (img) {
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-image');
+        modalImg.src = img.src;
+        modalImg.alt = img.alt || 'Full screen photo';
+        // Reset zoom and position
+        modalZoom = 1;
+        modalTranslateX = 0;
+        modalTranslateY = 0;
+        updateModalImageTransform();
+        modal.classList.add('show');
+      }
+    }
+
+    // Close modal on overlay click
+    if (e.target.classList.contains('photo-modal-overlay')) {
+      closeModal();
+    }
+
+    // Close button
+    if (e.target.closest('.close-btn')) {
+      closeModal();
+    }
+
+    // Zoom buttons
+    if (e.target.closest('.zoom-btn')) {
+      const zoomBtn = e.target.closest('.zoom-btn');
+      if (zoomBtn.textContent.includes('+') || zoomBtn.textContent.includes('Zoom In')) {
+        modalZoom = Math.min(modalZoom * 1.2, 5); // Max zoom 5x
+      } else if (zoomBtn.textContent.includes('-') || zoomBtn.textContent.includes('Zoom Out')) {
+        modalZoom = Math.max(modalZoom / 1.2, 0.5); // Min zoom 0.5x
+      }
+      updateModalImageTransform();
+    }
+  });
+
+  // Drag functionality
+  document.addEventListener('mousedown', (e) => {
+    if (e.target.id === 'modal-image') {
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startTranslateX = modalTranslateX;
+      startTranslateY = modalTranslateY;
+      document.querySelector('.modal-image-container').classList.add('dragging');
+      e.preventDefault();
+    }
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      const deltaX = e.clientX - startX;
+      const deltaY = e.clientY - startY;
+      modalTranslateX = startTranslateX + deltaX;
+      modalTranslateY = startTranslateY + deltaY;
+      updateModalImageTransform();
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      document.querySelector('.modal-image-container').classList.remove('dragging');
+    }
+  });
+
+  // Prevent context menu on image
+  document.addEventListener('contextmenu', (e) => {
+    if (e.target.id === 'modal-image') {
+      e.preventDefault();
+    }
+  });
+
+  function closeModal() {
+    const modal = document.getElementById('photo-modal');
+    modal.classList.remove('show');
+    // Reset state
+    modalZoom = 1;
+    modalTranslateX = 0;
+    modalTranslateY = 0;
+    isDragging = false;
+  }
+
+  function updateModalImageTransform() {
+    const modalImg = document.getElementById('modal-image');
+    if (modalImg) {
+      modalImg.style.transform = `scale(${modalZoom}) translate(${modalTranslateX / modalZoom}px, ${modalTranslateY / modalZoom}px)`;
+    }
+  }
 });
 
 // ========================================================================
@@ -55,10 +157,93 @@ function initHomestayBoardingFunctionality() {
     }
   };
 
+  // Function to update add-ons in main content (pkg-details-toggled)
+  function updateAddonsForMainContent(packageName) {
+    const addonsContainer = document.querySelector('.pkg-details-toggled .addon-list');
+    if (!addonsContainer) return;
+
+    const packageInfo = packageData[packageName];
+    if (!packageInfo) {
+      console.error("Package data not found for:", packageName);
+      addonsContainer.innerHTML = '<p>No add-ons available for this package.</p>';
+      return;
+    }
+
+    addonsContainer.innerHTML = ''; // Clear existing add-ons
+
+    packageInfo.addons.forEach(addon => {
+      const addonItem = document.createElement('div');
+      addonItem.className = 'addon-item';
+      addonItem.setAttribute('data-price', addon.price);
+
+      addonItem.innerHTML = `
+        <div class="addon-info">
+          <div class="addon-header">
+            <span class="addon-name">${addon.name}</span>
+          </div>
+          <p class="addon-desc">${addon.desc || ''}</p> 
+          <div class="addon-footer">
+            <div class="addon-price">$${addon.price}<span class="unit"> per pet</span></div>
+            <button class="add-btn" data-price="${addon.price}">+</button>
+          </div>
+        </div>
+      `;
+      addonsContainer.appendChild(addonItem);
+    });
+  }
+
   // Initialize package selection from main content
   initPackageSelectionFromMain();
 
-  // Initialize add-ons event delegation
+  // Initialize add-ons event delegation for main content (pkg-details-toggled)
+  const mainAddonsContainer = document.querySelector('.pkg-details-toggled .add-ons-grid');
+  if (mainAddonsContainer) {
+    mainAddonsContainer.addEventListener('click', (e) => {
+      const addBtn = e.target.closest('.add-btn');
+      if (!addBtn) return;
+
+      const addonItem = addBtn.closest('.addon-item');
+      if (!addonItem) return;
+
+      const addonName = addonItem.querySelector('.addon-name')?.textContent.trim();
+      const addonPrice = parseFloat(addBtn.dataset.price) || 0;
+
+      if (!addonName) return;
+
+      const iconPlus = addBtn.querySelector('.icon-plus');
+      const iconCheck = addBtn.querySelector('.icon-check');
+
+      // Toggle addon selection
+      if (selectedAddons.has(addonName)) {
+        selectedAddons.delete(addonName);
+        if (iconPlus && iconCheck) {
+          iconPlus.style.display = 'block';
+          iconCheck.style.display = 'none';
+        } else {
+          addBtn.textContent = '+';
+        }
+        addBtn.classList.remove('selected');
+        addonItem.classList.remove('selected');
+      } else {
+        selectedAddons.set(addonName, { price: addonPrice, element: addonItem });
+        if (iconPlus && iconCheck) {
+          iconPlus.style.display = 'none';
+          iconCheck.style.display = 'block';
+        } else {
+          addBtn.textContent = '✓';
+        }
+        addBtn.classList.add('selected');
+        addonItem.classList.add('selected');
+      }
+
+      // Update selected count for add-ons
+      updateSelectedCount('Add-ons', selectedAddons.size);
+      // Update price summary
+      updatePriceSummary();
+    });
+  }
+
+  // Initialize add-ons event delegation for sidebar
   const addonsAccordion = document.querySelector('.accordion-section .accordion-content');
   if (addonsAccordion) {
     addonsAccordion.addEventListener('click', (e) => {
@@ -136,6 +321,7 @@ function initHomestayBoardingFunctionality() {
 
       updatePriceSummary();
     });
+    
   }
 
   // --- CÁC HÀM CON CỦA HOMESTAY ---
@@ -211,10 +397,12 @@ function initHomestayBoardingFunctionality() {
           <div class="addon-header">
             <span class="addon-name">${addon.name}</span>
           </div>
-          <p class="addon-desc">${addon.desc || ''}</p>
-          <div class="addon-price">$${addon.price}<span class="unit"> /per pet</span></div>
+          <p class="addon-desc">${addon.desc || ''}</p> 
+          <div class="addon-footer">
+            <div class="addon-price">$${addon.price}<span class="unit"> per pet</span></div>
+            <button class="add-btn" data-price="${addon.price}">+</button>
+          </div>
         </div>
-        <button class="add-btn" data-price="${addon.price}">+</button>
       `;
       addonsContainer.appendChild(addonItem);
     });
@@ -233,24 +421,17 @@ function initHomestayBoardingFunctionality() {
   }
 
   function updateQuantityDisplay(treatItem, quantity) {
-    const treatNameElement = treatItem.querySelector('.treat-name');
-    if (!treatNameElement) return;
+  // 1. Tìm span hiển thị số lượng ở giữa 2 nút
+  const quantitySpan = treatItem.querySelector('.quantity-controls .quantity');
 
-    let quantitySpan = treatNameElement.querySelector('.quantity-display');
-    if (quantity > 0) {
-      if (!quantitySpan) {
-        quantitySpan = document.createElement('span');
-        quantitySpan.className = 'quantity-display';
-        quantitySpan.style.color = '#888';
-        quantitySpan.style.fontSize = '0.9em';
-        quantitySpan.style.marginLeft = '4px';
-        treatNameElement.appendChild(quantitySpan);
-      }
-      quantitySpan.textContent = ` x${quantity}`;
-    } else {
-      if (quantitySpan) quantitySpan.remove();
-    }
+  if (quantitySpan) {
+    // 2. Cập nhật text cho nó
+    quantitySpan.textContent = quantity;
+  } else {
+    // 3. Báo lỗi nếu không tìm thấy span (do thiếu ở HTML)
+    console.error("Không tìm thấy '.quantity' span bên trong '.quantity-controls'", treatItem);
   }
+}
 
   function updatePriceSummary() {
     const packageRate = isNaN(selectedPackage.price) ? 0 : selectedPackage.price;
@@ -521,9 +702,11 @@ function initGroomingSpaFunctionality() {
             <span class="addon-name">${addon.name}</span>
           </div>
           <p class="addon-desc">${addon.desc || ''}</p> 
-          <div class="addon-price">$${addon.price}<span class="unit">per pet</span></div>
+          <div class="addon-footer">
+            <div class="addon-price">$${addon.price}<span class="unit"> per pet</span></div>
+            <button class="add-btn" data-price="${addon.price}">+</button>
+          </div>
         </div>
-        <button class="add-btn" data-price="${addon.price}">+</button>
       `;
       addonsContainer.appendChild(addonItem);
     });
@@ -542,30 +725,18 @@ function initGroomingSpaFunctionality() {
     });
   }
 
-  // HÀM NÀY BỊ THIẾU TRONG CODE GỐC CỦA BẠN, TÔI ĐÃ THÊM VÀO
   function updateQuantityDisplay(treatItem, quantity) {
-    const treatNameElement = treatItem.querySelector('.treat-name');
-    if (!treatNameElement) {
-      console.error("Could not find .treat-name element within:", treatItem);
-      return;
-    }
-    let quantitySpan = treatNameElement.querySelector('.quantity-display');
-    if (quantity > 0) {
-      if (!quantitySpan) {
-        quantitySpan = document.createElement('span');
-        quantitySpan.className = 'quantity-display';
-        quantitySpan.style.color = '#888';
-        quantitySpan.style.fontSize = '0.9em';
-        quantitySpan.style.marginLeft = '4px';
-        treatNameElement.appendChild(quantitySpan);
-      }
-      quantitySpan.textContent = ` x${quantity}`;
-    } else {
-      if (quantitySpan) {
-        quantitySpan.remove();
-      }
-    }
+  // 1. Tìm span hiển thị số lượng ở giữa 2 nút
+  const quantitySpan = treatItem.querySelector('.quantity-controls .quantity');
+
+  if (quantitySpan) {
+    // 2. Cập nhật text cho nó
+    quantitySpan.textContent = quantity;
+  } else {
+    // 3. Báo lỗi nếu không tìm thấy span (do thiếu ở HTML)
+    console.error("Không tìm thấy '.quantity' span bên trong '.quantity-controls'", treatItem);
   }
+}
 
   function updatePriceSummary() {
     const packageRate = isNaN(selectedPackage.price) ? 0 : selectedPackage.price;
