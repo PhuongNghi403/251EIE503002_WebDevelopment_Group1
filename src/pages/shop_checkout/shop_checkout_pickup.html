@@ -363,5 +363,28 @@
       ]);
     });
   </script>
+  <script>
+    // Intercept PAY NOW: if terms aren’t checked, open policy modal
+    document.addEventListener('DOMContentLoaded', function () {
+      const payBtn = document.querySelector('.checkout-summary .btn.pay');
+      if (!payBtn) return;
+      payBtn.addEventListener('click', function (e) {
+        const agree = document.querySelector('.terms input[type="checkbox"]');
+        const isChecked = !!(agree && agree.checked);
+        if (!isChecked) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (window.policyModal && typeof window.policyModal.open === 'function') {
+            window.policyModal.open();
+          }
+          return;
+        }
+        // If already checked, mark accepted so global gate doesn’t block
+        try {
+          localStorage.setItem('pc_policy_accepted', JSON.stringify({ accepted: true, ts: Date.now() }));
+        } catch {}
+      }, { capture: true });
+    });
+  </script>
 </body>
 </html>

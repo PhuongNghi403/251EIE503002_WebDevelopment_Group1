@@ -327,6 +327,17 @@ function initWishlist() {
 
       // lưu lại
       localStorage.setItem("wishlist", JSON.stringify(list));
+
+      // cập nhật huy hiệu header yêu thích ngay lập tức
+      try {
+        if (typeof window.updateWishlistBadgeCount === 'function') {
+          window.updateWishlistBadgeCount();
+        }
+        const action = exists ? 'remove' : 'add';
+        window.dispatchEvent(new CustomEvent('wishlistUpdated', {
+          detail: { wishlist: list, action, productName: name }
+        }));
+      } catch (_) {}
     });
   });
 

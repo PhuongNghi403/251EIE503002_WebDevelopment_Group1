@@ -364,8 +364,67 @@
   </div>
   <script src="../../assets/js/utils.js"></script>
   <script src="../../assets/js/policy_modal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Wire Policy Modal to the Shipping page's terms checkbox
+      window.policyModal?.setAgreeSelector('.terms input[type="checkbox"]');
+
+      // Define Shipping-specific policies
+      window.policyModal?.setPolicies([
+        {
+          id: 'terms',
+          label: 'Terms & Conditions',
+          content: `
+            <h3>Shipping — Terms & Conditions</h3>
+            <ul>
+              <li>Provide accurate shipping details and contact information.</li>
+              <li>Delivery windows vary by location (typically 3–5 business days).</li>
+              <li>Someone must be available to receive and inspect the package.</li>
+              <li>Report damaged or missing items within 24 hours of delivery.</li>
+            </ul>
+          `
+        },
+        {
+          id: 'cancel',
+          label: 'Cancellation Policy',
+          content: `
+            <h3>Cancellation & Refund</h3>
+            <ul>
+              <li>Orders may be canceled before dispatch for a full refund.</li>
+              <li>After dispatch, cancellations are subject to return shipping fees.</li>
+              <li>Refunds (if eligible) are processed within 7–10 business days.</li>
+              <li>Payment gateway and handling charges are non-refundable.</li>
+            </ul>
+          `
+        }
+      ]);
+    });
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="../../assets/js/shop_checkout/shop_checkout_ship.js"></script>
+  <script>
+    // Intercept PAY NOW: if terms aren’t checked, open policy modal
+    document.addEventListener('DOMContentLoaded', function () {
+      const payBtn = document.querySelector('.checkout-summary .btn.pay');
+      if (!payBtn) return;
+      payBtn.addEventListener('click', function (e) {
+        const agree = document.querySelector('.terms input[type="checkbox"]');
+        const isChecked = !!(agree && agree.checked);
+        if (!isChecked) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (window.policyModal && typeof window.policyModal.open === 'function') {
+            window.policyModal.open();
+          }
+          return;
+        }
+        // If already checked, mark accepted so global gate doesn’t block
+        try {
+          localStorage.setItem('pc_policy_accepted', JSON.stringify({ accepted: true, ts: Date.now() }));
+        } catch {}
+      }, { capture: true });
+    });
+  </script>
 </body>
 </html>
