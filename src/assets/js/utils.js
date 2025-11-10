@@ -123,6 +123,50 @@
   document.addEventListener('DOMContentLoaded', function() {
     window.updateCartBadgeCount();
     window.updateWishlistBadgeCount();
+
+    // Inject Account dropdown across all pages
+    try {
+      const headerActions = document.querySelector('.header-actions');
+      const accountLink = document.querySelector('.header-actions .icon-btn[aria-label="Account"]');
+      if (headerActions && accountLink && !accountLink.closest('.account-btn-wrap')) {
+        // Derive pages root from existing account link href for correct relative paths
+        const href = accountLink.getAttribute('href') || '';
+        const pagesRoot = href.replace(/login-signup\.html$/i, '');
+
+        // Create wrapper and move the existing link inside
+        const wrap = document.createElement('div');
+        wrap.className = 'account-btn-wrap';
+        headerActions.insertBefore(wrap, accountLink);
+        wrap.appendChild(accountLink);
+
+        // Build dropdown menu
+        const menu = document.createElement('div');
+        menu.className = 'account-menu';
+        menu.innerHTML = `
+          <a class="menu-item help" href="${pagesRoot}community.html" aria-label="Help">🛟 Help</a>
+          <button class="menu-item signout" type="button" aria-label="Sign out">🚪 Sign out</button>
+        `;
+        wrap.appendChild(menu);
+
+        // Sign out handler: clear session and redirect to login page
+        const signoutBtn = menu.querySelector('.menu-item.signout');
+        if (signoutBtn) {
+          signoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            try {
+              localStorage.removeItem('pc_user');
+              // Optional: also clear ephemeral auth flags used elsewhere
+              // localStorage.removeItem('auth_token');
+            } catch (err) {}
+            // Redirect to login page using the same relative base as the existing account link
+            const target = `${pagesRoot}login-signup.html`;
+            window.location.href = target;
+          });
+        }
+      }
+    } catch (err) {
+      console.error('Account dropdown injection failed:', err);
+    }
   });
 
   // Respond to custom events emitted by page scripts
