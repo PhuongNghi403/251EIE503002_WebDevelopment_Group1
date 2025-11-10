@@ -543,7 +543,52 @@ function initGroomingSpaFunctionality() {
 
   // Initialize package selection from main content
   initPackageSelectionFromMain();
+  const mainAddonsContainer = document.querySelector('.pkg-details-toggled .add-ons-grid');
+  if (mainAddonsContainer) {
+    mainAddonsContainer.addEventListener('click', (e) => {
+      const addBtn = e.target.closest('.add-btn');
+      if (!addBtn) return;
 
+      const addonItem = addBtn.closest('.addon-item');
+      if (!addonItem) return;
+
+      const addonName = addonItem.querySelector('.addon-name')?.textContent.trim();
+      const addonPrice = parseFloat(addBtn.dataset.price) || 0;
+
+      if (!addonName) return;
+
+      const iconPlus = addBtn.querySelector('.icon-plus');
+      const iconCheck = addBtn.querySelector('.icon-check');
+
+      // Toggle addon selection
+      if (selectedAddons.has(addonName)) {
+        selectedAddons.delete(addonName);
+        if (iconPlus && iconCheck) {
+          iconPlus.style.display = 'block';
+          iconCheck.style.display = 'none';
+        } else {
+          addBtn.textContent = '+';
+        }
+        addBtn.classList.remove('selected');
+        addonItem.classList.remove('selected');
+      } else {
+        selectedAddons.set(addonName, { price: addonPrice, element: addonItem });
+        if (iconPlus && iconCheck) {
+          iconPlus.style.display = 'none';
+          iconCheck.style.display = 'block';
+        } else {
+          addBtn.textContent = '✓';
+        }
+        addBtn.classList.add('selected');
+        addonItem.classList.add('selected');
+      }
+
+      // Update selected count for add-ons
+      updateSelectedCount('Add-ons', selectedAddons.size);
+      // Update price summary
+      updatePriceSummary();
+    });
+  }
   // Initialize add-ons event delegation
   const addonsAccordion = document.querySelector('.accordion-content');
   if (addonsAccordion) {
@@ -559,14 +604,27 @@ function initGroomingSpaFunctionality() {
 
       if (!addonName) return;
 
+      const iconPlus = addBtn.querySelector('.icon-plus');
+      const iconCheck = addBtn.querySelector('.icon-check');
+  
       if (selectedAddons.has(addonName)) {
         selectedAddons.delete(addonName);
-        addBtn.textContent = '+';
+        if (iconPlus && iconCheck) {
+          iconPlus.style.display = 'block';
+          iconCheck.style.display = 'none';
+        } else {
+          addBtn.textContent = '+';
+        }
         addBtn.classList.remove('selected');
         addonItem.classList.remove('selected');
       } else {
         selectedAddons.set(addonName, { price: addonPrice, element: addonItem });
-        addBtn.textContent = '✓';
+        if (iconPlus && iconCheck) {
+          iconPlus.style.display = 'none';
+          iconCheck.style.display = 'block';
+        } else {
+          addBtn.textContent = '✓';
+        }
         addBtn.classList.add('selected');
         addonItem.classList.add('selected');
       }
@@ -575,6 +633,7 @@ function initGroomingSpaFunctionality() {
       updatePriceSummary();
     });
   }
+  
 
   // Initialize treats event delegation
   const treatsGrid = document.querySelector('.treats-grid');
@@ -662,7 +721,7 @@ function initGroomingSpaFunctionality() {
   }
 
   function updateSidebarForPackage(packageName, packagePrice) {
-    // SỬA LỖI: Đây là selector của trang Grooming
+    //  Đây là selector của trang Grooming
     const packageNameEl = document.querySelector('.package-name');
     const packagePriceEl = document.querySelector('.package-price');
     
@@ -677,19 +736,19 @@ function initGroomingSpaFunctionality() {
     updatePriceSummary();
   }
 
-  // SỬA LỖI: Thêm $ và mô tả
+  // Thêm $ và mô tả
   function updateAddonsForPackage(packageName) {
     const addonsContainer = document.querySelector('.accordion-content');
     if (!addonsContainer) return;
     
-    const packageInfo = packageData[packageName]; // Dùng packageData cục bộ
+    const packageInfo = packageData[packageName]; 
     if (!packageInfo) {
       console.error("Package data not found for:", packageName);
       addonsContainer.innerHTML = '<p>No add-ons available for this package.</p>';
       return;
     }
 
-    addonsContainer.innerHTML = ''; // Xóa add-ons cũ
+    addonsContainer.innerHTML = ''; 
     
     packageInfo.addons.forEach(addon => {
       const addonItem = document.createElement('div');

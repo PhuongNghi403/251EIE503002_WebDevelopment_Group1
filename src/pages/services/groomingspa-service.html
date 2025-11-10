@@ -631,12 +631,10 @@ From bathing, stylish haircuts, ear and nail cleaning, to relaxing spa therapies
         <div class="package-sidebar">
           <div class="order-summary card-shadow">
             <!-- Selected Package Card -->
-            <div class="sidebar-card">
-              <div class="selected-package">
-                <span class="package-name bagel-fat-one-regular">The Polished Pup</span>
-                <span class="selected-label">Selected</span>
-              </div>
-              <div class="package-price bagel-fat-one-regular">$45</div>
+            <div class="sidebar-card selected-package bagel-fat-one-regular">
+              <h4>The Polished Pup</h4>
+              <span class="selected-label fraunces-body">Selected</span>
+              <div class="package-price">$45<span class="unit">per night</span></div>
             </div>
             <!-- Add-ons Card -->
             <div class="sidebar-card">
@@ -654,7 +652,16 @@ From bathing, stylish haircuts, ear and nail cleaning, to relaxing spa therapies
                       </div>
                       <div class="addon-price">$5<span class="unit">per pet</span></div>
                     </div>
-                    <button class="add-btn" data-price="5">+</button>
+                    <div class="addon-action">
+                      <button class="btn secondary small add-btn" data-price="5">
+                        <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 5v14m-7-7h14"/>
+                        </svg>
+                        <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M20 6 9 17l-5-5"/>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                   <!-- Add-ons ở phần accordion phía dưới -->
                   <div class="addon-item" data-price="10">
@@ -692,8 +699,10 @@ From bathing, stylish haircuts, ear and nail cleaning, to relaxing spa therapies
             <div class="sidebar-card">
               <div class="accordion-section">
                 <button class="accordion-header" onclick="toggleAccordion(this)">
-                  <span>Treats for buddy</span>
-                  <span class="selected-count">0 selected</span>
+                  <div class="treat-head">
+                    <span>Treats for buddy</span>
+                    <span class="selected-count">0 selected</span>
+                  </div>
                   <span class="chevron">▲</span>
                 </button>
                 <div class="accordion-content expanded">
@@ -702,51 +711,59 @@ From bathing, stylish haircuts, ear and nail cleaning, to relaxing spa therapies
                     <div class="treat-item" data-price="12" data-treat-name="Chew Vitamins">
                       <img src="../../assets/images/Services/ChewVitamin.svg" alt="Chew Vitamins" />
                       <div class="treat-info">
-                        <span class="treat-name">Chew Vitamins</span>
-                        <div class="treat-price">$12<span class="unit">each</span></div>
-                      </div>
-                      <div class="quantity-controls">
-                        <button class="remove-btn" data-price="12">-</button>
-                        <button class="add-btn" data-price="12">+</button>
+                        <span class="treat-name">Chew Vitamins</span>            
+                        <div class="treat-foot">
+                          <div class="treat-price">$12<span class="unit">/each</span></div>
+                          <div class="quantity-controls">
+                            <button class="remove-btn" data-price="12">-</button>
+                            <span class="quantity">0</span> <button class="add-btn" data-price="12">+</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-            
+                    
                     <!-- Beef Biscuit -->
                     <div class="treat-item" data-price="12" data-treat-name="Beef Biscuit">
                       <img src="../../assets/images/Services/BeefBiscuit.svg" alt="Beef Biscuit" />
                       <div class="treat-info">
-                        <span class="treat-name">Beef Biscuit</span>
-                        <div class="treat-price">$12<span class="unit">each</span></div>
-                      </div>
-                      <div class="quantity-controls">
-                        <button class="remove-btn" data-price="12">-</button>
-                        <button class="add-btn" data-price="12">+</button>
+                        <span class="treat-name">Beef Biscuit</span>            
+                        <div class="treat-foot">
+                          <div class="treat-price">$12<span class="unit">/each</span></div>
+                          <div class="quantity-controls">
+                            <button class="remove-btn" data-price="12">-</button>
+                            <span class="quantity">0</span> <button class="add-btn" data-price="12">+</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-            
+                    
                     <!-- Creamy Soup -->
                     <div class="treat-item" data-price="12" data-treat-name="Creamy Soup">
                       <img src="../../assets/images/Services/CreamySoup.svg" alt="Creamy Soup" />
                       <div class="treat-info">
-                        <span class="treat-name">Creamy Soup</span>
-                        <div class="treat-price">$12<span class="unit">each</span></div>
-                      </div>
-                      <div class="quantity-controls">
-                        <button class="remove-btn" data-price="12">-</button>
-                        <button class="add-btn" data-price="12">+</button>
+                        <span class="treat-name">Creamy Soup</span>            
+                        <div class="treat-foot">
+                          <div class="treat-price">$12<span class="unit">/each</span></div>
+                          <div class="quantity-controls">
+                            <button class="remove-btn" data-price="12">-</button>
+                            <span class="quantity">0</span> <button class="add-btn" data-price="12">+</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-            
+                    
                     <!-- Artisan Biscuits -->
                     <div class="treat-item" data-price="12" data-treat-name="Artisan Biscuits">
                       <img src="../../assets/images/Services/ArtisanBiscuits.svg" alt="Artisan Biscuits" />
                       <div class="treat-info">
-                        <span class="treat-name">Artisan Biscuits</span>
-                        <div class="treat-price">$12<span class="unit">each</span></div>
-                      </div>
-                      <div class="quantity-controls">
-                        <button class="remove-btn" data-price="12">-</button>
-                        <button class="add-btn" data-price="12">+</button>
+                        <span class="treat-name">Artisan Biscuits</span>            
+                        <div class="treat-foot">
+                          <div class="treat-price">$12<span class="unit">/each</span></div>
+                          <div class="quantity-controls">
+                            <button class="remove-btn" data-price="12">-</button>
+                            <span class="quantity">0</span> <button class="add-btn" data-price="12">+</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
