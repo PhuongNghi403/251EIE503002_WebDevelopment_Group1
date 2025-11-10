@@ -15,6 +15,35 @@ document.addEventListener('DOMContentLoaded', () => {
 // Track edit state for saved cards
 let editingCardIndex = null;
 let editingPending = false;
+// Ensure correct product image paths in checkout summaries
+function resolveCheckoutImage(item) {
+  const src = (item && item.image) ? String(item.image) : '';
+  // Absolute or data URIs: use as-is
+  if (/^(https?:|data:|\/)/.test(src)) return src;
+
+  const norm = (s) => (String(s || '').trim().replace(/\s+/g, ' ').toLowerCase());
+  let preferred = src;
+
+  // Try to find canonical product thumbnail by name from PRODUCTS_DATA
+  try {
+    const list = Array.isArray(window.PRODUCTS_DATA) ? window.PRODUCTS_DATA : [];
+    const match = list.find(p => norm(p.name) === norm(item && item.name));
+    if (match) {
+      preferred = match.thumbnail || (Array.isArray(match.images) ? match.images[0] : preferred) || preferred;
+    }
+  } catch {}
+
+  // Normalize any path that contains assets/ to be correct from shop_checkout pages
+  const idx = preferred.indexOf('assets/');
+  if (idx >= 0) {
+    const tail = preferred.slice(idx);
+    return '../../' + tail;
+  }
+  // Fallback: strip leading ../ segments and prefix ../../ for assets
+  const rel = preferred.replace(/^(?:\.\.\/)+/, '');
+  if (rel.startsWith('assets/')) return '../../' + rel;
+  return preferred;
+}
 
 function renderCheckoutSummary() {
   const itemsContainer = document.querySelector('.order-items');
@@ -58,7 +87,7 @@ function renderCheckoutSummary() {
       li.className = 'order-item';
       const totalPrice = (Number(item.price) * Number(item.quantity || 1)) || 0;
       li.innerHTML = `
-        <img class="order-thumb" src="${item.image}" alt="${item.name}">
+        <img class="order-thumb" src="${resolveCheckoutImage(item)}" alt="${item.name}">
         <div class="order-info">
           <div class="order-name">${item.name}</div>
           <div class="order-meta">x${item.quantity || 1}</div>
@@ -153,38 +182,53 @@ function initQrPayment() {
     const s = String(totalSec % 60).padStart(2, '0');
     return `${m}:${s}`;
   }
+  
+  // *** LOGIC MỚI: ĐÃ THÊM ***
+  function regenerateQr() {
+      const total = currentTotal();
+      const name = getCustomerName();
+      // Thêm token để QR luôn mới
+      const value = `PAWFECTPAY|amount=${total.toFixed(2)}|token=${Date.now()}_${Math.random().toString(36).slice(2,10)}|customer=${name}`;
+      if (!qrInstance) {
+          qrInstance = new QRious({ element: canvas, value, size: 240 });
+      } else {
+          qrInstance.value = value;
+      }
+      amountEl.textContent = `$${total.toFixed(2)}`;
+      customerEl.textContent = name;
+  }
 
+  // *** LOGIC MỚI: ĐÃ CẬP NHẬT (10 phút, tự làm mới) ***
   function startCountdown() {
     if (!timerEl) return;
-    let remaining = 5 * 60 * 1000; // 5 minutes
+    let remaining = 10 * 60 * 1000; // 10 minutes
     timerEl.textContent = formatTime(remaining);
     canvas && canvas.classList.remove('hidden');
     if (doneBtn) doneBtn.disabled = false;
-    if (noteEl) noteEl.textContent = 'Scan with your banking app. QR updates if total changes.';
+    if (noteEl) noteEl.textContent = 'Scan with your banking app. QR refreshes every 10 minutes.';
     if (countdownId) clearInterval(countdownId);
     countdownId = setInterval(() => {
-      remaining -= 1000;
-      timerEl.textContent = formatTime(remaining);
-      if (remaining <= 0) {
-        clearInterval(countdownId);
-        countdownId = null;
-        timerEl.textContent = '00:00';
-        canvas && canvas.classList.add('hidden');
-        if (noteEl) noteEl.textContent = 'QR expired. Reopen QR payment to generate a new code.';
-        if (doneBtn) doneBtn.disabled = true;
-      }
+        remaining -= 1000;
+        timerEl.textContent = formatTime(remaining);
+        if (remaining <= 0) {
+            // Hết giờ -> tạo QR mới và bắt đầu lại
+            regenerateQr();
+            remaining = 10 * 60 * 1000;
+            timerEl.textContent = formatTime(remaining);
+        }
     }, 1000);
   }
 
+  // *** LOGIC MỚI: ĐÃ CẬP NHẬT (10 phút) ***
   function stopCountdown(reset = true) {
     if (countdownId) {
       clearInterval(countdownId);
       countdownId = null;
     }
-    if (reset && timerEl) timerEl.textContent = '05:00';
+    if (reset && timerEl) timerEl.textContent = '10:00'; // Cập nhật thành 10:00
     canvas && canvas.classList.remove('hidden');
     if (doneBtn) doneBtn.disabled = false;
-    if (noteEl && reset) noteEl.textContent = 'Scan with your banking app. QR updates if total changes.';
+    if (noteEl && reset) noteEl.textContent = 'Scan with your banking app. QR refreshes every 10 minutes.';
   }
 
   function getCustomerName() {
@@ -196,9 +240,7 @@ function initQrPayment() {
     return 'Guest';
   }
 
-  function buildQrPayload(amount, customerName) {
-    return `PAWFECTPAY|amount=${amount.toFixed(2)}|bank=VCB|account=0123456789|customer=${customerName}`;
-  }
+  // *** ĐÃ XÓA buildQrPayload (vì regenerateQr thay thế) ***
 
   function currentTotal() {
     if (window.checkoutTotals && typeof window.checkoutTotals.total === 'number') {
@@ -210,22 +252,11 @@ function initQrPayment() {
     return match ? parseFloat(match[1].replace(',', '')) : 0;
   }
 
-  function updateQr() {
-    const total = currentTotal();
-    const name = getCustomerName();
-    amountEl.textContent = `$${total.toFixed(2)}`;
-    customerEl.textContent = name;
-    const value = buildQrPayload(total, name);
-    if (!qrInstance) {
-      // QRious renders directly to the canvas element
-      qrInstance = new QRious({ element: canvas, value, size: 240 });
-    } else {
-      qrInstance.value = value;
-    }
-  }
+  // *** ĐÃ XÓA updateQr (vì regenerateQr thay thế) ***
 
   qrTab.addEventListener('click', () => {
-    updateQr();
+    // *** THAY ĐỔI: Gọi regenerateQr() thay vì updateQr() ***
+    regenerateQr(); 
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
     startCountdown();
@@ -344,7 +375,8 @@ function initQrPayment() {
   const totalsEl = document.querySelector('.totals');
   if (totalsEl) {
     const obs = new MutationObserver(() => {
-      if (modal.classList.contains('show')) updateQr();
+      // *** THAY ĐỔI: Gọi regenerateQr() thay vì updateQr() ***
+      if (modal.classList.contains('show')) regenerateQr();
     });
     obs.observe(totalsEl, { subtree: true, childList: true, characterData: true });
   }
@@ -494,7 +526,7 @@ function initAddressModal() {
       if (container.classList.contains('address-list') || container.classList.contains('address-card')) {
         container.outerHTML = `
           <div class="address-empty" style="background:#FAF4EC;border:1px solid #E9E4DC;border-radius:12px;padding:16px;display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;">
-            <div style="width:36px;height:36px;border-radius:10px;background:#FFF;border:1px solid #EEE2D4;display:flex;align-items:center;justify-content:center;color:#7B5E47;">📍</div>
+            <div style="width:36px;height:36px;border-radius:10px;background:#FFF;border:1px solid #EEE2D4;display:flex;align-items:center;justify:content:center;color:#7B5E47;">📍</div>
             <div>
               <div style="font:600 14px/1.2 'Lexend Deca';color:#4D2B12;">No saved addresses yet</div>
               <div style="font:400 12px/1.2 'Lexend Deca';color:#7B5E47;">Please add your address to continue</div>
@@ -917,6 +949,8 @@ function initOtpPayment() {
   const payBtn = document.querySelector('.order-card .btn.pay');
   const termsEl = document.querySelector('.terms input[type="checkbox"]');
   const cardTab = document.querySelector('.pay-tabs .pay-tab:first-child');
+  // *** LOGIC MỚI: ĐÃ THÊM ***
+  const qrTab = document.querySelector('.pay-tabs .pay-tab:last-child');
   const otpModal = document.querySelector('.otp-modal');
   const otpClose = document.querySelector('.otp-close');
   const otpConfirm = document.querySelector('.otp-confirm');
@@ -956,7 +990,8 @@ function initOtpPayment() {
     if (reset && timerEl) timerEl.textContent = '02:00';
   }
 
-  if (!payBtn || !cardTab || !otpModal) return;
+  // *** LOGIC MỚI: ĐÃ CẬP NHẬT (bỏ cardTab check) ***
+  if (!payBtn || !otpModal) return;
 
   function resolvePhoneText() {
     const phoneInput = document.getElementById('addrPhone');
@@ -972,8 +1007,9 @@ function initOtpPayment() {
     startOtpCountdown();
   }
 
+  // *** LOGIC MỚI: ĐÃ CẬP NHẬT (bỏ check active tab) ***
   payBtn.addEventListener('click', (e) => {
-    if (!cardTab.classList.contains('active')) return; // only for card payments
+    // ĐÃ XÓA: if (!cardTab.classList.contains('active')) return;
     if (editingPending) {
       e.preventDefault();
       alert('You have unsaved changes to a card. Click "Update Card" before proceeding.');
@@ -993,10 +1029,28 @@ function initOtpPayment() {
   otpConfirm && otpConfirm.addEventListener('click', () => {
     // Accept any OTP entered by user
     const code = otpInput ? otpInput.value.trim() : '';
-    void code;
+
+    // Yêu cầu OTP đúng 6 chữ số
+    if (!/^\d{6}$/.test(code)) {
+      alert('OTP không hợp lệ. Mã mới đã được gửi lại.');
+      if (otpInput) otpInput.value = '';
+      startOtpCountdown();
+      return;
+    }
+
+    // OTP hợp lệ -> đóng OTP và tiếp tục luồng "Done"
     otpModal.classList.remove('show');
     otpModal.setAttribute('aria-hidden', 'true');
     stopOtpCountdown(true);
+
+    // *** LOGIC MỚI: ĐÃ THÊM (Kiểm tra tab QR) ***
+    if (qrTab && qrTab.classList.contains('active')) {
+        // Nếu là tab QR, chỉ cần click() để mở modal QR (với countdown 10p mới)
+        qrTab.click(); 
+        return;
+    }
+
+    // (Chỉ chạy nếu là tab Card)
     const doneModal = document.querySelector('.done-modal');
     if (doneModal) {
       try {

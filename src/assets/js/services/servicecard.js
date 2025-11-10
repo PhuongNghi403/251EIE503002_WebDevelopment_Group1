@@ -12,12 +12,115 @@ document.addEventListener('DOMContentLoaded', () => {
   } else if (page === 'homestayboarding') {
     initHomestayBoardingFunctionality();
   }
+
+  // Photo modal functionality
+  let modalZoom = 1;
+  let modalTranslateX = 0;
+  let modalTranslateY = 0;
+  let isDragging = false;
+  let startX, startY, startTranslateX, startTranslateY;
+
+  document.addEventListener('click', (e) => {
+    // Open modal on photo-item click
+    if (e.target.closest('.photo-item')) {
+      const photoItem = e.target.closest('.photo-item');
+      const img = photoItem.querySelector('img');
+      if (img) {
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-image');
+        modalImg.src = img.src;
+        modalImg.alt = img.alt || 'Full screen photo';
+        // Reset zoom and position
+        modalZoom = 1;
+        modalTranslateX = 0;
+        modalTranslateY = 0;
+        updateModalImageTransform();
+        modal.classList.add('show');
+      }
+    }
+
+    // Close modal on overlay click
+    if (e.target.classList.contains('photo-modal-overlay')) {
+      closeModal();
+    }
+
+    // Close button
+    if (e.target.closest('.close-btn')) {
+      closeModal();
+    }
+
+    // Zoom buttons
+    if (e.target.closest('.zoom-btn')) {
+      const zoomBtn = e.target.closest('.zoom-btn');
+      if (zoomBtn.textContent.includes('+') || zoomBtn.textContent.includes('Zoom In')) {
+        modalZoom = Math.min(modalZoom * 1.2, 5); // Max zoom 5x
+      } else if (zoomBtn.textContent.includes('-') || zoomBtn.textContent.includes('Zoom Out')) {
+        modalZoom = Math.max(modalZoom / 1.2, 0.5); // Min zoom 0.5x
+      }
+      updateModalImageTransform();
+    }
+  });
+
+  // Drag functionality
+  document.addEventListener('mousedown', (e) => {
+    if (e.target.id === 'modal-image') {
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startTranslateX = modalTranslateX;
+      startTranslateY = modalTranslateY;
+      document.querySelector('.modal-image-container').classList.add('dragging');
+      e.preventDefault();
+    }
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      const deltaX = e.clientX - startX;
+      const deltaY = e.clientY - startY;
+      modalTranslateX = startTranslateX + deltaX;
+      modalTranslateY = startTranslateY + deltaY;
+      updateModalImageTransform();
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      document.querySelector('.modal-image-container').classList.remove('dragging');
+    }
+  });
+
+  // Prevent context menu on image
+  document.addEventListener('contextmenu', (e) => {
+    if (e.target.id === 'modal-image') {
+      e.preventDefault();
+    }
+  });
+
+  function closeModal() {
+    const modal = document.getElementById('photo-modal');
+    modal.classList.remove('show');
+    // Reset state
+    modalZoom = 1;
+    modalTranslateX = 0;
+    modalTranslateY = 0;
+    isDragging = false;
+  }
+
+  function updateModalImageTransform() {
+    const modalImg = document.getElementById('modal-image');
+    if (modalImg) {
+      modalImg.style.transform = `scale(${modalZoom}) translate(${modalTranslateX / modalZoom}px, ${modalTranslateY / modalZoom}px)`;
+    }
+  }
 });
 
 // ========================================================================
 // LOGIC TRANG HOMESTAY (ĐỘC LẬP)
 // ========================================================================
 function initHomestayBoardingFunctionality() {
+  
   // State management for homestay boarding
   let selectedPackage = { name: 'Cozy Room (Basic)', price: 40 };
   let selectedAddons = new Map(); // addonName -> { price: number, element: HTMLElement }
@@ -54,10 +157,93 @@ function initHomestayBoardingFunctionality() {
     }
   };
 
+  // Function to update add-ons in main content (pkg-details-toggled)
+  function updateAddonsForMainContent(packageName) {
+    const addonsContainer = document.querySelector('.pkg-details-toggled .addon-list');
+    if (!addonsContainer) return;
+
+    const packageInfo = packageData[packageName];
+    if (!packageInfo) {
+      console.error("Package data not found for:", packageName);
+      addonsContainer.innerHTML = '<p>No add-ons available for this package.</p>';
+      return;
+    }
+
+    addonsContainer.innerHTML = ''; // Clear existing add-ons
+
+    packageInfo.addons.forEach(addon => {
+      const addonItem = document.createElement('div');
+      addonItem.className = 'addon-item';
+      addonItem.setAttribute('data-price', addon.price);
+
+      addonItem.innerHTML = `
+        <div class="addon-info">
+          <div class="addon-header">
+            <span class="addon-name">${addon.name}</span>
+          </div>
+          <p class="addon-desc">${addon.desc || ''}</p> 
+          <div class="addon-footer">
+            <div class="addon-price">$${addon.price}<span class="unit"> per pet</span></div>
+            <button class="add-btn" data-price="${addon.price}">+</button>
+          </div>
+        </div>
+      `;
+      addonsContainer.appendChild(addonItem);
+    });
+  }
+
   // Initialize package selection from main content
   initPackageSelectionFromMain();
 
-  // Initialize add-ons event delegation
+  // Initialize add-ons event delegation for main content (pkg-details-toggled)
+  const mainAddonsContainer = document.querySelector('.pkg-details-toggled .add-ons-grid');
+  if (mainAddonsContainer) {
+    mainAddonsContainer.addEventListener('click', (e) => {
+      const addBtn = e.target.closest('.add-btn');
+      if (!addBtn) return;
+
+      const addonItem = addBtn.closest('.addon-item');
+      if (!addonItem) return;
+
+      const addonName = addonItem.querySelector('.addon-name')?.textContent.trim();
+      const addonPrice = parseFloat(addBtn.dataset.price) || 0;
+
+      if (!addonName) return;
+
+      const iconPlus = addBtn.querySelector('.icon-plus');
+      const iconCheck = addBtn.querySelector('.icon-check');
+
+      // Toggle addon selection
+      if (selectedAddons.has(addonName)) {
+        selectedAddons.delete(addonName);
+        if (iconPlus && iconCheck) {
+          iconPlus.style.display = 'block';
+          iconCheck.style.display = 'none';
+        } else {
+          addBtn.textContent = '+';
+        }
+        addBtn.classList.remove('selected');
+        addonItem.classList.remove('selected');
+      } else {
+        selectedAddons.set(addonName, { price: addonPrice, element: addonItem });
+        if (iconPlus && iconCheck) {
+          iconPlus.style.display = 'none';
+          iconCheck.style.display = 'block';
+        } else {
+          addBtn.textContent = '✓';
+        }
+        addBtn.classList.add('selected');
+        addonItem.classList.add('selected');
+      }
+
+      // Update selected count for add-ons
+      updateSelectedCount('Add-ons', selectedAddons.size);
+      // Update price summary
+      updatePriceSummary();
+    });
+  }
+
+  // Initialize add-ons event delegation for sidebar
   const addonsAccordion = document.querySelector('.accordion-section .accordion-content');
   if (addonsAccordion) {
     addonsAccordion.addEventListener('click', (e) => {
@@ -135,6 +321,7 @@ function initHomestayBoardingFunctionality() {
 
       updatePriceSummary();
     });
+    
   }
 
   // --- CÁC HÀM CON CỦA HOMESTAY ---
@@ -210,10 +397,12 @@ function initHomestayBoardingFunctionality() {
           <div class="addon-header">
             <span class="addon-name">${addon.name}</span>
           </div>
-          <p class="addon-desc">${addon.desc || ''}</p>
-          <div class="addon-price">$${addon.price}<span class="unit"> /per pet</span></div>
+          <p class="addon-desc">${addon.desc || ''}</p> 
+          <div class="addon-footer">
+            <div class="addon-price">$${addon.price}<span class="unit"> per pet</span></div>
+            <button class="add-btn" data-price="${addon.price}">+</button>
+          </div>
         </div>
-        <button class="add-btn" data-price="${addon.price}">+</button>
       `;
       addonsContainer.appendChild(addonItem);
     });
@@ -232,24 +421,17 @@ function initHomestayBoardingFunctionality() {
   }
 
   function updateQuantityDisplay(treatItem, quantity) {
-    const treatNameElement = treatItem.querySelector('.treat-name');
-    if (!treatNameElement) return;
+  // 1. Tìm span hiển thị số lượng ở giữa 2 nút
+  const quantitySpan = treatItem.querySelector('.quantity-controls .quantity');
 
-    let quantitySpan = treatNameElement.querySelector('.quantity-display');
-    if (quantity > 0) {
-      if (!quantitySpan) {
-        quantitySpan = document.createElement('span');
-        quantitySpan.className = 'quantity-display';
-        quantitySpan.style.color = '#888';
-        quantitySpan.style.fontSize = '0.9em';
-        quantitySpan.style.marginLeft = '4px';
-        treatNameElement.appendChild(quantitySpan);
-      }
-      quantitySpan.textContent = ` x${quantity}`;
-    } else {
-      if (quantitySpan) quantitySpan.remove();
-    }
+  if (quantitySpan) {
+    // 2. Cập nhật text cho nó
+    quantitySpan.textContent = quantity;
+  } else {
+    // 3. Báo lỗi nếu không tìm thấy span (do thiếu ở HTML)
+    console.error("Không tìm thấy '.quantity' span bên trong '.quantity-controls'", treatItem);
   }
+}
 
   function updatePriceSummary() {
     const packageRate = isNaN(selectedPackage.price) ? 0 : selectedPackage.price;
@@ -520,9 +702,11 @@ function initGroomingSpaFunctionality() {
             <span class="addon-name">${addon.name}</span>
           </div>
           <p class="addon-desc">${addon.desc || ''}</p> 
-          <div class="addon-price">$${addon.price}<span class="unit">per pet</span></div>
+          <div class="addon-footer">
+            <div class="addon-price">$${addon.price}<span class="unit"> per pet</span></div>
+            <button class="add-btn" data-price="${addon.price}">+</button>
+          </div>
         </div>
-        <button class="add-btn" data-price="${addon.price}">+</button>
       `;
       addonsContainer.appendChild(addonItem);
     });
@@ -541,30 +725,18 @@ function initGroomingSpaFunctionality() {
     });
   }
 
-  // HÀM NÀY BỊ THIẾU TRONG CODE GỐC CỦA BẠN, TÔI ĐÃ THÊM VÀO
   function updateQuantityDisplay(treatItem, quantity) {
-    const treatNameElement = treatItem.querySelector('.treat-name');
-    if (!treatNameElement) {
-      console.error("Could not find .treat-name element within:", treatItem);
-      return;
-    }
-    let quantitySpan = treatNameElement.querySelector('.quantity-display');
-    if (quantity > 0) {
-      if (!quantitySpan) {
-        quantitySpan = document.createElement('span');
-        quantitySpan.className = 'quantity-display';
-        quantitySpan.style.color = '#888';
-        quantitySpan.style.fontSize = '0.9em';
-        quantitySpan.style.marginLeft = '4px';
-        treatNameElement.appendChild(quantitySpan);
-      }
-      quantitySpan.textContent = ` x${quantity}`;
-    } else {
-      if (quantitySpan) {
-        quantitySpan.remove();
-      }
-    }
+  // 1. Tìm span hiển thị số lượng ở giữa 2 nút
+  const quantitySpan = treatItem.querySelector('.quantity-controls .quantity');
+
+  if (quantitySpan) {
+    // 2. Cập nhật text cho nó
+    quantitySpan.textContent = quantity;
+  } else {
+    // 3. Báo lỗi nếu không tìm thấy span (do thiếu ở HTML)
+    console.error("Không tìm thấy '.quantity' span bên trong '.quantity-controls'", treatItem);
   }
+}
 
   function updatePriceSummary() {
     const packageRate = isNaN(selectedPackage.price) ? 0 : selectedPackage.price;
@@ -650,15 +822,24 @@ function initGroomingSpaFunctionality() {
 function toggleDetails(button) {
   const pkgCard = button.closest('.pkg-card');
   const detailsSection = pkgCard.querySelector('.pkg-details-toggled');
-  
-  if (detailsSection.classList.contains('is-active')) {
-    detailsSection.classList.remove('is-active');
-    button.innerHTML = 'View Details <span class="arrow">↓</span>';
-  } else {
-    detailsSection.classList.add('is-active');
-    button.innerHTML = 'Hide Details <span class="arrow">↑</span>';
-  }
+
+  // an toàn: nếu thiếu section thì thoát
+  if (!detailsSection) return;
+
+  // tìm label: ưu tiên .label, nếu không có lấy <span> đầu tiên (hoặc null -> bỏ qua)
+  const labelEl = button.querySelector('.label') || button.querySelector('span');
+
+  const willOpen = !detailsSection.classList.contains('is-active');
+
+  // toggle state
+  detailsSection.classList.toggle('is-active', willOpen);
+  button.classList.toggle('is-active', willOpen);
+
+  // đổi text nếu có label
+  if (labelEl) labelEl.textContent = willOpen ? 'Hide Details' : 'View Details';
 }
+
+
 
 // Switch between tabs
 function switchTab(button, tabId) {
@@ -726,3 +907,104 @@ function showNotification(message, type = 'info') {
     }, 300);
   }, 3000);
 }
+/* ===== Sidebar show/hide when clicking Book Now ===== */
+(function() {
+  // helper: get nearest pkg-card info
+  function getCardInfoFromButton(btn) {
+    const card = btn.closest('.pkg-card');
+    if (!card) return null;
+    const name = card.querySelector('.pkg-title')?.textContent?.trim() || '';
+    // price could be .pkg-price strong or .pkg-price text
+    const priceText = card.querySelector('.pkg-price')?.textContent || '';
+    const priceMatch = priceText.match(/\$?\s*([\d,.]+)/);
+    const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g,'')) : 0;
+    return { card, name, price };
+  }
+
+  // open sidebar: add class to layout, populate sidebar, focus
+  function openPackageSidebar(info) {
+    const layout = document.querySelector('.package-layout');
+    const sidebar = document.querySelector('.package-sidebar');
+    if (!layout || !sidebar) return;
+
+    // add class to show sidebar
+    layout.classList.add('sidebar-visible');
+
+    // populate sidebar fields (assumes these ids exist in sidebar)
+    const sName = sidebar.querySelector('.sidebar-pkg-name');
+    const sPrice = sidebar.querySelector('.sidebar-pkg-price');
+    if (sName) sName.textContent = info.name;
+    if (sPrice) sPrice.textContent = `$${info.price}`;
+
+    // update global state (optional: reuse your selectedPackage variable)
+    window.selectedPackage = { name: info.name, price: info.price };
+
+    // ensure price summary and UI in sidebar reflect state
+    if (typeof updatePriceSummary === 'function') {
+      updatePriceSummary();
+    }
+
+    // accessibility: trap focus into sidebar
+    sidebar.setAttribute('aria-hidden', 'false');
+    // set focus to first focusable element in sidebar (close button)
+    const firstFocusable = sidebar.querySelector('button, a, input, [tabindex]');
+    if (firstFocusable) firstFocusable.focus();
+    document.body.classList.add('sidebar-open'); // optional for page scroll lock
+  }
+
+  // close sidebar: remove class and reset aria
+  function closePackageSidebar() {
+    const layout = document.querySelector('.package-layout');
+    const sidebar = document.querySelector('.package-sidebar');
+    if (!layout || !sidebar) return;
+    layout.classList.remove('sidebar-visible');
+    sidebar.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('sidebar-open');
+    // return focus to last focused Book Now button if wanted
+    if (window.__lastBookNowBtn) {
+      try { window.__lastBookNowBtn.focus(); } catch(e){/*ignore*/ }
+    }
+  }
+
+  // attach click handlers to Book Now buttons (delegation safer)
+  document.addEventListener('click', function(e) {
+    const bookBtn = e.target.closest('.btn.primary, .btn.book-now');
+    if (!bookBtn) return;
+
+    // prevent default if it's a link
+    if (bookBtn.tagName.toLowerCase() === 'a') e.preventDefault();
+
+    const info = getCardInfoFromButton(bookBtn);
+    if (!info) return;
+
+    // save last focused button so we can return focus on close
+    window.__lastBookNowBtn = bookBtn;
+
+    openPackageSidebar(info);
+  });
+
+  // close buttons inside sidebar (add .sidebar-close to your button)
+  document.addEventListener('click', function(e) {
+    const closeBtn = e.target.closest('.sidebar-close');
+    if (!closeBtn) return;
+    closePackageSidebar();
+  });
+
+  // optional: close sidebar on pressing Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const layout = document.querySelector('.package-layout');
+      if (layout && layout.classList.contains('sidebar-visible')) {
+        closePackageSidebar();
+      }
+    }
+  });
+
+  // if your sidebar has overlay clickable area with class .sidebar-backdrop
+  document.addEventListener('click', function(e) {
+    if (e.target.classList && e.target.classList.contains('sidebar-backdrop')) {
+      closePackageSidebar();
+    }
+  });
+
+})();

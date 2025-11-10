@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="../../assets/css/footer.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chiron+Sung+HK:ital,wght@0,200..900;1,200..900&family=Fraunces:ital,opsz,wght@0,9..144,100;1,9..144,100&family=Lexend+Deca:wght@100&family=Quicksand:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Fraunces:wght@400;500;600;700&family=Lexend+Deca:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../assets/css/services/servicecard.css" />
 </head>
 
@@ -110,26 +110,45 @@
               <div class="pkg-image-container">
                 <img class="pkg-image" src="../../assets/images/Services/CozyRoom8.svg" alt="Cozy Room" />
               </div>
-              <div class="pkg-content">
-                <div class="pkg-header">
+             <div class="pkg-header">
+                <div class="pkg-info">
                   <h3 class="pkg-title bagel-fat-one-regular">Cozy Room (Basic)</h3>
-                  <div class="pkg-price">$40<span class="unit"> per pet</span></div>
-                  <p class="pkg-description fraunces-body">Simple comfort for your furry friend. Ideal for pets staying 1-2 nights</p>
-                  <div class="pkg-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="rating-text">5.0 (200 reviews)</span>
-                  </div>
-                  <div class="pkg-tags">
-                    <span class="tag tag-room"><img src="../../assets/icons/Service/HouseIcon.svg" alt="House"> Private Room</span>
-                    <span class="tag tag-meal"><img src="../../assets/icons/Service/BowlFoodIcon.svg" alt="Food"> Meal Plan</span>
-                    <span class="tag tag-play"><img src="../../assets/icons/Service/SettingIcon.svg" alt="Setting"> Playtime</span>
-                  </div>
-                  <div class="pkg-actions">
-                    <button class="details-toggle" onclick="toggleDetails(this)">
-                      View Details <span class="arrow">↓</span>
-                    </button>
-                    <a class="btn primary" href="homestaystep1.html">Book Now</a>
-                  </div>
+                  <p class="pkg-description fraunces-body">
+                    Simple comfort for your furry friend. Ideal for pets staying 1–2 nights
+                  </p>
+                </div>
+
+                <div class="pkg-price">
+                  <strong>$40</strong>
+                  <small>per pet</small>
+                </div>
+
+                <div class="pkg-rating">
+                  <span class="stars">★★★★★</span>
+                  <span class="rating-text">5.0 (200 reviews)</span>
+                </div>
+
+                <div class="pkg-tags">
+                  <span class="tag tag-room">
+                    <img src="../../assets/icons/Service/HouseIcon.svg" alt="House"> Private Room
+                  </span>
+                  <span class="tag tag-meal">
+                    <img src="../../assets/icons/Service/BowlFoodIcon.svg" alt="Food"> Meal Plan
+                  </span>
+                  <span class="tag tag-play">
+                    <img src="../../assets/icons/Service/SettingIcon.svg" alt="Setting"> Playtime
+                  </span>
+                </div>
+
+                <div class="pkg-actions">
+                  <button class="details-toggle" onclick="toggleDetails(this)">
+                    <span>View Details</span>
+                    <svg class="icon-chevron" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"
+                      fill="none" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                  </button>
+                  <a class="btn primary" href="homestaystep1.html">Book Now</a>
                 </div>
               </div>
             </div>
@@ -178,6 +197,17 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$5<span class="unit"> /per pet</span></div>
+                          
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="5">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="addon-item" data-price="25">
@@ -189,6 +219,16 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$25<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="25">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="addon-item" data-price="10">
@@ -200,6 +240,16 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$10<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="10">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="addon-item" data-price="12">
@@ -211,6 +261,16 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$12<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="12">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -326,26 +386,45 @@
               <div class="pkg-image-container">
                 <img class="pkg-image" src="../../assets/images/Services/PremiumRetreat4.svg" alt="Premium Retreat" />
               </div>
-              <div class="pkg-content">
-                <div class="pkg-header">
+              <div class="pkg-header">
+                <div class="pkg-info">
                   <h3 class="pkg-title bagel-fat-one-regular">Premium Retreat</h3>
-                  <div class="pkg-price ">$55<span class="unit"> per pet</span></div>
-                  <p class="pkg-description fraunces-body">A step up in comfort and personalized attention. Perfect for pets who love extra space, custom meals, and one-on-one care.</p>
-                  <div class="pkg-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="rating-text">5.0 (180 reviews)</span>
-                  </div>
-                  <div class="pkg-tags">
-                    <span class="tag tag-room"><img src="../../assets/icons/Service/HouseIcon.svg" alt="House"> Private Room</span>
-                    <span class="tag tag-meal"><img src="../../assets/icons/Service/BowlFoodIcon.svg" alt="Food"> Custom Meals</span>
-                    <span class="tag tag-play"><img src="../../assets/icons/Service/SettingIcon.svg" alt="Setting"> Premium Play</span>
-                  </div>
-                  <div class="pkg-actions">
-                    <button class="details-toggle" onclick="toggleDetails(this)">
-                      View Details <span class="arrow">↓</span>
-                    </button>
-                    <a class="btn primary" href="homestaystep1.html">Book Now</a>
-                  </div>
+                  <p class="pkg-description fraunces-body">
+                    A step up in comfort and personalized attention. Perfect for pets who love extra space, custom meals, and one-on-one care.
+                  </p>
+                </div>
+
+                <div class="pkg-price">
+                  <strong>$55</strong>
+                  <small>per pet</small>
+                </div>
+
+                <div class="pkg-rating">
+                  <span class="stars">★★★★★</span>
+                  <span class="rating-text">5.0 (180 reviews)</span>
+                </div>
+
+                <div class="pkg-tags">
+                  <span class="tag tag-room">
+                    <img src="../../assets/icons/Service/HouseIcon.svg" alt="House"> Private Room
+                  </span>
+                  <span class="tag tag-meal">
+                    <img src="../../assets/icons/Service/BowlFoodIcon.svg" alt="Food"> Custom Meals
+                  </span>
+                  <span class="tag tag-play">
+                    <img src="../../assets/icons/Service/SettingIcon.svg" alt="Setting"> Premium Playground
+                  </span>
+                </div>
+
+                <div class="pkg-actions">
+                  <button class="details-toggle" onclick="toggleDetails(this)">
+                    <span>View Details</span>
+                    <svg class="icon-chevron" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"
+                      fill="none" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                  </button>
+                  <a class="btn primary" href="homestaystep1.html">Book Now</a>
                 </div>
               </div>
             </div>
@@ -394,6 +473,16 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$8<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="8">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="addon-item">
@@ -405,6 +494,16 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$25<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="25">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="addon-item">
@@ -416,6 +515,16 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$10<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="10">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="addon-item">
@@ -427,6 +536,16 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$12<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="12">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -539,26 +658,45 @@
               <div class="pkg-image-container">
                 <img class="pkg-image" src="../../assets/images/Services/LuxurySuite5.svg" alt="Luxury Suite" />
               </div>
-              <div class="pkg-content">
-                <div class="pkg-header">
+              <div class="pkg-header">
+                <div class="pkg-info">
                   <h3 class="pkg-title bagel-fat-one-regular">Luxury Suite</h3>
-                  <div class="pkg-price">$75<span class="unit"> per pet</span></div>
-                  <p class="pkg-description fraunces-body">Five-star luxury stay for your best friend. Exclusive suite with full monitoring, spa treatment, and premium service from start to finish.</p>
-                  <div class="pkg-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="rating-text">5.0 (95 reviews)</span>
-                  </div>
-                  <div class="pkg-tags">
-                    <span class="tag tag-room"><img src="../../assets/icons/Service/HouseIcon.svg" alt="House"> Luxury Suite</span>
-                    <span class="tag tag-meal"><img src="../../assets/icons/Service/BowlFoodIcon.svg" alt="Food"> Gourmet Meals</span>
-                    <span class="tag tag-play"><img src="../../assets/icons/Service/SettingIcon.svg" alt="Setting"> VIP Treatment</span>
-                  </div>
-                  <div class="pkg-actions">
-                    <button class="details-toggle" onclick="toggleDetails(this)">
-                      View Details <span class="arrow">↓</span>
-                    </button>
-                    <a class="btn primary" href="homestaystep1.html">Book Now</a>
-                  </div>
+                  <p class="pkg-description fraunces-body">
+                    Five-star luxury stay for your best friend. Exclusive suite with full monitoring, spa treatment, and premium service from start to finish.
+                  </p>
+                </div>
+
+                <div class="pkg-price">
+                  <strong>$75</strong>
+                  <small>per pet</small>
+                </div>
+
+                <div class="pkg-rating">
+                  <span class="stars">★★★★★</span>
+                  <span class="rating-text">5.0 (95 reviews)</span>
+                </div>
+
+                <div class="pkg-tags">
+                  <span class="tag tag-room">
+                    <img src="../../assets/icons/Service/HouseIcon.svg" alt="House"> Luxury Suite
+                  </span>
+                  <span class="tag tag-meal">
+                    <img src="../../assets/icons/Service/BowlFoodIcon.svg" alt="Food"> Gourmet Meals
+                  </span>
+                  <span class="tag tag-play">
+                    <img src="../../assets/icons/Service/SettingIcon.svg" alt="Setting"> VIP Treatment
+                  </span>
+                </div>
+
+                <div class="pkg-actions">
+                  <button class="details-toggle" onclick="toggleDetails(this)">
+                    <span>View Details</span>
+                    <svg class="icon-chevron" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"
+                      fill="none" stroke="#4D2B12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                  </button>
+                  <a class="btn primary" href="homestaystep1.html">Book Now</a>
                 </div>
               </div>
             </div>
@@ -608,6 +746,16 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$5<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="5">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="addon-item">
@@ -619,6 +767,17 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$25<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="25">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
+
                         </div>
                       </div>
                       <div class="addon-item">
@@ -630,6 +789,16 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$10<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="10">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="addon-item">
@@ -641,6 +810,16 @@
                         </div>
                         <div class="addon-footer">
                           <div class="addon-price bagel-fat-one-regular">$12<span class="unit"> /per pet</span></div>
+                          <div class="addon-action">
+                            <button class="btn secondary small add-btn" data-price="12">
+                              <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7h14"/>
+                              </svg>
+                              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -752,9 +931,11 @@
             <!-- Add-ons Card -->
             <div class="sidebar-card">
               <div class="accordion-section">
-                <button class="accordion-header" onclick="toggleAccordion(this)">
-                  <span>Add-ons</span>
-                  <span class="selected-count">0 selected</span>
+                <button class="accordion-header" onclick="toggleAccordion(this)">         
+                  <div class="treat-head">
+                    <span>Add-ons</span>
+                    <span class="selected-count">0 selected</span>
+                  </div>
                   <span class="chevron">▼</span>
                 </button>
                 <div class="accordion-content">
@@ -764,9 +945,12 @@
                         <span class="addon-name">Gourmet Meal Upgrade</span>
                       </div>
                       <p class="addon-desc">Chef-crafted wet meals made with real meat, veggies, and an evening snack</p>
-                      <div class="addon-price">$5<span class="unit"> /per pet</span></div>
+                      
                     </div>
-                    <button class="add-btn" data-price="5">+</button>
+                    <div class="addon-footer">
+                      <div class="addon-price">$5<span class="unit"> per pet</span></div>
+                      <button class="add-btn" data-price="5">+</button>
+                    </div>
                   </div>
                   <div class="addon-item" data-price="25">
                     <div class="addon-info">
@@ -774,7 +958,7 @@
                         <span class="addon-name">Vet Visit</span>
                       </div>
                       <p class="addon-desc">A professional vet checks your pet's health, coat, and overall condition</p>
-                      <div class="addon-price">$25<span class="unit"> /per pet</span></div>
+                      <div class="addon-price">$25<span class="unit"> per pet</span></div>
                     </div>
                     <button class="add-btn" data-price="25">+</button>
                   </div>
@@ -784,7 +968,7 @@
                         <span class="addon-name">Pet Taxi</span>
                       </div>
                       <p class="addon-desc">Pawfect Care staff picks up and returns your pet within a 5 km radius</p>
-                      <div class="addon-price">$10<span class="unit"> /per pet</span></div>
+                      <div class="addon-price">$10<span class="unit"> per pet</span></div>
                     </div>
                     <button class="add-btn" data-price="10">+</button>
                   </div>
@@ -795,7 +979,7 @@
                         <span class="popular-tag">POPULAR</span>
                       </div>
                       <p class="addon-desc">HD livestream of your pet 24/7</p>
-                      <div class="addon-price">$12<span class="unit"> /per pet</span></div>
+                      <div class="addon-price">$12<span class="unit"> per pet</span></div>
                     </div>
                     <button class="add-btn" data-price="12">+</button>
                   </div>
@@ -806,8 +990,10 @@
             <div class="sidebar-card">
               <div class="accordion-section">
                 <button class="accordion-header" onclick="toggleAccordion(this)">
-                  <span>Treats for buddy</span>
-                  <span class="selected-count">0 selected</span>
+                  <div class="treat-head">
+                    <span>Treats for buddy</span>
+                    <span class="selected-count">0 selected</span>
+                  </div>
                   <span class="chevron">▲</span>
                 </button>
                 <div class="accordion-content expanded">
@@ -816,12 +1002,14 @@
                     <div class="treat-item" data-price="12" data-treat-name="Chew Vitamins">
                       <img src="../../assets/images/Services/ChewVitamin.svg" alt="Chew Vitamins" />
                       <div class="treat-info">
-                        <span class="treat-name">Chew Vitamins</span>
-                        <div class="treat-price">$12<span class="unit">each</span></div>
-                      </div>
-                      <div class="quantity-controls">
-                        <button class="remove-btn" data-price="12">-</button>
-                        <button class="add-btn" data-price="12">+</button>
+                        <span class="treat-name">Chew Vitamins</span>            
+                        <div class="treat-foot">
+                          <div class="treat-price">$12<span class="unit">/each</span></div>
+                          <div class="quantity-controls">
+                            <button class="remove-btn" data-price="12">-</button>
+                            <span class="quantity">0</span> <button class="add-btn" data-price="12">+</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     
@@ -829,12 +1017,14 @@
                     <div class="treat-item" data-price="12" data-treat-name="Beef Biscuit">
                       <img src="../../assets/images/Services/BeefBiscuit.svg" alt="Beef Biscuit" />
                       <div class="treat-info">
-                        <span class="treat-name">Beef Biscuit</span>
-                        <div class="treat-price">$12<span class="unit">each</span></div>
-                      </div>
-                      <div class="quantity-controls">
-                        <button class="remove-btn" data-price="12">-</button>
-                        <button class="add-btn" data-price="12">+</button>
+                        <span class="treat-name">Beef Biscuit</span>            
+                        <div class="treat-foot">
+                          <div class="treat-price">$12<span class="unit">/each</span></div>
+                          <div class="quantity-controls">
+                            <button class="remove-btn" data-price="12">-</button>
+                            <span class="quantity">0</span> <button class="add-btn" data-price="12">+</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     
@@ -842,12 +1032,14 @@
                     <div class="treat-item" data-price="12" data-treat-name="Creamy Soup">
                       <img src="../../assets/images/Services/CreamySoup.svg" alt="Creamy Soup" />
                       <div class="treat-info">
-                        <span class="treat-name">Creamy Soup</span>
-                        <div class="treat-price">$12<span class="unit">each</span></div>
-                      </div>
-                      <div class="quantity-controls">
-                        <button class="remove-btn" data-price="12">-</button>
-                        <button class="add-btn" data-price="12">+</button>
+                        <span class="treat-name">Creamy Soup</span>            
+                        <div class="treat-foot">
+                          <div class="treat-price">$12<span class="unit">/each</span></div>
+                          <div class="quantity-controls">
+                            <button class="remove-btn" data-price="12">-</button>
+                            <span class="quantity">0</span> <button class="add-btn" data-price="12">+</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     
@@ -855,12 +1047,14 @@
                     <div class="treat-item" data-price="12" data-treat-name="Artisan Biscuits">
                       <img src="../../assets/images/Services/ArtisanBiscuits.svg" alt="Artisan Biscuits" />
                       <div class="treat-info">
-                        <span class="treat-name">Artisan Biscuits</span>
-                        <div class="treat-price">$12<span class="unit">each</span></div>
-                      </div>
-                      <div class="quantity-controls">
-                        <button class="remove-btn" data-price="12">-</button>
-                        <button class="add-btn" data-price="12">+</button>
+                        <span class="treat-name">Artisan Biscuits</span>            
+                        <div class="treat-foot">
+                          <div class="treat-price">$12<span class="unit">/each</span></div>
+                          <div class="quantity-controls">
+                            <button class="remove-btn" data-price="12">-</button>
+                            <span class="quantity">0</span> <button class="add-btn" data-price="12">+</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -896,6 +1090,22 @@
       </div>
     </section>
   </main>
+  
+  <div id="photo-modal" class="photo-modal-overlay">
+  
+    <button class="close-btn" aria-label="Close photo view">&times;</button>
+    
+    <div class="modal-image-container">
+      
+      <img id="modal-image" src="" alt="Full screen modal" />
+    </div>
+    
+    <div class="modal-controls">
+      <button class="zoom-btn zoom-out" aria-label="Zoom out">-</button>
+      <button class="zoom-btn zoom-in" aria-label="Zoom in">+</button>
+    </div>
+
+  </div>
 
   <!-- FOOTER -->
   <section class="site-cta">
@@ -951,6 +1161,7 @@
       </div>
     </div>
   </footer>
+
   <!-- Cuối file -->
   <script src="../../assets/js/services/servicecard.js"></script>
 </body>

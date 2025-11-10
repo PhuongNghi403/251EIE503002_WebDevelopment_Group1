@@ -20,7 +20,7 @@
     likes: 78,
     comments: 22,
     views: 560,
-    image: "url('https://images.unsplash.com/photo-1560807707-8cc77767d783?q=80&w=1200&auto=format&fit=crop')"
+    image: "url('../assets/images/Community/blog/blog-dog-1.jpg')"
   },
   {
     id: 102,
@@ -32,7 +32,7 @@
     likes: 52,
     comments: 17,
     views: 480,
-    image: "url('https://images.unsplash.com/photo-1626337110633-95bbf1c3f5f7?q=80&w=1200&auto=format&fit=crop')"
+    image: "url('../assets/images/Community/blog/blog-dog-2.jpg')"
   },
   {
     id: 103,
@@ -44,7 +44,7 @@
     likes: 91,
     comments: 28,
     views: 630,
-    image: "url('https://images.unsplash.com/photo-1575202330052-3b2d74b56e83?q=80&w=1200&auto=format&fit=crop')"
+    image: "url('../assets/images/Community/blog/blog-dog-5.jpg')"
   },
   {
     id: 104,
@@ -56,7 +56,7 @@
     likes: 66,
     comments: 19,
     views: 520,
-    image: "url('https://images.unsplash.com/photo-1601758123927-197cf4a43c33?q=80&w=1200&auto=format&fit=crop')"
+    image: "url('../assets/images/Community/blog/blog-dog-4.jpg')"
   },
   {
     id: 105,
@@ -68,7 +68,7 @@
     likes: 104,
     comments: 37,
     views: 910,
-    image: "url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=1200&auto=format&fit=crop')"
+    image: "url('../assets/images/Community/blog/blog-cat-2.png')"
   },
   {
     id: 106,
@@ -80,7 +80,7 @@
     likes: 38,
     comments: 11,
     views: 320,
-    image: "url('https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=1200&auto=format&fit=crop')"
+    image: "url('../assets/images/Community/blog/blog-cat-3.png')"
   },
   {
     id: 107,
@@ -92,7 +92,7 @@
     likes: 74,
     comments: 18,
     views: 540,
-    image: "url('https://images.unsplash.com/photo-1592194996308-7b43878e84a6?q=80&w=1200&auto=format&fit=crop')"
+    image: "url('../assets/images/Community/blog/blog-cat-1.jpg')"
   },
   {
     id: 108,
@@ -104,59 +104,37 @@
     likes: 57,
     comments: 14,
     views: 470,
-    image: "url('https://images.unsplash.com/photo-1593134257782-e89567b7718e?q=80&w=1200&auto=format&fit=crop')"
-  },
-  {
-    id: 109,
-    title: "Workshop: Summer Skin & Coat Care for Dogs",
-    excerpt: "Join our free workshop at the Pawfect Center to learn proper coat care and prevent shedding and skin irritation during hot months.",
-    category: "Stories ",
-    author: "Pawfect Academy",
-    date: "May 18",
-    likes: 132,
-    comments: 30,
-    views: 1020,
-    banner: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1600&auto=format&fit=crop"
-  },
-  {
-    id: 110,
-    title: "Adopt Don’t Shop — Month of Love for Pets",
-    excerpt: "This month, Pawfect Care promotes adoption with free grooming for adopted pets. Every rescued friend deserves a second chance.",
-    category: "Rescue",
-    author: "Pawfect Team",
-    date: "Mar 10–20",
-    likes: 210,
-    comments: 47,
-    views: 1800,
-    banner: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=1600&auto=format&fit=crop"
+    image: "url('../assets/images/Community/blog/blog-dog-7.jpg')"
   },
 {
   id: 111,
   type: 'campaign',
-  title: "Adopt Don’t Shop — Pawfect Love Month",
+  title: "Adoption Love — Pawfect Love Month",
   excerpt: "Join us this February for a heartwarming pet adoption event! Meet adorable dogs & cats waiting for their forever home.",
   shortDesc: "Join us this February for a heartwarming pet adoption event! Meet adorable dogs & cats waiting for their forever home.",
   category: "Campaign",
   author: "Pawfect Team",
-  date: "Feb 10–25",
-  dateText: "10/02/2025 • 09:00",
-  dateISO: "2025-02-10T00:00:00+07:00",
+  date: "Sep 10–25",
+  dateText: "10/09/2025 • 09:00",
+  dateISO: "2025-09-10T00:00:00+07:00",
   location: "Meomeo Hub, Thảo Điền",
-  cover: "https://images.unsplash.com/photo-1601758124510-52d5b81d6821?q=80&w=1600&auto=format&fit=crop",
-  banner: "https://images.unsplash.com/photo-1601758124510-52d5b81d6821?q=80&w=1600&auto=format&fit=crop",
+  cover: "../assets/images/Community/campaigns/cover-3.jpg",
+  banner: "../assets/images/Community/campaigns/cover-3.jpg",
   tags: ["Campaign", "Adoption"],
   price: "Free • RSVP",
-  status: "upcoming",
+  status: "finished",
   agenda: [
-    "10:00 - 10:15: Chào mừng",
-    "10:15 - 11:00: Gặp gỡ từng bé",
-    "11:00 - 11:30: Tư vấn chăm sóc",
-    "11:30 - 12:00: Đăng ký nhận nuôi"
+    "10:00 - 10:15: Welcome & Hellos!",
+    "10:15 - 11:00: Furry Friend Meet & Greet",
+    "11:00 - 11:30: Pet Care 101 (Tips & Q&A)",
+    "11:30 - 12:00: Making it Official (Adoption Sign-ups)"
   ],
   gallery: [
-    "../assets/images/campaigns/a1.jpg",
-    "../assets/images/campaigns/a2.jpg",
-    "../assets/images/campaigns/a3.jpg"
+    "../assets/images/Community/campaigns/galler-3.2.jpg",
+    "../assets/images/Community/campaigns/gallery-3.1.jpg",
+    "../assets/images/Community/campaigns/galler-3.3.jpg",
+    "../assets/images/Community/campaigns/gallery-3.4.jpg",
+    "../assets/images/Community/campaigns/gallery-3.5.jpg"
   ]
 },
 {
@@ -167,15 +145,15 @@
   shortDesc: "A fun-filled festival with workshops, free grooming booths, and pet nutrition consultations.",
   category: "Event",
   author: "Pawfect Care",
-  date: "Jun 15–17",
-  dateText: "15/06/2025 • 10:00",
-  dateISO: "2025-06-15T00:00:00+07:00",
+  date: "Aug 15–17",
+  dateText: "15/08/2025 • 10:00",
+  dateISO: "2025-08-15T00:00:00+07:00",
   location: "Meomeo Plaza, Q.1",
-  cover: "https://images.unsplash.com/photo-1583511655903-5fee6a20fbd4?q=80&w=1600&auto=format&fit=crop",
-  banner: "https://images.unsplash.com/photo-1583511655903-5fee6a20fbd4?q=80&w=1600&auto=format&fit=crop",
+  cover: "../assets/images/Community/campaigns/cover-2.jpg",
+  banner: "../assets/images/Community/campaigns/cover-2.jpg",
   tags: ["Event", "Festival"],
   price: "Free",
-  status: "upcoming",
+  status: "finished",
   agenda: [
     "10:00 - 10:15: Check-in & Ice-breaker",
     "10:15 - 11:00: Workshops",
@@ -183,10 +161,9 @@
     "11:30 - 12:00: Nutrition consultations"
   ],
   gallery: [
-    "../assets/images/campaigns/s1.jpg",
-    "../assets/images/campaigns/s2.jpg",
-    "../assets/images/campaigns/s3.jpg",
-    "../assets/images/campaigns/s4.jpg"
+    "../assets/images/Community/campaigns/gallery-2.1.webp",
+    "../assets/images/Community/campaigns/gallery-2.2.webp",
+    "../assets/images/Community/campaigns/gallery-2.3.webp",
   ]
 },
 {
@@ -199,10 +176,11 @@
   author: "Pawfect Rescue",
   date: "Jul 3–10",
   dateText: "03/07/2025 • 09:00",
-  dateISO: "2025-07-03T00:00:00+07:00",
+  startISO: "2025-11-07T09:00:00+07:00",
+  endISO:   "2025-11-12T18:00:00+07:00",
   location: "Meomeo Store, Q.7",
-  cover: "https://images.unsplash.com/photo-1612832021027-95362d11d0c1?q=80&w=1600&auto=format&fit=crop",
-  banner: "https://images.unsplash.com/photo-1612832021027-95362d11d0c1?q=80&w=1600&auto=format&fit=crop",
+  cover: "../assets/images/Community/campaigns/cover-1.jpg",
+  banner: "../assets/images/Community/campaigns/cover-1.jpg",
   tags: ["Community", "Rescue"],
   price: "Free",
   status: "upcoming",
@@ -213,9 +191,9 @@
     "11:30 - 12:00: Closing"
   ],
   gallery: [
-    "../assets/images/campaigns/r1.jpg",
-    "../assets/images/campaigns/r2.jpg",
-    "../assets/images/campaigns/r3.jpg"
+    "../assets/images/Community/campaigns/gallery-1.1.jpg",
+    "../assets/images/Community/campaigns/gallery-1.2.jpg",
+    "../assets/images/Community/campaigns/gallery-1.3.jpg"
   ]
 }
 ];
@@ -391,17 +369,19 @@ window.blogPosts = blogPosts;
 
   /** ===================== BLOG RENDER ===================== **/
   function getFilteredPosts() {
-    // bỏ campaign
     let filtered = blogPosts.filter(p => p.type !== 'campaign');
 
     // filter theo category
     if (currentFilter && currentFilter !== 'all' && currentFilter !== 'campaign') {
-      filtered = filtered.filter(post => post.category === currentFilter);
+      filtered = filtered.filter(post =>
+        post.category &&
+        post.category.trim().toLowerCase() === currentFilter.trim().toLowerCase()
+      );
     }
 
     // search theo title/excerpt/author
     if (currentSearch) {
-      const q = currentSearch;
+      const q = currentSearch.toLowerCase();
       filtered = filtered.filter(post =>
         (post.title || '').toLowerCase().includes(q) ||
         (post.excerpt || '').toLowerCase().includes(q) ||
@@ -410,13 +390,16 @@ window.blogPosts = blogPosts;
     }
 
     // sort tuỳ chọn
-    if (currentSort === 'views') filtered = filtered.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
-    else if (currentSort === 'likes') filtered = filtered.slice().sort((a, b) => (b.likes || 0) - (a.likes || 0));
-    else if (currentSort === 'comments') filtered = filtered.slice().sort((a, b) => (b.comments || 0) - (a.comments || 0));
-    // 'newest' -> giữ nguyên thứ tự mẫu
+    if (currentSort === 'views')
+      filtered = filtered.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
+    else if (currentSort === 'likes')
+      filtered = filtered.slice().sort((a, b) => (b.likes || 0) - (a.likes || 0));
+    else if (currentSort === 'comments')
+      filtered = filtered.slice().sort((a, b) => (b.comments || 0) - (a.comments || 0));
 
     return filtered;
-  }
+}
+
 
   function createPostCard(post) {
     const categoryLabel = categoryLabels[post.category] || post.category || 'Post';

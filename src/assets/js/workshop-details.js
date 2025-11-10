@@ -4,90 +4,35 @@ function getQueryParam(key) {
   return url.searchParams.get(key);
 }
 
-// ===== Fallback data (nếu user truy cập trực tiếp detail không qua community) =====
-const FALLBACK_CAMPAIGNS = [
-  {
-    id: 111,
-    title: "Paw Nutrition Workshop: Smart Feeding 101",
-    shortDesc: "Hướng dẫn khẩu phần, đọc nhãn, và thử món mới cho chó mèo.",
-    dateISO: "2025-03-14T09:00:00+07:00",
-    dateText: "14/03/2025 • 09:00",
-    location: "Meomeo Hub, Thảo Điền",
-    cover: "../assets/images/campaigns/nutrition-101.jpg",
-    tags: ["Workshop", "Feeding", "Dogs", "Cats"],
-    price: "Free • RSVP",
-    status: "upcoming",
-    agenda: [
-      "09:00 - 09:15: Check-in & Ice-breaker",
-      "09:15 - 10:00: Đọc nhãn dinh dưỡng & khẩu phần",
-      "10:00 - 10:30: Dùng thử các món",
-      "10:30 - 11:00: Q&A với chuyên gia"
-    ],
-    gallery: [
-      "../assets/images/campaigns/g1.jpg",
-      "../assets/images/campaigns/g2.jpg",
-      "../assets/images/campaigns/g3.jpg",
-      "../assets/images/campaigns/g4.jpg",
-      "../assets/images/campaigns/g5.jpg",
-      "../assets/images/campaigns/g6.jpg"
-    ]
-  },
-  {
-    id: 112,
-    title: "Adoption Day x Local Shelter",
-    shortDesc: "Gặp gỡ các bé cần mái ấm, tư vấn chăm sóc và đăng ký nhận nuôi.",
-    dateISO: "2025-01-20T10:00:00+07:00",
-    dateText: "20/01/2025 • 10:00",
-    location: "Meomeo Plaza, Q.1",
-    cover: "../assets/images/campaigns/adoption-day.jpg",
-    tags: ["Adoption", "Community"],
-    price: "Free",
-    status: "past",
-    agenda: [
-      "10:00 - 10:15: Chào mừng",
-      "10:15 - 11:00: Gặp gỡ từng bé",
-      "11:00 - 11:30: Tư vấn chăm sóc ban đầu",
-      "11:30 - 12:00: Đăng ký nhận nuôi"
-    ],
-    gallery: [
-      "../assets/images/campaigns/a1.jpg",
-      "../assets/images/campaigns/a2.jpg",
-      "../assets/images/campaigns/a3.jpg"
-    ]
-  },
-  {
-    id: 113,
-    title: "Pet Skin & Coat Clinic Pop-up",
-    shortDesc: "Chuyên gia da liễu thú cưng tư vấn và soi da/ lông miễn phí.",
-    dateISO: "2025-04-05T13:30:00+07:00",
-    dateText: "05/04/2025 • 13:30",
-    location: "Meomeo Store, Q.7",
-    cover: "../assets/images/campaigns/skin-coat.jpg",
-    tags: ["Clinic", "Skincare"],
-    price: "Ticket 50k",
-    status: "upcoming",
-    agenda: [
-      "13:30 - 13:45: Check-in",
-      "13:45 - 14:30: Soi da & lông (slot 1)",
-      "14:30 - 15:15: Soi da & lông (slot 2)",
-      "15:15 - 16:00: Q&A & hướng dẫn chăm sóc"
-    ],
-    gallery: [
-      "../assets/images/campaigns/s1.jpg",
-      "../assets/images/campaigns/s2.jpg",
-      "../assets/images/campaigns/s3.jpg",
-      "../assets/images/campaigns/s4.jpg"
-    ]
-  }
-];
-
 // ===== Load data from sessionStorage or fallback =====
 function getCampaignById(id) {
   const raw = sessionStorage.getItem("CAMPAIGNS_DATA");
   let list = [];
   try { list = raw ? JSON.parse(raw) : []; } catch(e){ list = []; }
-  if (!Array.isArray(list) || list.length === 0) list = FALLBACK_CAMPAIGNS;
-  return list.find(x => String(x.id) === String(id));
+  if (!Array.isArray(list)) list = [];
+  return list.find(x => String(x.id) === String(id)) || null;
+}
+
+function getEventState(ev) {
+  const now = new Date();
+
+  // Ưu tiên cặp start/end; nếu thiếu end thì coi end = hết ngày start
+  const start = ev.startISO ? new Date(ev.startISO) : (ev.dateISO ? new Date(ev.dateISO) : null);
+  let end = null;
+  if (ev.endISO) end = new Date(ev.endISO);
+  else if (ev.dateISO) end = new Date(ev.dateISO);
+
+  if (end) end.setHours(23,59,59,999);
+
+  if (start && end) {
+    if (now < start) return 'upcoming';
+    if (now > end)   return 'past';
+    return 'ongoing';
+  }
+  if (end) return (now > end) ? 'past' : 'upcoming';
+
+  // Nếu thiếu ngày, fallback theo status text nếu có
+  return ev.status || 'upcoming';
 }
 
 // ===== Inject into DOM =====
@@ -168,15 +113,18 @@ function populateWorkshopDetail() {
   if (sumDuration) sumDuration.textContent = ev.agenda ? `${ev.agenda.length} sessions` : "–";
 
   // Countdown and register button logic
+    // Countdown & register theo state
   const countdownEl = document.getElementById("ws-countdown");
-  const isPast = (iso) => {
-    if (!iso) return false;
-    const end = new Date(iso); end.setHours(23,59,59,999);
-    return new Date() > end;
-  };
+  const state = getEventState(ev); // 'upcoming' | 'ongoing' | 'past'
 
-  if (ev.status === "past" || isPast(ev.dateISO)) {
-    // Past event: disable register button
+  // Cập nhật status-badge cho đúng 3 trạng thái
+  if (statusBadge) {
+    const statusMap = { upcoming: "Upcoming", ongoing: "Ongoing", past: "Past Event" };
+    const clsMap    = { upcoming: "upcoming", ongoing: "ongoing", past: "past" };
+    statusBadge.innerHTML = `<span class="badge ${clsMap[state]}">${statusMap[state]}</span>`;
+  }
+
+  if (state === "past" || ev.status === "finished") {
     if (registerBtn) {
       registerBtn.setAttribute("aria-disabled","true");
       registerBtn.disabled = true;
@@ -185,16 +133,20 @@ function populateWorkshopDetail() {
     }
     if (countdownEl) countdownEl.textContent = "";
   } else {
-    // Upcoming event: enable register button and start countdown
     if (registerBtn) {
       registerBtn.removeAttribute("aria-disabled");
       registerBtn.disabled = false;
-      registerBtn.dataset.status = "upcoming";
+      registerBtn.dataset.status = state; // upcoming | ongoing
       registerBtn.textContent = "Register";
     }
-    // Start countdown if dateISO exists
-    if (ev.dateISO && countdownEl) {
-      startCountdown(ev.dateISO, countdownEl);
+
+    if (countdownEl) {
+      if (state === "ongoing") {
+        countdownEl.textContent = "Happening now!";
+      } else {
+        const startForCountdown = ev.startISO || ev.dateISO;
+        if (startForCountdown) startCountdown(startForCountdown, countdownEl);
+      }
     }
   }
 }
@@ -359,9 +311,112 @@ window.navigateToWorkshopDetail = function (campaignsList, id) {
   const base = '/src/pages/workshop_detail.html';
   window.location.href = `${base}?id=${encodeURIComponent(id)}`;
 };
+// -------- FOLLOW-UP NOTIFY ME --------
+function attachNotifyHandler() {
+  const form = document.getElementById("ws-email-form");
+  const input = document.getElementById("ws-email");
+  const msg = document.getElementById("ws-email-msg");
+
+  if (!form) return;
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const email = input.value.trim();
+
+    if (!email || !email.includes("@")) {
+      msg.textContent = "Please enter a valid email.";
+      msg.style.color = "red";
+      showToast("Invalid email!", "error");
+      return;
+    }
+
+    try {
+      const key = "notify_emails";
+      const list = JSON.parse(localStorage.getItem(key) || "[]");
+
+      const exists = list.find(x => x.email === email);
+      if (exists) {
+        msg.textContent = "Already subscribed.";
+        msg.style.color = "orange";
+        showToast("You're already subscribed!", "info");
+        return;
+      }
+
+      list.push({
+        email,
+        subscribedAt: new Date().toISOString(),
+      });
+
+      localStorage.setItem(key, JSON.stringify(list));
+
+      msg.textContent = "Saved!";
+      msg.style.color = "green";
+      showToast("✅ We'll notify you for future campaigns!", "success");
+      input.value = "";
+    } catch (err) {
+      console.error(err);
+      msg.textContent = "Error saving email.";
+      msg.style.color = "red";
+      showToast("Error saving email", "error");
+    }
+  });
+}
+
+// ===== Toast Notification =====
+function showToast(message, type = "success") {
+  // type: success | error | info
+
+  // Tạo toast container nếu chưa có
+  let container = document.getElementById("toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "toast-container";
+    container.style.position = "fixed";
+    container.style.bottom = "24px";
+    container.style.right = "24px";
+    container.style.zIndex = "99999";
+    container.style.display = "flex";
+    container.style.flexDirection = "column";
+    container.style.gap = "12px";
+    document.body.appendChild(container);
+  }
+
+  // Tạo toast
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.style.padding = "12px 18px";
+  toast.style.borderRadius = "12px";
+  toast.style.font = "500 14px 'Lexend Deca'";
+  toast.style.boxShadow = "0 6px 20px rgba(0,0,0,0.15)";
+  toast.style.minWidth = "260px";
+  toast.style.color = "#fff";
+  toast.style.opacity = "0";
+  toast.style.transform = "translateY(20px)";
+  toast.style.transition = "all .3s ease";
+
+  if (type === "success") toast.style.background = "#6BCF7F";
+  if (type === "error") toast.style.background = "#FF6B6B";
+  if (type === "info") toast.style.background = "#88BAFF";
+
+  container.appendChild(toast);
+
+  // Animate in
+  requestAnimationFrame(() => {
+    toast.style.opacity = "1";
+    toast.style.transform = "translateY(0)";
+  });
+
+  // Auto remove sau 3s
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(20px)";
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
 
 document.addEventListener("DOMContentLoaded", function(){
   populateWorkshopDetail();
   attachRegisterHandler();
+  attachNotifyHandler(); 
 });
 

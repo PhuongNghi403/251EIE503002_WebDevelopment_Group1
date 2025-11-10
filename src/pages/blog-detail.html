@@ -66,6 +66,41 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:14px/1.6
 .btn:hover{border-color:#d8d8d8}
 .btn.brand{background:var(--ink);color:#fff;border-color:transparent}
 #pc-like.is-liked{background:#ffe7ea;border-color:#ffd0d7}
+/* --- Nút Like (Trái tim) cho .bd-actions --- */
+
+/* 1. Căn chỉnh icon và text */
+#pc-like {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px; /* Khoảng cách giữa icon và chữ */
+  transition: all 0.2s ease;
+}
+
+/* 2. Style của icon */
+#pc-like .icon-heart {
+  width: 16px;  /* Kích thước icon */
+  height: 16px;
+  transition: all 0.2s ease;
+}
+
+/* 3. Trạng thái MẶC ĐỊNH (Chưa like) */
+#pc-like[aria-pressed="false"] .icon-heart {
+  fill: none;          /* Rỗng */
+  stroke: currentColor;  /* Viền theo màu chữ */
+}
+
+/* 4. Trạng thái ĐÃ LIKE (Y chang hiệu ứng kia) */
+#pc-like.is-liked {
+  /* Tùy chọn: Thêm màu nền/viền đỏ nhạt khi like */
+  background-color: #FEF2F2; /* Màu đỏ-50 (rất nhạt) */
+  border-color: #FCA5A5;   /* Màu đỏ-300 */
+  color: #DC2626;          /* Màu đỏ-600 */
+}
+
+#pc-like.is-liked .icon-heart {
+  fill: #EF4444;   /* Tô đặc màu đỏ-500 */
+  stroke: #EF4444; /* Viền cũng màu đỏ-500 */
+}
 
 /* tags */
 .bd-tags{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
@@ -441,7 +476,12 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:14px/1.6
       <div class="bd-cta">
         <button id="pc-jump-comment" class="btn">Comment</button>
         <button id="pc-share" class="btn">Share</button>
-        <button id="pc-like" class="btn brand" aria-pressed="false">Like</button>
+        <button id="pc-like" class="btn" aria-pressed="false">
+          <svg class="icon-heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span>Like</span>
+        </button>
       </div>
     </div>
 

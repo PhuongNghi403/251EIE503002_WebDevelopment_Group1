@@ -287,7 +287,7 @@
     });
   }
 
-  // Lưu an toàn vào localStorage: nếu đầy, xóa bớt cũ rồi thử lại
+  // Lưu an toàn vào localStorage
   function safeSaveLocal(key, entry, removeCount = 2) {
     try {
       const list = JSON.parse(localStorage.getItem(key) || '[]');
@@ -374,18 +374,15 @@
     reader.onload = async (ev) => {
       const base64 = ev.target.result;
 
-      // Ảnh: nén/resize trước khi lưu để tránh tràn quota
       let mediaForStorage = null;
       let mediaTypeForStorage = file.type;
 
       if (isImage) {
         mediaForStorage = await downscaleImageDataURL(base64, 1200, 1200, 0.72);
-        // Nếu vẫn dài quá, nén mạnh thêm
         if (mediaForStorage.length > 900000) {
           mediaForStorage = await downscaleImageDataURL(mediaForStorage, 1000, 1000, 0.62);
         }
       } else if (isVideo) {
-        // Video không lưu binary vào localStorage (quá nặng) — chỉ lưu metadata
         mediaForStorage = null;
       } else {
         mediaForStorage = null;
@@ -397,11 +394,11 @@
         name,
         email,
         description,
-        media: mediaForStorage,       // ảnh đã nén hoặc null
+        media: mediaForStorage,       
         mediaType: mediaTypeForStorage,
-        fileName: file.name,          // metadata để tham chiếu
-        fileSize: file.size,          // bytes
-        fileWasVideo: isVideo,        // cờ để UI biết là video (không lưu nội dung)
+        fileName: file.name,          
+        fileSize: file.size,          
+        fileWasVideo: isVideo,        
         timestamp: new Date().toISOString()
       };
 
@@ -430,8 +427,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Với ảnh & video đều dùng readAsDataURL để preview,
-    // nhưng chỉ ảnh mới lưu vào localStorage (đã nén).
     reader.readAsDataURL(file);
   });
 })();

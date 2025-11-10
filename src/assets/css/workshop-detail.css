@@ -181,8 +181,8 @@
 /* Register row */
 .ws-register-row {
   margin-top: auto;
-  display: flex;
-  gap: 14px;
+  display: inline;
+  gap: 24px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -311,9 +311,9 @@
 }
 
 /* Gallery */
-.ws-gallery {
+.ws-gallery{
+  margin-top:20px;
 }
-
 .ws-gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -337,6 +337,9 @@
 }
 
 /* Follow-up / email */
+.ws-followup{
+  margin-top:20px;
+}
 .ws-followup p {
   margin: 0 0 12px;
   font: 400 16px/1.7 'Lexend Deca';
@@ -464,6 +467,25 @@
   background: #FF6B6B;
   color: #fff;
 }
+.badge.ongoing {
+  background: var(--c-blue);   /* #88BAFF */
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(136,186,255,0.35);
+}
+
+/* Nút Register khi đang diễn ra  */
+.btn-primary[data-status="ongoing"] {
+  background: linear-gradient(135deg, var(--c-blue) 0%, var(--c-blue-accent) 100%);
+  box-shadow: 0 8px 20px rgba(136,186,255,.5);
+}
+
+.btn-primary[data-status="ongoing"]:hover {
+  box-shadow: 0 12px 28px rgba(136,186,255,.6);
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Countdown */
+.countdown:empty { display: none; }
 
 /* Enhanced Gallery */
 .ws-gallery-grid img {
@@ -501,6 +523,7 @@
   font: 600 14px/1 'Lexend Deca';
   color: var(--c-brown);
   margin-right: 16px;
+  margin-bottom:16px;
 }
 
 .countdown-timer {
@@ -524,78 +547,4 @@
   opacity: 0.8;
 }
 
-/* --- RESPONSIVE --- */
-@media (max-width: 992px) {
-  .ws-hero-card {
-    grid-template-columns: 1fr;
-  }
-  .ws-hero-media img {
-    aspect-ratio: 16/9;
-  }
-  .ws-main {
-    grid-template-columns: 1fr;
-  }
-  .ws-side {
-    order: -1;
-  }
-  .ws-gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .ws-status-badge {
-    top: 12px;
-    right: 12px;
-  }
-  .countdown {
-    margin-right: 12px;
-    font-size: 12px;
-  }
-  .countdown-timer {
-    gap: 6px;
-  }
-  .countdown-item {
-    padding: 3px 6px;
-    font-size: 12px;
-    min-width: 28px;
-  }
-}
 
-@media (max-width: 640px) {
-  .ws-title {
-    font-size: 28px;
-  }
-  .ws-hero-info {
-    padding: 20px;
-  }
-  .ws-meta {
-    gap: 10px;
-  }
-  .ws-section {
-    padding: 20px 16px;
-  }
-  .ws-gallery-grid {
-    grid-template-columns: 1fr;
-  }
-  .btn-primary,
-  .btn-ghost {
-    width: 100%;
-    text-align: center;
-  }
-  .email-form {
-    flex-direction: column;
-  }
-  .ws-tags {
-    justify-content: center;
-  }
-  .tag {
-    font-size: 11px;
-    padding: 3px 8px;
-  }
-  .countdown {
-    margin-right: 0;
-    margin-bottom: 8px;
-    text-align: center;
-  }
-  .countdown-timer {
-    justify-content: center;
-  }
-}

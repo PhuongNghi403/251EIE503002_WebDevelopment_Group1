@@ -327,5 +327,41 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="../../assets/js/shop_checkout/shop_checkout_pickup.js"></script>
   <script src="../../assets/js/policy_modal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Map đúng checkbox “I agree…” của trang này
+      window.policyModal.setAgreeSelector('.terms input[type="checkbox"]');
+
+      // Đặt nội dung linh hoạt theo trang Checkout (Pickup)
+      window.policyModal.setPolicies([
+        {
+          id: 'terms',
+          label: 'Terms & Conditions',
+          content: `
+            <h3>Store Pickup — Terms & Conditions</h3>
+            <ul>
+              <li>Provide accurate contact and order information.</li>
+              <li>Pickup within the notified time window (usually within 2 hours).</li>
+              <li>Bring a valid ID and order confirmation when picking up.</li>
+              <li>Damaged or missing items must be reported within 24 hours.</li>
+            </ul>
+          `
+        },
+        {
+          id: 'cancel',
+          label: 'Cancellation Policy',
+          content: `
+            <h3>Cancellation & Refund</h3>
+            <ul>
+              <li>Cancellations & changes less than 48 hours before pickup are non-refundable.</li>
+              <li>For eligible refunds, processing may take up to 7–10 business days.</li>
+              <li>Refunds exclude any payment gateway or handling charges.</li>
+              <li>For assistance, contact our support team.</li>
+            </ul>
+          `
+        }
+      ]);
+    });
+  </script>
 </body>
 </html>

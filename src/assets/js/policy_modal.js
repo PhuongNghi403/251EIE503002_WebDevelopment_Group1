@@ -230,6 +230,65 @@
     // Render nội dung theo ngữ cảnh trang mỗi lần mở
     setPolicyContentForContext();
 
+    // Extend Policy Modal: flexible tabs/content per page
+    (function () {
+      if (!window.policyModal) return;
+    
+      // Allow configuring policies per page: [{ id, label, content }]
+      window.policyModal.setPolicies = function (policies) {
+        try {
+          // Expect exactly 2 tabs for current UI
+          const tabs = Array.isArray(policies) ? policies.slice(0, 2) : [];
+          if (tabs.length === 0) return;
+    
+          // Update internal state if exists
+          if (!window.policyModal._state) window.policyModal._state = {};
+          window.policyModal._state.tabs = tabs;
+    
+          // If modal already mounted, re-render tab labels + content
+          const modal = document.querySelector('.policy-modal');
+          if (modal) {
+            const tabButtons = modal.querySelectorAll('.policy-tabs .policy-tab');
+            const panes = modal.querySelectorAll('.policy-pane');
+            tabs.forEach((t, i) => {
+              const btn = tabButtons[i];
+              const pane = panes[i];
+              if (btn) btn.textContent = t.label || t.id || `Tab ${i + 1}`;
+              if (pane) pane.innerHTML = t.content || '';
+            });
+          }
+        } catch (e) {
+          console.warn('PolicyModal.setPolicies error:', e);
+        }
+      };
+    
+      // Optional: set which checkbox to tick after acceptance on current page
+      window.policyModal.setAgreeSelector = function (selector) {
+        if (!selector) return;
+        if (!window.policyModal._state) window.policyModal._state = {};
+        window.policyModal._state.agreeSelector = selector;
+      };
+    
+      // Hook into existing accept logic to tick correct checkbox when provided
+      const originalOnAccept = window.policyModal.onAccept;
+      window.policyModal.onAccept = function () {
+        try {
+          const sel = window.policyModal._state && window.policyModal._state.agreeSelector;
+          if (sel) {
+            const agree = document.querySelector(sel);
+            if (agree && agree.type === 'checkbox') {
+              agree.checked = true;
+              agree.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+          }
+        } catch (e) {
+          console.warn('PolicyModal.onAccept hook error:', e);
+        }
+        // Continue original behavior (localStorage, unblocking, etc.)
+        if (typeof originalOnAccept === 'function') originalOnAccept();
+      };
+    })();
+
     // *** LOGIC MỚI: Chọn kiểu backdrop ***
     if (backdropMode === 'none') {
         backdropEl.style.display = 'none';

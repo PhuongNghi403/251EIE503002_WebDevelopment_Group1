@@ -217,42 +217,55 @@ function initMarkupWishlistButtons() {
     if (btn.dataset.wishlistBound === 'true') return;
     btn.dataset.wishlistBound = 'true';
 
+    const card = btn.closest('.product-card');
+    if (!card) return;
+
+    const productName = card.querySelector('.card-title')?.textContent?.trim() || '';
+    const productImage = card.querySelector('img')?.src || '';
+    const categoryText = card.querySelector('.item-weight')?.textContent || '';
+    const category = (categoryText.split(':')[1] || categoryText).trim() || 'General';
+
+    // Hydrate initial active state from localStorage
+    try {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      const exists = wishlist.some(item => item.name === productName);
+      if (exists) btn.classList.add('active');
+    } catch (_) {}
+
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const card = btn.closest('.product-card');
-      if (!card) return;
 
-      const productName = card.querySelector('.card-title')?.textContent?.trim() || '';
-      const productImage = card.querySelector('img')?.src || '';
+      let wishlist = [];
+      try { wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]'); } catch(_) {}
+      const existing = wishlist.find(item => item.name === productName);
 
-      try {
-        // Use the global addToWishlist if available (defined later in this file)
-        if (typeof addToWishlist === 'function') {
-          addToWishlist(productName, productImage);
-        } else {
-          // Fallback local implementation
-          let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-          const existingItem = wishlist.find(item => item.name === productName);
-          if (!existingItem) {
-            wishlist.push({
-              id: Date.now(),
-              name: productName,
-              image: productImage,
-              category: 'General',
-              addedAt: new Date().toISOString()
-            });
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            if (typeof updateWishlistButton === 'function') updateWishlistButton();
-            showNotification(`${productName} added to favorites!`, 'success');
-            window.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist, action: 'add', productName } }));
-          } else {
-            showNotification(`${productName} is already in your favorites!`, 'info');
-          }
+      // Toggle
+      const willActivate = !btn.classList.contains('active');
+      btn.classList.toggle('active');
+
+      if (willActivate) {
+        if (!existing) {
+          wishlist.push({
+            id: Date.now(),
+            name: productName,
+            image: productImage,
+            category,
+            addedAt: new Date().toISOString()
+          });
+          localStorage.setItem('wishlist', JSON.stringify(wishlist));
+          if (typeof updateWishlistButton === 'function') updateWishlistButton();
+          window.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist, action: 'add', productName } }));
+          showNotification(`${productName} added to favorites!`, 'success');
         }
-      } catch (err) {
-        console.error('Wishlist add failed:', err);
-        showNotification('Unable to add to favorites right now.', 'error');
+      } else {
+        if (existing) {
+          wishlist = wishlist.filter(item => item.name !== productName);
+          localStorage.setItem('wishlist', JSON.stringify(wishlist));
+          if (typeof updateWishlistButton === 'function') updateWishlistButton();
+          window.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist, action: 'remove', productName } }));
+          showNotification(`${productName} removed from favorites.`, 'info');
+        }
       }
     });
   });
@@ -814,19 +827,49 @@ function initGlobalCartListeners() {
 document.addEventListener('DOMContentLoaded', () => {
   const hearts = document.querySelectorAll('.product-card .wishlist-btn');
   hearts.forEach(btn => {
+    // If already bound by initMarkupWishlistButtons, skip to avoid duplicates
+    if (btn.dataset.wishlistBound === 'true') return;
     btn.addEventListener('click', (e) => {
-      e.stopPropagation(); // tránh click lan ra card
+      e.stopPropagation();
       e.preventDefault();
 
-      // toggle class active
+      const card = btn.closest('.product-card');
+      const title = card?.querySelector('.card-title')?.textContent?.trim() || '';
+      const image = card?.querySelector('.card-image-container img')?.src || '';
+      const categoryText = card?.querySelector('.item-weight')?.textContent || '';
+      const category = (categoryText.split(':')[1] || categoryText).trim();
+
+      // Toggle heart state
       btn.classList.toggle('active');
 
-      // tùy chọn: hiện thông báo nhỏ khi add/remove
-      const title = btn.closest('.product-card')?.querySelector('.card-title')?.textContent?.trim() || '';
+      // Update wishlist storage and dispatch events
+      let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      const existing = wishlist.find(item => item.name === title);
+
       if (btn.classList.contains('active')) {
-        showNotification(`${title} added to favorites!`, 'success');
+        // Add if not already present
+        if (!existing) {
+          wishlist.push({
+            id: Date.now(),
+            name: title,
+            image: image,
+            category: category || 'General',
+            addedAt: new Date().toISOString()
+          });
+          localStorage.setItem('wishlist', JSON.stringify(wishlist));
+          if (typeof updateWishlistButton === 'function') updateWishlistButton();
+          window.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist, action: 'add', productName: title } }));
+          showNotification(`${title} added to favorites!`, 'success');
+        }
       } else {
-        showNotification(`${title} removed from favorites.`, 'info');
+        // Remove if present
+        if (existing) {
+          wishlist = wishlist.filter(item => item.name !== title);
+          localStorage.setItem('wishlist', JSON.stringify(wishlist));
+          if (typeof updateWishlistButton === 'function') updateWishlistButton();
+          window.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist, action: 'remove', productName: title } }));
+          showNotification(`${title} removed from favorites.`, 'info');
+        }
       }
     });
   });

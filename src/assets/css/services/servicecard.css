@@ -144,12 +144,14 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width:auto;
 }
 
 .package-sidebar {
   position: sticky;
   top: 2rem;
   height: fit-content;
+  width:320px;
 }
 
 /* Package Cards - New Design với 2 hàng */
@@ -162,7 +164,7 @@
   display: flex;
   flex-direction: column; /* THAY ĐỔI TỪ 'row' THÀNH 'column' */
   padding: 0;             /* XÓA PADDING Ở ĐÂY */
-  min-height: 320px;      /* Tăng chiều cao tối thiểu để đồng nhất hơn */
+
 }
 
 /* Selected package card styling */
@@ -171,14 +173,19 @@
   box-shadow: 0 4px 20px rgba(136, 186, 255, 0.3);
   background: rgba(136, 186, 255, 0.1);
 }
-
-/* Hàng 1: Main Content (Ảnh + Header) */
-.pkg-main-info {
+.pkg-card > .pkg-main-info{
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1.5rem; /* CHUYỂN PADDING VÀO ĐÂY */
+  gap: 24px;
+  padding: 24px 16px;
+  position: relative;
+  /* xoá những cái gây 'cục' ở góc */
+  
+  border: 0;                         /* gỡ border nội bộ */
+  border-radius: 0;                  /* gỡ bo góc nội bộ */
+  background-clip: padding-box;      /* tránh màu nền ăn dưới viền cha */
 }
+/* Hàng 1: Main Content (Ảnh + Header) */
 
 .pkg-image-container {
   width: 250px;
@@ -201,205 +208,141 @@
 }
 
 .pkg-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  gap: 10px 16px;
+  width: 100%;
+}
+
+/* group title + description */
+.pkg-info {
+  grid-column: 1 / 2;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  flex: 1; /* Cho phép header mở rộng để lấp đầy không gian */
-  min-height: 200px; /* Đảm bảo chiều cao tối thiểu đồng nhất cho nội dung */
+  gap: 6px;
 }
 
+/* title */
 .pkg-title {
-  color: #4D2B12;
-  font-size: 1.75rem;
-  font-weight: 700;
   margin: 0;
-  min-height: 2.5rem; /* Đảm bảo chiều cao đồng nhất cho title */
-  line-height: 1.2;
+  font-family: "Bagel Fat One", sans-serif;
+  font-size: 20px;
+  color: #4A4035;
 }
 
-.pkg-price {
-  font-weight: 800;
-  color: #7b470b;
-  font-size: 1.5rem;
-  font-family: "Bagel Fat One", system-ui, sans-serif;
-}
-
-.pkg-price .unit {
-  font-family: "Fraunces", serif;
-  font-optical-sizing: auto;
-  font-weight: 100;
-  font-style: normal;
-  font-variation-settings: "SOFT" 0, "WONK" 0;
-  font-size: 0.72em;
-  color: #a06a30;
-}
-
+/* description */
 .pkg-description {
-  color: #6b5e56;
   margin: 0;
-  line-height: 1.5;
-  min-height: 3rem; /* Đảm bảo chiều cao đồng nhất cho mô tả */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.pkg-rating {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.stars {
-  color: #ff69b4;
-  font-size: 1rem;
-}
-
-.rating-text {
-  color: #6b5e56;
-  font-size: 0.875rem;
-}
-
-.pkg-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  align-items: flex-start;
-  min-height: 2rem; /* Đảm bảo chiều cao đồng nhất cho tags */
-}
-
-/* Hàng 2: Details Toggle Logic với border-top rõ ràng */
-.pkg-details-toggled {
-  display: none;
-  border-top: 1px solid #d8b894; /* ĐƯỜNG KẺ NGANG */
-  padding: 1.5rem;              /* THÊM PADDING VÀO ĐÂY */
-  margin-top: 0;                /* Xóa margin-top cũ */
-}
-
-.pkg-details-toggled.is-active {
-  display: block;
-}
-
-.pkg-title {
-  color: #4D2B12;
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
-  min-height: 2rem; /* Đảm bảo chiều cao tối thiểu cho title */
-}
-
-.pkg-price {
-  font-weight: 800;
-  color: #7b470b;
-  font-size: 1.75rem;
-  min-height: 2.5rem; /* Đảm bảo chiều cao tối thiểu cho price */
-}
-
-.pkg-price .unit {
   font-family: "Fraunces", serif;
-  font-optical-sizing: auto;
-  font-weight: 100;
-  font-style: normal;
-  font-variation-settings: "SOFT" 0, "WONK" 0;
-  font-size: 0.72em;
-  color: #b0b0b0 !important;
+  font-size: 16px;
+  color: #000;
+  font-weight:400;
+  max-width: 380px;
+  
 }
 
-.pkg-description {
-  color: #6b5e56;
-  margin: 0;
-  line-height: 1.5;
-  min-height: 3rem; /* Đảm bảo chiều cao tối thiểu cho description */
-}
-
-.pkg-rating {
+/* price */
+.pkg-price {
+  grid-column: 2 / 3;
+  justify-self: start;
+  align-self: top;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 1.5rem; /* Đảm bảo chiều cao tối thiểu cho rating */
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right:10px;
 }
 
-.stars {
-  color: #ff69b4;
-  font-size: 1rem;
-}
-
-.rating-text {
-  color: #6b5e56;
-  font-size: 0.875rem;
-}
-
-.pkg-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  min-height: 2.5rem; /* Đảm bảo chiều cao tối thiểu cho tags */
-  align-items: flex-start;
-}
-
-.tag {
-  border-radius: 999px;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.875rem;
+.pkg-price strong {
+  font-family: "Bagel Fat One", sans-serif;
+  font-size: 24px;
   color: #4D2B12;
-  font-weight: 600;
-  height: 1.75rem; /* Đảm bảo tất cả tags có cùng chiều cao */
-  box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng đến chiều cao */
-  display: inline-flex;
-  align-items: center;
 }
 
-.tag img {
-  width: 16px;
-  height: 16px;
-  margin-right: 6px;
-  vertical-align: middle;
+.pkg-price small {
+  font-family: "Lexend Deca", sans-serif;
+  font-size: 13px;
+  color: rgb(94, 87, 79);
+  font-weight: 400;
 }
 
-/* Tag Color Variations */
-.tag-room {
-  background: #E0F2FE;
-  border: 1px solid #BAE6FD;
-  order: 1; /* Đảm bảo tag xanh dương luôn ở vị trí đầu tiên */
-}
 
-.tag-meal {
-  background: #DCFCE7;
-  border: 1px solid #BBF7D0;
-  order: 2; /* Đảm bảo tag hồng luôn ở vị trí thứ hai */
+.pkg-rating{
+  grid-column:1/-1;
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
+.stars{ color:#FEC7E4; font-size:20px; }               /* sao hồng */
+.rating-text{ font-family:"Lexend Deca",sans-serif; font-size:14px; color:#000;font-weight: 400; }
 
-.tag-play {
-  background: #FCE7F3;
-  border: 1px solid #F9A8D4;
-  order: 3; /* Đảm bảo tag xanh lá luôn ở vị trí thứ ba */
+/* Chips (Private Room / Meal Plan / Playtime) */
+.pkg-tags{
+  grid-column:1/-1;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:4px;
 }
-
-.pkg-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto; /* Đẩy actions xuống dưới cùng */
-  padding-top: 1rem;
-  min-height: 3rem; /* Đảm bảo chiều cao tối thiểu cho actions */
+.tag{
+  display:inline-flex; align-items:center; gap:6px;
+  height:33px; padding:10px 12px; border-radius:16px;
+  font:700 13px/16px "Lexend Deca", system-ui, sans-serif;
+  color:#4D2B12; border:0;
 }
+.tag-room{  background:rgba(191,214,246,0.66); }
+.tag-meal{  background:rgba(191,216,184,0.66); }
+.tag-play{  background:rgba(254,199,228,0.66); }
+.tag img{ width:16px; height:16px; }
 
-.details-toggle {
-  background: none;
-  border: none;
-  color: #7b470b;
-  font-weight: 600;
+/* Hàng actions: Hide Details + Book Now */
+.pkg-actions{
+  display:flex; align-items:center;
+  gap:16px; margin-top:8px;
+}
+.details-toggle{
+  display:inline-flex;align-items:center; justify-content: center;          
+  height:37px;width:194px; padding:8.4px 16px; border-radius:26.9px;
+  background:#FFFEF9; border:1px solid #EDE3D1; 
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  gap:8px;
+}
+.details-toggle span{
+ color:#4D2B12;
+  font-weight:600;
+  font-size: 14px;
+  font-family:"Lexend Deca",sans-serif;
+  display:flex;                      /* để text căn giữa đúng */
+  align-items:center;
+}
+.details-toggle .icon-chevron {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
 }
 
-.details-toggle:hover {
-  text-decoration: underline;
+.details-toggle.is-active .icon-chevron {
+  transform: rotate(180deg);
 }
+
+.pkg-actions .btn.primary{
+  height:37px;width:194px; padding:8.4px 25.2px; border-radius:26.9px;
+  background:#4D2B12; color:white; font-size:16px;font-family: "Lexend Deca",sans-serif;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.pkg-actions .btn.primary:hover{
+  background:#461f04; color:#F4E8DA;
+}
+/* servicecard.css */
+.pkg-details-toggled { 
+  display: none; 
+  border-top: 1px solid #d8b894;
+  padding: 1.5rem;
+  margin-top: 0;
+}
+.pkg-details-toggled.is-active { 
+  display: block; 
+}
+
 
 /* Tabs */
 .pkg-tabs {
@@ -481,6 +424,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin-top:90px;
 }
 
 .sidebar-card {
@@ -544,6 +488,9 @@
 .selected-count {
   font-size: 0.875rem;
   color: #6b5e56;
+  font-weight: 500;
+  font-family: "Lexend Deca",sans-serif;
+  font-size: 13px;
 }
 
 .chevron {
@@ -556,7 +503,11 @@
 }
 
 .accordion-content.expanded {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top:8px;
+  
 }
 
 .addon-item {
@@ -564,9 +515,10 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 1.25rem;
-  background: #f7f3ed;
+  background: #FFFEF9;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border:#4D2B12
 }
 
 .addon-info {
@@ -578,6 +530,8 @@
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.25rem;
+  font-family: "Fraunces",sans-serif;
+  font-weight: 800;
 }
 
 .addon-name {
@@ -611,28 +565,13 @@
   font-weight: 500;
   margin-left: 4px;
 }
-
-.add-btn,
-.remove-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #4D2B12;
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  flex-shrink: 0;
-  transition: background-color 0.2s ease;
+.addon-action{
+  stroke: #3a2110;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0.75rem 0 0 0; margin-top:1rem;
+  
 }
 
-.add-btn:hover,
-.remove-btn:hover {
-  background: #7b470b;
-}
 
 /* Container for quantity controls */
 .quantity-controls {
@@ -640,55 +579,132 @@
   gap: 8px;
   align-items: center;
 }
-
-/* Treats Grid */
-.treats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.treat-item {
-  display: flex;
+/* --- Treats Section Styling --- */
+.treats-grid{
+  display:flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  background: #fffaf3;
-  border-radius: 12px;
-  border: 1px solid #ffe7cd;
+  gap:16px;
+}
+/* Biến treat-item thành card */
+.treat-head{
+  display:flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.treat-head span:first-child {
+  font-family: 'Fraunces', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4D2B12; /* Màu nâu đậm */
+}
+.treat-item {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Căn giữa mọi thứ */
+  gap: 10px;
+  padding: 12px;
+  width: 100%;
+  background: rgba(244, 232, 218, 0.2);
+  border: 1px solid rgba(77, 43, 18, 0.5);
+  border-radius: 10px;
 }
 
 .treat-item img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 8px;
+  width: auto; /* Chỉnh kích thước ảnh cho phù hợp */
+  height: 62px;
+  object-fit: contain;
+  margin-bottom: 4px;
 }
 
+/* Căn giữa text */
 .treat-info {
-  text-align: center;
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  gap: 4px;
 }
 
 .treat-name {
   font-weight: 600;
-  color: #4D2B12;
-  font-size: 0.875rem;
+  font-family: 'Lexend Deca', sans-serif;
+  color: #1A1A1A;
+  margin-right: auto;
+}
+.treat-foot {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Đẩy giá và nút ra 2 bên */
+  width: 100%;                  /* Kéo dãn full card */
+  margin-top: 8px;
+  margin-right:auto;
+  gap:8px;
 }
 
 .treat-price {
-  font-weight: 700;
-  color: #7b470b;
-  font-size: 0.875rem;
+  font-family: 'Bagel Fat One', cursive; /* Đổi font cho giống giá kia */
+  font-size: 20px;
+  color: #1A1A1A;
+  line-height: 1;
+  align-items: baseline;
+  display:flex;
+  flex-direction: row;
+  gap:6px;
 }
-
 .treat-price .unit {
-  font-weight: 600;
-  font-size: 0.75rem;
-  color: #a06a30;
+  font-family: 'Lexend Deca', sans-serif; /* Chữ "each" font khác */
+  
+  vertical-align: bottom;
 }
 
+
+/* QUANTITY CONTROLS */
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  margin-right: auto;
+  
+}
+
+.quantity-controls .quantity {
+  font-family: 'Lexend Deca', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #422606; 
+  text-align: center;
+  flex-grow: 1; 
+  flex-shrink: 0;
+}
+
+.treat-item .quantity-controls .add-btn,
+.treat-item .quantity-controls .remove-btn {
+  all: unset; 
+  color: #513a21; 
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+  border:1px solid #3a1f0d;
+  width: 24px;  
+  height: 24px; 
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%; 
+  transition: background-color 0.2s ease;
+  
+  /* Ngăn co bóp */
+  flex-shrink: 0;
+}
+
+/* 4. Hover (Tạo hiệu ứng nền cho nút) */
+.quantity-controls .add-btn:hover,
+.quantity-controls .remove-btn:hover {
+  background-color: rgba(119, 85, 47); 
+  color:white;
+}
 /* Price Summary */
 .price-summary {
   padding-bottom: 1.5rem;
@@ -708,20 +724,36 @@
 
 /* Checkout Button */
 .checkout-btn {
+  all: unset;
   width: 100%;
   background: #7b470b;
   color: white;
   border: none;
-  border-radius: 12px;
-  padding: 1rem;
+  
+  /* 1. SỬA ĐÂY: Đổi thành số thật lớn để thành "viên thuốc" */
+  border-radius: 999px;
+  
+  padding: 8px;
   font-size: 1.125rem;
   font-weight: 700;
   cursor: pointer;
   margin-bottom: 0.5rem;
+  transition: all 0.3s ease-out;
+  text-align: center;
+  box-sizing: border-box; 
 }
 
 .checkout-btn:hover {
   background: #4D2B12;
+  animation: pulse-bounce 1.2s infinite ease-in-out;
+}
+@keyframes pulse-bounce {
+  0%, 100% {
+    transform: scale(1); /* Kích thước bình thường */
+  }
+  50% {
+    transform: scale(1.05); /* To ra 5% ở giữa */
+  }
 }
 
 .cancellation-note {
@@ -736,28 +768,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-}
-
-.addon-item {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 1.25rem;
-  background: rgba(244, 232, 218, 0.69);
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-  border: 1px solid #d8b894;
-}
-
-.addon-info {
-  flex: 1;
-  margin-bottom: 0.25rem;
-}
-
-.addon-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 .addon-name {
@@ -781,14 +791,15 @@
   line-height: 1.4;
 }
 
-.addon-footer {
+.tab-panel .addon-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 0.5rem;
+  font-family: "Lexend Deca",sans-serif;
 }
 
-.addon-price {
+.tab-panel .addon-price {
   display: flex;
   align-items: baseline;
   font-weight: 700;
@@ -796,29 +807,50 @@
   font-size: 1.25rem;
 }
 
-.addon-price .unit {
+.tab-panel .addon-price .unit {
   font-weight: 400;
   font-size: 0.7rem;
   color: #6b5e56;
 }
 
-.add-btn,
-.remove-btn {
-  background: #D4B896;
+.tab-panel .add-btn {
+  all:unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
   color: #4D2B12;
-  border: none;
+  border: 1px solid #3a1f0d;
   border-radius: 999px;
-  padding: 0.5rem 1.2rem;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  width:30px;
+  height:30px;
+  align-items: center;
+  
 }
 
-.add-btn:hover,
-.remove-btn:hover {
+.tab-panel .add-btn:hover{
   background: #7b470b;
   color: white;
+}
+
+/* Add-on button icons */
+.tab-panel .add-btn .icon-plus,
+.tab-panel .add-btn .icon-check {
+  width: 20px;
+  height: 20px;
+  align-items: center;
+}
+
+.tab-panel .add-btn .icon-plus {
+  display: block;
+}
+
+.tab-panel .add-btn .icon-check {
+  display: none;
 }
 
 /* Photos Tab Styles */
@@ -861,12 +893,18 @@
   padding-bottom: 1rem;
   border-bottom: 1px solid #e5e7eb;
 }
-
+.rating-overview{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 30px;
+}
 .overall-rating {
   font-size: 2.5rem;
   font-weight: 800;
   color: #4D2B12;
   margin-right: 0.5rem;
+  font-family: "Bagel Fat One",sans-serif;
 }
 
 .overall-stars {
@@ -929,7 +967,7 @@
   color: #7b470b;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  padding: 0.5rem 0;
+  padding: 0;
 }
 
 .view-all-reviews:hover {
@@ -937,7 +975,7 @@
 }
 
 .review-item {
-  background: #f7f3ed;
+  background: #FFFFFF;
   border-radius: 12px;
   padding: 1.25rem;
   margin-bottom: 1rem;
@@ -985,7 +1023,7 @@
   
   .package-sidebar {
     position: static;
-    order: -1;
+    order: 1;
   }
   
   .reviews-summary {
@@ -1095,18 +1133,15 @@
 }
 
 /* Sidebar specific styles */
-.package-sidebar .addon-item {
+.accordion-content .addon-item {
   display: flex !important;
   justify-content: space-between !important;
   align-items: flex-start !important;
-  padding: 1rem 0 !important;
-  border-bottom: 1px solid #f3f4f6 !important;
-  background: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  border-left: none !important;
-  border-right: none !important;
-  border-top: none !important;
+  padding: 1rem 1rem !important;
+  border: 1px solid #4D2B12 !important;
+  background:rgba(244, 232, 218, 0.2);
+  border-radius: 16px;
+  
 }
 
 .package-sidebar .addon-info {
@@ -1167,15 +1202,17 @@
   margin-top: 0.25rem;
   text-align: left !important;
 }
+.accordion-content .addon-footer{
+  display:flex;
+}
 
-.package-sidebar .add-btn,
-.package-sidebar .remove-btn {
+.package-sidebar .addon-item .add-btn,
+.package-sidebar .addon-item .remove-btn {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #4D2B12;
-  color: white;
-  border: none;
+  background-color: transparent;
+  border: 1.2px solid #4D2B12;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1186,18 +1223,10 @@
   transition: background-color 0.2s ease;
 }
 
-.package-sidebar .add-btn:hover,
-.package-sidebar .remove-btn:hover {
+.addon-item .add-btn:hover,
+.addon-item .remove-btn:hover {
   background: #3a1f0d;
-}
-
-/* Container for quantity controls */
-.package-sidebar .quantity-controls {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  align-self: flex-start !important;
-  margin-top: 0 !important;
+  color:white;
 }
 
 /* Align quantity controls in Treats (center) and Add-ons (flush right) */
@@ -1206,7 +1235,7 @@
 }
 
 .package-sidebar .addon-item .add-btn {
-  margin-left: auto !important;   /* Đẩy nút '+' của Add-ons sát bên phải */
+  margin-left: auto !important;   
 }
 
 .package-sidebar .treat-item {
@@ -1216,13 +1245,272 @@
   padding: 1rem;
 }
 
-.package-sidebar .treat-price {
-  display: block;
-}
 
 .package-sidebar .treat-price .unit {
   display: block;
   font-size: 0.7rem;
   color: #6b5e56;
   font-weight: 400;
+}
+
+.package-layout {
+  display: grid;
+  grid-template-columns: 1fr; 
+  gap: 24px; 
+}
+
+.package-sidebar {
+  display: none;
+}
+
+.package-layout.sidebar-visible {
+  grid-template-columns: 2fr 1fr; }
+
+.package-layout.sidebar-visible .package-sidebar {
+  display: block; 
+}
+.package-layout.sidebar-visible .pkg-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 90px;
+}
+
+.package-layout.sidebar-visible .pkg-info {
+  flex: 1;
+}
+
+
+
+/* =========================
+   FULL WIDTH MODE (sidebar ẨN)
+========================= */
+.package-layout:not(.sidebar-visible) .pkg-card {
+  display: block;
+  padding: 20px;
+}
+
+.package-layout:not(.sidebar-visible) .pkg-image-container {
+  width: 50%;             
+  height: 320px;           
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 18px;     
+}
+
+.package-layout:not(.sidebar-visible) .pkg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       
+  display: block;
+}
+
+/* Group title + desc chung 1 cột, full width */
+.package-layout:not(.sidebar-visible) .pkg-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  gap: 10px 16px;
+  width: 100%;
+}
+
+.package-layout:not(.sidebar-visible) .pkg-info {
+  width: 100%;
+  display: flex;
+}
+
+/* Title lớn hơn khi full width (tuỳ chỉnh) */
+.package-layout:not(.sidebar-visible) .pkg-title {
+  font-size: clamp(22px, 2.4vw, 28px);
+  margin-bottom: 8px;
+}
+
+/* Mô tả full width */
+.package-layout:not(.sidebar-visible) .pkg-description {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Price: đưa xuống dưới nội dung khi full width (nếu muốn giữ hiển thị) */
+.package-layout:not(.sidebar-visible) .pkg-price {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 8px;
+  width: auto;
+}
+
+/* Actions: để dưới cùng, full width */
+.package-layout:not(.sidebar-visible) .pkg-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  justify-content: flex-start;
+}
+/* =========================
+  SIDEBAR VISIBLE MODE (2 columns)
+  Khi .package-layout có .sidebar-visible -> restore layout
+========================= */
+.package-layout.sidebar-visible .pkg-image-container {
+  width: 280px;            /* kích thước ảnh nhỏ lại */
+  height: 210px;
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.package-layout.sidebar-visible .pkg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.package-layout.sidebar-visible .pkg-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 16px;
+  align-items: start;
+}
+
+.package-layout.sidebar-visible .pkg-price {
+  justify-self: end;
+  align-self: center;
+}
+
+/* Smooth transitions so layout change feels nicer */
+.pkg-image-container,
+.pkg-image,
+.pkg-header,
+.pkg-actions,
+.pkg-price {
+  transition: all .28s ease;
+}
+
+/* =========================
+   PHOTO MODAL STYLES
+========================= */
+.photo-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.photo-modal-overlay {
+  display: none; /* Ẩn theo mặc định */
+  opacity: 0;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  
+  /* Căn giữa ảnh */
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+}
+
+/* Khi JS thêm class .show (HIỂN THỊ) */
+.photo-modal-overlay.show {
+  display: flex; /* Hiện lên */
+  opacity: 1;
+}
+
+/* Nút X (Đóng) */
+.close-btn {
+  all: unset; /* Xóa style mặc định */
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1001;
+  color: white;
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(189, 164, 84, 0.4);
+  transition: 0.2s;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-btn:hover {
+  background: rgba(80, 53, 6, 0.7);
+}
+
+.modal-image-container {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: grab;
+}
+.modal-image-container.dragging {
+  cursor: grabbing;
+}
+
+#modal-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: transform 0.1s ease-out;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.modal-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 8px 12px;
+  border-radius: 25px;
+  z-index: 1001;
+}
+
+.zoom-btn {
+  all: unset;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  
+  /* Căn giữa +/- */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.2s;
+}
+.zoom-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
