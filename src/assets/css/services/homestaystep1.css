@@ -7,13 +7,23 @@
 }
 .booking-shell {
   max-width: 1120px;
-  margin: 0 auto;
-  padding: 24px 16px 80px;
+  margin: auto 64px;
+  padding: 32px 80px;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
   color: #3b2a1f;
 }
 
 /* Back link */
+.breadcrumb {
+  display: flex;
+  align-items: center; /* Căn giữa cho đẹp */
+  gap: 240px; /* Thêm khoảng cách giữa nút Back và Steps */
+  width:100vw;
+  padding:8px 8px;
+}
+.breadcrumb .back-link {
+  flex-shrink: 0; 
+}
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -31,11 +41,12 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 24px;
-  
+  flex-grow: 1;
   /* Yêu cầu: Thu ngắn */
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  
+  display: flex;
+  width: 100%
 }
 .steps-indicator .step {
   display: grid;
@@ -67,10 +78,10 @@
   font-weight: 700;
 }
 .steps-indicator .bar {
-  flex: 1;
-  height: 4px;
-  background: #e9dfd7;
-  border-radius: 999px;
+  flex-grow: 1; /* Mọc ra để lấp đầy */
+  height: 2px;
+  background: #E5E7EB; /* (Hoặc màu của bạn) */
+  margin: 0 8px;
 }
 
 /* Two-column layout */
@@ -89,8 +100,11 @@
   border-radius: 24px;
   box-shadow: 0 12px 32px rgba(27, 20, 14, 0.08);
   border: 1px solid rgba(122, 91, 72, 0.08);
+
 }
-.booking-card { padding: 24px; }
+.booking-card { padding: 24px;display:flex;
+  flex-direction: column;
+  align-items: center; }
 .summary-card { 
   padding: 16px; 
   position: relative; /* Quan trọng: Thêm để định vị modal */
@@ -100,23 +114,35 @@
 .booking-card h2 {
   font-size: 22px;
   letter-spacing: 0.2px;
-  margin: 4px 0 8px;
+  margin: auto;
+  font-family: "Bagel Fat One",sans-serif;
 }
 .subtitle {
   color: #8b7465;
-  margin-bottom: 18px;
+  margin-bottom: 40px;
+  margin-top: 8px;
+  font-family: "Lexend Deca", sans-serif;
+  font-weight: 400;
+  
 }
 
 /* Selection grid */
 .select-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 16px;
+}
+.select-col{
+  display:flex;
+  flex-direction: column;
+  
 }
 .select-header {
   font-weight: 700;
   margin-bottom: 10px;
   color: #6b4f3d;
+  text-align: center;
+  font-family: 'Lexend Deca',sans-serif;
 }
 
 /* Calendar */
@@ -129,18 +155,19 @@
   display: grid;
   grid-template-columns: 36px 1fr 36px;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  font-family: 'Lexend Deca',sans-serif;
 }
-.cal-title { font-weight: 700; text-align: center; }
+.cal-title { font-weight: 700; text-align: center;font-size: 14px; }
 .cal-nav {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   display: grid;
   place-items: center;
-  border: none;
-  background: #f3ebe4;
-  color: #7a5b48;
-  border-radius: 12px;
+  background: transparent;
+  color: #4D2B12;
+  border-radius: 8px;
+  border: 1px solid rgba(77, 43, 18, 0.15);
 }
 .cal-nav .icon { width: 18px; height: 18px; }
 
@@ -159,21 +186,22 @@
   gap: 6px;
 }
 .day {
+  font-family: 'Lexend Deca',sans-serif;
   height: 36px;
   border-radius: 10px;
-  border: 1px solid #efe6de;
-  background: #fcfaf8;
+  border:none;
+  background: transparent;
   color: #5a3d2b;
   display: grid;
   place-items: center;
   font-weight: 600;
 }
-.day:hover:not(:disabled) { border-color: #e2d3c8; background: #f7f2ec; }
+.day:hover:not(:disabled) { border-color: #e2d3c8; background: #f7f2ec;color:#4D2B12; }
 .day.selected {
   background: #BFD6F6;         
   color: #fff;                  
   border-color: #BFD6F6;        
-  box-shadow: 0 8px 18px rgba(122, 91, 72, 0.35);
+  box-shadow: 0 1px 2px rgba(122, 91, 72, 0.35);
 }
 .day.muted {
   color: #c1afa2;
@@ -189,16 +217,17 @@
   gap: 10px;
 }
 .time {
-  padding: 10px;
+  padding: 14px 14px;
   border-radius: 12px;
   border: 1px solid #efe6de;
-  background: #fcfaf8;
+  background: white;
   color: #5a3d2b;
-  font-weight: 600;
+  font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  white-space: nowrap;
 }
 .time .icon {
   width: 18px;
@@ -211,6 +240,7 @@
   color: #fff;
   border-color: #7a5b48;
   box-shadow: 0 8px 18px rgba(122, 91, 72, 0.35);
+  font-weight: 600;
 }
 .time.selected .icon {
   color: #fff;
@@ -715,7 +745,7 @@ BƯỚC 2: THÊM CODE CSS CHO MODAL
 /* Layout: tránh kéo dài chiều cao bằng nhau giữa hai cột */
 .booking-card {
     /* đảm bảo card trái ôm nội dung, không bị stretch theo grid/flex */
-    align-self: flex-start;
+    width:821px;
     align-self: start;
     height: auto;
 }

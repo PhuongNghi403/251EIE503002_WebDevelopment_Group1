@@ -264,6 +264,7 @@
   font-size: 13px;
   color: rgb(94, 87, 79);
   font-weight: 400;
+  white-space: nowrap;
 }
 
 
