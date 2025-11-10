@@ -3,37 +3,29 @@
 // Global products data cache
 let productsData = [];
 
-// Load products from JS catalog first, fallback to XML if needed
+// Load products from products.js (fallback to XML if needed)
 async function loadProductsData() {
   try {
-    const catalog = Array.isArray(window.PRODUCTS_DATA) ? window.PRODUCTS_DATA : [];
-    if (catalog.length) {
-      productsData = catalog.map(p => {
-        // Normalize price fields from products.js schema
-        const priceCurrent = Number(p.price?.current ?? p.discounted_price ?? p.discountedPrice ?? p.original_price ?? p.originalPrice ?? 0);
-        const priceOriginal = Number(p.price?.original ?? p.original_price ?? p.originalPrice ?? priceCurrent);
-
-        // If a numeric discount exists, compute discounted price
-        const hasDiscount = typeof p.discount === 'number';
-        const discountRatio = hasDiscount ? (p.discount > 1 ? p.discount / 100 : p.discount) : 0;
-        const discounted = hasDiscount ? Math.max(0, priceCurrent * (1 - discountRatio)) : priceCurrent;
-
-        return {
-          id: String(p.id ?? ''),
-          name: p.name || '',
-          price: discounted,
-          originalPrice: priceOriginal,
-          category: p.category || 'General',
-          image: p.image_url || p.image || p.thumbnail || '',
-          rating: Number(p.rating?.avg ?? p.rating ?? 0),
-          soldCount: String(p.sold_count ?? p.soldCount ?? p.sold ?? '0')
-        };
-      });
-      console.log('Products data loaded from JS:', productsData.length, 'products');
+    if (Array.isArray(window.PRODUCTS_DATA) && window.PRODUCTS_DATA.length > 0) {
+      productsData = window.PRODUCTS_DATA.map(p => ({
+        id: p.id,
+        name: p.name,
+        price: typeof p.price?.current === 'number' ? p.price.current : parseFloat(p.price?.current || '0'),
+        originalPrice: typeof p.price?.original === 'number' ? p.price.original : parseFloat(p.price?.original || '0'),
+        category: p.category || 'General',
+        image: p.thumbnail || (Array.isArray(p.images) ? p.images[0] : ''),
+        rating: (p.rating && typeof p.rating.avg === 'number') ? p.rating.avg : parseFloat(p.rating?.avg || '0'),
+        soldCount: p.soldCount || '0'
+      }));
+      console.log('Products data loaded from products.js:', productsData.length, 'products');
       return productsData;
     }
+  } catch (error) {
+    console.warn('Failed to load products from products.js, will try XML.', error);
+  }
 
-    // Fallback to XML if JS catalog not present
+  // Fallback: attempt to load XML if products.js is unavailable
+  try {
     const response = await fetch('../assets/data/products.xml');
     const xmlText = await response.text();
     const parser = new DOMParser();
@@ -52,18 +44,18 @@ async function loadProductsData() {
     console.log('Products data loaded from XML:', productsData.length, 'products');
     return productsData;
   } catch (error) {
-    console.error('Error loading products data:', error);
+    console.error('Error loading products data (XML fallback):', error);
     return [];
   }
 }
 
 // Get product data by name
 function getProductDataByName(productName) {
-  const norm = (s) => (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
-  const target = norm(productName);
-  return productsData.find(p => norm(p.name) === target) ||
-         productsData.find(p => norm(p.name).includes(target)) ||
-         productsData.find(p => target.includes(norm(p.name)));
+  return productsData.find(product => 
+    product.name.toLowerCase() === productName.toLowerCase() ||
+    product.name.toLowerCase().includes(productName.toLowerCase()) ||
+    productName.toLowerCase().includes(product.name.toLowerCase())
+  );
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -71,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initFavoriteEventListeners();
   initGlobalFavoriteListeners();
   initFavoriteSelectionListeners();
-  initItemTitleNavigation();
 });
 
 async function initFavoritePage() {
@@ -80,7 +71,7 @@ async function initFavoritePage() {
   
   let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
   
-  // Enhance existing wishlist items with correct price and category from XML
+  // Enhance existing wishlist items with correct price and category from dataset
   wishlist = wishlist.map(item => {
     const productData = getProductDataByName(item.name);
     if (productData && (!item.price || item.price === 0 || item.category === 'General')) {
@@ -97,8 +88,83 @@ async function initFavoritePage() {
   // Save enhanced wishlist back to localStorage
   localStorage.setItem('wishlist', JSON.stringify(wishlist));
   
-  renderFavoriteItems(wishlist);
-  renderFavoriteSummary(wishlist);
+  updateFavoritesDisplay(wishlist);
+}
+
+// Decide how to render favorites depending on page markup
+function updateFavoritesDisplay(wishlist) {
+  const grid = document.getElementById('favoriteGrid');
+  if (grid) {
+    renderFavoriteGrid(wishlist);
+  } else {
+    renderFavoriteItems(wishlist);
+    renderFavoriteSummary(wishlist);
+  }
+}
+
+// Render favorites into card grid (#favoriteGrid)
+function renderFavoriteGrid(wishlist) {
+  const grid = document.getElementById('favoriteGrid');
+  if (!grid) return;
+
+  if (!Array.isArray(wishlist) || wishlist.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-favorite-grid">
+        <h2>Your Favorites List is Empty</h2>
+        <p>Looks like you haven't added any items to your favorites yet.</p>
+        <a href="shop.html" class="continue-shopping-btn">Continue Shopping</a>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = wishlist.map(item => `
+    <article class="favorite-card" data-item-id="${item.id}">
+      <div class="favorite-card-img">
+        <img src="${item.image}" alt="${item.name}">
+      </div>
+
+      <h3 class="favorite-card-title">${item.name}</h3>
+
+      <div class="favorite-card-footer">
+        <span class="favorite-card-price">$${(item.price || 0).toFixed(2)}</span>
+
+        <div class="favorite-card-actions">
+          <button class="add-to-cart-btn" data-item-id="${item.id}">Add to Cart</button>
+          <button class="favorite-heart-btn active" aria-label="Remove from Favorites" data-item-id="${item.id}">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                      2 5.42 4.42 3 7.5 3
+                      c1.74 0 3.41.81 4.5 2.09
+                      C13.09 3.81 14.76 3 16.5 3
+                      19.58 3 22 5.42 22 8.5
+                      c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    fill="#E02D3C" stroke="#4D2B12" stroke-width="1.5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+  `).join('');
+
+  // Bind card actions
+  grid.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const itemId = parseInt(btn.dataset.itemId);
+      addFavoriteToCart(itemId);
+    });
+  });
+
+  grid.querySelectorAll('.favorite-heart-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const itemId = parseInt(btn.dataset.itemId);
+      removeFromFavorites(itemId);
+    });
+  });
 }
 
 function renderFavoriteItems(wishlist) {
@@ -126,11 +192,9 @@ function renderFavoriteItems(wishlist) {
 
   favoriteItemsContainer.innerHTML = wishlist.map((item, index) => `
     <tr class="favorite-item" data-item-id="${item.id}">
-      <td >
-      <div class="item-checkbox">
+      <td class="item-checkbox">
         <input type="checkbox" id="favorite${index + 1}">
         <label for="favorite${index + 1}"></label>
-      </div>
       </td>
       <td class="item-info-cell">
         <div class="item-info">
@@ -151,20 +215,8 @@ function renderFavoriteItems(wishlist) {
       </td>
       <td class="remove-cell">
         <button class="delete-btn" onclick="removeFromFavorites(${item.id})" aria-label="Remove favorite">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-               xmlns="http://www.w3.org/2000/svg" class="icon-trash">
-            <!-- Lid -->
-            <path d="M3 6H21" stroke="#FF0000" stroke-width="2" stroke-linecap="round"/>
-            <path d="M8 6V4C8 3.44772 8.44772 3 9 3H15C15.5523 3 16 3.44772 16 4V6"
-                  stroke="#FF0000" stroke-width="2" stroke-linecap="round"/>
-
-            <!-- Body -->
-            <rect x="5" y="6" width="14" height="15" rx="1.5"
-                  stroke="#FF0000" stroke-width="2"/>
-
-            <!-- Inner bars -->
-            <path d="M10 10V17" stroke="#FF0000" stroke-width="2" stroke-linecap="round"/>
-            <path d="M14 10V17" stroke="#FF0000" stroke-width="2" stroke-linecap="round"/>
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <path fill="#FF0000" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
           </svg>
         </button>
       </td>
@@ -176,12 +228,6 @@ function renderFavoriteItems(wishlist) {
   
   // Bind add-to-cart listeners after rendering
   initAddToCartListeners();
-
-  // Make product titles look clickable
-  favoriteItemsContainer.querySelectorAll('.item-name').forEach(el => {
-    el.style.cursor = 'pointer';
-    el.title = 'View product details';
-  });
 }
 
 function getSelectedFavoriteItems(wishlist) {
@@ -272,9 +318,6 @@ function addFavoriteToCart(itemId) {
       localStorage.setItem('cart', JSON.stringify(cart));
       showNotification(`${item.name} added to cart!`, 'success');
     }
-    
-    // Remove item from favorites after adding to cart
-    removeFromFavorites(itemId);
   }
 }
 
@@ -284,8 +327,7 @@ function removeFromFavorites(itemId) {
   wishlist = wishlist.filter(item => item.id !== itemId);
   
   localStorage.setItem('wishlist', JSON.stringify(wishlist));
-  renderFavoriteItems(wishlist);
-  renderFavoriteSummary(wishlist);
+  updateFavoritesDisplay(wishlist);
   updateWishlistButton();
   
   // Show notification
@@ -326,8 +368,7 @@ function addAllToCart() {
 function clearAllFavorites() {
   if (confirm('Are you sure you want to remove all items from your favorites?')) {
     localStorage.setItem('wishlist', JSON.stringify([]));
-    renderFavoriteItems([]);
-    renderFavoriteSummary([]);
+    updateFavoritesDisplay([]);
     updateWishlistButton();
     showNotification('All favorites cleared', 'info');
     
@@ -336,6 +377,34 @@ function clearAllFavorites() {
       detail: { wishlist: [], action: 'clear' }
     }));
   }
+}
+
+// Add all favorites to cart (grid or table); then navigate to cart
+function addAllFavoritesToCart() {
+  const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
+  // Table selection (if present)
+  const selected = document.querySelectorAll('.favorite-item input[type="checkbox"]:checked');
+  let itemsToAdd = [];
+  if (selected && selected.length > 0) {
+    const ids = Array.from(selected).map(cb => parseInt(cb.closest('.favorite-item').dataset.itemId));
+    itemsToAdd = wishlist.filter(item => ids.includes(item.id));
+  } else {
+    itemsToAdd = wishlist;
+  }
+
+  if (!itemsToAdd || itemsToAdd.length === 0) {
+    showNotification('No favorites to add.', 'info');
+    return;
+  }
+
+  let addedCount = 0;
+  itemsToAdd.forEach(item => {
+    addFavoriteToCart(item.id);
+    addedCount++;
+  });
+
+  showNotification(`${addedCount} items added to cart!`, 'success');
 }
 
 function updateWishlistButton() {
@@ -415,11 +484,11 @@ function initFavoriteEventListeners() {
   });
   
   // Handle bulk actions
-  const addAllBtn = document.querySelector('.add-all-to-cart-btn');
+  const addAllBtn = document.querySelector('.add-all-to-cart-btn') || document.querySelector('.favorite-addall-btn');
   const clearAllBtn = document.querySelector('.clear-all-btn');
   
   if (addAllBtn) {
-    addAllBtn.addEventListener('click', addAllToCart);
+    addAllBtn.addEventListener('click', addAllFavoritesToCart);
   }
   
   if (clearAllBtn) {
@@ -438,41 +507,6 @@ function initFavoriteEventListeners() {
   }
 }
 
-// Navigate to product detail when clicking a product title in favorites
-function initItemTitleNavigation() {
-  // Avoid duplicate bindings
-  if (document.body.dataset.favoriteTitleNavBound === 'true') return;
-  document.body.dataset.favoriteTitleNavBound = 'true';
-
-  document.addEventListener('click', async (e) => {
-    // Only handle on favorite page
-    if (document.body.dataset.page !== 'favorite') return;
-
-    const titleEl = e.target.closest('.item-name');
-    if (!titleEl) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    const name = (titleEl.textContent || '').trim();
-    if (!name) return;
-
-    // Ensure products data is available
-    if (!Array.isArray(productsData) || productsData.length === 0) {
-      await loadProductsData();
-    }
-
-    const product = getProductDataByName(name);
-    let href = 'product_detail.html';
-    if (product && product.id) {
-      href += `?id=${encodeURIComponent(String(product.id))}`;
-    } else {
-      href += `?name=${encodeURIComponent(name)}`;
-    }
-    window.location.href = href;
-  });
-}
-
 // Add to wishlist function (global)
 async function addToWishlist(productName, productImage, category = 'General') {
   // Ensure products data is loaded
@@ -484,7 +518,7 @@ async function addToWishlist(productName, productImage, category = 'General') {
   const existingItem = wishlist.find(item => item.name === productName);
   
   if (!existingItem) {
-    // Get product data from catalog/XML
+    // Get product data from XML
     const productData = getProductDataByName(productName);
     
     wishlist.push({
@@ -492,8 +526,8 @@ async function addToWishlist(productName, productImage, category = 'General') {
       name: productName,
       image: productImage,
       category: productData ? productData.category : category,
-      price: productData ? Number(productData.price || 0) : 0,
-      originalPrice: productData ? Number(productData.originalPrice || productData.price || 0) : 0,
+      price: productData ? productData.price : 0,
+      originalPrice: productData ? productData.originalPrice : 0,
       addedAt: new Date().toISOString()
     });
     
@@ -593,8 +627,7 @@ function initGlobalFavoriteListeners() {
     
     // Refresh favorite display if we're on favorite page
     if (document.body.dataset.page === 'favorite') {
-      renderFavoriteItems(wishlist);
-      renderFavoriteSummary(wishlist);
+      updateFavoritesDisplay(wishlist);
     }
     
     updateWishlistButton();
@@ -605,8 +638,7 @@ function initGlobalFavoriteListeners() {
     if (event.key === 'wishlist') {
       const wishlist = JSON.parse(event.newValue || '[]');
       if (document.body.dataset.page === 'favorite') {
-        renderFavoriteItems(wishlist);
-        renderFavoriteSummary(wishlist);
+        updateFavoritesDisplay(wishlist);
       }
       updateWishlistButton();
     }
@@ -636,163 +668,5 @@ function initAddToCartListeners() {
       const itemId = parseInt(btn.getAttribute('data-item-id'));
       addFavoriteToCart(itemId);
     });
-  });
-}
-// -----------------------------
-// FAVORITE PAGE RENDER + EVENTS
-// -----------------------------
-document.addEventListener('DOMContentLoaded', () => {
-  if (document.body.dataset.page === 'favorite') {
-    renderFavoriteList();
-    bindFavoritePageEvents();
-
-    // đồng bộ với storage / event wishlistUpdated
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'wishlist') renderFavoriteList();
-    });
-    window.addEventListener('wishlistUpdated', renderFavoriteList);
-  }
-});
-
-async function renderFavoriteList() {
-  const grid = document.querySelector('#favoriteGrid');
-  if (!grid) return;
-
-  let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-
-  // Ensure product data is loaded and hydrate wishlist items missing price/category
-  try {
-    if (!productsData.length) {
-      await loadProductsData();
-    }
-    wishlist = wishlist.map(item => {
-      if (!item.price || item.price === 0 || !item.category || item.category === 'General') {
-        const pd = getProductDataByName(item.name);
-        if (pd) {
-          return {
-            ...item,
-            price: pd.price,
-            originalPrice: pd.originalPrice,
-            category: pd.category
-          };
-        }
-      }
-      return item;
-    });
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-  } catch (_) { /* noop */ }
-
-  if (wishlist.length === 0) {
-    grid.innerHTML = `
-      <div class="favorite-empty">
-        <h2>Your Favorites List is Empty</h2>
-        <p>Looks like you haven't added any items to your favorites yet.</p>
-        <a href="shop.html" class="continue-shopping-btn">Continue Shopping</a>
-      </div>`;
-    return;
-  }
-
-  grid.innerHTML = wishlist.map(item => `
-    <article class="favorite-card" data-id="${item.id}">
-      <div class="favorite-card-img">
-        <img src="${item.image}" alt="${item.name}">
-      </div>
-
-      <h3 class="favorite-card-title">${item.name}</h3>
-
-      <div class="favorite-card-footer">
-        <span class="favorite-card-price">$${(item.price || 0).toFixed(2)}</span>
-
-        <!-- Heart luôn active -->
-        <button class="favorite-heart-btn active"
-                data-id="${item.id}" 
-                data-name="${item.name}">
-          <svg viewBox="0 0 24 24" width="20" height="20">
-            <path fill="#E02D3C" stroke="#E02D3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
-                 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
-                 C13.09 3.81 14.76 3 16.5 3
-                 19.58 3 22 5.42 22 8.5
-                 c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-          </svg>
-        </button>
-
-        <button class="favorite-add-btn"
-                data-name="${item.name}"
-                data-image="${item.image}"
-                data-price="${item.price}"
-                data-category="${item.category || 'General'}">
-          Add to Cart
-        </button>
-      </div>
-    </article>
-  `).join('');
-}
-
-function bindFavoritePageEvents() {
-  document.addEventListener('click', (e) => {
-    const heart = e.target.closest('.favorite-heart-btn');
-    if (heart) {
-      const id = heart.dataset.id;
-      removeFromFavorite(id);
-    }
-  });
-}
-
-function removeFromFavorite(id) {
-  let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-  wishlist = wishlist.filter(item => String(item.id) !== String(id));
-  localStorage.setItem('wishlist', JSON.stringify(wishlist));
-
-  const card = document.querySelector(`.favorite-card[data-id="${id}"]`);
-  if (card) {
-    card.classList.add('fade-out');
-    setTimeout(() => card.remove(), 300);
-  }
-
-  showNotification('Removed from favorites', 'info');
-  updateWishlistButton();
-  window.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist, action: 'remove', id } }));
-}
-// =====================
-// ADD TO CART IN FAVORITE PAGE
-// =====================
-document.addEventListener("DOMContentLoaded", () => {
-  if (document.body.dataset.page === "favorite") {
-    bindFavoriteCartButtons();
-  }
-});
-
-function bindFavoriteCartButtons() {
-  // Nút "Add All to Cart"
-  const addAllBtn = document.querySelector(".favorite-addall-btn");
-  if (addAllBtn) {
-    addAllBtn.addEventListener("click", () => {
-      const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
-      if (!wishlist.length) {
-        showNotification("Your favorites list is empty!", "info");
-        return;
-      }
-
-      wishlist.forEach(item => {
-        addToCart(item.name, item.image, item.price);
-      });
-
-      showNotification(`${wishlist.length} items added to cart!`, "success");
-      window.dispatchEvent(new Event("cartUpdated"));
-    });
-  }
-
-  // Từng nút "Add to Cart"
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".favorite-add-btn");
-    if (!btn) return;
-
-    const name = btn.dataset.name || "";
-    const image = btn.dataset.image || "";
-    const price = parseFloat(btn.dataset.price || "0") || 0;
-
-    addToCart(name, image, price);
-    showNotification(`${name} added to cart!`, "success");
   });
 }

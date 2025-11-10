@@ -105,6 +105,37 @@
   display:flex; align-items:center; gap:16px;
 }
 
+/* Actions container: keep Add to Cart and Heart on one line */
+.favorite-card-actions{
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+/* Ensure the add-to-cart button is inline-sized and consistent */
+.favorite-card-actions .add-to-cart-btn{
+  display: inline-flex;
+  align-items: center;
+  background: #7A6F64;
+  color: #FFF9F2;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+.favorite-card-actions .add-to-cart-btn:hover{ background:#4D2B12; }
+
+/* Keep the heart button inline with add-to-cart */
+.favorite-card-actions .favorite-heart-btn{
+  display: inline-grid;
+}
+
 .favorite-card-price {
   color: #7A6F64;
   font-weight: 700;
