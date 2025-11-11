@@ -99,6 +99,33 @@ function loadDataFromStorage() {
     bookingState.treats = data.treats || [];
     bookingState.discount = data.discount || JSON.parse(localStorage.getItem('selectedDiscount') || 'null') || { code: null, percentage: 0 };
 
+    // Load pet and contact info into form fields
+    if (data.pet) {
+        if (document.getElementById('pet-name')) document.getElementById('pet-name').value = data.pet.name || '';
+        if (document.getElementById('pet-type')) document.getElementById('pet-type').value = data.pet.type || '';
+        if (document.getElementById('pet-age')) document.getElementById('pet-age').value = data.pet.age || '';
+        if (document.getElementById('pet-weight')) document.getElementById('pet-weight').value = data.pet.weight || '';
+        if (document.getElementById('special-requirements')) document.getElementById('special-requirements').value = data.pet.specialRequirements || '';
+        if (document.getElementById('emergency-contact')) document.getElementById('emergency-contact').value = data.pet.emergencyContact || '';
+    }
+    if (data.contact) {
+        if (document.getElementById('owner-name')) document.getElementById('owner-name').value = data.contact.ownerName || '';
+        if (document.getElementById('phone-number')) document.getElementById('phone-number').value = data.contact.phoneNumber || '';
+        if (document.getElementById('email')) document.getElementById('email').value = data.contact.email || '';
+        if (document.getElementById('address')) document.getElementById('address').value = data.contact.address || '';
+    }
+    if (data.payment) {
+        const paymentRadios = document.querySelectorAll('input[name="payment-type"]');
+        paymentRadios.forEach(radio => {
+            if (radio.value === data.payment.method) {
+                radio.checked = true;
+            }
+        });
+        if (data.payment.method === 'card' && data.payment.cardLast4) {
+            localStorage.setItem('selectedCardLast4', data.payment.cardLast4);
+        }
+    }
+
     renderList(treatsListEl, bookingState.treats, true);
     renderList(addOnsListEl, bookingState.addOns, false);
 
@@ -454,6 +481,18 @@ function validatePaymentForm() {
     }
     
     return isValid;
+}
+
+/**
+ * Update Proceed Button State
+ */
+function updateProceedButton() {
+    const isValid = validateForm();
+    if (proceedToPayBtn) {
+        proceedToPayBtn.disabled = !isValid;
+        proceedToPayBtn.style.opacity = isValid ? '1' : '0.5';
+        proceedToPayBtn.style.cursor = isValid ? 'pointer' : 'not-allowed';
+    }
 }
 
 // Validate tổng thể form Step 2 (Pet, Contact, Payment)

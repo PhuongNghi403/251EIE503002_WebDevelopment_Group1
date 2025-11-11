@@ -14,15 +14,23 @@
   grid-template-columns: minmax(0, 1fr) 360px;
   gap: 16px;
 }
-
-.card {
+.dashboard-main{
+  display: flex;
+  flex-direction: column;
+  gap:16px;
+}
+.card.order-status,.card.order-summary {
   background: #fff;
-  border: 1px solid #eee;
+  border: 1px solid #462615;
   border-radius: 14px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 6px rgba(61, 30, 5, 0.04);
   padding: 14px;
 }
-
+.card.live-camera{
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(46, 22, 2, 0.08);
+  padding: 14px;
+}
 /* Order Summary */
 .order-summary .summary-top {
   display: flex;
@@ -32,14 +40,18 @@
 }
 .status-pill {
   display: inline-block;
-  padding: 6px 10px;
+  padding: 6px 8px;
   border-radius: 999px;
   font-size: 12px;
-  border: 1px solid #dbeafe;
+  font-family: "Lexend Deca",sans-serif;
+  border: 1px solid #4eb135;
+  width:80px;
+  text-align: center;
+  font-weight: 600;
 }
 .status-pill.active {
-  background: #f0f9ff;
-  color: #0a6ef5;
+  background: #d4eccb;
+  color: #0f540a;
 }
 .summary-actions { display: flex; gap: 8px; }
 .order-summary .summary-title small { color: #666; display:block; }
@@ -62,7 +74,7 @@
   font-size: 12px;
 }
 .video-placeholder {
-  height: 220px;
+  width: 100%;
   background: linear-gradient(135deg,#eaeaea,#d7d7d7);
   border-radius: 10px;
   margin-top: 8px;

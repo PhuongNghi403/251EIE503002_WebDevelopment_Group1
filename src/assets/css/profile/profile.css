@@ -75,7 +75,10 @@ body {
   top: 2rem;
   height: fit-content; /* Giữ sidebar ở vị trí khi cuộn */
 }
-
+.status-dashboard{
+  display: grid;
+  gap:16px;
+}
 /* ==========================================================================
    Các Thành phần Chung
    ========================================================================== */
@@ -83,12 +86,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 1rem;
+  margin-bottom: 8px;
 }
 
 .section-title {
   font-family: var(--font-display);
-  font-size: 1.75rem; /* ~28px */
+  font-size:24px;
   color: var(--color-text-dark);
   margin: 0;
 }
@@ -172,7 +175,7 @@ body {
   border: 1px solid var(--color-border);
   border-radius: 1.5rem; /* 24px */
   padding: 1.5rem 2rem;
-  margin-bottom: 2.5rem; /* Khoảng cách với layout bên dưới */
+  margin-bottom: 16px; /* Khoảng cách với layout bên dưới */
   box-shadow: 0 4px 16px rgba(0,0,0,0.04);
 }
 

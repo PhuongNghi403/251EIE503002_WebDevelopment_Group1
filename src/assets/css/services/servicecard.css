@@ -18,13 +18,14 @@
 .homeboardservice-welcome .welcome-head .title {
   font-size: clamp(28px, 4vw, 42px);
   color: #4D2B12;
-  margin: 4px 0;
+  margin: 4px 8px;
 }
 .homeboardservice-welcome .welcome-head .subtitle {
   color: #7b470b;
   max-width: 1100px;
   margin: 4px auto 8px;        
-  text-align: justify;        
+  text-align: justify; 
+  font-family: "Lexend Deca",sans-serif;       
 }
 .rating-badge {
   display: inline-block;
@@ -35,7 +36,9 @@
   font-size: 13px;
   border: 1px solid #ffe4c5;
   width: fit-content;       
-  white-space: nowrap;       
+  white-space: nowrap;
+  font-weight: 500;
+  font-family: "Lexend Deca",sans-serif;       
 }
 
 /* Gallery layout: left big, right two stacked */

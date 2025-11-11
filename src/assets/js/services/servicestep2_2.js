@@ -65,20 +65,24 @@ document.addEventListener('DOMContentLoaded', () => {
         continueToStep3Btn.addEventListener('click', attemptProceed);
     }
 
-    // Xóa báo lỗi khi nhập
+    // Xóa báo lỗi khi nhập và cập nhật trạng thái nút
     if (requiredFields) {
         requiredFields.forEach(field => {
             field.addEventListener('input', () => {
                 if (field.value) {
                     field.closest('.form-group')?.classList.remove('has-error');
                 }
+                updateProceedButton();
             });
         });
     }
 
     // Payment Type Radio
     if (paymentTypeRadios) {
-        paymentTypeRadios.forEach(r => r.addEventListener('change', updatePaymentVisibility));
+        paymentTypeRadios.forEach(r => r.addEventListener('change', () => {
+            updatePaymentVisibility();
+            updateProceedButton();
+        }));
     }
 
     // Click trên danh sách thẻ
@@ -268,14 +272,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Handle back button to save data
+    const backBtn = document.querySelector('a[href*="step1"], button[onclick*="step1"], .back-btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent immediate navigation
+
+            // Save current form data before navigating back
+            const existingDetails = JSON.parse(localStorage.getItem('bookingDetails') || '{}');
+
+            const petInfo = {
+                name: document.getElementById('pet-name')?.value?.trim() || '',
+                type: document.getElementById('pet-type')?.value || '',
+                age: document.getElementById('pet-age')?.value || '',
+                weight: document.getElementById('pet-weight')?.value || '',
+                specialRequirements: document.getElementById('special-requirements')?.value?.trim() || '',
+                emergencyContact: document.getElementById('emergency-contact')?.value?.trim() || ''
+            };
+
+            const contactInfo = {
+                ownerName: document.getElementById('owner-name')?.value?.trim() || '',
+                phoneNumber: document.getElementById('phone-number')?.value?.trim() || '',
+                email: document.getElementById('email')?.value?.trim() || '',
+                address: document.getElementById('address')?.value?.trim() || ''
+            };
+
+            const selectedPaymentType = document.querySelector('input[name="payment-type"]:checked')?.value || 'card';
+            const selectedCardLast4 = localStorage.getItem('selectedCardLast4') || null;
+
+            const updatedDetails = {
+                ...existingDetails,
+                pet: petInfo,
+                contact: contactInfo,
+                payment: {
+                    method: selectedPaymentType,
+                    cardLast4: selectedPaymentType === 'card' ? selectedCardLast4 : null
+                }
+            };
+
+            localStorage.setItem('bookingDetails', JSON.stringify(updatedDetails));
+
+            // Navigate after saving
+            const href = backBtn.getAttribute('href') || backBtn.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+            if (href) {
+                window.location.href = href;
+            } else {
+                window.history.back();
+            }
+        });
+    }
+
     // --- INITIALIZATION (Khởi chạy) ---
     renderCardList();
     updatePaymentVisibility();
-    
+
     // *** LOGIC MỚI: Auto-select thẻ đầu tiên ***
     const isCardSelected = document.querySelector('input[name="payment-type"]:checked')?.value === 'card';
     const hasActiveCard = !!document.querySelector('.saved-cards-list .saved-card.active');
-    
+
     if (isCardSelected && savedCardsList && !hasActiveCard) {
         const firstCardItem = savedCardsList.querySelector('.saved-card');
         if (firstCardItem) {
@@ -290,4 +344,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // *** KẾT THÚC LOGIC MỚI ***
 
     loadDataFromStorage();
+    updateProceedButton(); // Initial button state update
 });
