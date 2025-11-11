@@ -313,34 +313,46 @@ function initQrPayment() {
     fireCuteConfetti();
   });
 
-  qrTab.addEventListener('click', () => {
-    // Require login before any payment actions
-    let user = null;
-    try { user = JSON.parse(localStorage.getItem('pc_user') || 'null'); } catch (_) {}
-    const loggedIn = !!(user && typeof user === 'object' && Object.keys(user).length);
-    if (!loggedIn) {
-      alert('Please log in or sign up before placing an order.');
-      try { window.location.href = '../login-signup.html'; } catch (_) {}
-      return;
-    }
-    // Gate by terms/policy acceptance before opening QR modal
-    const termsEl = document.querySelector('.terms input[type="checkbox"]');
-    const accepted = (window.policyModal && typeof window.policyModal.isAccepted === 'function' ? window.policyModal.isAccepted() : false) || (!!termsEl && termsEl.checked);
-    if (!accepted) {
-      // Ensure policy modal knows which checkbox to tick on accept
-      if (window.policyModal && typeof window.policyModal.setAgreeSelector === 'function') {
-        window.policyModal.setAgreeSelector('.terms input[type="checkbox"]');
-      }
-      // Open policy modal; after acceptance show success modal immediately
-      qrGatePending = true;
-      if (window.policyModal && typeof window.policyModal.ensureAccepted === 'function') {
-        try { window.policyModal.ensureAccepted(); } catch (_) { window.policyModal.open?.(); }
-      } else {
-        try { window.policyModal?.open(); } catch (_) {}
-      }
-      return;
-    }
-    // Accepted -> proceed to open QR modal
+  // Bỏ mở QR tự động khi click tab; mở sau OTP
+  window.__qrOpenFromOtp = window.__qrOpenFromOtp || false;
+
+  // NEW: chọn tab + toggle UI thẻ
+  const cardTab = document.querySelector('.pay-tabs .pay-tab:first-child');
+
+  function selectPayTab(tabEl) {
+    const all = document.querySelectorAll('.pay-tabs .pay-tab');
+    all.forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    tabEl.classList.add('active');
+    tabEl.setAttribute('aria-selected', 'true');
+  }
+
+  function setCardUiVisible(visible) {
+    const saved = document.querySelector('.saved-cards');
+    const form = document.querySelector('.payment-form');
+    if (saved) saved.style.display = visible ? '' : 'none';
+    if (form) form.style.display = visible ? '' : 'none';
+  }
+
+  // Khởi tạo: Card đang active → hiện UI thẻ
+  setCardUiVisible(true);
+
+  cardTab && cardTab.addEventListener('click', () => {
+    selectPayTab(cardTab);
+    setCardUiVisible(true);
+    // Không mở modal ở đây
+  });
+
+  qrTab && qrTab.addEventListener('click', () => {
+    // Luôn cho phép chọn tab QR
+    selectPayTab(qrTab);
+    setCardUiVisible(false);
+
+    // Chỉ mở modal QR nếu flow xuất phát từ OTP confirm
+    if (!window.__qrOpenFromOtp) return;
+    window.__qrOpenFromOtp = false;
     regenerateQr();
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
@@ -422,7 +434,7 @@ function initQrPayment() {
             timeline: [
               { key: 'confirmed', title: 'Order Placed', time: nowIso, note: 'Your order has been confirmed and payment received.' },
               { key: 'processing', title: 'Preparing Order', time: nowIso, note: 'We are getting your order ready.' },
-              { key: 'ready', title: (activeMethod && activeMethod.dataset.method === 'pickup') ? 'Ready To Pick-up' : 'Shipped', time: nowIso, note: (activeMethod && activeMethod.dataset.method === 'pickup') ? 'Show your order ID at reception to receive items.' : 'Your package is on the way.' },
+              { key: 'ready', title: (activeMethod && activeMethod.dataset.method === 'pickup') ? 'Ready To Pick-up' : 'Shipped', time: nowIso, note: (activeMethod && activeMethod.dataset.method === 'pickup') ? 'Show your order ID at the reception to receive items.' : 'Your package is on the way.' },
               { key: 'completed', title: 'Order Completed', time: nowIso, note: 'Thank you for your purchase!' }
             ]
           };
@@ -611,7 +623,7 @@ function initAddressModal() {
       if (container.classList.contains('address-list') || container.classList.contains('address-card')) {
         container.outerHTML = `
           <div class="address-empty" style="background:#FAF4EC;border:1px solid #E9E4DC;border-radius:12px;padding:16px;display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;">
-            <div style="width:36px;height:36px;border-radius:10px;background:#FFF;border:1px solid #EEE2D4;display:flex;align-items:center;justify:content:center;color:#7B5E47;">📍</div>
+            <div style="width:36px;height:36px;border-radius:10px;background:#FFF;border:1px solid #EEE2D4;display:flex;align-items:center;justify-content:center;color:#7B5E47;">📍</div>
             <div>
               <div style="font:600 14px/1.2 'Lexend Deca';color:#4D2B12;">No saved addresses yet</div>
               <div style="font:400 12px/1.2 'Lexend Deca';color:#7B5E47;">Please add your address to continue</div>
@@ -1165,6 +1177,7 @@ function initOtpPayment() {
     // *** LOGIC MỚI: ĐÃ THÊM (Kiểm tra tab QR) ***
     if (qrTab && qrTab.classList.contains('active')) {
         // Nếu là tab QR, chỉ cần click() để mở modal QR (với countdown 10p mới)
+        window.__qrOpenFromOtp = true;
         qrTab.click(); 
         return;
     }

@@ -331,34 +331,52 @@ function initQrPayment() {
     }
   }
 
-  qrTab.addEventListener('click', () => {
-    // Require login before any payment actions
-    let user = null;
-    try { user = JSON.parse(localStorage.getItem('pc_user') || 'null'); } catch (_) {}
-    const loggedIn = !!(user && typeof user === 'object' && Object.keys(user).length);
-    if (!loggedIn) {
-      alert('Please log in or sign up before placing an order.');
-      try { window.location.href = '../login-signup.html'; } catch (_) {}
-      return;
+  // Chỉ mở QR sau khi OTP xác nhận
+  window.__qrOpenFromOtp = window.__qrOpenFromOtp || false;
+
+  // NEW: chọn tab + toggle UI thẻ
+  const cardTab = document.querySelector('.pay-tabs .pay-tab:first-child');
+
+  function selectPayTab(tabEl) {
+    const all = document.querySelectorAll('.pay-tabs .pay-tab');
+    all.forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    tabEl.classList.add('active');
+    tabEl.setAttribute('aria-selected', 'true');
+  }
+
+  function setCardUiVisible(visible) {
+    const saved = document.querySelector('.saved-cards');
+    const form = document.querySelector('.payment-form');
+    if (saved) saved.style.display = visible ? '' : 'none';
+    if (form) form.style.display = visible ? '' : 'none';
+  }
+
+  // Khởi tạo: Card đang active → hiện UI thẻ
+  setCardUiVisible(true);
+
+  cardTab && cardTab.addEventListener('click', () => {
+    selectPayTab(cardTab);
+    setCardUiVisible(true);
+    // Không mở modal ở đây
+  });
+
+  qrTab && qrTab.addEventListener('click', () => {
+    // Luôn cho phép chọn tab QR
+    selectPayTab(qrTab);
+    setCardUiVisible(false);
+
+    // Chỉ mở modal QR nếu flow xuất phát từ OTP confirm
+    if (!window.__qrOpenFromOtp) return;
+    window.__qrOpenFromOtp = false;
+    // Tùy file: regenerateQr() hoặc updateQr()
+    if (typeof regenerateQr === 'function') {
+      regenerateQr();
+    } else {
+      updateQr();
     }
-    // Gate by terms/policy acceptance before opening QR modal
-    const termsEl = document.querySelector('.terms input[type="checkbox"]');
-    const accepted = (window.policyModal && typeof window.policyModal.isAccepted === 'function' ? window.policyModal.isAccepted() : false) || (!!termsEl && termsEl.checked);
-    if (!accepted) {
-      // Ensure policy modal ticks the correct checkbox on accept
-      if (window.policyModal && typeof window.policyModal.setAgreeSelector === 'function') {
-        window.policyModal.setAgreeSelector('.terms input[type="checkbox"]');
-      }
-      // Open policy modal; after acceptance show success modal immediately
-      qrGatePending = true;
-      if (window.policyModal && typeof window.policyModal.ensureAccepted === 'function') {
-        try { window.policyModal.ensureAccepted(); } catch (_) { window.policyModal.open?.(); }
-      } else {
-        try { window.policyModal?.open(); } catch (_) {}
-      }
-      return;
-    }
-    updateQr();
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
     startCountdown();
@@ -794,6 +812,7 @@ function initOtpPayment() {
   const payBtn = document.querySelector('.order-card .btn.pay');
   const termsEl = document.querySelector('.terms input[type="checkbox"]');
   const cardTab = document.querySelector('.pay-tabs .pay-tab:first-child');
+  const qrTab = document.querySelector('.pay-tabs .pay-tab:last-child');
   const otpModal = document.querySelector('.otp-modal');
   const otpClose = document.querySelector('.otp-close');
   const otpConfirm = document.querySelector('.otp-confirm');
@@ -802,7 +821,7 @@ function initOtpPayment() {
   const otpPhoneEl = document.getElementById('otpPhone');
   const timerEl = document.getElementById('otpTimer');
   let countdownId = null;
-  let otpGatePending = true;
+  let otpGatePending = false;
 
   function formatTime(ms) {
     const totalSec = Math.max(0, Math.floor(ms / 1000));
@@ -862,7 +881,7 @@ function initOtpPayment() {
   }
 
   payBtn.addEventListener('click', (e) => {
-    if (!cardTab.classList.contains('active')) return; // only for card payments
+    // Đã bỏ: if (!cardTab.classList.contains('active')) return; 
     if (editingPending) {
       e.preventDefault();
       alert('You have unsaved changes to a card. Click "Update Card" before proceeding.');
@@ -881,10 +900,11 @@ function initOtpPayment() {
       try { window.location.href = '../login-signup.html'; } catch (_) {}
       return;
     }
+
+    // Nếu chưa tick terms → mở policy, sau accept thì mở OTP
     if (!termsEl || !termsEl.checked) {
       e.preventDefault();
       alert('Please agree to the terms before paying.');
-      // Gate via policy modal and immediately open OTP upon acceptance
       otpGatePending = true;
       if (window.policyModal && typeof window.policyModal.ensureAccepted === 'function') {
         try { window.policyModal.ensureAccepted(payBtn); } catch (_) { window.policyModal.open?.(); }
@@ -893,15 +913,21 @@ function initOtpPayment() {
       }
       return;
     }
+
+    // Đã tick terms → mở OTP cho cả Card và QR
     e.preventDefault();
     openOtp();
   });
 
-  otpConfirm && otpConfirm.addEventListener('click', () => {
-    // Accept any OTP entered by user
-    const code = otpInput ? otpInput.value.trim() : '';
+  // Sau khi accept policy → mở OTP (nếu đang gating)
+  document.addEventListener('policyAccepted', () => {
+    if (!otpGatePending) return;
+    otpGatePending = false;
+    openOtp();
+  });
 
-    // Yêu cầu OTP đúng 6 chữ số
+  otpConfirm && otpConfirm.addEventListener('click', () => {
+    const code = otpInput ? otpInput.value.trim() : '';
     if (!/^\d{6}$/.test(code)) {
       alert('OTP không hợp lệ. Mã mới đã được gửi lại.');
       if (otpInput) otpInput.value = '';
@@ -909,10 +935,19 @@ function initOtpPayment() {
       return;
     }
 
-    // OTP hợp lệ -> đóng OTP và tiếp tục luồng "Done"
+    // Đóng OTP
     otpModal.classList.remove('show');
     otpModal.setAttribute('aria-hidden', 'true');
     stopOtpCountdown(true);
+
+    // Nếu tab QR đang active → mở QR sau OTP
+    if (qrTab && qrTab.classList.contains('active')) {
+      window.__qrOpenFromOtp = true;
+      qrTab.click();
+      return;
+    }
+
+    // Nếu là tab Card → hiển thị Done
     const doneModal = document.querySelector('.done-modal');
     if (doneModal) {
       try {
@@ -926,8 +961,8 @@ function initOtpPayment() {
       const generatedId = `UEL-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
       const orderEl = document.getElementById('doneOrderNumber');
       if (orderEl) orderEl.textContent = generatedId;
-      const shipEl = document.getElementById('doneShipping');
-      if (shipEl) shipEl.textContent = 'Store Pick-up';
+      doneModal.classList.add('show');
+      doneModal.setAttribute('aria-hidden', 'false');
       // Persist latest order for profile Order Status view
       try {
         let items = [];
