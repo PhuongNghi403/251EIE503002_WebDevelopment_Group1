@@ -53,7 +53,9 @@
           <div class="summary-top">
             <span class="status-pill active">Active</span>
             <div class="summary-actions">
-              <button class="btn ghost small">Extend Stay</button>
+              <div class="pickup-actions">
+                <button class="btn small extend-btn">Extend Stay</button>
+              </div>
               <button class="btn small">Early Pickup</button>
             </div>
           </div>
@@ -65,11 +67,11 @@
             <div class="summary-meta">
               <div class="meta-item">
                 <span class="meta-label">Order Date</span>
-                <strong>Nov 12, 2025</strong>
+                <strong></strong>
               </div>
               <div class="meta-item">
                 <span class="meta-label">Estimate Ready Time</span>
-                <strong>Today, 3:00–5:00 PM</strong>
+                <strong></strong>
               </div>
               <div class="meta-item">
                 <span class="meta-label">Shipping Details</span>
@@ -87,8 +89,8 @@
           <div class="live-feed">
             <iframe
               class="live-iframe"
-              src="https://www.skylinewebcams.com/en/webcam/vietnam/nam-trung-bo/da-nang/da-nang.html"
-              title="Live Cam Da Nang"
+              src="https://www.cameraftp.com/cameraftp/publish/camera.aspx/parentID388431995/shareID17774062/modelive/namecamera%2012/camTypeCamera"
+              title="Public Live Camera"
               frameborder="0"
               allow="autoplay; encrypted-media"
               allowfullscreen
@@ -96,22 +98,15 @@
             ></iframe>
             <div class="embed-fallback">
               <small>If the live cam doesn’t load, open it directly:</small>
-              <a class="btn ghost small" href="https://www.skylinewebcams.com/en/webcam/vietnam/nam-trung-bo/da-nang/da-nang.html" target="_blank" rel="noopener">Open Live Cam</a>
+              <a class="btn ghost small" href="https://www.cameraftp.com/cameraftp/publish/camera.aspx/parentID388431995/shareID17774062/modelive/namecamera%2012/camTypeCamera" target="_blank" rel="noopener">Open Live Cam</a>
             </div>
           </div>
-          <div class="live-footer">
-            <button class="btn ghost small">
-              Take Screenshot
-            </button>
-            <button class="icon-btn square" aria-label="Expand">
-              ▢
-            </button>
-          </div>
+          
         </article>
 
         <!-- Order status timeline -->
         <article class="card order-status">
-          <h3 class="card-title">Pet Status</h3>
+          <h3 class="card-title">Service Status</h3>
           <div class="timeline">
             <div class="timeline-item">
               <div class="timeline-dot"></div>
@@ -119,47 +114,39 @@
                 <div class="time">Today, 9:00 AM</div>
                 <div class="title">Staff Update</div>
                 <div class="note">Vi Anh is playing with her favorite toy</div>
-                <div class="photo-row">
-                  <div class="photo-placeholder"></div>
+                <div class="day-schedule" aria-label="Daily Schedule">
+                  <div class="schedule-item"><span class="time">07:00 AM</span><span class="activity">Breakfast</span></div>
+                  <div class="schedule-item"><span class="time">09:00 AM</span><span class="activity">Playtime & Social</span></div>
+                  <div class="schedule-item"><span class="time">11:00 AM</span><span class="activity">Grooming / Spa</span></div>
+                  <div class="schedule-item"><span class="time">01:00 PM</span><span class="activity">Nap & Rest</span></div>
+                  <div class="schedule-item"><span class="time">03:00 PM</span><span class="activity">Walk & Exercise</span></div>
+                  <div class="schedule-item"><span class="time">06:00 PM</span><span class="activity">Dinner</span></div>
                 </div>
               </div>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <div class="time">Today, 7:00 AM</div>
-                <div class="title">Staff Update</div>
-                <div class="note">Vi Anh just had her meal — everything’s good</div>
-                <div class="photo-row">
-                  <div class="photo-placeholder"></div>
-                  <div class="photo-placeholder"></div>
-                </div>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <div class="time">Yesterday, 10:00 PM</div>
-                <div class="title">Staff Update</div>
-                <div class="note">Vi Anh is sleeping now</div>
-                <div class="photo-row">
-                  <div class="photo-placeholder"></div>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </article>
       </div>
 
       <div class="dashboard-aside">
+        <!-- Appointment information -->
+        <article class="card appointment-info">
+          <h3 class="card-title">Appointment Info</h3>
+          <dl class="meta-list">
+            <div class="row"><dt>Date of Appointment</dt><dd><strong class="value appt-date"></strong></dd></div>
+            <div class="row"><dt>Type of Service</dt><dd><strong class="value appt-service"></strong></dd></div>
+            <div class="row"><dt>Pet Name</dt><dd><strong class="value appt-pet"></strong></dd></div>
+          </dl>
+        </article>
         <!-- Pick-up information -->
         <article class="card pickup-info">
           <h3 class="card-title">Pick-up Information</h3>
           <div class="pickup-row">
             <div class="pickup-date">
               <div class="label">Pick-up</div>
-              <strong>Tomorrow, Nov 12</strong>
-              <small>Check-out 6:00 PM</small>
+              <strong></strong>
+              <small></small>
             </div>
           </div>
           <ul class="store-info">
@@ -173,7 +160,9 @@
         <article class="card caretaker">
           <h3 class="card-title">Your Caretaker</h3>
           <div class="caretaker-row">
-            <div class="avatar" aria-hidden="true"></div>
+            <div class="avatar" aria-hidden="true">
+              <img src="../../assets/images/Profile/profile_servicestatus/staff.jpg" alt="Caretaker Avatar" />
+            </div>
             <div class="info">
               <strong>Babi Shark</strong>
               <small>Senior Pet Caretaker</small>
@@ -193,9 +182,9 @@
             <div class="row"><dt>Live Camera</dt><dd>Add-on</dd></div>
           </dl>
           <div class="totals">
-            <div class="row"><span>Subtotal:</span><strong>$55</strong></div>
-            <div class="row"><span>Add-ons:</span><strong>$15</strong></div>
-            <div class="row total"><span>Total:</span><strong>$65</strong></div>
+            <div class="row"><span>Subtotal:</span><strong></strong></div>
+            <div class="row"><span>Add-ons:</span><strong></strong></div>
+            <div class="row total"><span>Total:</span><strong></strong></div>
           </div>
         </article>
 

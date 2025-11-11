@@ -71,11 +71,13 @@
 .live-feed { position: relative; }
 .live-iframe {
   width: 100%;
-  height: 260px;
+  aspect-ratio: 16/9;
+  height: auto;
   border: 0;
   border-radius: 10px;
   background: #000;
   margin-top: 8px;
+  display: block;
 }
 .embed-fallback {
   display: flex;
@@ -112,6 +114,12 @@
 .photo-row { display:flex; gap:8px; margin-top:6px; }
 .photo-placeholder { width:120px; height:120px; background:#f4f4f4; border:1px solid #e9e9e9; border-radius:8px; }
 
+/* Daily schedule */
+.day-schedule { margin-top:6px; display:flex; flex-direction:column; gap:6px; }
+.schedule-item { display:flex; align-items:center; gap:10px; }
+.schedule-item .time { font-weight:700; color:#666; min-width:90px; }
+.schedule-item .activity { color:#333; }
+
 /* Aside cards */
 .dashboard-aside .card { margin-bottom: 12px; }
 .pickup-info .pickup-date .label { color:#666; font-size:12px; }
@@ -119,6 +127,7 @@
 .store-info li { color:#333; margin:4px 0; }
 .caretaker .caretaker-row { display:flex; gap:10px; align-items:center; }
 .caretaker .avatar { width:44px; height:44px; border-radius:50%; background:#eaeaea; }
+.caretaker .avatar img { width:100%; height:100%; object-fit:cover; border-radius:inherit; display:block; }
 .caretaker .actions { display:flex; gap:8px; margin-top:8px; }
 .order-details .meta-list { margin: 0 0 8px; }
 .order-details .row { display:flex; justify-content:space-between; margin:4px 0; }
@@ -131,3 +140,112 @@
 .btn:hover { filter: brightness(0.96); }
 .btn.ghost { background:#fff; color: var(--brand-brown, #4D2B12); border:1px solid var(--brand-brown, #4D2B12); }
 .btn.small { padding:6px 10px; font-size:14px; }
+
+/* ===== Hotline Popup ===== */
+.hotline-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.hotline-overlay.show { display: flex; }
+.hotline-dialog {
+  position: relative;
+  background: #fff;
+  width: min(92vw, 420px);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  padding: 18px 20px;
+}
+.hotline-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.hotline-desc { margin: 0 0 10px; color: #555; }
+.hotline-number {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ad1717;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+.hotline-actions { display: flex; gap: 10px; }
+.hotline-close {
+  position: absolute;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  right: 12px;
+  top: 8px;
+  cursor: pointer;
+}
+
+/* ===== Message Staff Popup ===== */
+.message-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.message-overlay.show { display: flex; }
+.message-dialog {
+  position: relative;
+  background: #fff;
+  width: min(92vw, 420px);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  padding: 18px 20px;
+}
+.message-title { margin:0 0 6px; font-size:18px; font-weight:700; }
+.message-desc { margin:0 0 10px; color:#555; }
+.message-line { display:flex; justify-content:space-between; align-items:center; margin:8px 0; }
+.message-line .label { color:#666; }
+.message-line .value { font-weight:800; color:#bb2727; letter-spacing:0.4px; }
+.message-actions { display:flex; gap:10px; margin-bottom:12px; }
+.message-close {
+  position: absolute;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  right: 12px;
+  top: 8px;
+  cursor: pointer;
+}
+.social .fb-link { display:inline-flex; align-items:center; gap:8px; text-decoration:none; }
+.social .fb-link span { color:#1877F2; font-weight:700; }
+
+/* ===== Extend Stay Popup ===== */
+.extend-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.extend-overlay.show { display: flex; }
+.extend-dialog {
+  position: relative;
+  background: #fff;
+  width: min(92vw, 460px);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  padding: 18px 20px;
+}
+.extend-title { margin:0 0 6px; font-size:18px; font-weight:700; }
+.extend-desc { margin:0 10px 12px 0; color:#555; }
+.extend-current { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.extend-current .label { color:#666; }
+.extend-picker { display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
+.extend-picker input[type="date"] { padding:8px; border:1px solid #ddd; border-radius:8px; }
+.extend-fee { display:flex; justify-content:space-between; align-items:center; margin:8px 0 14px; }
+.extend-actions { display:flex; gap:10px; }
+.extend-close { position:absolute; right:12px; top:8px; background:transparent; border:none; font-size:22px; cursor:pointer; }
