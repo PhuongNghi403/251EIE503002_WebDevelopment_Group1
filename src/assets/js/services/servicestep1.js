@@ -51,6 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const summaryAddonsEl = document.getElementById('summary-addons');
   const summaryDiscountEl = document.getElementById('summary-discount');
   const summaryTotalEl = document.getElementById('summary-total');
+
+  const treatsRow = document.querySelector('.price-summary .row.treats');
+  const addonsRow = document.querySelector('.price-summary .row.addons');
+  const discountRow = document.querySelector('.price-summary .row.discount');
   
   const calGrid = document.getElementById('cal-grid');
   const calTitle = document.getElementById('cal-title');
@@ -188,10 +192,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateText = bookingState.checkinDate ? formatDate(bookingState.checkinDate) : '--';
     const dateTimeEl = document.getElementById('summary-date-time');
     if (dateTimeEl) {
-      dateTimeEl.textContent =
-        (dateText !== '--' || selectedTimeText !== '--')
-          ? `${dateText}${selectedTimeText !== '--' ? ', ' + selectedTimeText : ''}`
-          : '--';
+      const isSpaFlow = location.pathname.includes('spa');
+      if (isSpaFlow) {
+        dateTimeEl.textContent = dateText;
+      } else {
+        dateTimeEl.textContent =
+          (dateText !== '--' || selectedTimeText !== '--')
+            ? `${dateText}${selectedTimeText !== '--' ? ', ' + selectedTimeText : ''}`
+            : '--';
+      }
+    }
+
+    // Hide/show rows based on selections
+    if (treatsRow) {
+      treatsRow.style.display = treatsTotal > 0 ? 'flex' : 'none';
+    }
+    if (addonsRow) {
+      addonsRow.style.display = addOnsTotal > 0 ? 'flex' : 'none';
+    }
+    if (discountRow) {
+      discountRow.style.display = discountAmount > 0 ? 'flex' : 'none';
     }
   }
 

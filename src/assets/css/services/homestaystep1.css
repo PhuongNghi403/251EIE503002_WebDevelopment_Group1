@@ -3,13 +3,12 @@
 /* Base page */
 .booking-main {
   background: #f7f2ec;
-  min-height: 60vh;
+  min-height: 100%;
 }
 .booking-shell {
   max-width: 1120px;
   margin: auto 64px;
   padding: 32px 80px;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
   color: #3b2a1f;
 }
 
@@ -17,8 +16,8 @@
 .breadcrumb {
   display: flex;
   align-items: center; /* Căn giữa cho đẹp */
-  gap: 240px; /* Thêm khoảng cách giữa nút Back và Steps */
-  width:100vw;
+  gap: 280px; /* Thêm khoảng cách giữa nút Back và Steps */
+  width:100%;
   padding:8px 8px;
 }
 .breadcrumb .back-link {
@@ -264,10 +263,11 @@
   justify-content: space-between;
   gap: 8px;
 }
-.block-label { font-weight: 700; color: #6b4f3d; margin-bottom: 4px; }
+.block-label { font-weight: 500; color: #7A6F64; margin-bottom: 4px;font-family: "Fraunces",sans-serif;font-size:14.5px; }
 .block-value {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  margin-right:auto;
   gap: 8px;
   font-weight: 700;
 }
@@ -277,15 +277,15 @@
   align-items: center;
   gap: 8px;
 }
-.pkg-name { color: #3b2a1f; }
-.price { margin-left: auto; font-weight: 800; }
+.pkg-name { color: #3b2a1f;font-weight: 600;font-family: "Lexend Deca",sans-serif;font-size: 16px; }
+.price { font-weight: 700; color:#815230;font-family: "Lexend Deca",sans-serif;font-size:18px; }
 
 .edit-btn {
   width: 36px;
   height: 36px;
   display: grid;
   place-items: center;
-  background: #f3ebe4;
+  background: transparent;
   border-radius: 12px;
   color: #7a5b48;
   text-decoration: none;
@@ -311,15 +311,7 @@
   overflow: hidden;
 }
 .summary-accordion[open] .accordion-header { border-bottom: 1px solid #efe6de; }
-.accordion-header {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  cursor: pointer;
-  color: #3b2a1f;
-}
+
 .accordion-header .count { color: #9a8576; font-weight: 600; }
 .accordion-header .chevron { width: 18px; height: 18px; color: #7a5b48; }
 .accordion-body { padding: 12px; }
@@ -375,10 +367,10 @@
 
 /* Price summary (ĐÃ SỬA THEO YÊU CẦU FONT) */
 .price-summary {
-  border: 1px solid #eee3da;
-  border-radius: 16px;
+  border-top: 1px solid #eee3da;
   padding: 12px;
   margin: 10px 8px;
+  font-family: "Lexend Deca",sans-serif;
 }
 .price-summary .row {
   display: flex;
@@ -388,24 +380,25 @@
   color: #3b2a1f;
   font-size: 15px; /* Size chữ cơ bản */
 }
-.price-summary .row .value { color: #6b4f3d; }
+.price-summary .row .value { color: #6b4f3d;font-size: 15.5px; }
 .price-summary .row .strong { font-weight: 700; }
 
 .price-summary .row.subtotal {
-  padding-top: 10px;
-  border-top: 1px dashed #efe6de;
-  font-weight: 700;
-  font-size: 17px; /* Yêu cầu: To hơn một chút */
+  padding-top: 6px;
+  border-top: none;
+  font-weight: 400;
+  font-size: 15px; /* Yêu cầu: To hơn một chút */
 }
 
 /* Yêu cầu: Giữ nguyên size cơ bản (15px) */
 .price-summary .row.treats,
 .price-summary .row.addons {
-  font-size: inherit; 
+  font-size: 15px; 
   color: #6b4f3d;
+
 }
 .price-summary .row.discount {
-  font-size: inherit;
+  font-size: 15px;
   color: #2E8B57; 
 }
 .price-summary .row.discount .value {
@@ -417,6 +410,7 @@
   padding-top: 10px;
   font-size: 19px; /* Yêu cầu: To hơn subtotal */
   font-weight: 800;
+  font-family: "Lexend Deca",sans-serif;
 }
 .price-summary .row.total .value {
   color: #3b2a1f;
@@ -452,7 +446,10 @@ BẮT ĐẦU PHẦN SỬA LỖI
   font-weight: 700;
   color: #3b2a1f;
   margin: 0 0 8px;
-  text-align: center;
+  text-align: left;
+  font-family: "Fraunces",sans-serif;
+  padding-bottom: 6px;
+  border-bottom:0.3px solid rgba(77, 43, 18, 0.1);
 }
 .duration-hr {
   display: none;
@@ -542,120 +539,11 @@ BẮT ĐẦU PHẦN SỬA LỖI
 .summary-item .item-qty { min-width: 56px; text-align: center; color: #7a5b48; font-weight: 700; font-size: 0.9em; }
 .summary-item .item-price { min-width: 80px; text-align: right; font-weight: 800; color: #4D2B12; font-size: 0.9em; }
 
-
-/* Discount Code (new UI) */
-.discount-section {
-  border: 1px solid #eee3da;
-  border-radius: 16px;
-  padding: 16px 14px;
-  margin: 10px 8px;
-  background: #fff;
-}
-.discount-section h4 {
-  font-weight: 800;
-  color: #4D2B12;
-  margin: 0 0 10px;
-}
-.discount-input-group {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-.input-wrapper {
-  position: relative;
-  flex: 1;
-}
-.input-wrapper .input-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  color: #b7a496;
-  pointer-events: none;
-}
-#discount-code-input {
-  width: 100%;
-  height: 44px;
-  padding: 0 12px 0 38px; /* room for icon */
-  border: 1.5px solid #efe6de;
-  border-radius: 12px;
-  background: #fcfaf8;
-  color: #3b2a1f;
-  font-weight: 600;
-}
-#discount-code-input::placeholder { color: #b7a496; }
-#apply-discount-btn {
-  height: 44px;
-  padding: 0 16px;
-  border: none;
-  border-radius: 12px;
-  background: #b8956a;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 8px 18px rgba(184,149,106,0.35);
-}
-#apply-discount-btn:hover,
-#apply-discount-btn:focus {
-  background: #7a5b48;
-  outline: none;
-}
-
-.discount-status {
-  margin-top: 10px;
-  min-height: 28px;          
-  font-size: 14px;      /* giảm cỡ chữ */
-  margin: 0;            /* xoá khoảng trống trên/dưới */
-  min-height: 0;        /* không giữ chiều cao thừa */
-  line-height: 1.2;     /* gọn dòng hơn */
-  font-weight: 700;
-}
-
-/* Status variants */
-.status-applying {
-  color: #7a5b48;             /* warm brown */
-  position: relative;
-  padding-left: 28px;
-}
-.status-applying::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #7a5b48;
-  border-top-color: transparent;
-  border-radius: 50%;
-  transform: translateY(-50%);
-  animation: spin 0.9s linear infinite;
-}
-.status-success { color: #2E8B57; }   /* green */
-.status-error { color: #DC143C; font-weight: 800; } /* red */
-
-.discount-hr {
-  border: none;
-  border-top: 1.5px solid #D1C7BC;
-  margin: 12px 0 8px;
-}
-
-@keyframes spin {
-  to { transform: translateY(-50%) rotate(360deg); }
-}
-
-/* Bỏ qua CSS !important cũ */
-.summary-card .addon-item { display: none !important; }
-
-/* ==========================================================================
-BƯỚC 2: THÊM CODE CSS CHO MODAL
-==========================================================================
-*/
+/*BƯỚC 2: THÊM CODE CSS CHO MODAL*/
 
 .package-modal {
   position: absolute;
-  top: 130px; 
+  top: 157px; 
   left: 16px;
   right: 16px;
   background: #fff;
@@ -680,9 +568,11 @@ BƯỚC 2: THÊM CODE CSS CHO MODAL
 }
 
 .package-modal h4 {
-  font-size: 1rem;
+  margin:8px;
+  font-size: 15px;
   font-weight: 600;
   color: #3b2a1f;
+  font-family: "Fraunces",sans-serif;
 }
 
 .package-option {
@@ -744,12 +634,11 @@ BƯỚC 2: THÊM CODE CSS CHO MODAL
 
 /* Layout: tránh kéo dài chiều cao bằng nhau giữa hai cột */
 .booking-card {
-    /* đảm bảo card trái ôm nội dung, không bị stretch theo grid/flex */
     width:821px;
     align-self: start;
     height: auto;
 }
-/* Sidebar: làm nhẹ viền nút Edit (Select Package) */
+/* Sidebar */
 .summary-card .edit-btn {
     border: none;
     box-shadow: none;
@@ -782,7 +671,8 @@ BƯỚC 2: THÊM CODE CSS CHO MODAL
   cursor: pointer;
   color: #3b2a1f;
 }
-.accordion-header .count { color: #9a8576; font-weight: 600; }
+.accordion-header span{font-family: "Fraunces",sans-serif;font-weight: 500;font-size: 15px;}
+.accordion-header .count { color: #9a8576; font-weight: 600;font-family: "Lexend Deca",sans-serif; }
 .accordion-header .chevron { width: 18px; height: 18px; color: #7a5b48; }
 .accordion-body { padding: 12px; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -835,55 +725,6 @@ BƯỚC 2: THÊM CODE CSS CHO MODAL
   font-weight: 600;
 }
 
-/* Price summary (ĐÃ SỬA THEO YÊU CẦU FONT) */
-.price-summary {
-  border: 1px solid #eee3da;
-  border-radius: 16px;
-  padding: 12px;
-  margin: 10px 8px;
-}
-.price-summary .row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 0;
-  color: #3b2a1f;
-  font-size: 15px; /* Size chữ cơ bản */
-}
-.price-summary .row .value { color: #6b4f3d; }
-.price-summary .row .strong { font-weight: 700; }
-
-.price-summary .row.subtotal {
-  padding-top: 10px;
-  border-top: 1px dashed #efe6de;
-  font-weight: 700;
-  font-size: 17px; /* Yêu cầu: To hơn một chút */
-}
-
-/* Yêu cầu: Giữ nguyên size cơ bản (15px) */
-.price-summary .row.treats,
-.price-summary .row.addons {
-  font-size: inherit; 
-  color: #6b4f3d;
-}
-.price-summary .row.discount {
-  font-size: inherit;
-  color: #2E8B57; 
-}
-.price-summary .row.discount .value {
-  color: #2E8B57;
-}
-
-.price-summary .row.total {
-  margin-top: 6px;
-  padding-top: 10px;
-  font-size: 19px; /* Yêu cầu: To hơn subtotal */
-  font-weight: 800;
-}
-.price-summary .row.total .value {
-  color: #3b2a1f;
-  font-size: 22px; /* Yêu cầu: To nhất */
-}
 
 
 /* Pay now (giữ style, text đã đổi thành Continue) */
@@ -911,10 +752,11 @@ BẮT ĐẦU PHẦN SỬA LỖI
   background: #fff;
 }
 .duration-title {
-  font-weight: 700;
+  font-weight: 600;
   color: #3b2a1f;
   margin: 0 0 8px;
-  text-align: center;
+  text-align: left;
+  font-size: 14.5px;
 }
 .duration-hr {
   display: none;
@@ -924,6 +766,7 @@ BẮT ĐẦU PHẦN SỬA LỖI
   justify-content: space-between;
   gap: 24px;
   margin-bottom: 12px;
+  font-family: "Lexend Deca",sans-serif;
 }
 .date-col { flex: 1; text-align: center; }
 .date-label {
@@ -943,21 +786,21 @@ BẮT ĐẦU PHẦN SỬA LỖI
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  background-color: #fcfaf8;
+  justify-content: space-between;
+  background-color: transparent;
   border-radius: 12px;
-  padding: 8px;
+  padding: 8px 16px;
   margin-top: 12px;
 }
 .counter-btn {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 1px solid #eee3da;
+  border: 1.6px solid #7a5b48;
   background: #fff;
   color: #7a5b48;
   font-size: 1.25rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1;
   display: grid;
   place-items: center;
@@ -972,7 +815,7 @@ BẮT ĐẦU PHẦN SỬA LỖI
 }
 .counter-btn:disabled {
   background-color: #fcfaf8;
-  color: #c1afa2;
+  color: #958f8b;
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -983,6 +826,7 @@ BẮT ĐẦU PHẦN SỬA LỖI
   color: #6b4f3d;
   min-width: 60px;
   text-align: center;
+
 }
 
 /* Summary list (name — qty — price) */
@@ -1007,16 +851,18 @@ BẮT ĐẦU PHẦN SỬA LỖI
 
 /* Discount Code (new UI) */
 .discount-section {
-  border: 1px solid #eee3da;
+  border: none;
   border-radius: 16px;
-  padding: 16px 14px;
-  margin: 10px 8px;
+  padding: 12px 12px;
+  margin: 10px 0px;
   background: #fff;
 }
 .discount-section h4 {
-  font-weight: 800;
+  font-weight: 500;
   color: #4D2B12;
-  margin: 0 0 10px;
+  margin:4px 0;
+  font-size: 15px;
+  font-family: "Lexend Deca",sans-serif;
 }
 .discount-input-group {
   display: flex;
@@ -1045,7 +891,8 @@ BẮT ĐẦU PHẦN SỬA LỖI
   border-radius: 12px;
   background: #fcfaf8;
   color: #3b2a1f;
-  font-weight: 600;
+  font-weight: 500;
+  font-family:"Lexend Deca",sans-serif;
 }
 #discount-code-input::placeholder { color: #b7a496; }
 #apply-discount-btn {
@@ -1053,11 +900,11 @@ BẮT ĐẦU PHẦN SỬA LỖI
   padding: 0 16px;
   border: none;
   border-radius: 12px;
-  background: #b8956a;
+  background: #B3A291;
   color: white;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(184,149,106,0.35);
+  box-shadow: 0 2px 4px rgba(184,149,106,0.35);
 }
 #apply-discount-btn:hover,
 #apply-discount-btn:focus {
@@ -1066,13 +913,13 @@ BẮT ĐẦU PHẦN SỬA LỖI
 }
 
 .discount-status {
-  margin-top: 10px;
+  margin-top: 8px;
   min-height: 28px;          
-  font-size: 14px;      /* giảm cỡ chữ */
-  margin: 0;            /* xoá khoảng trống trên/dưới */
+  font-size: 12px;      /* giảm cỡ chữ */
   min-height: 0;        /* không giữ chiều cao thừa */
   line-height: 1.2;     /* gọn dòng hơn */
-  font-weight: 700;
+  font-weight: 500;
+  font-family: "Lexend Deca",sans-serif;
 }
 
 /* Status variants */
@@ -1110,42 +957,9 @@ BẮT ĐẦU PHẦN SỬA LỖI
 /* Bỏ qua CSS !important cũ */
 .summary-card .addon-item { display: none !important; }
 
-/* ==========================================================================
-BƯỚC 2: THÊM CODE CSS CHO MODAL
-==========================================================================
-*/
 
-.package-modal {
-  position: absolute;
-  top: 130px; 
-  left: 16px;
-  right: 16px;
-  background: #fff;
-  border-radius: 16px; 
-  border: 1px solid #eee3da; 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 16px;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.2s ease-in-out;
-}
 
-.package-modal.visible {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-}
 
-.package-modal h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #3b2a1f;
-}
 
 .package-option {
   display: flex;

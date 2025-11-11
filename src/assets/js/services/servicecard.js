@@ -489,7 +489,7 @@ function initHomestayBoardingFunctionality() {
       localStorage.setItem('selectedTreats', JSON.stringify(treatsToSave));
 
       // Điều hướng sang Spa Step 1
-      window.location.href = 'spastep1.html';
+      window.location.href = 'homestaystep1.html';
     });
   }
 
