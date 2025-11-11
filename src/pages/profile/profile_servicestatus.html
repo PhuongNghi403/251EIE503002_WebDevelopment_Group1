@@ -130,18 +130,16 @@
       </div>
 
       <div class="dashboard-aside">
-        <!-- Appointment information -->
-        <article class="card appointment-info">
-          <h3 class="card-title">Appointment Info</h3>
-          <dl class="meta-list">
-            <div class="row"><dt>Date of Appointment</dt><dd><strong class="value appt-date"></strong></dd></div>
-            <div class="row"><dt>Type of Service</dt><dd><strong class="value appt-service"></strong></dd></div>
-            <div class="row"><dt>Pet Name</dt><dd><strong class="value appt-pet"></strong></dd></div>
-          </dl>
-        </article>
+
         <!-- Pick-up information -->
         <article class="card pickup-info">
           <h3 class="card-title">Pick-up Information</h3>
+          <div class="clock-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+              <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+            </svg>
+          </div>
           <div class="pickup-row">
             <div class="pickup-date">
               <div class="label">Pick-up</div>
@@ -149,6 +147,7 @@
               <small></small>
             </div>
           </div>
+          
           <ul class="store-info">
             <li>Pawfect Care Store</li>
             <li>669 Do Muoi, Linh Xuan Ward, Ho Chi Minh City</li>
@@ -167,11 +166,12 @@
               <strong>Babi Shark</strong>
               <small>Senior Pet Caretaker</small>
             </div>
+            <div class="actions">
+              <button class="btn ghost small">Call Staff</button>
+              <button class="btn small">Message Staff</button>
+            </div>
           </div>
-          <div class="actions">
-            <button class="btn ghost small">Call Staff</button>
-            <button class="btn small">Message Staff</button>
-          </div>
+          
         </article>
 
         <!-- Order details card -->

@@ -66,57 +66,35 @@ document.addEventListener('DOMContentLoaded', () => {
       summaryMeta.innerHTML = orderDateHTML + estimateHTML + typeHTML;
     }
 
-    // Populate Appointment Info card (Date, Service Type, Pet Name)
-    try {
-      const apptCard = document.querySelector('.appointment-info');
-      if (apptCard) {
-        const apptDateEl = apptCard.querySelector('.appt-date');
-        const apptServiceEl = apptCard.querySelector('.appt-service');
-        const apptPetEl = apptCard.querySelector('.appt-pet');
-
-        const bookingDetails = JSON.parse(localStorage.getItem('bookingDetails') || 'null') || {};
-        const petName = bookingDetails?.pet?.name || details?.pet?.name || '--';
-
-        // Date of Appointment
-        let dateOfAppt = '--';
-        if (isSpa) {
-          dateOfAppt = details?.dateTime || `${checkinDisplay || '--'}${timeSlot ? ', ' + timeSlot : ''}`;
-        } else {
-          dateOfAppt = details?.checkin || checkinDisplay || '--';
-        }
-
-        if (apptDateEl) apptDateEl.textContent = dateOfAppt;
-        if (apptServiceEl) apptServiceEl.textContent = isSpa ? 'Spa' : 'Homestay';
-        if (apptPetEl) apptPetEl.textContent = petName;
-      }
-    } catch (_e) {}
-
-    // 2) Aside card: Appointment/Stay Info
+    // 2) Aside card: Pick-up Info
     const pickupCard = document.querySelector('.pickup-info');
     if (pickupCard) {
-      // For Spa flow, hide the pickup card to avoid duplicate "Appointment Info"
-      if (isSpa) {
-        pickupCard.style.display = 'none';
-      } else {
-        const titleEl = pickupCard.querySelector('.card-title');
-        const rowEl = pickupCard.querySelector('.pickup-row');
-        const listEl = pickupCard.querySelector('.store-info');
-        if (titleEl) titleEl.textContent = 'Stay Information';
+      const titleEl = pickupCard.querySelector('.card-title');
+      const rowEl = pickupCard.querySelector('.pickup-row');
+      const listEl = pickupCard.querySelector('.store-info');
+      if (titleEl) titleEl.textContent = 'Pick-up Information';
 
-        const infoHTML = `
+      let infoHTML = '';
+      if (isSpa) {
+        // For spa, pick-up is after service, show appointment date/time
+        const apptDate = details?.dateTime || `${checkinDisplay || '--'}${timeSlot ? ', ' + timeSlot : ''}`;
+        infoHTML = `
           <div class="pickup-date">
-            <div class="label">Check-in</div>
-            <strong>${checkinDisplay || 'TBD'}</strong>
-            <small>Package: ${pkgName}</small>
-          </div>
+            <div class="label">Pick-up</div>
+            <strong>${apptDate}</strong>
+            <small>Service: ${pkgName}</small>
+          </div>`;
+      } else {
+        // For homestay, pick-up is check-out
+        infoHTML = `
           <div class="pickup-date">
-            <div class="label">Check-out</div>
+            <div class="label">Pick-up</div>
             <strong>${checkoutDisplay || 'TBD'}</strong>
             <small>Duration: ${duration || ''} day(s)</small>
           </div>`;
-        if (rowEl) rowEl.innerHTML = infoHTML;
-        if (listEl) listEl.style.display = '';
       }
+      if (rowEl) rowEl.innerHTML = infoHTML;
+      if (listEl) listEl.style.display = '';
     }
 
     // 3) Order Details (Package, add-ons, totals)

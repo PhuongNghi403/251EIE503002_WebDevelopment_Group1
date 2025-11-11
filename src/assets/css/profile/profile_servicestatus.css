@@ -18,13 +18,14 @@
   display: flex;
   flex-direction: column;
   gap:16px;
+  margin-bottom:64px;
 }
 .card.order-status,.card.order-summary {
   background: #fff;
   border: 1px solid #462615;
   border-radius: 14px;
   box-shadow: 0 2px 6px rgba(61, 30, 5, 0.04);
-  padding: 14px;
+  padding: 16px 22px;
 }
 .card.live-camera{
   border-radius: 14px;
@@ -54,15 +55,24 @@
   color: #0f540a;
 }
 .summary-actions { display: flex; gap: 8px; }
-.order-summary .summary-title small { color: #666; display:block; }
+.order-summary .summary-title small { color: #666; display:block;font-family: "Lexend Deca",sans-serif;font-size: 14px; }
 .order-summary .summary-meta {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, auto));
   gap: 10px;
-  margin-top: 8px;
+  margin-top: 12px;
 }
-.meta-item .meta-label { color:#666; font-size:12px; }
+.meta-item .meta-label {font-family: "Lexend Deca",sans-serif; color:#8B7355; font-size:14px;text-transform:uppercase;font-weight: 400;}
+.meta-item{
+  display:flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: fit-content;
+}
+strong{
+  font-family: "Lexend Deca",sans-serif; color:var(--brand-brown); font-size:16px; font-weight: 600;
 
+}
 /* Live camera */
 .live-header { display:flex; }
 .live-badge {
@@ -72,6 +82,29 @@
   border-radius: 999px;
   padding: 4px 10px;
   font-size: 12px;
+}
+.live-badge::before {
+  content: ''; 
+  display: inline-flex; 
+  margin-right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%; 
+  background-color: #e53935; 
+  
+  animation-name: pulseBlink;
+  animation-duration: 0.8s;       
+  animation-iteration-count: infinite; 
+  animation-direction: alternate;    
+  animation-timing-function: ease-in-out; 
+}
+@keyframes pulseBlink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.2; 
+  }
 }
 .video-placeholder {
   width: 100%;
@@ -133,26 +166,87 @@
 .schedule-item .activity { color:#333; }
 
 /* Aside cards */
-.dashboard-aside .card { margin-bottom: 12px; }
+.dashboard-aside{
+  display:flex;
+  flex-direction: column;
+  gap:16px;
+}
+.dashboard-aside .card { background: #fff;
+  border: 1px solid #462615;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(61, 30, 5, 0.04);
+  padding: 16px 22px; }
+.dashboard-aside h3{
+  font-family: "Lexend Deca",sans-serif; color:var(--brand-brown); font-size:16px; font-weight: 600; border-bottom: 1px solid #d6cbbc;padding-bottom: 8px;
+
+}
 .pickup-info .pickup-date .label { color:#666; font-size:12px; }
+.pickup-row,.pickup-date{display:flex;flex-direction: column;gap:8px;align-items: center;}
+.clock-icon { display: flex; justify-content: center; margin: 8px 0; }
+.clock-icon svg { fill: var(--brand-brown);width:40px;height:40px; }
 .store-info { list-style:none; padding:0; margin:8px 0 0; }
 .store-info li { color:#333; margin:4px 0; }
-.caretaker .caretaker-row { display:flex; gap:10px; align-items:center; }
+.caretaker .caretaker-row { display:grid; grid-template-columns: repeat(3, minmax(0, auto)); gap:10px; align-items:center; }
 .caretaker .avatar { width:44px; height:44px; border-radius:50%; background:#eaeaea; }
 .caretaker .avatar img { width:100%; height:100%; object-fit:cover; border-radius:inherit; display:block; }
-.caretaker .actions { display:flex; gap:8px; margin-top:8px; }
+.caretaker .actions { display:flex;flex-direction: column; gap:8px; margin:auto;}
 .order-details .meta-list { margin: 0 0 8px; }
-.order-details .row { display:flex; justify-content:space-between; margin:4px 0; }
+.info{
+   display:flex;flex-direction: column; gap:8px; align-items:flex-start; 
+}
+.row { display:flex; flex-direction: column; align-items: flex-start; margin:4px 0; }
+.row dd{
+  margin:0;
+}
 .order-details .totals .total { border-top:1px solid #eee; padding-top:6px; }
 .help .help-desc { color:#666; margin:4px 0 8px; }
 .btn.full { width:100%; }
+.store-info li {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  align-items: flex-start; 
+  margin-bottom: 0.6em; 
+}
 
-/* Buttons — use site brown tone like Contact Support */
+.store-info li::before {
+  content: '';
+  display: inline-block;
+  width: 1.125em; 
+  height: 1.125em;
+  flex-shrink: 0;
+  margin-right: 0.5em;
+  margin-top: 0.1em; 
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: currentColor; 
+}
+.store-info li:first-child::before {
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 18 18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16.2907 6.59602L15.2824 3.06562C15.2146 2.83142 15.0728 2.62544 14.8783 2.47844C14.6838 2.33144 14.4469 2.2513 14.2031 2.25H3.79688C3.55306 2.2513 3.3162 2.33144 3.12168 2.47844C2.92715 2.62544 2.7854 2.83142 2.71758 3.06562L1.7093 6.59602C1.69488 6.64608 1.68755 6.69791 1.6875 6.75V7.875C1.6875 8.31163 1.78916 8.74226 1.98442 9.13279C2.17969 9.52332 2.4632 9.86302 2.8125 10.125V15.1875C2.8125 15.3367 2.87176 15.4798 2.97725 15.5852C3.08274 15.6907 3.22582 15.75 3.375 15.75H14.625C14.7742 15.75 14.9173 15.6907 15.0227 15.5852C15.1282 15.4798 15.1875 15.3367 15.1875 15.1875V10.125C15.5368 9.86302 15.8203 9.52332 16.0156 9.13279C16.2108 8.74226 16.3125 8.31163 16.3125 7.875V6.75C16.3125 6.69791 16.3051 6.64608 16.2907 6.59602ZM6.1875 7.875C6.1874 8.16518 6.11247 8.45044 5.96995 8.70321C5.82743 8.95598 5.62213 9.16773 5.37389 9.31801C5.12565 9.46828 4.84285 9.552 4.5528 9.56108C4.26276 9.57016 3.97528 9.50429 3.71813 9.36984C3.679 9.33939 3.63596 9.31432 3.59016 9.29531C3.35185 9.14275 3.15573 8.93272 3.01984 8.68453C2.88395 8.43633 2.81265 8.15796 2.8125 7.875V7.3125H6.1875V7.875ZM10.6875 7.875C10.6875 8.32255 10.5097 8.75178 10.1932 9.06824C9.87678 9.38471 9.44755 9.5625 9 9.5625C8.55245 9.5625 8.12322 9.38471 7.80676 9.06824C7.49029 8.75178 7.3125 8.32255 7.3125 7.875V7.3125H10.6875V7.875ZM15.1875 7.875C15.1873 8.15802 15.1159 8.43644 14.9799 8.68464C14.8438 8.93283 14.6476 9.14283 14.4091 9.29531C14.3639 9.31436 14.3214 9.33917 14.2826 9.36914C14.0255 9.50373 13.738 9.56973 13.4479 9.56077C13.1578 9.5518 12.8749 9.46818 12.6266 9.31796C12.3783 9.16775 12.1729 8.95604 12.0303 8.70327C11.8877 8.4505 11.8127 8.16522 11.8125 7.875V7.3125H15.1875V7.875Z'/%3E%3C/svg%3E");
+}
+.store-info li:nth-child(2)::before {
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 18 18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 1.125C7.35954 1.12686 5.78681 1.77935 4.62683 2.93933C3.46685 4.09931 2.81436 5.67204 2.8125 7.3125C2.8125 12.607 8.4375 16.6057 8.67727 16.773C8.77184 16.8393 8.88452 16.8748 9 16.8748C9.11548 16.8748 9.22816 16.8393 9.32273 16.773C9.5625 16.6057 15.1875 12.607 15.1875 7.3125C15.1856 5.67204 14.5331 4.09931 13.3732 2.93933C12.2132 1.77935 10.6405 1.12686 9 1.125ZM9 5.0625C9.44501 5.0625 9.88002 5.19446 10.25 5.44169C10.62 5.68893 10.9084 6.04033 11.0787 6.45146C11.249 6.8626 11.2936 7.315 11.2068 7.75145C11.12 8.18791 10.9057 8.58882 10.591 8.90349C10.2763 9.21816 9.87541 9.43245 9.43895 9.51927C9.0025 9.60608 8.5501 9.56153 8.13896 9.39123C7.72783 9.22093 7.37643 8.93254 7.12919 8.56253C6.88196 8.19252 6.75 7.75751 6.75 7.3125C6.75 6.71576 6.98705 6.14347 7.40901 5.72151C7.83097 5.29955 8.40326 5.0625 9 5.0625Z'/%3E%3C/svg%3E");
+}
+.store-info li:nth-child(3)::before {
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 18 18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16.3041 12.3102C16.1787 13.2629 15.7108 14.1375 14.9878 14.7705C14.2647 15.4034 13.336 15.7516 12.375 15.7499C6.79219 15.7499 2.25001 11.2077 2.25001 5.62486C2.24828 4.66389 2.59643 3.73515 3.22941 3.01211C3.8624 2.28907 4.73694 1.82117 5.68969 1.6958C5.93062 1.66638 6.1746 1.71567 6.38522 1.83631C6.59583 1.95695 6.76178 2.14247 6.85829 2.36517L8.34329 5.6804V5.68884C8.41718 5.85932 8.44769 6.04544 8.43211 6.23058C8.41653 6.41573 8.35533 6.59413 8.25399 6.74986C8.24133 6.76884 8.22797 6.78642 8.21391 6.804L6.75001 8.53931C7.27665 9.60947 8.39602 10.719 9.48024 11.247L11.1916 9.79087C11.2085 9.77675 11.2261 9.7636 11.2444 9.7515C11.4 9.64772 11.579 9.58437 11.7652 9.56718C11.9515 9.54999 12.1391 9.57951 12.311 9.65306L12.3202 9.65728L15.6326 11.1416C15.8557 11.2377 16.0417 11.4035 16.1627 11.6142C16.2837 11.8248 16.3333 12.069 16.3041 12.3102Z'/%3E%3C/svg%3E");
+}
+/* Buttons */
 .btn { background: var(--brand-brown, #4D2B12); color:#fff; border:none; border-radius:10px; padding:8px 12px; cursor:pointer; }
 .btn:hover { filter: brightness(0.96); }
 .btn.ghost { background:#fff; color: var(--brand-brown, #4D2B12); border:1px solid var(--brand-brown, #4D2B12); }
-.btn.small { padding:6px 10px; font-size:14px; }
-
+.btn.small { font-family: "Lexend Deca",sans-serif; padding:6px 10px; font-weight: 500; font-size:14px;border:1px solid var(--brand-brown, #4D2B12);background:#fff;color: var(--brand-brown, #4D2B12) }
+.btn.small.extend-btn { padding:6px 10px; font-size:14px;border:none;color:#fff;background: var(--brand-brown, #4D2B12) }
+.extend-btn::before {
+  content: ''; 
+  display: inline-block;
+  width: 1em;  
+  height: 1em;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3C/svg%3E");
+  mask-size: contain;   
+  mask-repeat: no-repeat;
+  background-color: currentColor; 
+}
 /* ===== Hotline Popup ===== */
 .hotline-overlay {
   position: fixed;
