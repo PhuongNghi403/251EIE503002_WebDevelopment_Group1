@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toClean = [];
     let t;
     while ((t = walker.nextNode())) {
-      if (t.textContent && t.textContent.trim() === '→') {
+      if (t.textContent && t.textContent.trim() === '') {
         toClean.push(t);
       }
     }
@@ -134,14 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gỡ element nếu chỉ chứa đúng '→'
     Array.from(mainCol.querySelectorAll('*')).forEach(el => {
-      if (el.childNodes.length === 1 && el.textContent.trim() === '→') {
+      if (el.childNodes.length === 1 && el.textContent.trim() === '') {
         el.remove();
       }
     });
   }
 
   // ---- OTP + Success Flow (Spa/Homestay Step3) ----
-  const payBtn = document.querySelector('.summary-review-card .btn.primary');
+  const payBtn = document.getElementById('proceed-to-pay-btn');
   const termsEl = document.querySelector('.terms-agreement input[type="checkbox"]');
   const computedTotal = total; // dùng để hiển thị trong success modal
   let otpCountdownId = null;

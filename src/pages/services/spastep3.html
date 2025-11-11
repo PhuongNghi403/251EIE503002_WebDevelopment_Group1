@@ -75,8 +75,8 @@
 
       <div class="booking-layout review-page">
         <div class="main-content-col">
-          <h2 class="form-section-title bagel-fat-one-regular">Pet Information</h2>
           <section class="card review-card">
+            <h2 class="form-section-title">Pet Information</h2>
             <div class="review-grid">
               <div class="review-item">
                 <div class="field-label Lexend Deca">Pet Name</div>
@@ -111,6 +111,7 @@
 
           <!-- Booking Details: Spa dùng Date & Time -->
           <section class="card review-card">
+            <h2 class="booking-section-title">Booking Details</h2>
             <div class="booking-details-grid">
               <div class="review-item span-2">
                 <div class="field-label Lexend Deca">Date & Time</div>
@@ -121,6 +122,7 @@
 
           <!-- Payment Method -->
           <section class="card review-card">
+            <h2 class="payment-title">Payment Method</h2>
             <div class="payment-method-box">
               <img src="../../assets/icons/Service/CreditCardIcon.svg" alt="Visa" class="payment-icon" />
               <div class="payment-details">
@@ -133,14 +135,14 @@
           <div class="terms-agreement">
             <label>
               <input type="checkbox" checked />
-              I agree to the <a href="#">Term & Conditions</a> and <a href="#">Cancellation Policy</a>. I understand that cancellations made less than 48 hours before check-in are non-refundable.
+              <span>I agree to the <a href="#">Term & Conditions</a> and <a href="#">Cancellation Policy</a>. I understand that cancellations made less than 48 hours before check-in are non-refundable.</span>
             </label>
           </div>
         </div>
 
         <aside class="sidebar-col">
           <section class="card summary-review-card">
-            <h3 class="summary-title bagel-fat-one-regular">Order Summary</h3>
+            <h3 class="summary-title">Order Summary</h3>
             <div class="order-summary-grid">
               <span class="summary-label">Service:</span>
               <span class="summary-value" id="summary-service-name">--</span>
@@ -163,7 +165,7 @@
               <span class="summary-label total-label">Total:</span>
               <span class="summary-value total-value" id="summary-service-total">$0.00</span>
             </div>
-            <button class="btn primary" style="width: 100%; margin-top: 16px;">
+            <button class="btn primary" id="proceed-to-pay-btn" style="width: 100%; margin-top: 16px;">
               Pay Now
             </button>
           </section>
