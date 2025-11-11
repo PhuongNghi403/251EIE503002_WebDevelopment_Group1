@@ -85,7 +85,19 @@
 
           <div class="auth-divider"><span>Or continue with</span></div>
           <div class="socials">
-            <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_google.svg" alt="" /> Google</button>
+            <div id="g_id_onload"
+              data-client_id="965989512373-7fljb3nngt7odbnmjdkat1o9souip5ce.apps.googleusercontent.com"
+              data-callback="handleCredentialResponse"
+              data-auto_select="false">
+            </div>
+            <div class="g_id_signin"
+                data-type="standard"
+                data-size="large"
+                data-theme="outline"
+                data-text="sign_in_with"
+                data-shape="rectangular"
+                data-logo_alignment="left">
+            </div>  
             <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_facebook.svg" alt="" /> Facebook</button>
             <button type="button" class="social-btn"><img src="../assets/icons/Login/icon_apple.svg" alt="" /> Apple</button>
           </div>
@@ -208,5 +220,76 @@
   <script src="../assets/js/api.js"></script>
   <script src="../assets/js/policy_modal.js"></script>
   <script src="../assets/js/auth.js"></script>
+  <script>
+    // Google Identity callback: decode JWT, save session to localStorage, redirect
+    function handleCredentialResponse(response) {
+      try {
+        if (!response || !response.credential) {
+          console.warn('Google credential missing');
+          return;
+        }
+        // Decode JWT payload (base64url)
+        const base64Url = response.credential.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        const data = JSON.parse(jsonPayload || '{}');
+        // Construct a minimal session object compatible with profile/auth scripts
+        const fullName = data.name || '';
+        const nameParts = fullName.trim().split(' ');
+        const firstName = nameParts.length ? nameParts[0] : '';
+        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+
+        const user = {
+          id: data.sub || Date.now(),
+          firstName: firstName,
+          lastName: lastName,
+          name: fullName || undefined,
+          email: data.email || '',
+          avatar: data.picture || '',
+          provider: 'google'
+        };
+
+        // Save session in the expected key so profile detects login
+        try {
+          if (typeof window.setSession === 'function') {
+            window.setSession(user);
+          } else {
+            localStorage.setItem('pc_user', JSON.stringify(user));
+          }
+        } catch (e) {
+          console.error('Failed to save session:', e);
+        }
+
+        // Optional: add user to local list for consistency with form flows
+        try {
+          const users = JSON.parse(localStorage.getItem('pc_users') || '[]');
+          const exists = users.some(u => u.email === user.email);
+          if (!exists && user.email) {
+            users.push({
+              id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              phone: '',
+              avatar: user.avatar,
+              provider: user.provider,
+              createdAt: new Date().toISOString()
+            });
+            localStorage.setItem('pc_users', JSON.stringify(users));
+          }
+        } catch (_) {}
+
+        // Redirect to profile so the user can confirm login state
+        try {
+          window.location.href = '../../pages/profile/profile.html';
+        } catch (_) {}
+      } catch (err) {
+        console.error('Google Sign-In processing error:', err);
+      }
+    }
+  </script>
 </body>
 </html>

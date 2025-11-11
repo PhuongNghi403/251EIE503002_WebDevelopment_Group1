@@ -355,3 +355,60 @@ strong{
 .extend-fee { display:flex; justify-content:space-between; align-items:center; margin:8px 0 14px; }
 .extend-actions { display:flex; gap:10px; }
 .extend-close { position:absolute; right:12px; top:8px; background:transparent; border:none; font-size:22px; cursor:pointer; }
+
+/* ===== Early Pickup Popup ===== */
+.early-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.early-overlay.show { display: flex; }
+.early-dialog {
+  position: relative;
+  background: #fff;
+  width: min(92vw, 460px);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  padding: 18px 20px;
+}
+.early-title { margin:0 0 6px; font-size:18px; font-weight:700; }
+.early-desc { margin:0 10px 12px 0; color:#555; }
+.early-current { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.early-current .label { color:#666; }
+.early-picker { display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
+.early-picker input[type="date"] { padding:8px; border:1px solid #ddd; border-radius:8px; }
+.early-fee { display:flex; justify-content:space-between; align-items:center; margin:8px 0 14px; }
+.early-actions { display:flex; gap:10px; }
+.early-close { position:absolute; right:12px; top:8px; background:transparent; border:none; font-size:22px; cursor:pointer; }
+
+/* ===== Contact Support Popup ===== */
+.support-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.support-overlay.show { display: flex; }
+.support-dialog {
+  position: relative;
+  background: #fff;
+  width: min(92vw, 520px);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  padding: 18px 20px;
+}
+.support-title { margin:0 0 6px; font-size:18px; font-weight:700; }
+.support-desc { margin:0 10px 12px 0; color:#555; }
+.support-issues { display:flex; flex-direction:column; gap:8px; }
+.support-issues .issue { border:1px solid #eee; border-radius:8px; padding:8px 10px; }
+.support-issues .issue summary { cursor:pointer; font-weight:600; }
+.support-issues .issue .solution { color:#333; margin-top:6px; }
+.support-actions { display:flex; gap:10px; margin-top:12px; }
+.support-close { position:absolute; right:12px; top:8px; background:transparent; border:none; font-size:22px; cursor:pointer; }

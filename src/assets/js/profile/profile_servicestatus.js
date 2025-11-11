@@ -255,6 +255,88 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (_e) {}
 
+  // ===== Contact Support Popup (issues + solutions) =====
+  try {
+    function ensureSupportUi() {
+      if (document.querySelector('.support-overlay')) return;
+      const overlay = document.createElement('div');
+      overlay.className = 'support-overlay';
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-label', 'Contact Support');
+      overlay.innerHTML = `
+        <div class="support-dialog">
+          <button class="support-close" aria-label="Close">×</button>
+          <h3 class="support-title">Contact Support</h3>
+          <p class="support-desc">Here are common issues and solutions. If this doesn’t help, contact our staff.</p>
+
+          <div class="support-issues">
+            <details class="issue">
+              <summary>Live camera doesn’t load</summary>
+              <div class="solution">
+                Try the direct link under the camera. Click <em>Open Live Cam</em>. If it still fails, check your network or try another browser.
+              </div>
+            </details>
+
+            <details class="issue">
+              <summary>Can’t extend stay</summary>
+              <div class="solution">
+                Extend Stay is available only for Homestay bookings and limited to +3 days. Make sure your current checkout date is set. Open the Extend Stay button from Order Summary.
+              </div>
+            </details>
+
+            <details class="issue">
+              <summary>Early pickup not allowed</summary>
+              <div class="solution">
+                Early Pickup is available only for Homestay bookings and must be exactly 1 day earlier than the current checkout. Use the Early Pickup button in Order Summary.
+              </div>
+            </details>
+
+            <details class="issue">
+              <summary>Totals look incorrect</summary>
+              <div class="solution">
+                Refresh the page to re-sync data. Subtotal reflects package (and duration for Homestay). Add-ons include both add-ons and treats. If you recently changed selections, ensure the booking is saved.
+              </div>
+            </details>
+
+            <details class="issue">
+              <summary>Need help contacting staff</summary>
+              <div class="solution">
+                Use <strong>Call Staff</strong> or <strong>Message Staff</strong> in the Caretaker card. You can also reach us via Facebook in the popup.
+              </div>
+            </details>
+          </div>
+
+          <div class="support-actions">
+            <button class="btn ghost" id="supportCancel">CLOSE</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) closeSupport(); });
+      overlay.querySelector('.support-close')?.addEventListener('click', () => closeSupport());
+      overlay.querySelector('#supportCancel')?.addEventListener('click', () => closeSupport());
+    }
+
+    function openSupport() {
+      ensureSupportUi();
+      const overlay = document.querySelector('.support-overlay');
+      overlay?.classList.add('show');
+      overlay?.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeSupport() {
+      const overlay = document.querySelector('.support-overlay');
+      overlay?.classList.remove('show');
+      overlay?.setAttribute('aria-hidden', 'true');
+    }
+
+    const supportBtn = document.querySelector('.card.help .btn.primary.full');
+    if (supportBtn) {
+      supportBtn.addEventListener('click', (e) => { e.preventDefault(); openSupport(); });
+    }
+  } catch (_e) {}
+
   // ===== Message Staff Popup (hotline + Facebook) =====
   try {
     function ensureMessageUi() {
@@ -447,6 +529,130 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = JSON.parse(localStorage.getItem('lastServiceBooking') || 'null');
         if (!data || data.type === 'spa') { alert('Extend Stay is available for homestay bookings only.'); return; }
         openExtend();
+      });
+    }
+  } catch (_e) {}
+
+  // ===== Early Pickup Popup (calendar + validation) =====
+  try {
+    function ensureEarlyUi() {
+      if (document.querySelector('.early-overlay')) return;
+      const overlay = document.createElement('div');
+      overlay.className = 'early-overlay';
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-label', 'Early Pickup');
+      overlay.innerHTML = `
+        <div class="early-dialog">
+          <button class="early-close" aria-label="Close">×</button>
+          <h3 class="early-title">Early Pickup</h3>
+          <p class="early-desc">Pick an earlier pickup date (max 1 day earlier). A $100 fee applies.</p>
+          <div class="early-current">
+            <span class="label">Current Checkout</span>
+            <strong id="earlyCurrent"></strong>
+          </div>
+          <div class="early-picker">
+            <label for="earlyDateInput">New Pickup Date</label>
+            <input type="date" id="earlyDateInput" />
+            <small class="early-hint">Choose a date exactly 1 day before current checkout.</small>
+            <small class="early-error" id="earlyError" style="color:#e02020; display:none;">Invalid date. Please pick exactly 1 day earlier.</small>
+          </div>
+          <div class="early-fee">
+            <span class="label">Change Fee</span>
+            <strong>$100.00</strong>
+          </div>
+          <div class="early-actions">
+            <button class="btn ghost" id="earlyCancel">CANCEL</button>
+            <button class="btn" id="earlyConfirm">CONFIRM</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) closeEarly(); });
+      overlay.querySelector('.early-close')?.addEventListener('click', () => closeEarly());
+      overlay.querySelector('#earlyCancel')?.addEventListener('click', () => closeEarly());
+
+      const confirmBtn = overlay.querySelector('#earlyConfirm');
+      confirmBtn?.addEventListener('click', () => {
+        const errEl = overlay.querySelector('#earlyError');
+        const input = overlay.querySelector('#earlyDateInput');
+        const currentStr = overlay.querySelector('#earlyCurrent')?.textContent || '';
+        const baseStr = currentStr || (localStorage.getItem('bookingCheckoutDate') || '');
+        const baseDate = new Date(baseStr);
+        const newDate = new Date(input?.value || '');
+        if (!(baseDate instanceof Date) || isNaN(baseDate)) { errEl && (errEl.style.display = 'block'); return; }
+        if (!(newDate instanceof Date) || isNaN(newDate)) { errEl && (errEl.style.display = 'block'); return; }
+
+        const msPerDay = 24*60*60*1000;
+        const deltaDays = Math.round((baseDate - newDate) / msPerDay); // positive if earlier
+        // Must be exactly 1 day earlier
+        if (deltaDays !== 1) { errEl && (errEl.style.display = 'block'); return; }
+        if (errEl) errEl.style.display = 'none';
+
+        // Update localStorage: checkout date and duration (reduce by 1, min 1)
+        const prevDuration = Number(localStorage.getItem('bookingDuration') || 1);
+        const newDuration = Math.max(prevDuration - deltaDays, 1);
+        const displayDate = (d => d.toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' }))(newDate);
+        localStorage.setItem('bookingCheckoutDate', displayDate);
+        localStorage.setItem('bookingDuration', String(newDuration));
+
+        // Update lastServiceBooking: details.checkout, details.duration, total += 100, timeline append
+        const lsb = JSON.parse(localStorage.getItem('lastServiceBooking') || 'null') || {};
+        lsb.details = lsb.details || {};
+        lsb.details.checkout = displayDate;
+        lsb.details.duration = newDuration;
+        lsb.total = Number(lsb.total || 0) + 100;
+        lsb.timeline = Array.isArray(lsb.timeline) ? lsb.timeline : [];
+        lsb.timeline.push({ key: 'early_pickup', title: 'Early Pickup Scheduled', time: new Date().toISOString(), note: `Pickup moved earlier by 1 day. $100 fee added.` });
+        localStorage.setItem('lastServiceBooking', JSON.stringify(lsb));
+
+        closeEarly();
+        location.reload();
+      });
+    }
+
+    function openEarly() {
+      ensureEarlyUi();
+      const overlay = document.querySelector('.early-overlay');
+      const currentEl = overlay?.querySelector('#earlyCurrent');
+      const input = overlay?.querySelector('#earlyDateInput');
+      const currentCheckout = (localStorage.getItem('bookingCheckoutDate') || '') || (typeof checkoutDisplay === 'string' ? checkoutDisplay : '');
+      currentEl && (currentEl.textContent = currentCheckout || '--');
+
+      // Prefill suggestion: -1 day
+      const baseDate = new Date(currentCheckout);
+      if (input && baseDate instanceof Date && !isNaN(baseDate)) {
+        const suggest = new Date(baseDate.getTime() - 24*60*60*1000);
+        // Bound the input's max/min for safety: only allow exactly this date
+        const yyyy = suggest.getFullYear();
+        const mm = String(suggest.getMonth()+1).padStart(2,'0');
+        const dd = String(suggest.getDate()).padStart(2,'0');
+        const val = `${yyyy}-${mm}-${dd}`;
+        input.value = val;
+        input.setAttribute('max', val);
+        input.setAttribute('min', val);
+      }
+
+      overlay?.classList.add('show');
+      overlay?.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeEarly() {
+      const overlay = document.querySelector('.early-overlay');
+      overlay?.classList.remove('show');
+      overlay?.setAttribute('aria-hidden', 'true');
+    }
+
+    // Bind Early Pickup button in the summary actions (for Homestay only)
+    const earlyBtn = Array.from(document.querySelectorAll('.order-summary .summary-actions .btn.small')).find(
+      (el) => /Early\s*Pickup/i.test(el.textContent || '')
+    );
+    if (earlyBtn) {
+      earlyBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const data = JSON.parse(localStorage.getItem('lastServiceBooking') || 'null');
+        if (!data || data.type === 'spa') { alert('Early Pickup is available for homestay bookings only.'); return; }
+        openEarly();
       });
     }
   } catch (_e) {}
