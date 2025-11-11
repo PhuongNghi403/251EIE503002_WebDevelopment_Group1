@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sign-In Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; padding-top: 50px; }
+        #g_id_signin { margin-bottom: 20px; }
+        #userInfo { border: 1px solid #ccc; padding: 20px; border-radius: 8px; text-align: center; display: none; }
+        #userInfo img { border-radius: 50%; width: 80px; height: 80px; }
+        #signOutBtn { margin-top: 20px; padding: 10px 20px; cursor: pointer; display: none; }
+    </style>
+</head>
+<body>
+
+    
+
+    <div id="g_id_onload"
+         data-client_id="965989512373-7fljb3nngt7odbnmjdkat1o9souip5ce.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse"
+         data-auto_select="false">
+    </div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+    </div>
+
+    <div id="userInfo">
+        <img id="userPicture" src="" alt="User Picture">
+        <h3 id="userName"></h3>
+        <p id="userEmail"></p>
+        <button id="signOutBtn">Đăng xuất</button>
+    </div>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <script>
+        // Hàm này sẽ được gọi khi người dùng đăng nhập thành công
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+
+            // --- PHẦN GIẢI MÃ TOKEN (CHỈ DÙNG CHO DEMO) ---
+            // Một JWT token có 3 phần, cách nhau bởi dấu chấm. Phần thứ 2 chứa thông tin người dùng.
+            const base64Url = response.credential.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            
+            const userData = JSON.parse(jsonPayload);
+            
+            // --- Hiển thị thông tin người dùng ra giao diện ---
+            document.querySelector('.g_id_signin').style.display = 'none'; // Ẩn nút đăng nhập
+            
+            const userInfoDiv = document.getElementById('userInfo');
+            userInfoDiv.style.display = 'block';
+            document.getElementById('userPicture').src = userData.picture;
+            document.getElementById('userName').innerText = userData.name;
+            document.getElementById('userEmail').innerText = userData.email;
+            
+            const signOutBtn = document.getElementById('signOutBtn');
+            signOutBtn.style.display = 'block';
+            signOutBtn.onclick = () => {
+                // Xử lý đăng xuất (đơn giản là reset lại giao diện)
+                google.accounts.id.disableAutoSelect();
+                document.querySelector('.g_id_signin').style.display = 'block';
+                userInfoDiv.style.display = 'none';
+                signOutBtn.style.display = 'none';
+            };
+        }
+    </script>
+</body>
+</html>
