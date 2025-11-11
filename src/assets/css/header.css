@@ -106,6 +106,7 @@
   color: var(--brand-brown, #5b3a2e);
   text-decoration: none;
   font-weight: 600;
+  font-size: 14px;
 }
 
 .account-menu .menu-item:hover,
@@ -114,5 +115,5 @@
   outline: none;
 }
 
-.account-menu .menu-item.signout { color: #9b2c2c; }
+.account-menu .menu-item.signout { font-size: 14px; color: #9b2c2c;width: 100%;border:none; background: transparent; }
 .account-menu .menu-item.signout:hover { background: #fff0f0; }
