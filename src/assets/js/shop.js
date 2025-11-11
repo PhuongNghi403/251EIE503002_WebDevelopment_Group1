@@ -274,18 +274,29 @@ function initMarkupWishlistButtons() {
 // Product interactions (hover effects, click handlers)
 function initProductInteractions() {
   const cards = document.querySelectorAll('.card');
-  
+
   cards.forEach(card => {
     // Add click handler for product details
     card.addEventListener('click', (e) => {
       e.preventDefault();
       const productName = card.querySelector('h3').textContent;
-      const productImage = card.querySelector('img').src;
-      
-      // Show product details modal or navigate to product page
-      showProductDetails(productName, productImage);
+
+      // Find slug from PRODUCTS_DATA
+      let slug = '';
+      if (Array.isArray(window.PRODUCTS_DATA)) {
+        const match = window.PRODUCTS_DATA.find(p => p.name === productName);
+        if (match?.slug) slug = match.slug;
+      }
+
+      let href = 'product_detail.html';
+      if (slug) {
+        href += `?slug=${encodeURIComponent(slug)}`;
+      } else if (productName) {
+        href += `?name=${encodeURIComponent(productName)}`;
+      }
+      window.location.href = href;
     });
-    
+
     // Add keyboard support
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -293,11 +304,38 @@ function initProductInteractions() {
         card.click();
       }
     });
-    
+
     // Make cards focusable
     card.setAttribute('tabindex', '0');
     card.setAttribute('role', 'button');
     card.setAttribute('aria-label', `View details for ${card.querySelector('h3').textContent}`);
+  });
+}
+
+// Navigation for grid product cards
+function initProductCardNavigation() {
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      // Avoid navigation if clicking on buttons inside the card
+      if (e.target.closest('button')) return;
+
+      const title = card.querySelector('.card-title')?.textContent?.trim() || '';
+
+      // Find slug from PRODUCTS_DATA
+      let slug = '';
+      if (Array.isArray(window.PRODUCTS_DATA)) {
+        const match = window.PRODUCTS_DATA.find(p => p.name === title);
+        if (match?.slug) slug = match.slug;
+      }
+
+      let href = 'product_detail.html';
+      if (slug) {
+        href += `?slug=${encodeURIComponent(slug)}`;
+      } else if (title) {
+        href += `?name=${encodeURIComponent(title)}`;
+      }
+      window.location.href = href;
+    });
   });
 }
 

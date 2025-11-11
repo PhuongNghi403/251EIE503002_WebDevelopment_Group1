@@ -284,13 +284,13 @@ html, body { background: var(--bg); }
 }
 .rating .star{
   width: 18px; height: 18px;
-  fill: #E0B415; 
+  display: inline-block;
+  background: #E0B415;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>') center/contain no-repeat;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>') center/contain no-repeat;
 }
-.rating .star.half path:first-of-type{ fill:#E0B415; }
-.rating .star.half .star-outline{
-  fill: none;
-  stroke: #E0B415;
-  stroke-width: 1.2px;
+.rating .star.half{
+  background: linear-gradient(90deg, #E0B415 50%, transparent 50%);
 }
 .rating .rating-score{
   font-family: 'Lexend Deca', system-ui, sans-serif;
