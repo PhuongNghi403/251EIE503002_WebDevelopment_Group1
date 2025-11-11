@@ -152,6 +152,73 @@ function initQrPayment() {
   const doneOk = document.querySelector('.done-ok');
   const doneClose = document.querySelector('.done-close');
   const doneView = document.querySelector('.done-view');
+  let qrGatePending = false;
+
+  function showImmediateSuccess() {
+    if (!doneModal) return;
+    try {
+      const totals = window.checkoutTotals || {};
+      const totalEl = document.getElementById('doneTotal');
+      if (totalEl && typeof totals.total === 'number') totalEl.textContent = `$${totals.total.toFixed(2)}`;
+    } catch (e) {}
+    const d = new Date();
+    const dateEl = document.getElementById('doneOrderDate');
+    if (dateEl) dateEl.textContent = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    const generatedId = `UEL-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+    const orderEl = document.getElementById('doneOrderNumber');
+    if (orderEl) orderEl.textContent = generatedId;
+    const shipEl = document.getElementById('doneShipping');
+    if (shipEl) shipEl.textContent = 'Store Pick-up';
+
+    try {
+      let items = [];
+      try { items = JSON.parse(localStorage.getItem('checkoutItems') || '[]'); } catch (_) { items = []; }
+      if (!items || items.length === 0) {
+        try { items = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (_) { items = []; }
+      }
+      const totalsObj = (window.checkoutTotals || {});
+      const total = typeof totalsObj.total === 'number' ? totalsObj.total : items.reduce((s,i)=>s + (Number(i.price) * Number(i.quantity||1)), 0);
+      const nowIso = new Date().toISOString();
+      const lastOrder = {
+        id: generatedId,
+        method: 'pickup',
+        shipping: 'Store Pick-up',
+        createdAt: nowIso,
+        total,
+        items,
+        status: 'ready',
+        timeline: [
+          { key: 'confirmed', title: 'Order Placed', time: nowIso, note: 'Your order has been confirmed and payment received.' },
+          { key: 'processing', title: 'Processing', time: nowIso, note: 'Preparing your order.' },
+          { key: 'ready', title: 'Ready To Pick-up', time: nowIso, note: 'Show your order ID at the reception to receive your items.' },
+          { key: 'completed', title: 'Order Completed', time: nowIso, note: 'Thank you! Hope your furry friend loves it.' }
+        ]
+      };
+      localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+    } catch (_err) {}
+    doneModal.classList.add('show');
+    doneModal.setAttribute('aria-hidden', 'false');
+    fireCuteConfetti();
+  }
+
+  // If policy is accepted while gating QR, immediately show success modal
+  document.addEventListener('policyAccepted', () => {
+    if (!qrGatePending) return;
+    qrGatePending = false;
+    showImmediateSuccess();
+  });
+
+  // Fallback: if the page terms checkbox flips to checked while gating, show success
+  const pageTermsCb = document.querySelector('.terms input[type="checkbox"]');
+  if (pageTermsCb) {
+    pageTermsCb.addEventListener('change', () => {
+      if (!qrGatePending) return;
+      if (pageTermsCb.checked && window.policyModal && typeof window.policyModal.isAccepted === 'function' && window.policyModal.isAccepted()) {
+        qrGatePending = false;
+        showImmediateSuccess();
+      }
+    });
+  }
 
   function fireCuteConfetti() {
     const conf = window.confetti;
@@ -257,7 +324,7 @@ function initQrPayment() {
     amountEl.textContent = `$${total.toFixed(2)}`;
     customerEl.textContent = name;
     const value = buildQrPayload(total, name);
-    if (!qrInstance) {
+  if (!qrInstance) {
       qrInstance = new QRious({ element: canvas, value, size: 240 });
     } else {
       qrInstance.value = value;
@@ -265,6 +332,32 @@ function initQrPayment() {
   }
 
   qrTab.addEventListener('click', () => {
+    // Require login before any payment actions
+    let user = null;
+    try { user = JSON.parse(localStorage.getItem('pc_user') || 'null'); } catch (_) {}
+    const loggedIn = !!(user && typeof user === 'object' && Object.keys(user).length);
+    if (!loggedIn) {
+      alert('Please log in or sign up before placing an order.');
+      try { window.location.href = '../login-signup.html'; } catch (_) {}
+      return;
+    }
+    // Gate by terms/policy acceptance before opening QR modal
+    const termsEl = document.querySelector('.terms input[type="checkbox"]');
+    const accepted = (window.policyModal && typeof window.policyModal.isAccepted === 'function' ? window.policyModal.isAccepted() : false) || (!!termsEl && termsEl.checked);
+    if (!accepted) {
+      // Ensure policy modal ticks the correct checkbox on accept
+      if (window.policyModal && typeof window.policyModal.setAgreeSelector === 'function') {
+        window.policyModal.setAgreeSelector('.terms input[type="checkbox"]');
+      }
+      // Open policy modal; after acceptance show success modal immediately
+      qrGatePending = true;
+      if (window.policyModal && typeof window.policyModal.ensureAccepted === 'function') {
+        try { window.policyModal.ensureAccepted(); } catch (_) { window.policyModal.open?.(); }
+      } else {
+        try { window.policyModal?.open(); } catch (_) {}
+      }
+      return;
+    }
     updateQr();
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
@@ -709,6 +802,7 @@ function initOtpPayment() {
   const otpPhoneEl = document.getElementById('otpPhone');
   const timerEl = document.getElementById('otpTimer');
   let countdownId = null;
+  let otpGatePending = true;
 
   function formatTime(ms) {
     const totalSec = Math.max(0, Math.floor(ms / 1000));
@@ -742,6 +836,22 @@ function initOtpPayment() {
 
   if (!payBtn || !cardTab || !otpModal) return;
 
+  // If policy is accepted while gating OTP, open OTP immediately
+  document.addEventListener('policyAccepted', () => {
+    if (!otpGatePending) return;
+    // Re-check login before proceeding, to ensure auth gate runs before terms
+    let user = null;
+    try { user = JSON.parse(localStorage.getItem('pc_user') || 'null'); } catch (_) {}
+    const loggedIn = !!(user && typeof user === 'object' && Object.keys(user).length);
+    if (!loggedIn) {
+      alert('Please log in or sign up before placing an order.');
+      try { window.location.href = '../login-signup.html'; } catch (_) {}
+      return;
+    }
+    otpGatePending = false;
+    openOtp();
+  });
+
   function openOtp() {
     const phoneLabel = 'your phone';
     if (otpPhoneEl) otpPhoneEl.textContent = phoneLabel;
@@ -760,9 +870,27 @@ function initOtpPayment() {
       if (numElFocus) numElFocus.focus();
       return;
     }
+
+    // Require login before placing an order / entering OTP flow
+    let user = null;
+    try { user = JSON.parse(localStorage.getItem('pc_user') || 'null'); } catch (_) {}
+    const loggedIn = !!(user && typeof user === 'object' && Object.keys(user).length);
+    if (!loggedIn) {
+      e.preventDefault();
+      alert('Please log in or sign up before placing an order.');
+      try { window.location.href = '../login-signup.html'; } catch (_) {}
+      return;
+    }
     if (!termsEl || !termsEl.checked) {
       e.preventDefault();
       alert('Please agree to the terms before paying.');
+      // Gate via policy modal and immediately open OTP upon acceptance
+      otpGatePending = true;
+      if (window.policyModal && typeof window.policyModal.ensureAccepted === 'function') {
+        try { window.policyModal.ensureAccepted(payBtn); } catch (_) { window.policyModal.open?.(); }
+      } else {
+        try { window.policyModal?.open(); } catch (_) {}
+      }
       return;
     }
     e.preventDefault();
