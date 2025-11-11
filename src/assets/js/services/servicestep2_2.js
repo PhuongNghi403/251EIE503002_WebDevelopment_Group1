@@ -70,7 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
         requiredFields.forEach(field => {
             field.addEventListener('input', () => {
                 if (field.value) {
-                    field.closest('.form-group')?.classList.remove('has-error');
+                    const group = field.closest('.form-group');
+                    group?.classList.remove('has-error');
+                    const err = group?.querySelector('.error-message');
+                    if (err) {
+                        err.style.display = 'none';
+                        err.textContent = '';
+                    }
                 }
                 updateProceedButton();
             });

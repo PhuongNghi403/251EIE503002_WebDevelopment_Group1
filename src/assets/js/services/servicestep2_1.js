@@ -230,7 +230,7 @@ function renderList(listElement, items, useQuantity) {
  */
 function attemptProceed(e) {
     e.preventDefault();
-    if (validateForm()) {
+    if (validateForm(true)) {
         const existingDetails = JSON.parse(localStorage.getItem('bookingDetails') || '{}');
 
         const petInfo = {
@@ -487,30 +487,31 @@ function validatePaymentForm() {
  * Update Proceed Button State
  */
 function updateProceedButton() {
-    const isValid = validateForm();
+    const isValid = validateForm(false);
     if (proceedToPayBtn) {
-        proceedToPayBtn.disabled = !isValid;
-        proceedToPayBtn.style.opacity = isValid ? '1' : '0.5';
-        proceedToPayBtn.style.cursor = isValid ? 'pointer' : 'not-allowed';
+        // Luôn cho phép bấm Pay; chỉ hiển thị lỗi sau khi bấm
+        proceedToPayBtn.disabled = false;
+        proceedToPayBtn.style.opacity = '1';
+        proceedToPayBtn.style.cursor = 'pointer';
     }
 }
 
 // Validate tổng thể form Step 2 (Pet, Contact, Payment)
 // *** ĐÃ TÍCH HỢP LOGIC VALIDATEFORM MỚI ***
-function validateForm() {
+function validateForm(showError = false) {
     let isValid = true;
 
-    // 1) Xóa lỗi cũ
-    document.querySelectorAll('.main-content-col .error-message').forEach(el => {
-        if (el.id !== 'card-limit-error') {
-            el.style.display = 'none';
-            el.textContent = '';
-        }
-    });
-    document.querySelectorAll('.main-content-col .form-group.has-error')
-        .forEach(el => el.classList.remove('has-error'));
+    if (showError) {
+        document.querySelectorAll('.main-content-col .error-message').forEach(el => {
+            if (el.id !== 'card-limit-error') {
+                el.style.display = 'none';
+                el.textContent = '';
+            }
+        });
+        document.querySelectorAll('.main-content-col .form-group.has-error')
+            .forEach(el => el.classList.remove('has-error'));
+    }
 
-    // 2) Kiểm tra các trường required
     const currentRequiredFields = document.querySelectorAll('.main-content-col form [required]');
     currentRequiredFields.forEach(field => {
         const val = String(field.value || '').trim();
@@ -519,16 +520,17 @@ function validateForm() {
 
         const isEmpty = val === '' || (field.tagName === 'SELECT' && !field.value);
         if (isEmpty) {
-            group?.classList.add('has-error');
-            if (err) {
-                err.textContent = 'Please fill in the information';
-                err.style.display = 'block';
+            if (showError) {
+                group?.classList.add('has-error');
+                if (err) {
+                    err.textContent = 'Please fill in the information';
+                    err.style.display = 'block';
+                }
             }
             isValid = false;
         }
     });
 
-    // 3) Kiểm tra định dạng Phone/Email
     const phonePattern = /^\+?\d[\d\s\-]{7,}$/;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -537,47 +539,42 @@ function validateForm() {
     const emailField = document.getElementById('email');
 
     if (phoneField && phoneField.value && !phonePattern.test(phoneField.value.trim())) {
-        showFieldError('phone-number', 'Invalid phone number.');
+        if (showError) showFieldError('phone-number', 'Invalid phone number.');
         isValid = false;
     }
     if (emergencyField && emergencyField.value && !phonePattern.test(emergencyField.value.trim())) {
-        showFieldError('emergency-contact', 'Invalid phone number.');
+        if (showError) showFieldError('emergency-contact', 'Invalid phone number.');
         isValid = false;
     }
     if (emailField && emailField.value && !emailPattern.test(emailField.value.trim())) {
-        showFieldError('email', 'Invalid email address.');
+        if (showError) showFieldError('email', 'Invalid email address.');
         isValid = false;
     }
 
-    // 4) Kiểm tra Payment
     const selectedPaymentType = document.querySelector('input[name="payment-type"]:checked')?.value || 'card';
-    const localCardLimitError = document.getElementById('card-limit-error'); // Dùng biến local
+    const localCardLimitError = document.getElementById('card-limit-error');
 
     if (selectedPaymentType === 'card') {
-        // *** LOGIC MỚI: Chấp nhận nếu có thẻ active hoặc đã có selectedCardLast4 trong localStorage ***
         const activeCard = document.querySelector('.saved-cards-list .saved-card.active');
         const selectedLast4 = localStorage.getItem('selectedCardLast4');
 
         if (!activeCard && !selectedLast4) {
-            if (localCardLimitError) {
+            if (showError && localCardLimitError) {
                 localCardLimitError.textContent = 'Please select a saved card or add a new one.';
                 localCardLimitError.style.display = 'block';
             }
             isValid = false;
         } else {
-            if (localCardLimitError) localCardLimitError.style.display = 'none';
+            if (showError && localCardLimitError) localCardLimitError.style.display = 'none';
         }
-        // *** KẾT THÚC LOGIC MỚI ***
 
-        // Nếu đang add/edit, yêu cầu form thẻ hợp lệ
         if (bookingState.currentCardAction === 'add' || bookingState.currentCardAction === 'edit') {
             if (!validatePaymentForm()) {
                 isValid = false;
             }
         }
     } else {
-        // QR: không yêu cầu thẻ
-        if (localCardLimitError) localCardLimitError.style.display = 'none';
+        if (showError && localCardLimitError) localCardLimitError.style.display = 'none';
     }
 
     return isValid;
